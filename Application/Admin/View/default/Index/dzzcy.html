@@ -1,0 +1,140 @@
+<extend name="Public/base"/>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+</block>
+<block name="body">
+    <div class="with-padding-lg">
+        <div class="main-title">
+            <h2>
+                {$dzzname}党员 </h2>
+        </div>
+        <div class="with-padding">
+            <div class="fl">
+                <!-- 选择框select -->
+                <div style="float: right;">
+                    <style>
+                        .oneselect {
+                            display: inline-block;
+                            margin-left: 10px;
+                        }
+
+                        .oneselect .title {
+                            float: left;
+                            line-height: 32px;
+                        }
+
+                        .oneselect .select_box {
+                            float: left;
+                            line-height: 32px;
+                        }
+
+                        .oneselect .select_box select {
+                            min-width: 200px;
+                        }
+                    </style>
+                    <form id="selectForm" method="get" action="/admin/index/dzzcy.html"
+                          class="form-dont-clear-url-param">
+                        <div class="oneselect">
+                            <div class="title">党组织：</div>
+                            <div class="select_box">
+                                <select name="dzz" data-role="select_text" class="form-control">
+                                    <volist name="dzz_options" id="di">
+                                        <eq name="di.lvl" value="1">
+                                            <optgroup label="{$di.value}">　{$di.value}</optgroup>
+                                        </eq>
+                                        <eq name="di.lvl" value="2">
+                                            <option value="{$di.id}"
+                                            <eq name="di.id" value="$dzz">selected</eq>
+                                            >　　{$di.value}</option>
+                                        </eq>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <script>
+                        $('[data-role="select_text"]').change(function () {
+                            $('#selectForm').submit();
+                        });
+                    </script>
+                </div>
+            </div>
+
+        </div>
+        <div class="with-padding">
+            <form class="ids">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>电话</th>
+                        <th>所属党组织</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <notempty name="list">
+                        <volist name="list" id="di">
+                            <tr>
+                                <td>{$di.index}</td>
+                                <td>{$di.name}</td>
+                                <td>{$di.sex}</td>
+                                <td>{$di.tel}</td>
+                                <td>{$di.dzzmc}</td>
+                            </tr>
+                        </volist>
+                    </notempty>
+                    </tbody>
+                </table>
+            </form>
+            <!-- 分页 -->
+            <div class="page">
+                {$pagination}
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#main-content').css('left', 0);
+        $(".sub_menu_wrapper").hide();
+        $(function () {
+            $('#myChart').highcharts({
+                chart: {
+                    type: "spline",
+                    style: {
+                        fontFamily: '"Microsoft Yahei", "宋体"'
+                    }
+                },
+                title: {
+                    text: "{:L('_USER_INCREASE_RECENT_',array('count_day'=>$count['count_day']))}",
+                    x: -20 //center
+                },
+                xAxis: {
+                    categories: eval('{$count.last_day.days}'),
+                    title: {
+                        text: "{:L('_MEMBER_REG_TODAY_')}",
+                        enabled: false
+                    }
+                },
+                yAxis: {
+                    title: ''
+                },
+                legend: {
+                    layout: 'vertical',
+                    verticalAlign: 'middle',
+                    borderWidth: 0,
+                    enabled: false
+                },
+                series: [{
+                    name: "{:L('_MEMBER_REG_TODAY_')}",
+                    data: eval('{$count.last_day.data}'),
+                    enable: true
+                }], credits: {enabled: false}
+            });
+        });
+
+
+    </script>
+
+</block>

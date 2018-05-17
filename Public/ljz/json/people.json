@@ -1,0 +1,95 @@
+{
+  "status": 1,
+  "result": [
+    {
+      "Id": "n01",
+      "name": "彭于晏",
+      "gender": "男",
+      "nation": "汉族",
+      "dzb": "国航大厦联合党支部",
+      "sort": "双报到党员",
+      "img": "/Public/ljz/img/people/n01.jpg"
+    },
+    {
+      "Id": "n02",
+      "name": "周二珂",
+      "gender": "女",
+      "nation": "汉族",
+      "dzb": "国航大厦联合党支部",
+      "sort": "双报到党员",
+      "img": "/Public/ljz/img/people/n02.jpg"
+    },
+    {
+      "Id": "n03",
+      "name": "周杰伦",
+      "gender": "男",
+      "nation": "汉族",
+      "dzb": "斯米克大厦联合党支部",
+      "sort": "免过党组织生活党员",
+      "img": "/Public/ljz/img/people/n03.jpg"
+    },
+    {
+      "Id": "n04",
+      "name": "林心如",
+      "gender": "女",
+      "nation": "汉族",
+      "dzb": "斯米克大厦联合党支部",
+      "sort": "双报到党员",
+      "img": "/Public/ljz/img/people/n04.jpg"
+    },
+    {
+      "Id": "n05",
+      "name": "吴彦祖",
+      "gender": "男",
+      "nation": "汉族",
+      "dzb": "东一小区党支部",
+      "sort": "免过党组织生活党员",
+      "img": "/Public/ljz/img/people/n05.jpg"
+    },
+    {
+      "Id": "n06",
+      "name": "沙宝亮",
+      "gender": "男",
+      "nation": "回族",
+      "dzb": "东一小区党支部",
+      "sort": "出国保留党籍党员",
+      "img": "/Public/ljz/img/people/n06.jpg"
+    },
+    {
+      "Id": "n07",
+      "name": "刘诗诗",
+      "gender": "女",
+      "nation": "回族",
+      "dzb": "东二小区党支部",
+      "sort": "出国保留党籍党员",
+      "img": "/Public/ljz/img/people/n07.jpg"
+    },
+    {
+      "Id": "n08",
+      "name": "施瓦辛格",
+      "gender": "男",
+      "nation": "外族",
+      "dzb": "城管分队党总支",
+      "sort": "免过党组织生活党员",
+      "img": "/Public/ljz/img/people/n08.jpg"
+    },
+    {
+      "Id": "n09",
+      "name": "卢克凯奇",
+      "gender": "男",
+      "nation": "外族",
+      "dzb": "城管分队党总支",
+      "sort": "双报到党员",
+      "img": "/Public/ljz/img/people/n09.jpg"
+    },
+    {
+      "Id": "n10",
+      "name": "范迪塞尔",
+      "gender": "男",
+      "nation": "外族",
+      "dzb": "城管分队党总支",
+      "sort": "出国保留党籍党员",
+      "img": "/Public/ljz/img/people/n10.jpg"
+    }
+  ]
+}

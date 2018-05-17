@@ -1,0 +1,135 @@
+<extend name="Public/base"/>
+<block name="body">
+
+    <div class="main-title">
+        <h2>场地预约审核</h2>
+    </div>
+    <form action="{:U()}" method="post" class="form-horizontal">
+        <div class="with-padding">
+            <div class="form-item">
+                <label class="item-label">ID</label>
+                <div class="controls">
+                    {$data.id}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">预约人姓名</label>
+                <div class="controls">
+                    {$data.name}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">联系电话</label>
+                <div class="controls">
+                    {$data.mobile}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">场地名称</label>
+                <div class="controls">
+                    {$data.aname}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">预约时间段</label>
+                <div class="controls">
+                    {$data.starttime|date='Y-m-d H:i',###}—{$data.endtime|date='Y-m-d H:i',###}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">预约人数</label>
+                <div class="controls">
+                    {$data.count}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">预约部门</label>
+                <div class="controls">
+                    {$data.company}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">活动内容</label>
+                <div class="controls">
+                    {$data.content}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">设备要求</label>
+                <div class="controls">
+                    {$hdsb}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">创建时间</label>
+                <div class="controls">
+                    {$data.create_time|date='Y-m-d H:i',###}
+                </div>
+            </div>
+            <div class="form-item">
+                <label class="item-label">审核结果</label>
+                <div class="controls">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="state" value="1"> 通过审核
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="state" value="2"> 不通过审核
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-item" id="block_reason" hidden>
+                <label class="item-label">未通过原因(将通过短信告知)</label>
+                <div class="controls">
+                    <textarea  class="text input-large form-control"  style="height: 8em;width: 400px;height: 200px" name="reason"  >
+                    </textarea>
+                </div>
+            </div>
+            <div class="form-item with-padding">
+                <input type="hidden" name="id" value="{$data.id|default=''}">
+                <button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">
+                    确定
+                </button>
+                <button class="btn btn-return" onclick="javascript:history.back(-1);return false;">
+                    {:L("_RETURN_WITH_SPACE_")}
+                </button>
+            </div>
+            <notempty name="yylist" >
+                <div  class="form-item" >
+                    <label class="item-label">已预约时间段</label>
+                    <table class="table  table-bordered"  style="width:  500px">
+                        <thead>
+                            <tr>
+                                <th>预约人</th>
+                                <th>预约时间段</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <volist name="yylist" id="di" >
+                                <tr>
+                                    <td>{$di.name}</td>
+                                    <td> {$di.starttime|date='Y-m-d H:i',###}—{$di.endtime|date='Y-m-d H:i',###}</td>
+                                </tr>
+                            </volist>
+                        </tbody>
+                    </table>
+                </div>
+            </notempty>
+    </form>
+</block>
+<block name="script">
+    <script>
+        highlight_subnav('{:U("bmxx")}');
+//        $("#block_reason").hide();
+//        $("input[name='state']").on("change",function () {
+//            if($(this).val() ==2){
+//                $("#block_reason").show();
+//            }else{
+//                $("#block_reason").hide();
+//            }
+//        });
+    </script>
+</block>

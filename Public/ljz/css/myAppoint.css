@@ -1,0 +1,67 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  background-color: #EDEDED;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+}
+.layout ul {
+  width: 100%;
+  padding: 0.21296296rem;
+}
+.layout ul li {
+  width: 100%;
+  background-color: #FFF;
+  padding: 0.25rem 0.32407407rem;
+  margin-bottom: 0.21296296rem;
+}
+.layout ul li h2 {
+  font-weight: 700;
+  padding-bottom: 0.13888889rem;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-dpr="2"] .layout ul li h2 {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout ul li h2 {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout ul li h2 {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout ul li h2 {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout ul li h2 {
+  font-size: 64px;
+}
+.layout ul li p {
+  color: #8C8F92;
+  line-height: 0.50925926rem;
+  font-size: 14px;
+}
+[data-dpr="2"] .layout ul li p {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout ul li p {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout ul li p {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout ul li p {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout ul li p {
+  font-size: 56px;
+}

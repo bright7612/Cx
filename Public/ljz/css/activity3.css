@@ -1,0 +1,96 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F4F4F4;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  font-size: 15px;
+}
+[data-dpr="2"] .layout {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout {
+  font-size: 60px;
+}
+.layout p {
+  line-height: 1.2962963rem;
+  padding-left: 0.49074074rem;
+  border-bottom: 2px solid #E0E0E0;
+}
+.layout .name,
+.layout .tel {
+  line-height: 1.37037037rem;
+  background-color: #FFF;
+  padding-left: 0.49074074rem;
+  border-bottom: 2px solid #E0E0E0;
+  position: relative;
+}
+.layout .name input[type=text],
+.layout .tel input[type=text],
+.layout .name input[type="datetime-local"],
+.layout .tel input[type="datetime-local"] {
+  width: 4.7037037rem;
+  height: 0.86111111rem;
+  position: absolute;
+  left: 3.98148148rem;
+  top: 0.27777778rem;
+}
+.layout .name input[type=text],
+.layout .tel input[type=text] {
+  border: none;
+  outline: none;
+}
+.layout .name input[type=checkbox],
+.layout .tel input[type=checkbox] {
+  height: 0.86111111rem;
+  line-height: 0.86111111rem;
+  vertical-align: middle;
+  margin-left: 0.27777778rem;
+}
+.layout .confirm {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.92592593rem;
+}
+.layout .confirm .btn {
+  width: 92%;
+  color: #FFF;
+  font-size: 16px;
+  text-align: center;
+  line-height: 1.15740741rem;
+  margin: 0 auto;
+  border-radius: 10px;
+  background-color: #00A0E9;
+}
+[data-dpr="2"] .layout .confirm .btn {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .confirm .btn {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .confirm .btn {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .confirm .btn {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .confirm .btn {
+  font-size: 64px;
+}

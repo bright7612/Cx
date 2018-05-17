@@ -1,0 +1,62 @@
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+// 弹性盒子布局
+.displayFlex () {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+// flex占比
+.flex (@num) {
+  -webkit-box-flex: @num;
+  -moz-box-flex: @num;
+  -webkit-flex: @num;
+  -ms-flex: @num;
+  flex: @num;
+}
+
+// 布局方向垂直
+.flexDirColumn () {
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+}
+
+// 换行
+.flexWrap () {
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.translate (@left, @top) {
+  -webkit-transform: translate(@left, @top);
+  -moz-transform: translate(@left, @top);
+  -ms-transform: translate(@left, @top);
+  -o-transform: translate(@left, @top);
+  transform: translate(@left, @top);
+}

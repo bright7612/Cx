@@ -1,0 +1,176 @@
+@import "./mixin";
+
+html {
+  font-size:108px;
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+  background: #E7E7E7;
+}
+
+input, select, textarea {
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  outline: none;
+  border: none;
+}
+
+.layout {
+  width: 100%;
+  .font-size(30);
+  overflow: hidden;
+  .header {
+    width: 100%;
+    background: #F3F5F7;
+    overflow: hidden;
+    .header-title{
+      width: 525/108rem;
+      color: #FFF;
+      .font-size(32);
+      text-align: center;
+      line-height: 100/108rem;
+      background-color: #FF6750;
+      margin: 45/108rem auto;
+      position: relative;
+      &::before, &::after{
+        content: '';
+        width: 90/108rem;
+        height: 90/108rem;
+        background: #F3F5F7;
+        position: absolute;
+        top: 5/108rem;
+        -webkit-transform: rotate(45deg);
+        -webkit-transform-origin: center center;
+        -moz-transform: rotate(45deg);
+        -moz-transform-origin: center center;
+        -ms-transform: rotate(45deg);
+        -ms-transform-origin: center center;
+        -o-transform: rotate(45deg);
+        -o-transform-origin: center center;
+        transform: rotate(45deg);
+        transform-origin: center center;
+      }
+      &::before{
+        left: -50/108rem;
+      }
+      &::after{
+        right: -50/108rem;
+      }
+    }
+  }
+
+  .base-info, .demand-info{
+    background: #FFF;
+    margin-top: 20/108rem;
+    #companyBlock {
+      display: none;
+    }
+    article .formbox {
+      &:first-child{
+        border-top: none;
+      }
+    }
+    .info-title {
+      line-height: 100/108rem;
+      padding: 0 53/108rem;
+      background: #F3F5F7;
+    }
+    .formbox{
+      height:150/108rem;
+      line-height: 148/108rem;
+      border-bottom: 2px solid #E0E0E0;
+      padding: 0 53/108rem;
+      position: relative;
+      &:first-child{
+        border-top: 2px solid #E0E0E0;
+      }
+      & > label {
+        display: inline-block;
+        width: 327/108rem;
+        .iconfont{
+          .font-size(32);
+          margin-right: 15/108rem;
+          &.color-red{
+            color: #CE2F0A;
+          }
+          &.color-blue{
+            color: #0AAAEC;
+          }
+          &.color-orange{
+            color: #FF9227;
+          }
+          &.color-green{
+            color: #57C65C;
+          }
+          &.color-lblue{
+            color: #4B9ED3;
+          }
+        }
+      }
+      .txt{
+        width: 580/108rem;
+        height: 93/108rem;
+      }
+      select{
+        width: 508/108rem;
+        height: 93/108rem;
+        color: #8F8F8F;
+        padding: 0 45/108rem 0 30/108rem;
+        border: 2px solid #E0E0E0;
+        border-radius: 5px;
+        background: url("../img/selectArrow.png") no-repeat scroll right center transparent;
+        background-size: 10/18rem 20/108rem;
+      }
+      .radiobox{
+        position: absolute;
+        left: 380/108rem;
+        top: 30/108rem;
+        .radio{
+          margin-right: 40/108rem;
+          span{
+            display: inline-block;
+            line-height: 88/108rem;
+            margin-right: 30/108rem;
+            &.checked {
+              background: #00A0E9 url("../img/gou.png") no-repeat center;
+              background-size: 48/108rem 48/108rem;
+              border: 4px solid #00A0E9 !important;
+            }
+          }
+          .circle{
+            width: 68/108rem;
+            height: 68/108rem;
+            border: 4px solid #E0E0E0;
+            border-radius: 100/108rem;
+          }
+        }
+      }
+    }
+    .textarea{
+      width: 100%;
+      height: 490/108rem;
+      resize: none;
+      border-top: 2px solid #E0E0E0;
+      padding: 50/108rem;
+      margin-top: 15/108rem;
+    }
+  }
+
+  .btn-wrapper {
+    text-align: center;
+    .btn{
+      width: 994/108rem;
+      line-height:125/108rem;
+      .font-size(34);
+      color: #FFF;
+      background-color: #FF6750;
+      border-radius: 10px;
+      margin: 50/108rem auto 80/108rem;
+    }
+  }
+}

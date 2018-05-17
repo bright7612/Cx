@@ -1,0 +1,56 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  background: url("../img/zzjBg1.png") no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+.layout .btn {
+  width: 6.15740741rem;
+  height: 1.38888889rem;
+  font-size: 18px;
+  line-height: 1.38888889rem;
+  text-align: center;
+  border: 0.02777778rem solid #FDBF28;
+  border-radius: 0.74074074rem;
+  background-color: #FED849;
+  margin: 0 auto;
+  background-image: linear-gradient(180deg, #FFF169, #FDBE28);
+}
+[data-dpr="2"] .layout .btn {
+  font-size: 35px;
+}
+[data-dpr="2.5"] .layout .btn {
+  font-size: 44px;
+}
+[data-dpr="2.75"] .layout .btn {
+  font-size: 48px;
+}
+[data-dpr="3"] .layout .btn {
+  font-size: 53px;
+}
+[data-dpr="4"] .layout .btn {
+  font-size: 70px;
+}
+.layout .btn:nth-child(1) {
+  margin-top: 8.62962963rem;
+}
+.layout .btn:nth-child(2) {
+  margin-top: 0.62037037rem;
+}
+.layout .btn img {
+  width: 0.92592593rem;
+  height: 0.92592593rem;
+  vertical-align: middle;
+}

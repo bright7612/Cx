@@ -1,0 +1,138 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #EDEDED;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background: #DFF5FF url("../img/partyIdea.png") no-repeat;
+  background-size: contain;
+  padding: 210/108rem 0 80/108rem;
+  .form-box{
+    position: relative;
+    text-align: center;
+    textarea{
+      width: 92%;
+      height: 510/108rem;
+      .font-size(28);
+      outline: none;
+      resize: none;
+      border-color: #ACD8D9;
+      padding: 36/108rem;
+      margin-bottom: 40/108rem;
+    }
+    .txtform, .selform{
+      width: 100%;
+      background-color: #FFF;
+      text-align: left;
+      line-height: 150/108rem;
+      padding-left: 54/108rem;
+      border-top: 2px solid #E0E0E0;
+      position: relative;
+      .font-size(28);
+
+      select{
+        appearance:none;
+        -moz-appearance:none;
+        -webkit-appearance:none;
+        background: url("../img/selectArrow.png") no-repeat scroll right center transparent;
+        background-size: 10/18rem 20/108rem;
+        padding-right: 60/108rem;
+        width: 600/108rem;
+        height: 93/108rem;
+        border: 2px solid #E0E0E0;
+        border-radius: 5px;
+        outline:none;
+        position: absolute;
+        left: 350/108rem;
+        top: 30/108rem;
+      }
+      input[type=text]{
+        width: 508/108rem;
+        height: 93/108rem;
+        border: none;
+        outline:none;
+        position: absolute;
+        left: 350/108rem;
+        top: 30/108rem;
+      }
+    }
+    .selform{
+      border-bottom: 2px solid #E0E0E0;
+    }
+    .subform{
+      padding: 50/108rem 0 80/108rem;
+      .submit{
+        width: 90%;
+        line-height: 125/108rem;
+        text-align: center;
+        color: #FFF;
+        background-color: #00A0E9;
+        border: none;
+        border-radius: 5px;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  .note-box{
+    width: 100%;
+    background-color: #FFF;
+    .note-title{
+      width: 100%;
+      text-align: center;
+      img{
+        width: 726/108rem;
+        height: 120/108rem;
+      }
+    }
+    .note-content{
+      width: 100%;
+      ul{
+        width: 100%;
+        padding: 0 40/108rem;
+        li{
+          padding: 20/108rem 0;
+          border-bottom: 1px solid #D2D2D2;
+          .font-size(28);
+          p{
+            line-height: 65/108rem;
+            &:nth-child(2){
+              color: #79828D;
+              padding:15/108rem 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}

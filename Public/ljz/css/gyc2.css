@@ -1,0 +1,136 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #FFF;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+}
+.layout .tips {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 8px;
+}
+[data-dpr="2"] .layout .tips {
+  font-size: 24px;
+}
+[data-dpr="2.5"] .layout .tips {
+  font-size: 30px;
+}
+[data-dpr="2.75"] .layout .tips {
+  font-size: 33px;
+}
+[data-dpr="3"] .layout .tips {
+  font-size: 36px;
+}
+[data-dpr="4"] .layout .tips {
+  font-size: 48px;
+}
+.layout .project {
+  width: 100%;
+  height: 100%;
+  padding: 0.27777778rem 0.27777778rem 0.46296296rem;
+  background-color: #FFF;
+  overflow-x: hidden;
+  padding-bottom: 100px;
+  -webkit-overflow-scrolling: touch;
+}
+.layout .project h2 {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 0.92592593rem;
+  padding-bottom: 0.25925926rem;
+}
+[data-dpr="2"] .layout .project h2 {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .project h2 {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .project h2 {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .project h2 {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .project h2 {
+  font-size: 64px;
+}
+.layout .project p {
+  color: #7D7D7D;
+  font-size: 14px;
+  line-height: 0.64814815rem;
+  text-indent: 2em;
+}
+[data-dpr="2"] .layout .project p {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout .project p {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout .project p {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout .project p {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout .project p {
+  font-size: 56px;
+}
+.layout .project img {
+  display: block;
+  width: 100%;
+  margin-top: 0.27777778rem;
+}
+.layout .btn {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0.35185185rem 0.38888889rem;
+  background-color: #F4F4F4;
+}
+.layout .btn .company,
+.layout .btn .person {
+  width: 48%;
+  line-height: 1.15740741rem;
+  font-size: 16px;
+  color: #FFF;
+  text-align: center;
+  border-radius: 5px;
+}
+[data-dpr="2"] .layout .btn .company,
+[data-dpr="2"] .layout .btn .person {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .btn .company,
+[data-dpr="2.5"] .layout .btn .person {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .btn .company,
+[data-dpr="2.75"] .layout .btn .person {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .btn .company,
+[data-dpr="3"] .layout .btn .person {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .btn .company,
+[data-dpr="4"] .layout .btn .person {
+  font-size: 64px;
+}
+.layout .btn .company {
+  background-color: #FF6750;
+}
+.layout .btn .person {
+  background-color: #FFA03B;
+}

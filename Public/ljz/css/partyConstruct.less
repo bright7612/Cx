@@ -1,0 +1,60 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+}
+
+.layout{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background: url("../img/partyConstruct.jpg") no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  .resourceList, .benefitCity, .wellPudong, .demand, .company, .dangqun{
+    width: 250/108rem;
+    height: 250/108rem;
+    position: absolute;
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+   }
+  .demand {
+    left: 100/108rem;
+    top: 675/108rem;
+    //background: red;
+  }
+  .resourceList{
+    left: 255/108rem;
+    top: 400/108rem;
+    //background: orange;
+  }
+  .benefitCity{
+    right: 255/108rem;
+    top: 400/108rem;
+    //background: yellow;
+  }
+  .wellPudong{
+    left: 255/108rem;
+    top: 930/108rem;
+    //background: green;
+  }
+  .company{
+    right: 100/108rem;
+    top: 675/108rem;
+    //background: blue;
+  }
+  .dangqun {
+    right: 255/108rem;
+    top: 930/108rem;
+    //background: purple;
+  }
+}

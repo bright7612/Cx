@@ -1,0 +1,117 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  font-size: 14px;
+  margin: 0 auto;
+}
+[data-dpr="2"] .layout {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout {
+  font-size: 56px;
+}
+.layout ul {
+  border-top: 2px solid #E0E0E0;
+}
+.layout ul li {
+  border-bottom: 2px solid #E0E0E0;
+  padding: 0.33333333rem 0.32407407rem 0.37037037rem 0.43518519rem;
+}
+.layout ul li > h2 {
+  width: 90%;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-bottom: 0.27777778rem;
+}
+[data-dpr="2"] .layout ul li > h2 {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout ul li > h2 {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout ul li > h2 {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout ul li > h2 {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout ul li > h2 {
+  font-size: 64px;
+}
+.layout ul li .left {
+  width: 73%;
+}
+.layout ul li .left p {
+  width: 100%;
+  line-height: 0.64814815rem;
+  color: #7E8082;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.layout ul li .left p .iconfont {
+  font-size: 16px;
+  color: #85BD53;
+}
+[data-dpr="2"] .layout ul li .left p .iconfont {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout ul li .left p .iconfont {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout ul li .left p .iconfont {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout ul li .left p .iconfont {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout ul li .left p .iconfont {
+  font-size: 64px;
+}
+.layout ul li .right {
+  width: 27%;
+}
+.layout ul li .right .btn {
+  width: 1.76851852rem;
+  line-height: 0.78703704rem;
+  text-align: center;
+  color: #FFF;
+  border-bottom: 5px solid #00a2d4;
+  border-radius: 5px;
+  margin-top: 0.18518519rem;
+  background-color: #00b3ee;
+}
+.layout ul li .photo-box {
+  margin-top: 0.27777778rem;
+}
+.layout ul li .photo-box > img {
+  width: 49%;
+}
+.orange-btn {
+  background-color: #00b3ee;
+}
+.gray-btn {
+  background-color: #C0C0C0;
+}

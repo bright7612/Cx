@@ -1,0 +1,112 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  background-color: #E6E6E6;
+}
+.layout{
+  width: 100%;
+  min-width: 320px;
+  .font-size(28);
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+  ul{
+    padding: 33/108rem 30/108rem 0;
+    li{
+      padding: 0 17/108rem;
+      margin-bottom: 23/108rem;
+      background-color: #FFF;
+      .info-box{
+        padding: 36/108rem 18/108rem 20/108rem;
+        border-bottom: 1px solid #E0E0E0;
+        .title{
+          width: 100%;
+          margin-bottom: 10/108rem;
+          h2{
+            .font-size(32);
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow:ellipsis;
+          }
+        }
+        .left{
+          width: 80%;
+          p{
+            color: #7E8082;
+            line-height: 65/108rem;
+          }
+          .iconfont {
+            .font-size(34);
+            &.color-blue {
+              color: #4790F9;
+            }
+            &.color-green {
+              color: #85BD53;
+            }
+            &.color-orange {
+              color: #F48840;
+            }
+            &.color-yellow {
+              color: #F8B136;
+            }
+            &.color-pink {
+              color: #F8848A;
+            }
+          }
+        }
+        .right{
+          width: 20%;
+          .btn{
+            width:191/108rem;
+            line-height:85/108rem;
+            color: #FFF;
+            background-color: #00A0E9;
+            text-align: center;
+            border-bottom: 5px solid #4085A4;
+            border-radius: 5px;
+            margin-top: 56/108rem;
+          }
+        }
+      }
+      .content-box{
+        padding: 18/108rem 18/108rem 30/108rem ;
+        p{
+          width: 100%;
+          color: #7E8082;
+          line-height: 60/108rem;
+          overflow : hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp:2;
+          -webkit-box-orient: vertical;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,129 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F4F4F4;
+}
+.layout{
+  width: 100%;
+  min-width: 320px;
+  .font-size(28);
+  margin: 0 auto;
+
+  .lesson-info {
+    padding: 20/108rem 54/108rem;
+    border-bottom: 2px solid #E0E0E0;
+    background-color: #FFF;
+    h3 {
+      .font-size(32);
+      font-weight: bold;
+      line-height: 80/108rem;
+    }
+  }
+
+  .lesson-appoint {
+    .font-size(30);
+    p {
+      line-height: 140/108rem;
+      padding-left: 53/108rem;
+      border-bottom: 2px solid #E0E0E0;
+    }
+    .formb{
+      line-height: 148/108rem;
+      background-color: #FFF;
+      padding-left: 54/108rem;
+      padding-right: 100/108rem;
+      border-bottom: 2px solid #E0E0E0;
+      position: relative;
+      input[type=text] {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        width: 508/108rem;
+        height: 93/108rem;
+        border: none;
+        outline: none;
+        position: absolute;
+        left: 470/108rem;
+        top: 30/108rem;
+      }
+      select{
+        appearance:none;
+        -moz-appearance:none;
+        -webkit-appearance:none;
+        background: url("../img/selectArrow.png") no-repeat scroll right center transparent;
+        background-size: 60/108rem 20/108rem;
+        width: 508/108rem;
+        height: 93/108rem;
+        padding-right: 30/108rem;
+        border: 2px solid #E0E0E0;
+        border-radius: 5px;
+        outline:none;
+        position: absolute;
+        left: 470/108rem;
+        top: 30/108rem;
+      }
+      input{
+        outline: none;
+      }
+    }
+    .num{
+      div{
+        position: absolute;
+        left: 470/108rem;
+        top: 0;
+      }
+      input[type=text]{
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        position: static;
+        width: 305/108rem;
+        text-align: center;
+        border: 2px solid #E0E0E0;
+        border-radius: 10px;
+      }
+    }
+    .confirm{
+      width: 100%;
+      padding: 70/108rem 0;
+      .btn {
+        width: 92%;
+        .font-size(32);
+        line-height: 125/108rem;
+        text-align: center;
+        color: #FFF;
+        border: none;
+        border-radius: 10px;
+        background-color: #00A0E9;
+        margin: 0 auto;
+      }
+    }
+  }
+}

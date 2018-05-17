@@ -1,0 +1,122 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-size: 15px;
+  margin: 0 auto;
+  position: relative;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+}
+[data-dpr="2"] .layout {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout {
+  font-size: 60px;
+}
+.layout .intro-section {
+  width: 100%;
+  height: 6.76851852rem;
+}
+.layout .intro-section .introduce {
+  width: 100%;
+  height: 5.91666667rem;
+  background: url("../img/lifeTitle.png") no-repeat;
+  background-size: cover;
+  padding: 0 0.74074074rem;
+  overflow: hidden;
+}
+.layout .intro-section .introduce p {
+  color: #60361E;
+  margin-top: 2.36111111rem;
+  line-height: 0.62962963rem;
+  text-indent: 2em;
+}
+.layout .intro-section .title {
+  width: 100%;
+  height: 0.85185185rem;
+  background-color: #FFECDD;
+  padding-left: 0.46296296rem;
+  position: relative;
+}
+.layout .intro-section .title .title-bar {
+  width: 0.09259259rem;
+  height: 0.85185185rem;
+  background-color: #FF795A;
+  position: absolute;
+  left: 0;
+}
+.layout .intro-section .title h3 {
+  font-size: 16px;
+  line-height: 0.85185185rem;
+}
+[data-dpr="2"] .layout .intro-section .title h3 {
+  font-size: 31px;
+}
+[data-dpr="2.5"] .layout .intro-section .title h3 {
+  font-size: 39px;
+}
+[data-dpr="2.75"] .layout .intro-section .title h3 {
+  font-size: 43px;
+}
+[data-dpr="3"] .layout .intro-section .title h3 {
+  font-size: 47px;
+}
+[data-dpr="4"] .layout .intro-section .title h3 {
+  font-size: 62px;
+}
+.layout .list-section {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling : touch;
+}
+.layout .list-section ul {
+  width: 100%;
+}
+.layout .list-section ul li {
+  width: 100%;
+  border-bottom: 1px solid #E0E0E0;
+}
+.layout .list-section ul li a {
+  display: block;
+  color: #56616D;
+  line-height: 1.37037037rem;
+  padding: 0 0.41666667rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

@@ -1,0 +1,284 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+}
+input, select, textarea {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  font-size: 14px;
+}
+[data-dpr="2"] .layout {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout {
+  font-size: 56px;
+}
+.layout .intro-section {
+  width: 100%;
+  padding: 0.28703704rem 0.23148148rem 0;
+}
+.layout .intro-section .abstract {
+  width: 100%;
+  padding: 0.23148148rem;
+  border: 3px solid #00A0E9;
+  padding-left: 2.24074074rem;
+}
+.layout .intro-section .abstract .photo-box {
+  width: 2.00925926rem;
+  height: 2.5rem;
+  margin-left: -2.00925926rem;
+  /*background-color: pink;*/
+  overflow: hidden;
+}
+.layout .intro-section .abstract .photo-box img {
+  display: block;
+  width: 100%;
+}
+.layout .intro-section .abstract .name-box {
+  width: 100%;
+  padding-left: 0.18518519rem;
+}
+.layout .intro-section .abstract .name-box h2 {
+  font-size: 16px;
+  line-height: 0.78703704rem;
+}
+[data-dpr="2"] .layout .intro-section .abstract .name-box h2 {
+  font-size: 31px;
+}
+[data-dpr="2.5"] .layout .intro-section .abstract .name-box h2 {
+  font-size: 39px;
+}
+[data-dpr="2.75"] .layout .intro-section .abstract .name-box h2 {
+  font-size: 43px;
+}
+[data-dpr="3"] .layout .intro-section .abstract .name-box h2 {
+  font-size: 47px;
+}
+[data-dpr="4"] .layout .intro-section .abstract .name-box h2 {
+  font-size: 62px;
+}
+.layout .intro-section .abstract .name-box p {
+  line-height: 0.60185185rem;
+  overflow: hidden;
+}
+.layout .intro-section .detail {
+  line-height: 0.64814815rem;
+  padding: 0.27777778rem 0.18518519rem;
+}
+.layout .intro-section .detail p {
+  color: #727272;
+  font-size: 14px;
+  text-indent: 2em;
+}
+[data-dpr="2"] .layout .intro-section .detail p {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout .intro-section .detail p {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout .intro-section .detail p {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout .intro-section .detail p {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout .intro-section .detail p {
+  font-size: 56px;
+}
+.layout .appoint-section .appoint-title {
+  width: 4.86111111rem;
+  height: 0.74074074rem;
+  color: #FFF;
+  font-size: 16px;
+  text-align: center;
+  line-height: 0.74074074rem;
+  background-color: #00A0E9;
+  margin: 0.41666667rem auto;
+  position: relative;
+}
+[data-dpr="2"] .layout .appoint-section .appoint-title {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .appoint-section .appoint-title {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .appoint-section .appoint-title {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .appoint-section .appoint-title {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .appoint-section .appoint-title {
+  font-size: 64px;
+}
+.layout .appoint-section .appoint-title .title-left,
+.layout .appoint-section .appoint-title .title-right {
+  width: 0.64814815rem;
+  height: 0.64814815rem;
+  background-color: #FFF;
+  position: absolute;
+  top: 0.0462963rem;
+  -webkit-transform: rotate(45deg);
+  -webkit-transform-origin: center center;
+  -moz-transform: rotate(45deg);
+  -moz-transform-origin: center center;
+  -ms-transform: rotate(45deg);
+  -ms-transform-origin: center center;
+  -o-transform: rotate(45deg);
+  -o-transform-origin: center center;
+  transform: rotate(45deg);
+  transform-origin: center center;
+}
+.layout .appoint-section .appoint-title .title-left {
+  left: -0.27777778rem;
+}
+.layout .appoint-section .appoint-title .title-right {
+  right: -0.27777778rem;
+}
+.layout .appoint-section .formbox {
+  height: 1.38888889rem;
+  line-height: 1.37037037rem;
+  border-bottom: 2px solid #E0E0E0;
+  padding: 0 0.49074074rem;
+  position: relative;
+}
+.layout .appoint-section .formbox:first-child {
+  border-top: 2px solid #E0E0E0;
+}
+.layout .appoint-section .formbox .iconfont {
+  font-size: 15px;
+}
+[data-dpr="2"] .layout .appoint-section .formbox .iconfont {
+  font-size: 29px;
+}
+[data-dpr="2.5"] .layout .appoint-section .formbox .iconfont {
+  font-size: 36px;
+}
+[data-dpr="2.75"] .layout .appoint-section .formbox .iconfont {
+  font-size: 40px;
+}
+[data-dpr="3"] .layout .appoint-section .formbox .iconfont {
+  font-size: 44px;
+}
+[data-dpr="4"] .layout .appoint-section .formbox .iconfont {
+  font-size: 58px;
+}
+.layout .appoint-section .formbox .iconfont.color-red {
+  color: #CE2F0A;
+}
+.layout .appoint-section .formbox .iconfont.color-blue {
+  color: #0AAAEC;
+}
+.layout .appoint-section .formbox .iconfont.color-orange {
+  color: #FF9227;
+}
+.layout .appoint-section .formbox .iconfont.color-green {
+  color: #57C65C;
+}
+.layout .appoint-section .formbox .iconfont.color-lblue {
+  color: #4B9ED3;
+}
+.layout .appoint-section select {
+  background: url("../img/selectArrow.png") no-repeat scroll right center transparent;
+  background-size: 0.55555556rem 0.18518519rem;
+  padding: 0 0.53888889rem 0 0.27777778rem;
+  width: 4.7037037rem;
+  height: 0.86111111rem;
+  color: #8F8F8F;
+  border: 2px solid #E0E0E0;
+  border-radius: 5px;
+  outline: none;
+  position: absolute;
+  left: 3.51851852rem;
+  top: 0.27777778rem;
+}
+.layout .appoint-section .txt {
+  width: 4.7037037rem;
+  height: 0.86111111rem;
+  border: none;
+  outline: none;
+  position: absolute;
+  left: 3.51851852rem;
+  top: 0.27777778rem;
+}
+.layout .appoint-section .radiobox {
+  position: absolute;
+  left: 3.51851852rem;
+  top: 0.27777778rem;
+}
+.layout .appoint-section .radiobox .radio {
+  margin-right: 0.37037037rem;
+}
+.layout .appoint-section .radiobox .radio span {
+  display: inline-block;
+  line-height: 0.81481481rem;
+  margin-right: 0.27777778rem;
+}
+.layout .appoint-section .radiobox .radio .circle {
+  width: 0.62962963rem;
+  height: 0.62962963rem;
+  border: 4px solid #E0E0E0;
+  border-radius: 0.92592593rem;
+}
+.layout .appoint-section textarea {
+  width: 100%;
+  height: 4.53703704rem;
+  font-family: 'microsoft yahei';
+  outline: none;
+  resize: none;
+  border: none;
+  border-top: 2px solid #E0E0E0;
+  border-bottom: 2px solid #E0E0E0;
+  padding: 0.46296296rem;
+  margin-top: 0.18518519rem;
+}
+.layout .appoint-section .btn {
+  width: 9.2037037rem;
+  line-height: 1.15740741rem;
+  font-size: 17px;
+  color: #FFF;
+  background-color: #00A0E9;
+  text-align: center;
+  border-radius: 10px;
+  margin: 0.46296296rem auto 0.74074074rem;
+}
+[data-dpr="2"] .layout .appoint-section .btn {
+  font-size: 34px;
+}
+[data-dpr="2.5"] .layout .appoint-section .btn {
+  font-size: 43px;
+}
+[data-dpr="2.75"] .layout .appoint-section .btn {
+  font-size: 47px;
+}
+[data-dpr="3"] .layout .appoint-section .btn {
+  font-size: 51px;
+}
+[data-dpr="4"] .layout .appoint-section .btn {
+  font-size: 68px;
+}
+.checked {
+  background: #00A0E9 url("../img/gou.png") no-repeat center;
+  background-size: 0.44444444rem 0.44444444rem;
+  border: 4px solid #00A0E9 !important;
+}

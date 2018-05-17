@@ -1,0 +1,195 @@
+@import "./mixin";
+
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F3F3F3;
+}
+
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+
+  .title-box {
+    width: 100%;
+    height: 640/108rem;
+    background-image: linear-gradient(90deg, #20BBFD, #0788FE);
+    border-bottom-left-radius: 500/108rem 120/108rem;
+    border-bottom-right-radius: 500/108rem 120/108rem;
+    h1 {
+      .font-size(42);
+      font-family: '华文幼圆';
+      color: #FFF;
+      line-height: 200/108rem;
+      text-align: center;
+      -webkit-text-shadow: 0 2px #000;
+      -ms-text-shadow: 0 2px #000;
+      text-shadow: 0 2px #000;
+    }
+  }
+
+  .form-box {
+    margin-bottom: 50/108rem;
+    background-color: #FFF;
+    padding: 0 28/108rem;
+    border-radius: 20/108rem;
+    -webkit-box-shadow:0 0 10px 5px rgba(130, 120, 126, .5);
+    -ms-box-shadow:0 0 10px 5px rgba(130, 120, 126, .5);
+    box-shadow:0 0 10px 5px rgba(130, 120, 126, .5);
+    position: absolute;
+    top: 216/108rem;
+    right: 29/108rem;
+    left: 29/108rem;
+
+    select{
+      appearance:none;
+      -moz-appearance:none;
+      -webkit-appearance:none;
+      background: url("../img/selectArrow.png") no-repeat scroll right center transparent;
+      background-size: 10/18rem 20/108rem;
+      height: 93/108rem;
+      color: #8F8F8F;
+      text-indent: 10px;
+      border: 2px solid #E0E0E0;
+      border-radius: 5px;
+      outline:none;
+    }
+    input[type=text] {
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      height: 93/108rem;
+      text-align: center;
+      border: none;
+      outline: none;
+      border: 2px solid #E0E0E0;
+      border-radius: 5px;
+    }
+
+    .catagory {
+      .font-size(30);
+      line-height: 180/108rem;
+      padding-left: 25/108rem;
+      border-bottom: 2px solid #E0E0E0;
+      position: relative;
+      select{
+        width: 560/108rem;
+        position: absolute;
+        left: 300/108rem;
+        top: 45/108rem;
+      }
+    }
+    .salary {
+      .font-size(30);
+      line-height: 180/108rem;
+      padding-left: 25/108rem;
+      //border-bottom: 2px solid #E0E0E0;
+      position: relative;
+      input[type=text] {
+        width: 250/108rem;
+        position: absolute;
+        right: 70/108rem;
+        top: 45/108rem;
+      }
+      .div-box {
+        position: relative;
+      }
+    }
+    .date{
+      .font-size(30);
+      padding: 21/108rem 0 71/108rem 25/108rem;
+      p{
+        line-height: 113/108rem;
+      }
+      input[type=text]{
+        width: 400/108rem;
+      }
+    }
+    .confirm{
+      .font-size(32);
+      text-align: center;
+      padding-bottom: 88/108rem;
+      .btn{
+        width: 921/108rem;
+        color: #FFF;
+        line-height: 125/108rem;
+        background-image: linear-gradient(180deg, #20BBFD, #0788FE);
+        border-radius: 30px;
+        margin: 0 auto;
+        -webkit-text-shadow: 0 2px #000;
+        -ms-text-shadow: 0 2px #000;
+        text-shadow: 0 2px #000;
+      }
+    }
+  }
+
+  .notion-box {
+    .font-size(28);
+    padding: 0 50/108rem;
+    margin-top: 350/108rem;
+    //margin-top: 550/108rem;
+    p{
+      color: #A8A8A8;
+      line-height: 70/108rem;
+    }
+    a{
+      color: #00A0E9;
+      text-decoration: underline;
+      padding-top: 20/108rem;
+    }
+  }
+
+  .bg {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    display: none;
+    .box {
+      width: 800/108rem;
+      .font-size(36);
+      background-color: #FFF;
+      border-radius: 13/108rem;
+      margin: 500/108rem auto 0;
+      .cancel-box {
+        width: 100%;
+        color: #484848;
+        line-height: 160/108rem;
+        text-align: center;
+        border-bottom: 2px solid #BFBFBF;
+        position: relative;
+        span {
+          color: #848484;
+          .font-size(32);
+          position: absolute;
+          top: -10/108rem;
+          right: 34/108rem;
+        }
+      }
+      .result-box {
+        width: 100%;
+        padding: 60/108rem 0 90/108rem;
+        text-align: center;
+        p {
+          line-height: 100/108rem;
+          span {
+            color: #F27200;
+          }
+        }
+      }
+    }
+  }
+}

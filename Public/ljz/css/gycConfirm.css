@@ -1,0 +1,79 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F4F4F4;
+}
+input,
+select,
+textarea {
+  font-size: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  font-size: 16px;
+}
+[data-dpr="2"] .layout {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout {
+  font-size: 64px;
+}
+.layout .message {
+  line-height: 1.2962963rem;
+  padding-left: 0.49074074rem;
+  border-bottom: 2px solid #E0E0E0;
+}
+.layout .ordinary {
+  line-height: 1.37037037rem;
+  background-color: #FFF;
+  padding-left: 0.49074074rem;
+  border-bottom: 2px solid #E0E0E0;
+  position: relative;
+}
+.layout .ordinary > label {
+  display: inline-block;
+  width: 2.77777778rem;
+}
+.layout .ordinary > input[type=text] {
+  width: 5.09259259rem;
+  border: none;
+  outline: none;
+}
+.layout .confirm {
+  width: 100%;
+  text-align: center;
+  margin-top: 0.92592593rem;
+}
+.layout .confirm > input[type=button] {
+  width: 92%;
+  height: 1.15740741rem;
+  color: #FFF;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+.layout .confirm > input[type=button].person {
+  background-color: #FFA03B;
+}
+.layout .confirm > input[type=button].company {
+  background-color: #FF6750;
+}

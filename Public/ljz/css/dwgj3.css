@@ -1,0 +1,140 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  background-color: #EDEDED;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  font-size: 15px;
+}
+[data-dpr="2"] .layout {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout {
+  font-size: 60px;
+}
+.layout .support {
+  background-color: #FFF;
+  border-top: 1px solid #E0E0E0;
+}
+.layout .support .support-list {
+  border-bottom: 2px solid #E0E0E0;
+  padding-bottom: 0.38888889rem;
+}
+.layout .support .support-list p {
+  line-height: 1.01851852rem;
+  padding-left: 0.52777778rem;
+}
+.layout .support .support-list ul {
+  width: 100%;
+}
+.layout .support .support-list ul li {
+  width: 2.81481481rem;
+  height: 0.93518519rem;
+  line-height: 0.93518519rem;
+  text-align: center;
+  background-color: #DEDEDE;
+  border-radius: 0.09259259rem;
+  margin-left: 0.37037037rem;
+}
+.layout .support .support-list ul .choose-style {
+  background-color: #FFF;
+  border: 3px solid #FF6750;
+  position: relative;
+  overflow: hidden;
+}
+.layout .support .support-list ul .choose-style::after {
+  content: "";
+  display: block;
+  width: 0.92592593rem;
+  height: 0.92592593rem;
+  background-color: #FF6750;
+  transform: rotate(45deg) translate(70%);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.layout .form h3 {
+  line-height: 0.88888889rem;
+  padding-left: 0.52777778rem;
+  border-bottom: 2px solid #E0E0E0;
+}
+.layout .form form {
+  background-color: #FFF;
+}
+.layout .form form div {
+  line-height: 1.38888889rem;
+  padding-left: 0.52777778rem;
+  border-bottom: 2px solid #E0E0E0;
+  position: relative;
+}
+.layout .form form div input[type=text] {
+  width: 5.55555556rem;
+  height: 0.86111111rem;
+  border: none;
+  outline: none;
+  position: absolute;
+  left: 2.77777778rem;
+  top: 0.27777778rem;
+}
+.layout .confirm {
+  text-align: center;
+  padding: 0.60185185rem 0.37037037rem 0;
+}
+.layout .confirm div {
+  width: 100%;
+  font-size: 16px;
+  color: #FFF;
+  line-height: 1.15740741rem;
+  border-radius: 10px;
+  background-color: #FF6750;
+  margin-bottom: 0.60185185rem;
+}
+[data-dpr="2"] .layout .confirm div {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .confirm div {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .confirm div {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .confirm div {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .confirm div {
+  font-size: 64px;
+}
+.layout .confirm p {
+  font-size: 13px;
+}
+[data-dpr="2"] .layout .confirm p {
+  font-size: 25px;
+}
+[data-dpr="2.5"] .layout .confirm p {
+  font-size: 31px;
+}
+[data-dpr="2.75"] .layout .confirm p {
+  font-size: 34px;
+}
+[data-dpr="3"] .layout .confirm p {
+  font-size: 38px;
+}
+[data-dpr="4"] .layout .confirm p {
+  font-size: 50px;
+}

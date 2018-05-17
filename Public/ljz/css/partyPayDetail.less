@@ -1,0 +1,77 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  .font-size(28);
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  padding: 19/108rem 17/108rem 0;
+  section {
+    width: 100%;
+    padding: 12/108rem 35/108rem 32/108rem;
+    border: 4/108rem solid #0D99E1;
+    border-radius: 10px;
+    margin-bottom: 10/108rem;
+    p {
+      color: #686868;
+      .font-size(28);
+      line-height: 72/108rem;
+      span {
+        color: #000;
+      }
+    }
+  }
+  .abstruct {
+    h1 {
+      color: #0D99E1;
+      .font-size(30);
+      line-height: 118/108rem;
+      text-align: center;
+    }
+    .mt70 {
+      margin-top: 70/108rem;
+      text-align: right;
+    }
+  }
+  .detail {
+    h2 {
+      color: #0D99E1;
+      .font-size(29);
+      line-height: 89/108rem;
+      text-align: center;
+      margin-bottom: 61/108rem;
+    }
+    h3 {
+      color: #0D99E1;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,61 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background: url("../img/partyConstruct.jpg") no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+.layout .resourceList,
+.layout .benefitCity,
+.layout .wellPudong,
+.layout .demand,
+.layout .company,
+.layout .dangqun {
+  width: 2.31481481rem;
+  height: 2.31481481rem;
+  position: absolute;
+}
+.layout .resourceList a,
+.layout .benefitCity a,
+.layout .wellPudong a,
+.layout .demand a,
+.layout .company a,
+.layout .dangqun a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.layout .demand {
+  left: 0.92592593rem;
+  top: 6.25rem;
+}
+.layout .resourceList {
+  left: 2.36111111rem;
+  top: 3.7037037rem;
+}
+.layout .benefitCity {
+  right: 2.36111111rem;
+  top: 3.7037037rem;
+}
+.layout .wellPudong {
+  left: 2.36111111rem;
+  top: 8.61111111rem;
+}
+.layout .company {
+  right: 0.92592593rem;
+  top: 6.25rem;
+}
+.layout .dangqun {
+  right: 2.36111111rem;
+  top: 8.61111111rem;
+}

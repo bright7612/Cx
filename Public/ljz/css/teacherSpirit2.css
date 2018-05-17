@@ -1,0 +1,123 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  font-size: 14px;
+  padding: 0.32407407rem;
+  background: url("../img/teacherSpiritBg.png") repeat-y;
+  background-size: cover;
+}
+[data-dpr="2"] body {
+  font-size: 28px;
+}
+[data-dpr="2.5"] body {
+  font-size: 35px;
+}
+[data-dpr="2.75"] body {
+  font-size: 39px;
+}
+[data-dpr="3"] body {
+  font-size: 42px;
+}
+[data-dpr="4"] body {
+  font-size: 56px;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  background-color: #FFF;
+  border-radius: 10px;
+}
+.layout .photo-section {
+  padding: 0.41666667rem 0.50925926rem;
+}
+.layout .photo-section div {
+  margin-right: 0.46296296rem;
+}
+.layout .photo-section div img {
+  width: 1.80555556rem;
+  height: 1.80555556rem;
+  border-radius: 9.25925926rem;
+}
+.layout .photo-section div h2 {
+  color: #3E4752;
+  font-size: 16px;
+  line-height: 1.80555556rem;
+}
+[data-dpr="2"] .layout .photo-section div h2 {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .photo-section div h2 {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .photo-section div h2 {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .photo-section div h2 {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .photo-section div h2 {
+  font-size: 64px;
+}
+.layout .lesson-section .content,
+.layout .intro-section .content {
+  color: #727272;
+  font-size: 15px;
+  padding: 0.18518519rem 0.18518519rem 0.37037037rem 0.37037037rem;
+}
+[data-dpr="2"] .layout .lesson-section .content,
+[data-dpr="2"] .layout .intro-section .content {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout .lesson-section .content,
+[data-dpr="2.5"] .layout .intro-section .content {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout .lesson-section .content,
+[data-dpr="2.75"] .layout .intro-section .content {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout .lesson-section .content,
+[data-dpr="3"] .layout .intro-section .content {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout .lesson-section .content,
+[data-dpr="4"] .layout .intro-section .content {
+  font-size: 60px;
+}
+.layout .lesson-section .content p,
+.layout .intro-section .content p {
+  text-indent: 2em;
+}
+.layout .title {
+  transform: translateX(-0.12962963rem);
+}
+.layout .title h3 {
+  display: inline-block;
+  min-width: 4.62962963rem;
+  font-size: 16px;
+  color: #FFF;
+  line-height: 0.73148148rem;
+  padding-left: 0.46296296rem;
+  background-color: #FB7A3A;
+}
+[data-dpr="2"] .layout .title h3 {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .title h3 {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .title h3 {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .title h3 {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .title h3 {
+  font-size: 64px;
+}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+
+	<link href="/Public/zui/css/zui.css" >
+	<link href="/Public/zui/js/zui.js" >
+</head>
+<body>
+<div class="modal-body">
+	        <form method="post" action="" name="excelpost" id="excelpost" enctype="multipart/form-data">
+	        	<div>{$tableName}</div>
+	        	{$end}
+	        	<br>
+        		<input class="btn" type="file"  name="files" id="files" >
+        		<input type="hidden"  name="type" id="type" value="{$type}">
+
+        		<!--<span style="float: right;"><a href="/Public/daoru/{$tableName}.xls" target="_blank">{$tableName}excel模板</a></span>-->
+        		<br>
+        		<button type="submit">提交</button>
+
+        	</form>
+
+</div>
+</body>
+</html>

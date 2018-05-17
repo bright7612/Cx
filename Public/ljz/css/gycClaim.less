@@ -1,0 +1,164 @@
+@import "./mixin";
+
+html {
+  font-size:108px;
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  background-color: #F4F4F4;
+}
+
+input, select, textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+}
+
+.layout{
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  .font-size(32);
+  .message{
+    line-height: 140/108rem;
+    padding-left: 53/108rem;
+    border-bottom: 2px solid #E0E0E0;
+  }
+  .ordinary{
+    line-height: 148/108rem;
+    background-color: #FFF;
+    padding-left: 53/108rem;
+    border-bottom: 2px solid #E0E0E0;
+    position: relative;
+    & > label {
+      display: inline-block;
+      width: 300/108rem;
+      .iconfont{
+        .font-size(32);
+        margin-right: 15/108rem;
+        &.color-red{
+          color: #CE2F0A;
+        }
+        &.color-blue{
+          color: #0AAAEC;
+        }
+        &.color-orange{
+          color: #FF9227;
+        }
+        &.color-green{
+          color: #57C65C;
+        }
+        &.color-purple{
+          color: #750075;
+        }
+      }
+    }
+    & > input[type=text] {
+      width: 550/108rem;
+      //position: absolute;
+      //left: 350/108rem;
+      //top: 30/108rem;
+    }
+    & select{
+      width: 508/108rem;
+      height: 93/108rem;
+      color: #8F8F8F;
+      padding: 0 45/108rem 0 30/108rem;
+      border: 2px solid #E0E0E0;
+      border-radius: 5px;
+      background: url("../img/selectArrow.png") no-repeat scroll right center transparent;
+      background-size: 10/18rem 20/108rem;
+    }
+    .radiobox{
+      position: absolute;
+      left: 380/108rem;
+      top: 30/108rem;
+      .radio{
+        margin-right: 40/108rem;
+        span{
+          display: inline-block;
+          line-height: 88/108rem;
+          margin-right: 30/108rem;
+          &.checked {
+            background: #00A0E9 url("../img/gou.png") no-repeat center;
+            background-size: 48/108rem 48/108rem;
+            border: 4px solid #00A0E9 !important;
+          }
+        }
+        .circle{
+          width: 68/108rem;
+          height: 68/108rem;
+          border: 4px solid #E0E0E0;
+          border-radius: 100/108rem;
+        }
+      }
+    }
+  }
+  #personBlock {
+    display: none;
+  }
+  .choose {
+    width: 100%;
+    padding: 0 50/108rem;
+    background: #FFF;
+    .choose-title {
+      line-height: 100/108rem;
+    }
+    .choose-list {
+      width: 100%;
+      padding: 30/108rem 0;
+      .choose-item {
+        width: 300/108rem;
+        .font-size(28);
+        line-height: 101/108rem;
+        text-align: center;
+        margin: 0 12/108rem 20/108rem 12/108rem;
+        background-color: #DEDEDE;
+        border: 3px solid #DEDEDE;
+        border-radius: 10/108rem;
+        box-sizing: border-box;
+        &.chosed{
+          background-color: #FFF;
+          border: 3px solid #FF6750;
+          position: relative;
+          overflow: hidden;
+        }
+
+        &.chosed::after{
+          content: "";
+          display: block;
+          width: 100/108rem;
+          height: 100/108rem;
+          background-color: #FF6750;
+          transform: rotate(45deg) translate(75%);
+          position: absolute;
+          right: 0;
+          bottom: 0;
+        }
+      }
+    }
+  }
+  .confirm{
+    width: 100%;
+    text-align: center;
+    margin: 100/108rem 0;
+    & > input[type=button]{
+      width: 92%;
+      height: 125/108rem;
+      color: #FFF;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      &.person {
+        background-color: #FFA03B;
+      }
+      &.company {
+        background-color: #FF6750;
+      }
+    }
+  }
+}

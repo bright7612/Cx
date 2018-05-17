@@ -1,0 +1,167 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #EDEDED;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background: #DFF5FF url("../img/partyIdea.png") no-repeat;
+  background-size: contain;
+  padding: 1.94444444rem 0 0.74074074rem;
+}
+.layout .form-box {
+  position: relative;
+  text-align: center;
+}
+.layout .form-box textarea {
+  width: 92%;
+  height: 4.72222222rem;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  border-color: #ACD8D9;
+  padding: 0.33333333rem;
+  margin-bottom: 0.37037037rem;
+}
+[data-dpr="2"] .layout .form-box textarea {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout .form-box textarea {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout .form-box textarea {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout .form-box textarea {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout .form-box textarea {
+  font-size: 56px;
+}
+.layout .form-box .txtform,
+.layout .form-box .selform {
+  width: 100%;
+  background-color: #FFF;
+  text-align: left;
+  line-height: 1.38888889rem;
+  padding-left: 0.5rem;
+  border-top: 2px solid #E0E0E0;
+  position: relative;
+  font-size: 14px;
+}
+[data-dpr="2"] .layout .form-box .txtform,
+[data-dpr="2"] .layout .form-box .selform {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout .form-box .txtform,
+[data-dpr="2.5"] .layout .form-box .selform {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout .form-box .txtform,
+[data-dpr="2.75"] .layout .form-box .selform {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout .form-box .txtform,
+[data-dpr="3"] .layout .form-box .selform {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout .form-box .txtform,
+[data-dpr="4"] .layout .form-box .selform {
+  font-size: 56px;
+}
+.layout .form-box .txtform select,
+.layout .form-box .selform select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: url("../img/selectArrow.png") no-repeat scroll right center transparent;
+  background-size: 0.55555556rem 0.18518519rem;
+  padding-right: 0.55555556rem;
+  width: 5.55555556rem;
+  height: 0.86111111rem;
+  border: 2px solid #E0E0E0;
+  border-radius: 5px;
+  outline: none;
+  position: absolute;
+  left: 3.24074074rem;
+  top: 0.27777778rem;
+}
+.layout .form-box .txtform input[type=text],
+.layout .form-box .selform input[type=text] {
+  width: 4.7037037rem;
+  height: 0.86111111rem;
+  border: none;
+  outline: none;
+  position: absolute;
+  left: 3.24074074rem;
+  top: 0.27777778rem;
+}
+.layout .form-box .selform {
+  border-bottom: 2px solid #E0E0E0;
+}
+.layout .form-box .subform {
+  padding: 0.46296296rem 0 0.74074074rem;
+}
+.layout .form-box .subform .submit {
+  width: 90%;
+  line-height: 1.15740741rem;
+  text-align: center;
+  color: #FFF;
+  background-color: #00A0E9;
+  border: none;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+.layout .note-box {
+  width: 100%;
+  background-color: #FFF;
+}
+.layout .note-box .note-title {
+  width: 100%;
+  text-align: center;
+}
+.layout .note-box .note-title img {
+  width: 6.72222222rem;
+  height: 1.11111111rem;
+}
+.layout .note-box .note-content {
+  width: 100%;
+}
+.layout .note-box .note-content ul {
+  width: 100%;
+  padding: 0 0.37037037rem;
+}
+.layout .note-box .note-content ul li {
+  padding: 0.18518519rem 0;
+  border-bottom: 1px solid #D2D2D2;
+  font-size: 14px;
+}
+[data-dpr="2"] .layout .note-box .note-content ul li {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout .note-box .note-content ul li {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout .note-box .note-content ul li {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout .note-box .note-content ul li {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout .note-box .note-content ul li {
+  font-size: 56px;
+}
+.layout .note-box .note-content ul li p {
+  line-height: 0.60185185rem;
+}
+.layout .note-box .note-content ul li p:nth-child(2) {
+  color: #79828D;
+  padding: 0.13888889rem 0;
+}

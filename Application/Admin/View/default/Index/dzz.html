@@ -1,0 +1,99 @@
+<extend name="Public/base"/>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+</block>
+<block name="body">
+    <div class="with-padding-lg">
+        <div class="main-title">
+            <h2>
+                合庆下属党组织 </h2>
+        </div>
+        <div class="with-padding">
+            <div class="fl">
+                <!-- 选择框select -->
+                <div style="float: right;">
+                    <style>
+                        .oneselect {
+                            display: inline-block;
+                            margin-left: 10px;
+                        }
+
+                        .oneselect .title {
+                            float: left;
+                            line-height: 32px;
+                        }
+
+                        .oneselect .select_box {
+                            float: left;
+                            line-height: 32px;
+                        }
+
+                        .oneselect .select_box select {
+                            min-width: 200px;
+                        }
+                    </style>
+                    <form id="selectForm" method="get" action="/admin/index/dzz.html"
+                          class="form-dont-clear-url-param">
+                        <div class="oneselect">
+                            <div class="title">党组织类型：</div>
+                            <div class="select_box">
+                                <select name="dzztype" data-role="select_text" class="form-control">
+                                    <volist name="dzztype_options" id="di">
+                                            <option value="{$di.type}"
+                                            <eq name="di.type" value="$_GET['dzztype']">selected</eq>
+                                            >{$di.type}</option>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <script>
+                        $('[data-role="select_text"]').change(function () {
+                            $('#selectForm').submit();
+                        });
+                    </script>
+                </div>
+            </div>
+
+        </div>
+        <div class="with-padding">
+            <form class="ids">
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th width="50">序号</th>
+                        <th width="200">组织名称</th>
+                        <th  width="50">人数</th>
+                        <th  width="80">组织类型</th>
+                        <th>组织概况</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <notempty name="list">
+                        <volist name="list" id="di">
+                            <tr>
+                                <td>{$di.index}</td>
+                                <td><a href="{:U('dzzcy',array('dzz'=>$di['id']))}">{$di.name}</a></td>
+                                <td>{$di.membercount}</td>
+                                <td>{$di.type}</td>
+                                <td>{$di.content}</td>
+                            </tr>
+                        </volist>
+                    </notempty>
+                    </tbody>
+                </table>
+            </form>
+            <!-- 分页 -->
+            <div class="page">
+                {$pagination}
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#main-content').css('left', 0);
+        $(".sub_menu_wrapper").hide();
+
+    </script>
+
+</block>

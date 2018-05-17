@@ -1,0 +1,56 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-size: 14px;
+  font-family: 'microsoft yahei';
+  background: url("../img/manage.png") center no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+}
+[data-dpr="2"] .layout {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout {
+  font-size: 56px;
+}
+.layout .top-box {
+  width: 7.96296296rem;
+  margin: 4.86111111rem auto 0;
+}
+.layout .bottom-box {
+  width: 7.96296296rem;
+  margin: 0.55555556rem auto;
+}
+.layout .box {
+  width: 3.69444444rem;
+  height: 2.4537037rem;
+  background-color: #FFF;
+  border-radius: 5px;
+  text-align: center;
+  box-shadow: 0 2px 5px blue;
+}
+.layout .box img {
+  display: inline-block;
+  width: 0.9537037rem;
+  height: 0.83333333rem;
+  margin: 0.50925926rem 0 0.23148148rem;
+}

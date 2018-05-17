@@ -1,0 +1,70 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-size: 14px;
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+  background: url("../img/zzjBg2.png") no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+  position: relative;
+}
+[data-dpr="2"] .layout {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout {
+  font-size: 56px;
+}
+.layout .text {
+  width: 8.51851852rem;
+  line-height: 0.67592593rem;
+  font-size: 18px;
+  color: #FFF;
+  margin: 4.44444444rem auto 0;
+  text-indent: 2em;
+}
+[data-dpr="2"] .layout .text {
+  font-size: 36px;
+}
+[data-dpr="2.5"] .layout .text {
+  font-size: 45px;
+}
+[data-dpr="2.75"] .layout .text {
+  font-size: 50px;
+}
+[data-dpr="3"] .layout .text {
+  font-size: 54px;
+}
+[data-dpr="4"] .layout .text {
+  font-size: 72px;
+}
+.layout .remind {
+  width: 3.24074074rem;
+  line-height: 0.74074074rem;
+  color: #FFF;
+  text-align: center;
+  background-color: rgba(140, 140, 140, 0.7);
+  border-radius: 0.37037037rem;
+  position: absolute;
+  left: 0.09259259rem;
+  top: 0.09259259rem;
+}

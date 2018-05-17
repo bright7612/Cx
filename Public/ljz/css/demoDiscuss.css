@@ -1,0 +1,69 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  background-color: #F4F4F4;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  font-size: 15px;
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+}
+[data-dpr="2"] .layout {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout {
+  font-size: 60px;
+}
+.layout .democracy-box {
+  width: 100%;
+  margin-bottom: 0.19444444rem;
+  background-color: #FFF;
+}
+.layout .democracy-box li {
+  width: 100%;
+  padding: 0.09259259rem 0.42592593rem 0.22222222rem;
+  border-bottom: 2px solid #E0E0E0;
+}
+.layout .democracy-box li .demo-title {
+  font-size: 16px;
+  line-height: 0.78703704rem;
+}
+[data-dpr="2"] .layout .democracy-box li .demo-title {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .democracy-box li .demo-title {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .democracy-box li .demo-title {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .democracy-box li .demo-title {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .democracy-box li .demo-title {
+  font-size: 64px;
+}
+.layout .democracy-box li .demo-detail {
+  color: #73787E;
+  line-height: 0.55555556rem;
+}
+.layout .democracy-box li .demo-free {
+  color: #73787E;
+  line-height: 0.55555556rem;
+  margin-top: 0.13888889rem;
+}

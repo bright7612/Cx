@@ -1,0 +1,95 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #FFF;
+}
+.layout{
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  .project{
+    padding: 58/108rem 50/108rem 90/108rem;
+    background-color: #FFF;
+    h2{
+      font-weight: bold;
+      .font-size(28);
+      padding-bottom: 28/108rem;
+    }
+    p{
+      color: #7D7D7D;
+      &:nth-child(2){
+        .font-size(16);
+        padding-bottom: 40/108rem;
+      }
+      &:nth-child(3){
+        .font-size(18);
+        line-height: 70/108rem;
+      }
+    }
+  }
+  .btn{
+    width: 100%;
+    .font-size(32);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    padding: 38/108rem 28/108rem;
+    background-color: #F4F4F4;
+    border-top: 2px solid #E0E0E0;
+    div{
+      display: inline-block;
+      height: 125/108rem;
+      color: #FFF;
+      text-align: center;
+      border-radius: 5px;
+      line-height: 125/108rem;
+      &:nth-child(1), &:nth-child(2){
+        width: 295/108rem;
+        color: #AFAFAF;
+        background-color: #FFF;
+        border: 2px solid #AFAFAF;
+      }
+      &:nth-child(3){
+        width: 395/108rem;
+        background-color: #FF6750;
+      }
+      .iconfont{
+        .font-size(30);
+        vertical-align: middle;
+      }
+      .icon-aixin{
+        color: #F46461;
+      }
+      .icon-coin{
+        color: #FFA03B;
+      }
+    }
+  }
+}

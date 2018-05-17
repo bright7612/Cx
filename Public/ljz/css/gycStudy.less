@@ -1,0 +1,101 @@
+@import "./mixin";
+
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+  background-color: #F4F4F4;
+}
+
+.layout{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  // 项目介绍区域
+  .project{
+    height: 100%;
+    padding: 10/108rem 50/108rem 250/108rem;
+    background-color: #FFF;
+    border-bottom: 2px solid #E0E0E0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    .project-content {
+      .tips {
+        .font-size(22);
+        text-align: center;
+        margin-top: 8px;
+      }
+      .title {
+        .font-size(32);
+        font-weight: bold;
+        line-height: 100/108rem;
+        padding-bottom: 15/108rem;
+      }
+      & > p{
+        color: #7D7D7D;
+        .font-size(28);
+        line-height: 70/108rem;
+        text-indent: 2em;
+      }
+      & > img {
+        display: block;
+        width: 100%;
+        margin-top: 30/108rem;
+      }
+    }
+    .project-rank {
+      padding-top: 15/108rem;
+      margin-top: 30/108rem;
+      border-top: 1px solid #CCC;
+      .rank-title {
+        .font-size(30);
+        font-weight: 700;
+        line-height: 80/108rem;
+      }
+      .rank-list {
+        width: 100%;
+        .rank-item {
+          color: #7D7D7D;;
+          .font-size(26);
+          padding: 10/108rem 0;
+          .icon-aixin {
+            color: #FF6750;
+            .font-size(32);
+          }
+        }
+      }
+    }
+  }
+  // 捐赠按钮区域
+  .btn{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 38/108rem 42/108rem;
+    background-color: #F4F4F4;
+    .company, .person{
+      width: 48%;
+      line-height: 125/108rem;
+      .font-size(32);
+      color: #FFF;
+      text-align: center;
+      border-radius: 5px;
+    }
+    .company {
+      background-color: #FF6750;
+    }
+    .person {
+      background-color: #FFA03B;
+    }
+  }
+}

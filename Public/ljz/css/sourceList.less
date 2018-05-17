@@ -1,0 +1,79 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  background-color: #EDEDED;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  ul {
+    width: 100%;
+    padding: 25/108rem 28/108rem 25/108rem;
+    li {
+      width: 100%;
+      margin-bottom: 17/108rem;
+      background-color: #FFF;
+      border: 2px solid #E0E0E0;
+      border-radius: 12px;
+      overflow: hidden;
+      .txt-box{
+        width: 73%;
+        position: relative;
+        padding-bottom: 100/108rem;
+        .color{
+          width: 13/108rem;
+          height: 91/108rem;
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+        p{
+          margin: 40/108rem 0 0 84/108rem;
+          .font-size(35);
+        }
+        span{
+          &:nth-child(3){
+            margin-left: 84/108rem;
+            .font-size(25);
+            color: #BFC1C4;
+          }
+        }
+      }
+      .img-box{
+        width: 27%;
+        img{
+          width: 180/108rem;
+          height: 180/108rem;
+          margin-top: 28/108rem;
+        }
+      }
+    }
+  }
+}

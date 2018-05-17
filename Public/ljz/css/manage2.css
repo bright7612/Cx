@@ -1,0 +1,45 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  background-color: #FFF;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  font-size: 15px;
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+}
+[data-dpr="2"] .layout {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout {
+  font-size: 60px;
+}
+.layout ul {
+  width: 100%;
+}
+.layout ul li {
+  width: 100%;
+  line-height: 1.34259259rem;
+  color: #7B8490;
+  background-color: #F3F3F3;
+  padding: 0 0.41666667rem;
+  margin-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

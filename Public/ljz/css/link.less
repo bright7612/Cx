@@ -1,0 +1,59 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  background-color: #FFF;
+}
+.layout{
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  ul{
+    width: 100%;
+    padding: 50/108rem 29/108rem 0;
+    li{
+      width: 33.333%;
+      margin-bottom: 60/108rem;
+      a{
+        display: block;
+        width: 100%;
+        text-align: center;
+      }
+      img{
+        width: 278/108rem;
+        height: 278/108rem;
+      }
+      p{
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

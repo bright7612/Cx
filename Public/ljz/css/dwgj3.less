@@ -1,0 +1,122 @@
+//设置根字体大小为108px
+html {
+  font-size: 108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  background-color: #EDEDED;
+}
+
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  .font-size(30);
+  .support {
+    background-color: #FFF;
+    border-top: 1px solid #E0E0E0;
+    .support-list {
+      border-bottom: 2px solid #E0E0E0;
+      padding-bottom: 42/108rem;
+      p {
+        line-height: 110/108rem;
+        padding-left: 57/108rem;
+      }
+      ul {
+        width: 100%;
+        li {
+          width: 304/108rem;
+          height: 101/108rem;
+          line-height: 101/108rem;
+          text-align: center;
+          background-color: #DEDEDE;
+          border-radius: 10/108rem;
+          margin-left: 40/108rem;
+        }
+
+        .choose-style{
+          background-color: #FFF;
+          border: 3px solid #FF6750;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .choose-style::after{
+          content: "";
+          display: block;
+          width: 100/108rem;
+          height: 100/108rem;
+          background-color: #FF6750;
+          transform: rotate(45deg) translate(70%);
+          position: absolute;
+          right: 0;
+          bottom: 0;
+        }
+      }
+    }
+  }
+  .form {
+    h3 {
+      line-height: 96/108rem;
+      padding-left: 57/108rem;
+      border-bottom: 2px solid #E0E0E0;
+    }
+    form {
+      background-color: #FFF;
+      div {
+        line-height: 150/108rem;
+        padding-left: 57/108rem;
+        border-bottom: 2px solid #E0E0E0;
+        position: relative;
+        input[type=text] {
+          width: 600/108rem;
+          height: 93/108rem;
+          border: none;
+          outline: none;
+          position: absolute;
+          left: 300/108rem;
+          top: 30/108rem;
+        }
+      }
+    }
+  }
+  .confirm{
+    text-align: center;
+    padding: 65/108rem 40/108rem 0;
+    div{
+      width: 100%;
+      .font-size(32);
+      color: #FFF;
+      line-height: 125/108rem;
+      border-radius: 10px;
+      background-color: #FF6750;
+      margin-bottom: 65/108rem;
+    }
+    p{
+      .font-size(25);
+    }
+  }
+}

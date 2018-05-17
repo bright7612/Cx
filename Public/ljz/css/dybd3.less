@@ -1,0 +1,127 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #E3E2E2;
+}
+
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  .font-size(30);
+
+  .form{
+    width: 100%;
+    height: 100%;
+    padding: 30/108rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    form {
+      div {
+        background-color: #FFF;
+        line-height: 180/108rem;
+        padding-left: 57/108rem;
+        margin-bottom: 30/108rem;
+        position: relative;
+        input[type=text] {
+          width: 600/108rem;
+          height: 93/108rem;
+          border: none;
+          outline: none;
+          position: absolute;
+          left: 300/108rem;
+          top: 50/108rem;
+        }
+        ul {
+          width: 700/108rem;
+          position: absolute;
+          left: 300/108rem;
+          top: 30/108rem;
+          li {
+            width: 250/108rem;
+            height: 110/108rem;
+            line-height: 120/108rem;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 10/108rem;
+            margin-right: 50/108rem;
+          }
+          .choose-style{
+            color: #C60A1E;
+            border: 1px solid #C60A1E;
+            position: relative;
+            overflow: hidden;
+          }
+          .choose-style::after{
+            content: "";
+            display: block;
+            width: 100/108rem;
+            height: 100/108rem;
+            background-color: #C60A1E;
+            transform: rotate(45deg) translate(70%);
+            position: absolute;
+            right: 0;
+            bottom: 0;
+          }
+        }
+        .jmq{
+          width: 700/108rem;
+          height: 93/108rem;
+          color: #999999;
+          line-height: 110/108rem;
+          position: absolute;
+          left: 300/108rem;
+          top: 40/108rem;
+          span{
+            .font-size(30)
+          }
+        }
+      }
+    }
+  }
+
+  .btn{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 40/108rem 90/108rem;
+    background-color: #FFFFFF;
+    div{
+      width: 100%;
+      line-height: 125/108rem;
+      .font-size(32);
+      color: #FFF;
+      text-align: center;
+      border-radius: 5px;
+      background-color: #C60A1E;
+    }
+  }
+}

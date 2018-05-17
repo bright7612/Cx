@@ -1,0 +1,49 @@
+{
+  "status": 1,
+  "result": [
+    {
+      "dzbId": "dzb01",
+      "name": "国航大厦联合党支部"
+    },
+    {
+      "dzbId": "dzb02",
+      "name": "斯米克大厦党支部"
+    },
+    {
+      "dzbId": "dzb03",
+      "name": "东一居委党支部"
+    },
+    {
+      "dzbId": "dzb04",
+      "name": "东二居委居委会"
+    },
+    {
+      "dzbId": "dzb05",
+      "name": "机关党总支"
+    },
+    {
+      "dzbId": "dzb06",
+      "name": "文化中心党总支"
+    },
+    {
+      "dzbId": "dzb07",
+      "name": "城管分队党总支"
+    },
+    {
+      "dzbId": "dzb08",
+      "name": "乳山六村居民区党总支"
+    },
+    {
+      "dzbId": "dzb09",
+      "name": "福山居民区党总支"
+    },
+    {
+      "dzbId": "dzb10",
+      "name": "金陵电子党总支"
+    },
+    {
+      "dzbId": "dzb11",
+      "name": "党建服务中心党总支"
+    }
+  ]
+}

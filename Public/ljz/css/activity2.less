@@ -1,0 +1,129 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F4F4F4;
+  overflow: hidden;
+}
+.layout{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+  .project{
+    height: 100%;
+    padding: 0 6/108rem 200/108rem;
+    background-color: #FFF;
+    border-bottom: 2px solid #E0E0E0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling : touch;
+    .info-box{
+      padding: 50/108rem 44/108rem 30/108rem;
+      border-bottom: 1px solid #7D7D7D;
+      .title{
+        padding-bottom: 20/108rem;
+        h2{
+          display: inline-block;
+          font-weight: bold;
+          .font-size(32);
+        }
+        .logo{
+          display: inline-block;
+          line-height: 45/108rem;
+          color: #FFF;
+          .font-size(23);
+          padding: 0 5/108rem;
+          vertical-align: top;
+        }
+      }
+      p{
+        color: #7D7D7D;
+        .font-size(28);
+        line-height: 60/108rem;
+        .iconfont {
+          .font-size(30);
+          &.color-blue {
+            color: #4790F9;
+          }
+          &.color-green {
+            color: #85BD53;
+          }
+          &.color-orange {
+            color: #F48840;
+          }
+          &.color-yellow {
+            color: #F8B136;
+          }
+          &.color-pink {
+            color: #F8848A;
+          }
+        }
+      }
+    }
+    .content-box{
+      padding: 30/108rem 44/108rem 100/108rem;
+      p{
+        color: #7D7D7D;
+        .font-size(30);
+        line-height: 70/108rem;
+        text-indent: 2em;
+      }
+    }
+  }
+  .btn-box{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 38/108rem 42/108rem;
+    background-color: #F4F4F4;
+    .btn{
+      width: 100%;
+      line-height: 125/108rem;
+      text-align: center;
+      .font-size(32);
+      color: #FFF;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      background-color: #00A0E9;
+    }
+  }
+}
+.orangeColor{
+  background-color: #FBAF4D;
+}
+.blueColor{
+  background-color: #7CBEDA;
+}
+.redColor{
+  background-color: #E94663;;
+}

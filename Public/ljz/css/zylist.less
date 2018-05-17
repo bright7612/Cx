@@ -1,0 +1,103 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  .font-size(28);
+}
+
+.layout{
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  ul{
+    width: 100%;
+    li{
+      width: 100%;
+      padding: 21/108rem 45/108rem 30/108rem;
+      border-bottom: 1px solid #ccc;
+      background-color: #FFF;
+      h3{
+        color: #000;
+        .font-size(32);
+        line-height: 80/108rem;
+        font-weight: 700;
+      }
+      p{
+        color: #7B8490;
+        .font-size(28);
+        line-height: 65/108rem;
+      }
+      .iconfont {
+        .font-size(34);
+        &.color-blue {
+          color: #0091ED;
+        }
+        &.color-yellow {
+          color: #FFA800;
+        }
+        &.color-green {
+          color: #85B949;
+        }
+        &.color-qing {
+          color: #65C8C9;
+        }
+        &.color-orange {
+          color: #FD873F;
+        }
+        &.color-red {
+          color: #FF7555;
+        }
+      }
+    }
+    .help-box {
+      padding: 0 30/108rem 30/108rem;
+      border-bottom: none;
+      background-color: #E6E6E6;
+      .help-title {
+        padding: 21/108rem 35/108rem 30/108rem;
+        border-bottom: 2px solid #D1D1D1;
+        background-color: #FFF;
+      }
+      .help-status {
+        padding: 24/108rem 35/108rem 45/108rem;
+        background-color: #FFF;
+        h4 {
+          color: #4D5054;
+          .font-size(28);
+          line-height: 68/108rem;
+        }
+      }
+      &:first-child {
+        padding-top: 30/108rem;
+      }
+    }
+  }
+  .dropload-up,.dropload-down{
+    .font-size(27);
+  }
+}

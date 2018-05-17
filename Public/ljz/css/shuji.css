@@ -1,0 +1,117 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  font-size: 15px;
+  background: url("../img/shujiBg.png") repeat-y;
+  background-size: cover;
+}
+[data-dpr="2"] body {
+  font-size: 30px;
+}
+[data-dpr="2.5"] body {
+  font-size: 38px;
+}
+[data-dpr="2.75"] body {
+  font-size: 41px;
+}
+[data-dpr="3"] body {
+  font-size: 45px;
+}
+[data-dpr="4"] body {
+  font-size: 60px;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  padding: 0 0.46296296rem 1.01851852rem;
+}
+.layout .text-section {
+  padding: 0.64814815rem 0.16666667rem 0.52777778rem;
+}
+.layout .text-section p {
+  color: #4F555E;
+  font-size: 15px;
+  line-height: 0.64814815rem;
+  text-indent: 2em;
+}
+[data-dpr="2"] .layout .text-section p {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout .text-section p {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout .text-section p {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout .text-section p {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout .text-section p {
+  font-size: 60px;
+}
+.layout .people-section {
+  padding-top: 0.37037037rem;
+  width: 100%;
+}
+.layout .people-section .title {
+  width: 4.53703704rem;
+  height: 1.12962963rem;
+  margin: 0 auto;
+}
+.layout .people-section ul {
+  width: 100%;
+  margin-top: 0.52777778rem;
+}
+.layout .people-section ul li {
+  width: 33.333333%;
+  padding-bottom: 0.69444444rem;
+}
+.layout .people-section ul li a {
+  display: block;
+  text-align: center;
+}
+.layout .people-section ul li a .photo-box {
+  width: 2.31481481rem;
+  margin: 0 auto;
+}
+.layout .people-section ul li a .photo-box .photo-w {
+  width: 2.31481481rem;
+  height: 2.31481481rem;
+  border-radius: 9.25925926rem;
+  background-color: #FFF;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.layout .people-section ul li a .photo-box .photo-w img {
+  display: inline-block;
+  width: 2.22222222rem;
+  height: 2.22222222rem;
+  border-radius: 9.25925926rem;
+  vertical-align: middle;
+}
+.layout .people-section ul li a p {
+  font-size: 15px;
+  color: #6B737C;
+  line-height: 0.76851852rem;
+}
+[data-dpr="2"] .layout .people-section ul li a p {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout .people-section ul li a p {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout .people-section ul li a p {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout .people-section ul li a p {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout .people-section ul li a p {
+  font-size: 60px;
+}

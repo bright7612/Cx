@@ -1,0 +1,197 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F4F4F4;
+  overflow: hidden;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+}
+.layout .project {
+  height: 100%;
+  padding: 0 0.05555556rem 1.85185185rem;
+  background-color: #FFF;
+  border-bottom: 2px solid #E0E0E0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.layout .project .info-box {
+  padding: 0.46296296rem 0.40740741rem 0.27777778rem;
+  border-bottom: 1px solid #7D7D7D;
+}
+.layout .project .info-box .title {
+  padding-bottom: 0.18518519rem;
+}
+.layout .project .info-box .title h2 {
+  display: inline-block;
+  font-weight: bold;
+  font-size: 16px;
+}
+[data-dpr="2"] .layout .project .info-box .title h2 {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .project .info-box .title h2 {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .project .info-box .title h2 {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .project .info-box .title h2 {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .project .info-box .title h2 {
+  font-size: 64px;
+}
+.layout .project .info-box .title .logo {
+  display: inline-block;
+  line-height: 0.41666667rem;
+  color: #FFF;
+  font-size: 12px;
+  padding: 0 0.0462963rem;
+  vertical-align: top;
+}
+[data-dpr="2"] .layout .project .info-box .title .logo {
+  font-size: 23px;
+}
+[data-dpr="2.5"] .layout .project .info-box .title .logo {
+  font-size: 29px;
+}
+[data-dpr="2.75"] .layout .project .info-box .title .logo {
+  font-size: 32px;
+}
+[data-dpr="3"] .layout .project .info-box .title .logo {
+  font-size: 35px;
+}
+[data-dpr="4"] .layout .project .info-box .title .logo {
+  font-size: 46px;
+}
+.layout .project .info-box p {
+  color: #7D7D7D;
+  font-size: 14px;
+  line-height: 0.55555556rem;
+}
+[data-dpr="2"] .layout .project .info-box p {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout .project .info-box p {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout .project .info-box p {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout .project .info-box p {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout .project .info-box p {
+  font-size: 56px;
+}
+.layout .project .info-box p .iconfont {
+  font-size: 15px;
+}
+[data-dpr="2"] .layout .project .info-box p .iconfont {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout .project .info-box p .iconfont {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout .project .info-box p .iconfont {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout .project .info-box p .iconfont {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout .project .info-box p .iconfont {
+  font-size: 60px;
+}
+.layout .project .info-box p .iconfont.color-blue {
+  color: #4790F9;
+}
+.layout .project .info-box p .iconfont.color-green {
+  color: #85BD53;
+}
+.layout .project .info-box p .iconfont.color-orange {
+  color: #F48840;
+}
+.layout .project .info-box p .iconfont.color-yellow {
+  color: #F8B136;
+}
+.layout .project .info-box p .iconfont.color-pink {
+  color: #F8848A;
+}
+.layout .project .content-box {
+  padding: 0.27777778rem 0.40740741rem 0.92592593rem;
+}
+.layout .project .content-box p {
+  color: #7D7D7D;
+  font-size: 15px;
+  line-height: 0.64814815rem;
+  text-indent: 2em;
+}
+[data-dpr="2"] .layout .project .content-box p {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout .project .content-box p {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout .project .content-box p {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout .project .content-box p {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout .project .content-box p {
+  font-size: 60px;
+}
+.layout .btn-box {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0.35185185rem 0.38888889rem;
+  background-color: #F4F4F4;
+}
+.layout .btn-box .btn {
+  width: 100%;
+  line-height: 1.15740741rem;
+  text-align: center;
+  font-size: 16px;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  background-color: #00A0E9;
+}
+[data-dpr="2"] .layout .btn-box .btn {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .btn-box .btn {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .btn-box .btn {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .btn-box .btn {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .btn-box .btn {
+  font-size: 64px;
+}
+.orangeColor {
+  background-color: #FBAF4D;
+}
+.blueColor {
+  background-color: #7CBEDA;
+}
+.redColor {
+  background-color: #E94663;
+}

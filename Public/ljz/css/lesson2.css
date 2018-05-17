@@ -1,0 +1,163 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F4F4F4;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  font-size: 14px;
+  margin: 0 auto;
+}
+[data-dpr="2"] .layout {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout {
+  font-size: 56px;
+}
+.layout .lesson-info {
+  padding: 0.18518519rem 0.5rem;
+  border-bottom: 2px solid #E0E0E0;
+  background-color: #FFF;
+}
+.layout .lesson-info h3 {
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 0.74074074rem;
+}
+[data-dpr="2"] .layout .lesson-info h3 {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .lesson-info h3 {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .lesson-info h3 {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .lesson-info h3 {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .lesson-info h3 {
+  font-size: 64px;
+}
+.layout .lesson-appoint {
+  font-size: 15px;
+}
+[data-dpr="2"] .layout .lesson-appoint {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout .lesson-appoint {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout .lesson-appoint {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout .lesson-appoint {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout .lesson-appoint {
+  font-size: 60px;
+}
+.layout .lesson-appoint p {
+  line-height: 1.2962963rem;
+  padding-left: 0.49074074rem;
+  border-bottom: 2px solid #E0E0E0;
+}
+.layout .lesson-appoint .formb {
+  line-height: 1.37037037rem;
+  background-color: #FFF;
+  padding-left: 0.5rem;
+  padding-right: 0.92592593rem;
+  border-bottom: 2px solid #E0E0E0;
+  position: relative;
+}
+.layout .lesson-appoint .formb input[type=text] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  width: 4.7037037rem;
+  height: 0.86111111rem;
+  border: none;
+  outline: none;
+  position: absolute;
+  left: 4.35185185rem;
+  top: 0.27777778rem;
+}
+.layout .lesson-appoint .formb select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background: url("../img/selectArrow.png") no-repeat scroll right center transparent;
+  background-size: 0.55555556rem 0.18518519rem;
+  width: 4.7037037rem;
+  height: 0.86111111rem;
+  padding-right: 0.27777778rem;
+  border: 2px solid #E0E0E0;
+  border-radius: 5px;
+  outline: none;
+  position: absolute;
+  left: 4.35185185rem;
+  top: 0.27777778rem;
+}
+.layout .lesson-appoint .formb input {
+  outline: none;
+}
+.layout .lesson-appoint .num div {
+  position: absolute;
+  left: 4.35185185rem;
+  top: 0;
+}
+.layout .lesson-appoint .num input[type=text] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  position: static;
+  width: 2.82407407rem;
+  text-align: center;
+  border: 2px solid #E0E0E0;
+  border-radius: 10px;
+}
+.layout .lesson-appoint .confirm {
+  width: 100%;
+  padding: 0.64814815rem 0;
+}
+.layout .lesson-appoint .confirm .btn {
+  width: 92%;
+  font-size: 16px;
+  line-height: 1.15740741rem;
+  text-align: center;
+  color: #FFF;
+  border: none;
+  border-radius: 10px;
+  background-color: #00A0E9;
+  margin: 0 auto;
+}
+[data-dpr="2"] .layout .lesson-appoint .confirm .btn {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .lesson-appoint .confirm .btn {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .lesson-appoint .confirm .btn {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .lesson-appoint .confirm .btn {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .lesson-appoint .confirm .btn {
+  font-size: 64px;
+}

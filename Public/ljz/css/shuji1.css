@@ -1,0 +1,87 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  background-color: #F3F3F3;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  font-size: 15px;
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+}
+[data-dpr="2"] .layout {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout {
+  font-size: 60px;
+}
+.layout ul {
+  background-color: #FFF;
+}
+.layout ul li {
+  border-bottom: 2px solid #E0E0E0;
+  padding: 0.27777778rem 0.33333333rem 0.32407407rem 0.40740741rem;
+}
+.layout ul li .left {
+  width: 80%;
+}
+.layout ul li .left h2 {
+  width: 100%;
+  display: inline-block;
+  max-width: 75%;
+  font-size: 16px;
+  line-height: 0.69444444rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+[data-dpr="2"] .layout ul li .left h2 {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout ul li .left h2 {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout ul li .left h2 {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout ul li .left h2 {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout ul li .left h2 {
+  font-size: 64px;
+}
+.layout ul li .left p {
+  width: 100%;
+  color: #7E8082;
+  line-height: 0.50925926rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.layout ul li .right {
+  width: 20%;
+}
+.layout ul li .right .btn {
+  width: 1.75925926rem;
+  line-height: 0.78703704rem;
+  color: #FFF;
+  background-color: #00A0E9;
+  text-align: center;
+  border-bottom: 5px solid #4085A4;
+  border-radius: 5px;
+  margin-top: 0.23148148rem;
+}

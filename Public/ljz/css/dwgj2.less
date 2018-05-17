@@ -1,0 +1,134 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #FFF;
+}
+.layout{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  .project{
+    width: 100%;
+    height: 100%;
+    padding: 58/108rem 50/108rem 90/108rem;
+    padding-bottom: 200/108rem;
+    background-color: #FFF;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    .project-info {
+      margin-bottom: 10/108rem;
+      h2{
+        width: 100%;
+        font-weight: bold;
+        .font-size(32);
+        padding-bottom: 28/108rem;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      p{
+        color: #7E8082;
+        .font-size(28);
+        line-height: 65/108rem;
+      }
+    }
+    .project-content {
+      img{
+        width: 100%;
+      }
+      p {
+        width: 100%;
+        color: #7E8082;
+        .font-size(28);
+        margin: 20/108rem 0;
+        text-indent: 2em;
+        line-height: 65/108rem;
+      }
+    }
+  }
+
+  .btn{
+    width: 100%;
+    .font-size(32);
+    background-color: #FFF;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 11/108rem 0 11/108rem 17/108rem;
+    border-top: 2px solid #E0E0E0;
+    &>div{
+      display: inline-block;
+      color: #FFF;
+      text-align: center;
+      border-radius: 5px;
+      &:nth-child(1), &:nth-child(2){
+        width: 150/108rem;
+        height: 122/108rem;
+        color: #AFAFAF;
+        .font-size(28);
+        line-height: 100/108rem;
+        background-color: #FFF;
+        padding-top: 10/108rem;
+      }
+      &:nth-child(3){
+        width: 340/108rem;
+        line-height: 122/108rem;
+        background-color: #FFA03B;
+      }
+      &:nth-child(4){
+        width: 340/108rem;
+        line-height: 122/108rem;
+        background-color: #FF6750;
+      }
+      .icon-aixin{
+        color: #F46461;
+        .font-size(35);
+      }
+      .icon-coin{
+        color: #46C4F2;
+        .font-size(35);
+      }
+    }
+    //.zan{
+    //  display: block;
+    //}
+    .lbtn1{
+      position: absolute;
+      left: 360/108rem;
+    }
+    .lbtn2{
+      position: absolute;
+      left: 720/108rem;
+    }
+  }
+}

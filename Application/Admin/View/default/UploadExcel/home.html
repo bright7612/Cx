@@ -1,0 +1,28 @@
+<extend name="Public/base"/>
+<block name="body">
+    <div class="panel-main">
+        <div class="with-padding">
+        	<a class="btn" style="padding:5px 10px;margin-right:25px;" onclick="importClick('example')">标准excel导入(党员基本信息汇总表)</a><br>
+        		<br>
+        	
+            <a class="btn" style="padding:5px 10px;margin-right:25px;" onclick="importClick('party_member')">党员</a>
+            <a class="btn" style="padding:5px 10px;margin-right:25px;" onclick="importClick('mgzzsh')">免过组织生活</a>
+            <a class="btn" style="padding:5px 10px;margin-right:25px;" onclick="importClick('sbd')">双报到</a>
+            <a class="btn" style="padding:5px 10px;margin-right:25px;" onclick="importClick('bldj')">出国（境）保留党籍</a>
+            
+        </div>
+
+        <div  class="with-padding" >
+            <a class="btn" style="padding:5px 10px;margin-right:25px;" onclick="importClick('mzpy')">民主评议</a>
+        </div>
+    </div>
+    <script type="text/javascript">
+        function importClick(type) {
+            var url = "admin/uploadExcel/excelupload/type/" + type + "/index/" + 0 + ".html";
+            var options = {iframe: url, moveable: true};
+            var newTrigger = new $.zui.ModalTrigger(options);
+            newTrigger.show();
+        }
+    </script>
+</block>
+

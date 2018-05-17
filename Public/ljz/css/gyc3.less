@@ -1,0 +1,74 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F4F4F4;
+}
+.layout{
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  .font-size(30);
+  p{
+    line-height: 140/108rem;
+    padding-left: 53/108rem;
+    border-bottom: 2px solid #E0E0E0;
+  }
+  .name, .tel{
+    line-height: 148/108rem;
+    background-color: #FFF;
+    padding-left: 53/108rem;
+    border-bottom: 2px solid #E0E0E0;
+    position: relative;
+    input[type=text] {
+      width: 508/108rem;
+      height: 93/108rem;
+      border: none;
+      outline: none;
+      position: absolute;
+      left: 350/108rem;
+      top: 30/108rem;
+    }
+  }
+  .confirm{
+    width: 100%;
+    text-align: center;
+    margin-top: 100/108rem;
+    input[type=button]{
+      width: 92%;
+      height: 125/108rem;
+      color: #FFF;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      background-color: #FFA200;
+
+    }
+  }
+}

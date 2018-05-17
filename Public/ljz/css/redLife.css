@@ -1,0 +1,59 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background: url("../img/redLifeBg.jpg") no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+.layout .greatwall,
+.layout .relationship,
+.layout .idea,
+.layout .cost,
+.layout .activity,
+.layout .shuji,
+.layout .partier {
+  width: 2.59259259rem;
+  height: 2.59259259rem;
+  position: absolute;
+}
+.layout .greatwall a,
+.layout .relationship a,
+.layout .idea a,
+.layout .cost a,
+.layout .activity a,
+.layout .shuji a,
+.layout .partier a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.layout .cost {
+  left: 2.16666667rem;
+  top: 2.87037037rem;
+}
+.layout .activity {
+  left: 5.15740741rem;
+  top: 2.87037037rem;
+}
+.layout .shuji {
+  left: 0.71296296rem;
+  top: 5.69444444rem;
+}
+.layout .partier {
+  left: 3.7037037rem;
+  top: 5.69444444rem;
+}
+.layout .relationship {
+  left: 6.66666667rem;
+  top: 5.69444444rem;
+}

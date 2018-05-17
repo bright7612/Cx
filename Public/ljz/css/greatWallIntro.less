@@ -1,0 +1,119 @@
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+//设置根字体大小为108px
+html {
+  font-size:108px;
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  .font-size(28);
+}
+
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  .intro-box {
+    width: 100%;
+    .intro-list {
+      width: 100%;
+      border-bottom: 2px solid #E0E0E0;
+
+      .intro-title {
+        width: 100%;
+        .font-size(30);
+        line-height: 138/108rem;
+        padding: 0 50/108rem;
+        .name {
+          color: #3E4752;
+          margin-left: 45/108rem;
+        }
+        .iconfont {
+          .font-size(34);
+          &.icon-xia {
+            color: #7D7D7D;
+          }
+        }
+        .color-icon {
+          &.color-blue {
+            color: #4790F9;
+          }
+          &.color-green {
+            color: #62CFB8;
+          }
+          &.color-red {
+            color: #E94663;
+          }
+          &.color-yellow {
+            color: #EAB930;
+          }
+          &.color-orange {
+            color: #E66E55;
+          }
+        }
+      }
+
+      .intro-detail {
+        padding: 0 50/108rem 28/108rem;
+        overflow: hidden;
+        -webkit-transition: all 0.5s;
+        -moz-transition: all 0.5s;
+        -ms-transition: all 0.5s;
+        -o-transition: all 0.5s;
+        transition: all 0.5s;
+        .text {
+          padding: 21/108rem 0 15/108rem;
+          p {
+            color: #5B5B5B;
+            .font-size(29);
+            line-height: 55/108rem;
+          }
+        }
+        .photo {
+          width: 100%;
+          li {
+            width: 50%;
+            padding: 0 10/108rem;
+            img {
+              display: block;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.hide{
+  display: none;
+}
+.show{
+  display: block;
+}
+.rotate{
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
+  transform: rotate(180deg);
+}

@@ -1,0 +1,37 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  background-color: #FFF;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+}
+.layout ul {
+  width: 100%;
+  padding: 0.46296296rem 0.26851852rem 0;
+}
+.layout ul li {
+  width: 33.333%;
+  margin-bottom: 0.55555556rem;
+}
+.layout ul li a {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.layout ul li img {
+  width: 2.57407407rem;
+  height: 2.57407407rem;
+}
+.layout ul li p {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

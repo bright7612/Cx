@@ -1,0 +1,176 @@
+<extend name="Public/base"/>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+    <script type="text/javascript" src="/Public/static/ueditor/third-party/highcharts/modules/drilldown.js"></script>
+</block>
+<block name="body">
+    <div class="with-padding">
+        <h2 style="color: #39b3d7;margin-left: 30px">合庆街道党建信息化管理平台</h2>
+    </div>
+    <style>
+        .padding-xlg {
+            padding: 40px 5px;
+        }
+    </style>
+    <div class="with-padding-lg">
+        <div class="count clearfix">
+            <div class="col-xs-4 text-center" >
+                <a href="{:U('index/dzz')}" class="with-padding-lg bg-important padding-xlg"  style="background: rgb(239, 158, 110);">
+                    <i class="icon-flag"></i>
+                    {$count.dzz}
+                    <br/>
+                    下属党支部
+                </a>
+            </div>
+            <div class="col-xs-4 text-center">
+                <a class="with-padding-lg bg-info padding-xlg" href="{:U('index/dzzcy')}"  style="background: rgb(248, 140, 140)"><i class="icon-group"></i>
+                    {$count.dy} <br/>
+                    党员</a>
+            </div>
+
+            <div id="container" style="min-width:400px;height:300px;position: absolute;right: 0;top: 15px"  class="col-xs-4 text-center"></div>
+        </div>
+    </div>
+
+    <div class="with-padding-lg">
+        <div class="count clearfix">
+            <div class="col-xs-4 text-center">
+                <a class="with-padding-lg bg-info padding-xlg" href="{:U('ljz/gycrl',array('state'=>0))}"><i class="icon-user"></i>
+                    {$count.xmrl} <br/>
+                    项目直通车认领待审核</a>
+            </div>
+            <div class="col-xs-4 text-center">
+                <a class="with-padding-lg bg-info padding-xlg" href="{:U('hdyg/bmxx',array('state'=>0))}"><i class="icon-user"></i>
+                    {$count.hd} <br/>
+                    场地预约待审核</a>
+            </div>
+            <div class="col-xs-4 text-center">
+                <a class="with-padding-lg bg-danger padding-xlg" style="background: rgb(96, 210, 149)"
+                   href="{:U('sbdk/bmxx',array('state'=>0))}">
+                    <i class="icon-group">
+                    </i>
+                    {$count.dk}
+                    <br/>
+                    身边党课报名待审核
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="with-padding-lg">
+        <div class="count clearfix">
+            <div class="col-xs-4 text-center">
+                <a href="{:U('zzgl/wxmember',array('zt'=>1))}" class="with-padding-lg bg-special padding-xlg">
+                    <i class="icon-tasks"></i>
+                    {$count.wxbd}
+                    <br/>
+                    微信党员报到待审核
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix">
+        <div class="col-xs-4">
+
+        </div>
+        <div class="col-xs-4">
+
+        </div>
+        <div class="col-xs-4">
+
+        </div>
+
+    </div>
+
+
+    <script>
+        $('#main-content').css('left', 0);
+        $(".sub_menu_wrapper").hide();
+        $(function () {
+
+//            $('#container').highcharts({
+//                chart: {
+//                    type: 'pie'
+//                },
+//                title: {
+//                    text: '党组织成员'
+//                },
+//                subtitle: {
+//                    text: '单击每类党组织下属党组织的具体信息.'
+//                },
+//                plotOptions: {
+//                    series: {
+//                        dataLabels: {
+//                            enabled: true,
+//                            format: '{point.name}: {point.y}人'
+//                        }
+//                    }
+//                },
+//                tooltip: {
+//                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+//                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+//                },
+//                series: [{
+//                    name: '党组织类型',
+//                    colorByPoint: true,
+//                    data: {$dzzChartData}
+//                }],
+//                drilldown: {
+//                    series: {$dzzDrilldownData}
+//                }
+//            });
+
+
+            $('#container').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                credits:{
+                    text:"",
+                    href:""
+                },
+                title: {
+                    text: '党组织数量'
+                },
+                tooltip: {
+                    headerFormat: '{series.name}<br>',
+                    pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}({point.y}个)</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: '党组织占比',
+                    data:{$dzzCountData},
+                    events:{
+                        click:function (e) {
+                            var basehref = "{:U('dzz')}";
+                            if(basehref.indexOf("?")>0){
+                                window.location.href = basehref+"&dzztype="+e.point.name;
+                            }else{
+                                window.location.href = basehref+"?dzztype="+e.point.name;
+                            }
+
+                        }
+                    }
+                }]
+            });
+        });
+
+
+    </script>
+
+</block>

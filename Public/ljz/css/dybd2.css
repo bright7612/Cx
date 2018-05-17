@@ -1,0 +1,60 @@
+html {
+  font-size: 108px;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  font-size: 14px;
+}
+[data-dpr="2"] body {
+  font-size: 28px;
+}
+[data-dpr="2.5"] body {
+  font-size: 35px;
+}
+[data-dpr="2.75"] body {
+  font-size: 39px;
+}
+[data-dpr="3"] body {
+  font-size: 42px;
+}
+[data-dpr="4"] body {
+  font-size: 56px;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+}
+.layout ul {
+  width: 100%;
+}
+.layout ul li {
+  width: 100%;
+  line-height: 1.66666667rem;
+  color: #7B8490;
+  padding: 0 0.41666667rem;
+  border-bottom: 1px solid #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.layout ul li span {
+  font-size: 15px;
+}
+[data-dpr="2"] .layout ul li span {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout ul li span {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout ul li span {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout ul li span {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout ul li span {
+  font-size: 60px;
+}

@@ -1,0 +1,53 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F3F3F3;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  line-height: 0.64814815rem;
+  font-size: 14px;
+  margin: 0 auto;
+}
+[data-dpr="2"] .layout {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout {
+  font-size: 56px;
+}
+.layout .status {
+  padding: 0.25rem 0.49074074rem 0.18518519rem;
+  background-color: #FFF;
+}
+.layout .status span {
+  color: #FFA025;
+}
+.layout .opinion {
+  padding: 0.18518519rem 0.49074074rem 0.39814815rem;
+  border-top: 0.01851852rem solid #E0E0E0;
+  border-bottom: 0.01851852rem solid #E0E0E0;
+  background-color: #FFF;
+}
+.layout .opinion p:nth-child(2) {
+  margin-top: 0.13888889rem;
+}
+.layout .opinion a {
+  color: #00A0E9;
+  text-decoration: underline;
+}

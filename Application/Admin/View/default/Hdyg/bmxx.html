@@ -1,0 +1,200 @@
+<extend name="Public/base"/>
+<block name="body">
+    <link rel="stylesheet" type="text/css" href="/Public/zui/lib/datetimepicker/datetimepicker.css" media="all">
+    <script type="text/javascript" src="/Public/zui/lib/datetimepicker/datetimepicker.min.js" charset="UTF-8"></script>
+    <div class="main-title">
+        <h2>
+            报名信息<span style="font-size: 0.8em" >(红色表示与已通过审核的预约时间有冲突)</span>
+        </h2>
+    </div>
+    <div style="margin-bottom: 10px;"  id="search_form" class="hide">
+    <style>
+        .tb_search td{
+            padding: 5px 10px;
+        }
+    </style>
+    <form id="searchForm" method="get" action="{$searchPostUrl}" class="form-dont-clear-url-param">
+        <div class="search-form  cf " style="margin-bottom: 10px">
+            <table class="tb_search">
+                <tr style="line-height: 28px">
+                    <td>
+                        场地名称
+                    </td>
+                    <td>
+                        <input style="float: none" type="text" name="name" class="search-input form-control form-input-width"
+                               value="{$name}">
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr style="line-height: 28px">
+                    <td>
+                        开始时间
+                    </td>
+                    <td>
+                        <input type="text" class="form-control form-date" placeholder="选择一个日期"name="start"  value="{$_REQUEST['start']}">
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr style="line-height: 28px">
+                    <td>
+                        结束时间
+                    </td>
+                    <td>
+                        <input type="text" class="form-control form-date" placeholder="选择一个日期"   name="end"    value="{$_REQUEST['end']}">
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" class="btn" value={:L("_DETERMINATION_WITH_DOUBLE_")}/> <button class="btn ajax-post btn" onclick="toggle_search()">{:L("_CLOSE_")}</button></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
+    </form>
+    <div style="border-top:1px solid #ccc;border-bottom: 1px solid white"></div>
+</div>
+    <div class="with-padding" >
+        <!--<div class="fl">-->
+            <!--<a class="btn btn-primary" href="{:U('editBmxx')}"-->
+                    <!--&gt;添加-->
+            <!--</a>-->
+        <!--</div>-->
+        <div class="fl">
+            <a href="{:U('editYy')}" class="btn btn-ajax btn-success btn">新增</a>
+            <button class="btn ajax-post confirm btn-danger" url="{:U('setBmStatus?status=-1')}"
+                    target-form="ids" confirm-info="确认删除？删除后不可恢复！">删除
+            </button>
+            <button class="btn submit-btn" url="?status=-1" target-form="ids" style="padding: 6px 16px;" onclick="toggle_search()">{:L("_SEARCH_")}</button>
+            </button>
+            <!-- 选择框select -->
+            <div style="float: right;display: inline-block" >
+                <style>
+                    .oneselect{
+                        display: inline-block;
+                        margin-left: 10px;
+                    }
+                    .oneselect .title{
+                        float: left;
+                        line-height: 32px;
+                    }
+                    .oneselect .select_box{
+                        float: left;
+                        line-height: 32px;
+                    }
+                    .oneselect .select_box select{
+                        min-width: 200px;
+                    }
+                </style>
+                <form id="selectForm" method="get" action="{$selectPostUrl||default=$default_url}" class="form-dont-clear-url-param">
+                    <volist name="selects" id="select">
+                        <div class="oneselect">
+                            <div class="title">{$select.title}</div>
+                            <div class="select_box">
+                                <select name="{$select['name']}" data-role="select_text" class="form-control">
+                                    <volist name="select['arrvalue']" id="svo">
+                                        <option value="{$svo.id}" <eq name="svo.id" value="$_GET[$select['name']]">selected</eq>>{$svo.value}</option>
+                                    </volist>
+                                </select>
+                            </div>
+                        </div>
+                    </volist>
+                </form>
+                <script>
+                    $('[data-role="select_text"]').change(function(){
+                        $('#selectForm').submit();
+                    });
+                    function toggle_search(){
+                        $('#search_form').toggle('slide');
+                    }
+                    $(document).on('submit', '.form-dont-clear-url-param', function(e){
+                        e.preventDefault();
+
+                        var seperator = "&";
+                        var form = $(this).serialize();
+                        var action = $(this).attr('action');
+                        if(action == ''){
+                            action = location.href;
+                        }
+                        var new_location = action + seperator + form;
+                        location.href = new_location;
+
+                        return false;
+                    });
+                </script>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="with-padding">
+        <form class="ids">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th class="row-selected">
+                        <input class="checkbox check-all" type="checkbox">
+                    </th>
+                    <th>姓名</th>
+                    <th>联系电话</th>
+                    <th>场地名称</th>
+                    <th>预约时间</th>
+                    <th>预约部门</th>
+                    <th>创建时间</th>
+                    <th>预约状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <notempty name="list">
+                    <volist name="list" id="di">
+                        <tr  <eq name="di.conflict" value="1" > style="color: red"  </eq> >
+                            <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$di.id}"></td>
+                            <td>{$di.name}</td>
+                            <td>{$di.mobile}</td>
+                            <td>{$di.aname}</td>
+                            <td>
+                                {$di.starttime|date="Y-m-d H:i:s",###}
+                                —
+                                {$di.endtime|date="Y-m-d H:i:s",###}
+                            </td>
+                            <td>{$di.company}</td>
+                            <td>{$di.create_time|date='Y-m-d H:i',###}</td>
+                            <td>{$di.state_str}</td>
+                        <td>
+                            <a title=“" href="{:U('editYy',array('id'=>$di['id']))}">编辑</a>
+                            <eq name="di['state']" value="0" >
+                                    <a title=“" href="{:U('cdsh',array('id'=>$di['id']))}">审核</a>
+                                </eq>
+                                <a title=“" href="{:U('cdyydetail',array('id'=>$di['id']))}">查看</a>
+                            </td>
+                        </tr>
+                    </volist>
+                </notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+            {$pagination}
+        </div>
+    </div>
+    <script>
+        $(".form-date").datetimepicker(
+                {
+                    language:  "zh-CN",
+                    weekStart: 1,
+                    todayBtn:  1,
+                    autoclose: 1,
+                    todayHighlight: 1,
+                    startView: 2,
+                    minView: 2,
+                    forceParse: 0,
+                    format: "yyyy-mm-dd"
+                });
+
+    </script>
+</block>

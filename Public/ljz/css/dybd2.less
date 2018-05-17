@@ -1,0 +1,53 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  .font-size(28);
+}
+
+.layout{
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  ul{
+    width: 100%;
+    li{
+      width: 100%;
+      line-height: 180/108rem;
+      color: #7B8490;
+      padding: 0 45/108rem;
+      border-bottom: 1px solid #ccc;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      span{
+        .font-size(30);
+      }
+    }
+  }
+}

@@ -1,0 +1,222 @@
+@import "./mixin";
+
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+  background-color: #F4F4F4;
+}
+
+.layout{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  .displayFlex();
+  .flexDirColumn();
+  .top {
+    .flex(1);
+    overflow: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    // 项目介绍区域
+    .project{
+      height: 100%;
+      padding: 10/108rem 50/108rem 50/108rem;
+      background-color: #FFF;
+      border-bottom: 2px solid #E0E0E0;
+      .project-content {
+        .title {
+          .font-size(32);
+          font-weight: bold;
+          line-height: 100/108rem;
+          padding-bottom: 15/108rem;
+        }
+        & > p{
+          color: #7D7D7D;
+          .font-size(28);
+          line-height: 70/108rem;
+          text-indent: 2em;
+        }
+        & > img {
+          display: block;
+          width: 100%;
+          margin-top: 30/108rem;
+        }
+      }
+      .project-rank, .project-evaluate {
+        padding-top: 15/108rem;
+        margin-top: 30/108rem;
+        border-top: 1px solid #CCC;
+        .rank-title {
+          .font-size(30);
+          font-weight: 700;
+          line-height: 80/108rem;
+        }
+        .evaluate-list {
+          margin-bottom: 20/108rem;
+          .evaluate-item {
+            width: 50%;
+          }
+        }
+        .rank-item, .evaluate-item {
+          color: #7D7D7D;;
+          .font-size(26);
+          padding: 10/108rem 0;
+          .iconfont {
+            .font-size(30);
+            &.color-red {
+              color: #FF6750;
+            }
+            &.color-blue{
+              color: #0AAAEC;
+            }
+            &.color-orange{
+              color: #FF9227;
+            }
+            &.color-green{
+              color: #57C65C;
+            }
+            &.color-purple{
+              color: #750075;
+            }
+            &.color-grey{
+              color: #999;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 捐赠按钮区域
+  .btn {
+    width: 100%;
+    height: 201/108rem;
+    padding: 38/108rem 42/108rem;
+    background: #FFF;
+    box-sizing: border-box;
+    .displayFlex();
+    .option {
+      .flex(1);
+      .font-size(32);
+      color: #FFF;
+      text-align: center;
+      line-height: 125/108rem;
+      border-radius: 5px;
+      margin-right: 50/108rem;
+      &:last-child {
+        margin-right: 0;
+      }
+      &.bg-red {
+        background-color: #FF6750;
+      }
+      &.bg-orange {
+        background-color: #FFA03B;
+      }
+      &.bg-blue {
+        background: steelblue;
+      }
+    }
+  }
+}
+
+.bg {
+  background-color: rgba(0, 0, 0 ,0.5);
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  display: none;
+  .box {
+    width: 85%;
+    padding: 0 50/108rem;
+    margin: 200/108rem auto;
+    background: #FFF;
+    border-radius: 20px;
+    overflow: hidden;
+    .choose-box {
+      width: 100%;
+      padding-top: 50/108rem;
+      .choose-title {
+        .font-size(30);
+        line-height: 100/108rem;
+      }
+      .choose-list {
+        padding: 0 50/108rem;
+        .choose-item {
+          width: 300/108rem;
+          .font-size(28);
+          line-height: 101/108rem;
+          text-align: center;
+          margin: 0 25/108rem 20/108rem 25/108rem;
+          background-color: #DEDEDE;
+          border: 3px solid #DEDEDE;
+          border-radius: 10/108rem;
+          box-sizing: border-box;
+          &.chosed{
+            background-color: #FFF;
+            border: 3px solid steelblue;
+            position: relative;
+            overflow: hidden;
+          }
+
+          &.chosed::after{
+            content: "";
+            display: block;
+            width: 100/108rem;
+            height: 100/108rem;
+            background-color: steelblue;
+            transform: rotate(45deg) translate(75%);
+            position: absolute;
+            right: 0;
+            bottom: 0;
+          }
+        }
+      }
+    }
+    .text-box {
+      width: 100%;
+      .text-title {
+        .font-size(30);
+        line-height: 100/108rem;
+      }
+      .textarea{
+        width: 100%;
+        height: 450/108rem;
+        .font-size(28);
+        resize: none;
+        border: 2px solid #E0E0E0;
+        padding: 40/108rem;
+      }
+    }
+    .btn-box {
+      padding: 50/108rem 60/108rem;
+      .confirm, .cancel {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border: none;
+        width: 280/108rem;
+        color: #FFF;
+        .font-size(32);
+        line-height: 100/108rem;
+        border-radius: 20/108rem;
+      }
+      .confirm {
+        background: steelblue;
+      }
+      .cancel {
+        background: #333;
+      }
+    }
+  }
+}

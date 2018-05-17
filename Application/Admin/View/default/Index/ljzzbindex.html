@@ -1,0 +1,55 @@
+<extend name="Public/base"/>
+
+<block name="script">
+    <script type="text/javascript" src="__JS__/highcharts.js"></script>
+    <script type="text/javascript" src="/Public/static/ueditor/third-party/highcharts/modules/drilldown.js"></script>
+</block>
+<block name="body">
+    <div class="with-padding">
+        <h2 style="color: #39b3d7;margin-left: 30px">合庆街道党建信息化管理平台</h2>
+    </div>
+    <style>
+        .padding-xlg {
+            padding: 40px 5px;
+        }
+    </style>
+
+    <div class="with-padding-lg">
+        <div class="count clearfix">
+            <div class="col-xs-4 text-center">
+                <a class="with-padding-lg bg-info padding-xlg" href="{:U('hdyg/bmxx',array('state'=>0))}"><i class="icon-user"></i>
+                    {$count.hd} <br/>
+                    场地预约待审核</a>
+            </div>
+            <div class="col-xs-4 text-center">
+                <a href="{:U('zzgl/wxmember',array('zt'=>1))}" class="with-padding-lg bg-special padding-xlg">
+                    <i class="icon-tasks"></i>
+                    {$count.wxbd}
+                    <br/>
+                    微信党员报到待审核
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix">
+        <div class="col-xs-4">
+
+        </div>
+        <div class="col-xs-4">
+
+        </div>
+        <div class="col-xs-4">
+
+        </div>
+
+    </div>
+
+
+    <script>
+        $('#main-content').css('left', 0);
+        $(".sub_menu_wrapper").hide();
+
+    </script>
+
+</block>

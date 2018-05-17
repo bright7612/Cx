@@ -1,0 +1,32 @@
+<extend name="Public/base"/>
+<block name="body">
+    <div class="panel-main">
+
+
+        <div  class="with-padding" >
+            <if condition="$allnum gt 0">
+                 处理{$allnum}条记录,{$savenum}条更新，{$addnum}条新增。
+                <script type="text/javascript">
+
+                        window.location.href='/index.php?s=/admin/upload_excel/tongbu/page/{$page}.html';
+
+                </script>
+            <else />
+                <a class="btn" style="padding:5px 10px;margin-right:25px;" onclick="tongbu()">开始同步</a>
+                <script type="text/javascript">
+                    function tongbu() {
+                        window.location.href='/index.php?s=/admin/upload_excel/tongbu/page/{$page}.html';
+                    }
+                </script>
+
+            </if>
+
+        </div>
+    </div>
+    <script type="text/javascript">
+        function tongbu() {
+            window.location.href='/index.php?s=/admin/upload_excel/tongbu/page/{$page}.html';
+        }
+    </script>
+</block>
+

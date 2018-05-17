@@ -1,0 +1,129 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+  background-color: #F4F4F4;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.layout .project {
+  height: 100%;
+  padding: 0.37037037rem 0.51851852rem 0.83333333rem;
+  background-color: #FFF;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.layout .project p {
+  color: #7D7D7D;
+}
+.layout .project .title h2 {
+  font-weight: bold;
+  font-size: 16px;
+  padding-bottom: 0.18518519rem;
+}
+[data-dpr="2"] .layout .project .title h2 {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .project .title h2 {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .project .title h2 {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .project .title h2 {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .project .title h2 {
+  font-size: 64px;
+}
+.layout .project .title .info {
+  font-size: 13px;
+  padding-bottom: 0.18518519rem;
+}
+[data-dpr="2"] .layout .project .title .info {
+  font-size: 26px;
+}
+[data-dpr="2.5"] .layout .project .title .info {
+  font-size: 33px;
+}
+[data-dpr="2.75"] .layout .project .title .info {
+  font-size: 36px;
+}
+[data-dpr="3"] .layout .project .title .info {
+  font-size: 39px;
+}
+[data-dpr="4"] .layout .project .title .info {
+  font-size: 52px;
+}
+.layout .project img {
+  width: 100%;
+}
+.layout .project .text {
+  font-size: 14px;
+  line-height: 0.64814815rem;
+  text-indent: 2em;
+  padding: 0.18518519rem 0 2.31481481rem;
+}
+[data-dpr="2"] .layout .project .text {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout .project .text {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout .project .text {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout .project .text {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout .project .text {
+  font-size: 56px;
+}
+.layout .project::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.layout .btn-box {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 0.35185185rem 0.38888889rem;
+  background-color: #F4F4F4;
+}
+.layout .btn-box .btn {
+  width: 100%;
+  line-height: 1.15740741rem;
+  text-align: center;
+  font-size: 16px;
+  color: #FFF;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  background-color: #FF6750;
+}
+[data-dpr="2"] .layout .btn-box .btn {
+  font-size: 32px;
+}
+[data-dpr="2.5"] .layout .btn-box .btn {
+  font-size: 40px;
+}
+[data-dpr="2.75"] .layout .btn-box .btn {
+  font-size: 44px;
+}
+[data-dpr="3"] .layout .btn-box .btn {
+  font-size: 48px;
+}
+[data-dpr="4"] .layout .btn-box .btn {
+  font-size: 64px;
+}

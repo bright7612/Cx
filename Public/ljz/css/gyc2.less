@@ -1,0 +1,94 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #FFF;
+  //overflow: hidden;
+}
+.layout{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+  margin: 0 auto;
+  .tips {
+    .font-size(24);
+    text-align: center;
+    margin-top: 8px;
+  }
+  .project{
+    width: 100%;
+    height: 100%;
+    padding: 30/108rem 30/108rem 50/108rem;
+    background-color: #FFF;
+    overflow-x: hidden;
+    padding-bottom: 100px;
+    //overflow-y: auto;
+    -webkit-overflow-scrolling : touch;
+    h2{
+      font-weight: bold;
+      .font-size(32);
+      line-height: 100/108rem;
+      padding-bottom: 28/108rem;
+    }
+    p{
+      color: #7D7D7D;
+      .font-size(28);
+      line-height: 70/108rem;
+      text-indent: 2em;
+    }
+    img {
+      display: block;
+      width: 100%;
+      margin-top: 30/108rem;
+    }
+  }
+  .btn{
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 38/108rem 42/108rem;
+    background-color: #F4F4F4;
+    .company, .person{
+      width: 48%;
+      line-height: 125/108rem;
+      .font-size(32);
+      color: #FFF;
+      text-align: center;
+      border-radius: 5px;
+    }
+    .company {
+      background-color: #FF6750;
+    }
+    .person {
+      background-color: #FFA03B;
+    }
+  }
+}

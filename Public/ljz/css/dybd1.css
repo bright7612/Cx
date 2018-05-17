@@ -1,0 +1,88 @@
+html {
+  font-size: 108px;
+  height: 100%;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+  font-size: 14px;
+}
+[data-dpr="2"] body {
+  font-size: 28px;
+}
+[data-dpr="2.5"] body {
+  font-size: 35px;
+}
+[data-dpr="2.75"] body {
+  font-size: 39px;
+}
+[data-dpr="3"] body {
+  font-size: 42px;
+}
+[data-dpr="4"] body {
+  font-size: 56px;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background: url("../img/dybd.PNG") center center no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+.layout .link {
+  line-height: 0.64814815rem;
+  font-size: 14px;
+  color: #630F1C;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  bottom: 0.18518519rem;
+  transform: translateX(-50%);
+}
+[data-dpr="2"] .layout .link {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout .link {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout .link {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout .link {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout .link {
+  font-size: 56px;
+}
+.layout .link .down {
+  animation: downq 1.2s infinite ease-out;
+}
+.layout .link .down span {
+  font-size: 30px;
+}
+[data-dpr="2"] .layout .link .down span {
+  font-size: 60px;
+}
+[data-dpr="2.5"] .layout .link .down span {
+  font-size: 75px;
+}
+[data-dpr="2.75"] .layout .link .down span {
+  font-size: 83px;
+}
+[data-dpr="3"] .layout .link .down span {
+  font-size: 90px;
+}
+[data-dpr="4"] .layout .link .down span {
+  font-size: 120px;
+}
+@keyframes downq {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0.23148148rem);
+  }
+}

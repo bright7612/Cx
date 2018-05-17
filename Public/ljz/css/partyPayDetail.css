@@ -1,0 +1,111 @@
+html {
+  font-size: 108px;
+}
+body {
+  width: 100%;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  font-size: 14px;
+}
+[data-dpr="2"] body {
+  font-size: 28px;
+}
+[data-dpr="2.5"] body {
+  font-size: 35px;
+}
+[data-dpr="2.75"] body {
+  font-size: 39px;
+}
+[data-dpr="3"] body {
+  font-size: 42px;
+}
+[data-dpr="4"] body {
+  font-size: 56px;
+}
+.layout {
+  width: 100%;
+  min-width: 320px;
+  margin: 0 auto;
+  padding: 0.17592593rem 0.15740741rem 0;
+}
+.layout section {
+  width: 100%;
+  padding: 0.11111111rem 0.32407407rem 0.2962963rem;
+  border: 0.03703704rem solid #0D99E1;
+  border-radius: 10px;
+  margin-bottom: 0.09259259rem;
+}
+.layout section p {
+  color: #686868;
+  font-size: 14px;
+  line-height: 0.66666667rem;
+}
+[data-dpr="2"] .layout section p {
+  font-size: 28px;
+}
+[data-dpr="2.5"] .layout section p {
+  font-size: 35px;
+}
+[data-dpr="2.75"] .layout section p {
+  font-size: 39px;
+}
+[data-dpr="3"] .layout section p {
+  font-size: 42px;
+}
+[data-dpr="4"] .layout section p {
+  font-size: 56px;
+}
+.layout section p span {
+  color: #000;
+}
+.layout .abstruct h1 {
+  color: #0D99E1;
+  font-size: 15px;
+  line-height: 1.09259259rem;
+  text-align: center;
+}
+[data-dpr="2"] .layout .abstruct h1 {
+  font-size: 30px;
+}
+[data-dpr="2.5"] .layout .abstruct h1 {
+  font-size: 38px;
+}
+[data-dpr="2.75"] .layout .abstruct h1 {
+  font-size: 41px;
+}
+[data-dpr="3"] .layout .abstruct h1 {
+  font-size: 45px;
+}
+[data-dpr="4"] .layout .abstruct h1 {
+  font-size: 60px;
+}
+.layout .abstruct .mt70 {
+  margin-top: 0.64814815rem;
+  text-align: right;
+}
+.layout .detail h2 {
+  color: #0D99E1;
+  font-size: 15px;
+  line-height: 0.82407407rem;
+  text-align: center;
+  margin-bottom: 0.56481481rem;
+}
+[data-dpr="2"] .layout .detail h2 {
+  font-size: 29px;
+}
+[data-dpr="2.5"] .layout .detail h2 {
+  font-size: 36px;
+}
+[data-dpr="2.75"] .layout .detail h2 {
+  font-size: 40px;
+}
+[data-dpr="3"] .layout .detail h2 {
+  font-size: 44px;
+}
+[data-dpr="4"] .layout .detail h2 {
+  font-size: 58px;
+}
+.layout .detail h3 {
+  color: #0D99E1;
+  text-align: center;
+}

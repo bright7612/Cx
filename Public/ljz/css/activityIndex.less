@@ -1,0 +1,60 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+}
+
+.layout{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background: url("../img/activityBg.jpg") no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+  overflow: hidden;
+  .culture, .organization, .benefit, .movie, .place, .shuji{
+    width: 280/108rem;
+    height: 250/108rem;
+    position: absolute;
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  .culture{
+    left: 240/108rem;
+    top: 420/108rem;
+  }
+  .organization{
+    left: 550/108rem;
+    top: 420/108rem;
+  }
+  .benefit{
+    left: 77/108rem;
+    top: 693/108rem;
+  }
+  .movie{
+    left: 710/108rem;
+    top: 693/108rem;
+  }
+  .place {
+    left: 240/108rem;
+    top: 970/108rem;
+  }
+  .shuji {
+    left: 550/108rem;
+    top: 970/108rem;
+  }
+  a{
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}

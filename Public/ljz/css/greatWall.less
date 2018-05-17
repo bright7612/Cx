@@ -1,0 +1,119 @@
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  font-family: 'microsoft yahei';
+  .font-size(28);
+}
+
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background: url("../img/greatWallBg.jpg") center center no-repeat;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  .btn-section {
+    margin-top: 420/108rem;
+    .btn{
+      width: 567/108rem;
+      height: 140/108rem;
+      color: #A62F00;
+      .font-size(35);
+      font-weight: bold;
+      font-family: '黑体';
+      text-align: center;
+      line-height: 131/108rem;
+      margin: 0 auto;
+      background-image: linear-gradient(180deg, #FFF169, #FDBE28);
+      border-bottom: 9px solid #C15C0F;
+      border-radius: 1000/108rem;
+      margin-bottom: 52/108rem;
+      a {
+        display: block;
+        color: #A62F00;
+      }
+    }
+  }
+
+  .bg {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    display: none;
+    .box {
+      width: 975/108rem;
+      max-height: 90%;
+      background-color: #FFF;
+      border-radius: 13/108rem;
+      padding: 38/108rem 46/108rem;
+      margin: 110/108rem auto 0;
+      overflow-y: auto;
+      .cancel-box {
+        padding: 5/108rem;
+        margin-bottom: 20/108rem;
+        span {
+          color: #848484;
+          .font-size(32);
+        }
+      }
+      .content-box {
+        width: 100%;
+        .intro {
+          width: 100%;
+          p {
+            color: #5F5F5F;
+            .font-size(30);
+            line-height: 64/108rem;
+            text-indent: 2em;
+            margin-bottom: 25/108rem;
+          }
+          img {
+            width: 100%;
+          }
+        }
+        .appoint {
+          padding: 68/108rem 0 0 35/108rem;
+          .appoint-list {
+            margin-bottom: 62/108rem;
+            p {
+              color: #5F5F5F;
+              .font-size(30);
+              line-height: 64/108rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

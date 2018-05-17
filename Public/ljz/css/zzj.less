@@ -1,0 +1,61 @@
+//设置根字体大小为108px
+html {
+  font-size:108px;
+  height: 100%;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  background-color: #F3F3F3;
+}
+.layout{
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  background: url("../img/zzj0.png") no-repeat;
+  background-size: 100% 100%;
+  overflow: hidden;
+  .btn{
+    width: 665/108rem;
+    height: 150/108rem;
+    .font-size(40);
+    line-height: 150/108rem;
+    text-align: center;
+    border: 3/108rem solid #FDBF28;
+    border-radius: 80/108rem;
+    background-color: #FED849;
+    margin: 0 auto;
+    background-image: linear-gradient(180deg, #FFF169, #FDBE28);
+    &:nth-child(1){
+      margin-top: 1350/108rem;
+    }
+    img{
+      width: 100/108rem;
+      height: 100/108rem;
+      vertical-align: middle;
+    }
+  }
+}

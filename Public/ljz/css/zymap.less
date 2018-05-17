@@ -1,0 +1,226 @@
+//设置根字体大小为108px
+html {
+  font-size: 108px;
+  height: 100%;
+  overflow: hidden;
+}
+
+//设置不同dpr下的字体大小
+.font-size(@px) {
+  font-size: round(@px / 2) * 1px;
+  [data-dpr="2"] & {
+    font-size: @px * 1px;
+  }
+  [data-dpr="2.5"] & {
+    font-size: round(@px * 2.5 / 2) * 1px;
+  }
+  [data-dpr="2.75"] & {
+    font-size: round(@px * 2.75 / 2) * 1px;
+  }
+  [data-dpr="3"] & {
+    font-size: round(@px * 3 / 2) * 1px;
+  }
+  [data-dpr="4"] & {
+    font-size: @px * 2px;
+  }
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  min-width: 320px;
+  font-family: 'microsoft yahei';
+  background-color: #FFF;
+  position: relative;
+}
+
+.bg {
+  background-color: rgba(0, 0, 0 ,0.5);
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 500;
+  display: none;
+}
+
+.layout {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.top {
+  width: 100%;
+  padding-top: 10/108rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  -webkit-transform: translateY(0);
+  -moz-transform: translateY(0);
+  -ms-transform: translateY(0);
+  -o-transform: translateY(0);
+  transform: translateY(0);;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  .to-list {
+    .font-size(30);
+    color: #fff;
+    line-height: 120/108rem;
+    background-color: #00a0e9;
+    border-radius: 5px;
+    padding: 0 20/108rem;
+    margin-left: 30/108rem;
+  }
+  .maptitle {
+    min-width: 50%;
+    line-height: 120/108rem;
+    color: #fff;
+    .font-size(30);
+    text-align: center;
+    background-color: #FF973B;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px #aaa;
+    margin-right: 30/108rem;
+    opacity: 0.8;
+  }
+}
+
+.bottom {
+  width: 100%;
+  height: 156/108rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20/108rem 30/108rem;
+  border-top: 2px solid #E2E2E2;
+  overflow-x: auto;
+  position: absolute;
+  bottom: 20/108rem;
+  left: 0;
+  z-index: 100;
+  .btm-ul{
+    //overflow-x: scroll;
+    width: 150%;
+    .btn {
+      float: left;
+      color: #FFF;
+      .font-size(30);
+      text-align: center;
+      line-height: 106/108rem;
+      padding: 0 5/108rem;
+      margin-right: 20/108rem;
+      background-color: #00a0e9;
+      &.active {
+        background-color: #FF973B;
+      }
+    }
+  }
+}
+
+.module{
+  display: none;
+  background-color: white;
+  border: 1px solid #c3c3c3;
+  position: absolute;
+  bottom: 15/108rem;
+  left: 30/108rem;
+  right: 30/108rem;
+  .module-info{
+    .arrow{
+      text-align: center;
+      line-height: 80/108rem;
+      i{
+        border-top: solid 5px #00a0e9;
+        border-right: solid 5px #00a0e9;
+        transform-origin:center center;
+        transform: rotate(-45deg) translate(0,8px);
+        display: inline-block;
+        width: 30/108rem;
+        height: 30/108rem;
+        margin: 0 auto;
+      }
+    }
+    .text{
+      padding: 10px 20px;
+      p{
+        .font-size(28);
+        line-height: 65/108rem;
+      }
+    }
+  }
+  .module-option{
+    border-top: 1px solid #c3c3c3;
+    span{
+      float: left;
+      width: 50%;
+      line-height: 120/108rem;
+      .font-size(28);
+      text-align: center;
+      &.mo-navi{
+        box-sizing: border-box;
+        border-right: 1px solid #c3c3c3;
+      }
+    }
+  }
+}
+
+.slidebar{
+  width: 80%;
+  height: 100%;
+  background-color: #FFF;
+  border-right: 1px solid #ccc;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  -webkit-transform: translateX(-100%);
+  -moz-transform: translateX(-100%);
+  -ms-transform: translateX(-100%);
+  -o-transform: translateX(-100%);
+  transform: translateX(-100%);;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  .slidebar-title{
+    width: 100%;
+    .font-size(30);
+    border-bottom: 1px solid #c3c3c3;
+    h2{
+      float: left;
+      .font-size(30);
+      padding-left: 30/108rem;
+      line-height: 120/108rem;
+    }
+    a{
+      float: right;
+      display: inline-block;
+      color: #FFF;
+      line-height: 120/108rem;
+      padding: 0 20/108rem;
+      background-color: #00a0e9;
+    }
+  }
+  .slidebar-content{
+    width: 100%;
+    height: 100%;
+    .font-size(28);
+    padding: 30/108rem 0 0 30/108rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    .list{
+      color: #7E8082;
+      padding: 20/108rem 0;
+      border-bottom: 1px solid #c3c3c3;
+    }
+  }
+}

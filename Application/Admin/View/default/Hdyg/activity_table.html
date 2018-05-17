@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>书记工作室工作记录表</title>
+    <style>
+        table, tr, td, th {
+            font-weight: normal;
+            font-size: 0.421cm;
+        }
+
+        table {
+            margin: 0 auto;
+            width: 100%;
+            border-collapse: collapse;
+            box-sizing: border-box;
+            letter-spacing: 1px;
+            table-layout: fixed;
+        }
+
+        tbody {
+            border: 1px solid black;
+        }
+
+        .caption {
+            font-size: 0.735cm;
+            padding-top: 1cm;
+            padding-bottom: 0.3cm;
+        }
+
+        .left {
+            text-align: left;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        tr td {
+            height: 1cm;
+            line-height:1cm;
+            border: 1px solid black;
+            word-break: break-all;
+        }
+
+        .img_td > img {
+            width: 9cm;
+            height: 6cm;
+            margin-top: 0.2cm;
+        }
+
+        .top_name {
+            height: 1cm;
+        }
+        .text01{
+            padding: 0.3cm;
+        }
+        #page1{
+            width: 19cm;
+            padding-left: 10cm;
+        }
+    </style>
+</head>
+<body>
+<div id="page1">
+    <table border="0" cellpadding="0" cellspacing="0" style="page-break-after:always">
+        <tr>
+            <th class="caption" colspan="6">合庆镇社区党建服务中心主题党日活动记录</th>
+        </tr>
+        <thead>
+        <tr class="top_name">
+            <th class="left" colspan="3">填表人&nbsp;:&nbsp;</th>
+            <th class="right" colspan="3">{$list.time|date='Y',###}&nbsp;年&nbsp;{$list.time|date='m',###}&nbsp;月&nbsp;{$list.time|date='d',###}&nbsp;日</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="center">活动主题</td>
+            <td class="center" colspan="5"> {$list.name}</td>
+        </tr>
+        <tr>
+            <td class="center">时&nbsp;间</td>
+            <td class="center" colspan="2">{$list.date}</td>
+            <td class="center">地&nbsp;点</td>
+            <td class="center" colspan="2">{$list.addr}</td>
+        </tr>
+        <tr>
+            <td class="center">参与对象</td>
+            <td class="center" colspan="5"></td>
+        </tr>
+        <tr>
+            <td class="center" colspan="6">活动照片</td>
+        </tr>
+        <tr>
+            <td class="center img_td" colspan="6">
+                <volist name="imgs" id="vo">
+                   <img src="{$vo.path}" alt="">
+                </volist>
+            </td>
+        </tr>
+        <tr>
+            <td class="center" colspan="6">活动记录</td>
+        </tr>
+        <tr>
+            <td class="text01" colspan="6">
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!--<div id="page2">-->
+    <!--<table border="0" cellpadding="0" cellspacing="0" style="page-break-after:always">-->
+        <!--<caption>合庆镇社区党校课程记录</caption>-->
+        <!--<thead>-->
+        <!--<tr class="top_name">-->
+            <!--<th class="left" colspan="3">填表人&nbsp;:&nbsp;李小亮</th>-->
+            <!--<th class="right" colspan="3">2012&nbsp;年&nbsp;8&nbsp;月&nbsp;12&nbsp;日</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr>-->
+            <!--<td class="center">课程主题</td>-->
+            <!--<td class="center" colspan="5"> 1111</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td class="center">时&nbsp;&nbsp;间</td>-->
+            <!--<td class="center" colspan="2"> 2011.01.2</td>-->
+            <!--<td class="center">地&nbsp;&nbsp;点</td>-->
+            <!--<td class="center" colspan="2">太平人寿大厦</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td class="center">授课单位</td>-->
+            <!--<td class="center" colspan="2"> 2011.01.2</td>-->
+            <!--<td class="center">讲&nbsp;&nbsp;师</td>-->
+            <!--<td class="center" colspan="2">李小亮</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td class="center">听课对象</td>-->
+            <!--<td class="center" colspan="2"> 全部老师</td>-->
+            <!--<td class="center">听课人数</td>-->
+            <!--<td class="center" colspan="2">40</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td class="center" colspan="6">课程照片</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td class="center img_td" colspan="6">-->
+                <!--<img src="../imgs/1.png" alt="">-->
+                <!--<img src="../imgs/1.png" alt="">-->
+                <!--<img src="../imgs/1.png" alt="">-->
+                <!--<img src="../imgs/1.png" alt="">-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td class="center" colspan="6">课程记录</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+            <!--<td class="text01" colspan="6">-->
+                <!--活动时间：2011年6月1日~9月30日-->
+                <!--预订且出发日期均在活动期间，通过携程网包含1-2晚住宿的短途巴士游，短途自驾游，短途轮船产品（具体请见各产品的“特别优惠”信息），每2位成人预订可获赠1人出行金额的不限额旅游抵用券。-->
+                <!--一日游，不固定天数的产品，行程在4日以上的产品不参与送券。-->
+                <!--本活动只适用于网上预订，非网上预订方式不可享受此活动。-->
+            <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
+<!--</div>-->
+</body>
+</html>
