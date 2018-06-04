@@ -22,7 +22,7 @@ class CxController extends Controller
         $id = I('category_id');
         $where['issue_id'] = $id;
         $where['status'] = 1;
-        $result = $Model->where($where)->field('id,time,title,host,lat,lng,teacher,num,content,addr')->select();
+        $result = $Model->where($where)->field('id,time,title,host,lat,lng,teacher,content,addr')->select();
 
 
         foreach ($result as $k=>&$v){
@@ -82,15 +82,17 @@ class CxController extends Controller
     //预约接口
     public function bespoke()
     {
-        $Model = M('bespoke');
-        $id = I('id');
+        $Model = M('sign_bespoke');
+        $id = I('content_id');
         $data['content_id'] = $id;
         $data['phone'] = I('phone');
         $data['name'] = I('name');
         $data['organization'] = I('organization');
         $data['company'] = I('company');
         $data['bespoke_num'] = I('bespoke_num');
-        $data['type'] = I('type');
+        $data['types'] = I('type');
+        $data['source'] = 2;   //2代表大屏预约
+        $data['identity'] = I('ID_card');
         $data['cre_time'] = date('Y-m-d H:i:s',time());
 
         $record = $Model->add($data);
@@ -116,5 +118,23 @@ class CxController extends Controller
         }
 
         $this->display();
+    }
+
+
+    public function wxInfo()
+    {
+        $Model = M('qd','ljz_','DB_M');
+        $res = $Model->field('id,headimgurl')->limit(0,50)->select();
+        echo json_encode(array('status'=>1,'msg'=>'请求成功','data'=>$res));
+    }
+
+    public function wxUser()
+    {
+        $Model = M('qd','ljz_','DB_M');
+        $id = I('id');
+        $where['id'] = $id;
+        $res = $Model->where($where)->field('id,headimgurl')->find();
+
+        echo json_encode(array('status'=>1,'msg'=>'请求成功','data'=>$res));
     }
 }

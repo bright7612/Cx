@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <title>党员微笑墙</title>
+    <link rel="stylesheet" href="__SMILE__/css/index.css" />
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <article v-cloak id="app" class="wrapper">
+        <section class="people-box">
+            <div v-for="item in imgList" class="people"
+                 :style="{width:item.width+'px', height:item.width+'px', top:item.top+'px', left:item.left+'px'}"
+            >
+                <img :src="item.img" />
+            </div>
+        </section>
+        <section class="intro-box">
+            <p class="intro-name">
+                <span class="img">
+                    <img src="{$user.headimgurl}" />
+                </span>
+                <span class="text">您好，{$nickname}</span>
+            </p>
+            <p class="intro-rank">
+                <span>您是第</span>
+                <span class="num">578</span>
+                <span>位参与互动的党员</span>
+            </p>
+            <div class="qrcode">
+                <div class="qrcode-box">
+                    <img src="__SMILE__/imgs/EdSheeran.jpg" />
+                </div>
+                <p class="qrcode-text">请扫描二维码</p>
+                <p class="qrcode-text">留下您的足迹</p>
+            </div>
+        </section>
+    </article>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="__SMILE__/js/index.js"></script>
+</body>
+</html>

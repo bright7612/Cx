@@ -12,9 +12,6 @@ class CxController extends AdminController{
         $uid = $user['uid'];
 
 
-        echo $groupid . '<br/>';
-        echo  $uid;
-
         if($type){
             $fatherId1 =  $category->where('id='.$type)->getField('pid');
 
