@@ -34,13 +34,13 @@
             </p>
             <p class="intro-rank">
                 <span>您是第</span>
-                <span class="num">{$user.id}</span>
+                <span ref="session" class="num">{$user.wall_id}</span>
                 <span>位参与互动的党员</span>
             </p>
         </section>
 
         <section class="people-box">
-            <div v-for="item in imgList" class="people"
+            <div v-for="item in imgData" class="people"
                  :style="{width:item.width/75+'rem', height:item.width/75+'rem', top:item.top/75+'rem', left:item.left/75+'rem'}"
             >
                 <img :src="item.img" />
@@ -51,6 +51,6 @@
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script src="__SMILE__/js/indexMobile.js?v=1.1"></script>
+    <script src="__SMILE__/js/indexMobile.js?v=1.3"></script>
 </body>
 </html>

@@ -16,7 +16,7 @@
 <body>
     <article v-cloak id="app" class="wrapper">
         <section class="people-box">
-            <div v-for="item in imgList" class="people"
+            <div v-for="item in imgData" class="people"
                  :style="{width:item.width+'px', height:item.width+'px', top:item.top+'px', left:item.left+'px'}"
             >
                 <img :src="item.img" />
@@ -25,18 +25,18 @@
         <section class="intro-box">
             <p class="intro-name">
                 <span class="img">
-                    <img src="{$user.headimgurl}" />
+                    <img :src="user.headimgurl" />
                 </span>
-                <span class="text">您好，{$nickname}</span>
+                <span class="text">您好，{{user.nickname}}</span>
             </p>
             <p class="intro-rank">
                 <span>您是第</span>
-                <span class="num">578</span>
+                <span class="num">{{user.wall_id}}</span>
                 <span>位参与互动的党员</span>
             </p>
             <div class="qrcode">
                 <div class="qrcode-box">
-                    <img src="__SMILE__/imgs/EdSheeran.jpg" />
+                    <img src="/Public/dywxq/imgs/ewm.png" />
                 </div>
                 <p class="qrcode-text">请扫描二维码</p>
                 <p class="qrcode-text">留下您的足迹</p>

@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <title>个人中心</title>
+    <!-- 引入css文件 -->
+    <link rel="stylesheet" href="/dangjian/css/index-style.css">
+    <!-- 引入require及config文件  -->
+    <script src="/dangjian/js/lib/require.min.js"></script>
+    <script src="/dangjian/js/require-config.js"></script>
+    <script>
+      requirejs({
+        baseUrl: "/dangjian/js"
+      })
+    </script>
+</head>
+<body class="page personal">
+
+    <!-- personal-home -->
+    <header class="personal-header">
+
+        <div class="personal-header-photo">
+
+            <a href="javascript:">
+
+                <div class="photo">
+
+                    <img src="{$user['headimgurl']}" alt="{$user['nickname']}">
+
+                </div>
+
+                <span class="name">{$user['nickname']}</span>
+
+            </a>
+
+        </div>
+
+    </header>
+    <!-- personal-header end-->
+
+    <!-- personal-container -->
+    <section class="personal-container">
+
+        <div class="personal-container-sign">
+
+            <a href="javascript:" class="item">
+
+                <span class="item-left">
+
+                    <i class="iconfont icon-location"></i>
+
+                    <span>签到</span>
+
+                </span>
+
+                <span class="item-right">
+
+                    <span class="item-right-message">有2条未签到消息</span>
+                    <!--<span>其他</span>-->
+
+                    <i class="iconfont icon-you"></i>
+
+                </span>
+
+            </a>
+
+        </div>
+
+        <div class="personal-container-list">
+
+            <div class="p_item">
+
+                <a href="det.html">
+
+                    <span class="p_item-left">
+
+                        <span class="p_icon p_icon-color1">
+                            <i class="iconfont icon-yuyue"></i>
+                        </span>
+
+                        <span>我的预约</span>
+
+                    </span>
+
+                    <span class="p_item-right">
+
+                        <i class="iconfont icon-you"></i>
+
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="p_item">
+
+                <a href="javascript:">
+
+                    <span class="p_item-left">
+
+                        <span class="p_icon p_icon-color2">
+                            <i class="iconfont icon-xinyuan"></i>
+                        </span>
+
+                        <span>我的微心愿</span>
+
+                    </span>
+
+                    <span class="p_item-right">
+
+                        <i class="iconfont icon-you"></i>
+
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="p_item">
+
+                <a href="javascript:">
+
+                    <span class="p_item-left">
+
+                        <span class="p_icon p_icon-color3">
+                            <i class="iconfont icon-zhongchouh5erqizhichi"></i>
+                        </span>
+
+                        <span>我的众筹服务</span>
+
+                    </span>
+
+                    <span class="p_item-right">
+
+                        <i class="iconfont icon-you"></i>
+
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="p_item">
+
+                <a href="javascript:">
+
+                    <span class="p_item-left">
+
+                        <span class="p_icon p_icon-color4">
+                            <i class="iconfont icon-xiangmu"></i>
+                        </span>
+
+                        <span>我的项目直通车</span>
+
+                    </span>
+
+                    <span class="p_item-right">
+
+                        <i class="iconfont icon-you"></i>
+
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="p_item">
+
+                <a href="javascript:">
+
+                    <span class="p_item-left">
+
+                        <span class="p_icon p_icon-color5">
+                            <i class="iconfont icon-huati"></i>
+                        </span>
+
+                        <span>对党说说心里话</span>
+
+                    </span>
+
+                    <span class="p_item-right">
+
+                        <i class="iconfont icon-you"></i>
+
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="p_item">
+
+                <a href="javascript:">
+
+                    <span class="p_item-left">
+
+                        <span class="p_icon p_icon-color6">
+                            <i class="iconfont icon-Icon_jifen"></i>
+                        </span>
+
+                        <span>我的积分</span>
+
+                    </span>
+
+                    <span class="p_item-right">
+
+                        <i class="iconfont icon-you"></i>
+
+                    </span>
+
+                </a>
+
+            </div>
+
+            <div class="p_item">
+
+                <a href="javascript:">
+
+                    <span class="p_item-left">
+
+                        <span class="p_icon p_icon-color7">
+                            <i class="iconfont icon-weixiao"></i>
+                        </span>
+
+                        <span>我的微笑墙</span>
+
+                    </span>
+
+                    <span class="p_item-right">
+
+                        <i class="iconfont icon-you"></i>
+
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="personal-container-list">
+
+            <div class="p_item">
+
+                <a href="javascript:">
+
+                    <span class="p_item-left">
+
+                        <span class="p_icon p_icon-color8">
+                            <i class="iconfont icon-xiaogegeyizhuanhuan_gerenziliao"></i>
+                        </span>
+
+                        <span>个人资料</span>
+
+                    </span>
+
+                    <span class="p_item-right">
+
+                        <i class="iconfont icon-you"></i>
+
+                    </span>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+    <!-- personal-container end-->
+
+</body>
+</html>

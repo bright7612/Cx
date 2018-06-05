@@ -12,34 +12,6 @@ header('Access-Control-Allow-Headers:x-requested-with,content-type');
 
 class SmileController extends  Controller
 {
-    private  $APPID = 'wxae5fd28d839d907d';
-    private $APPSECRET = '356ec528af355a9f31484d7a8c06969e';
-
-
-    public function _initialize()
-    {
-        if(time()>$_SESSION['wx_access_token']['time']){
-            $this->access_token_url();
-        }
-    }
-
-    /*
-    * 获取  access_token
-    * */
-    public function access_token_url(){
-
-        $token_access_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxae5fd28d839d907d&secret=356ec528af355a9f31484d7a8c06969e";
-
-//        $res = file_get_contents($token_access_url); //获取文件内容或获取网络请求的内容
-//
-        $res = $this->httpGet($token_access_url);
-//        dump($res);die;
-        $result = json_decode($res, true); //接受一个 JSON 格式的字符串并且把它转换为 PHP 变量
-//        $access_token = $result['access_token'];
-        $_SESSION['wx_access_token'] =  $result;
-        $_SESSION['wx_access_token']['time'] = time()+$result['expires_in']-1000;
-
-    }
 
     public function headimg()
     {
@@ -96,29 +68,27 @@ class SmileController extends  Controller
                 '47'=>array('id'=>'48','width'=>'44','top'=>'394','left'=>'432','img'=>''),
                 '48'=>array('id'=>'49','width'=>'24','top'=>'479','left'=>'433','img'=>''),
                 '49'=>array('id'=>'50','width'=>'34','top'=>'447','left'=>'448','img'=>''),
-                '49'=>array('id'=>'51','width'=>'29','top'=>'424','left'=>'477','img'=>''),
+                '50'=>array('id'=>'51','width'=>'29','top'=>'424','left'=>'477','img'=>''),
 
             );
 
-            $Model = M('qd');
-            if($id <= 51){
-                $headimgs = $Model->field('id,headimgurl')->limit(0,$id)->select();
+            $Model = M('wxuser');
+            $where['wall'] = 1 ;
+            $where['wall_id'] = array('elt',$id);
 
-                foreach ($array_user as $k=>&$v){
-                    if($v['id'] == $headimgs[$k]['id']){
-                        $v['img'] = $headimgs[$k]['headimgurl'] ;
-                    }
+                $headimgs = $Model->field('id,headimgurl,wall_id')->where($where)->order('wall_id desc')->limit(51)->select();
+
+//
+                foreach ($headimgs as  $k=>$v){
+                    $array_user[$k]['id'] = $v['wall_id'];
+                    $array_user[$k]['img'] = $v['headimgurl'];
                 }
 
-            }elseif($id > 50){
-                $start = $id -51;
-                $headimgs = $Model->field('id,headimgurl')->limit($start,51)->order('id ASC')->select();
-
-                foreach ($array_user as $k=>&$v){
-                    $v['img'] = $headimgs[$k]['headimgurl'] ;
-                    $v['id'] = $headimgs[$k]['id'] ;
-                }
-            }
+//                foreach ($array_user as $k=>&$v){
+//                    if($v['img'] == ''){
+//                        $v['img'] = "http://thirdwx.qlogo.cn/mmopen/vi_32/5CoPhAIQLUBoWAkfBVZCHzr2ydLEPO0hTKy2t7jZTjtk1picnG04E2Zgp73AIyC9EwibxzRH3knicDGEY4fibuPL6w/132";
+//                    }
+//                }
 
             echo json_encode(array('status'=>1,'msg'=>'请求成功','data'=>$array_user));
 
@@ -130,14 +100,32 @@ class SmileController extends  Controller
 
     public function index()
     {
+        setcookie('wxuserOpenid');
+        $Model = M('wxuser');
+        $wx = A('Home/Wxindex');
+        $redirect_uri = 'http://cxdj.cmlzjz.com/Dyuuu/Smile/index/';
 
-        if(!$_REQUEST['id']){
-            $this->getcode();
+        if(!$_COOKIE['wxuserOpenid']){
+            $wx->Wxindex($redirect_uri);
+        }
+        $openid = base64_decode($_COOKIE['wxuserOpenid']);
+        $record = $Model->where(array('openid'=>$openid))->find();
+
+        //wall_id 代表扫过党员微笑墙的排名
+        if($record['wall_id'] == 0){
+            $where['wall_id'] = array('neq','0');
+            $count = $Model->where($where)->count();
+
+            $data['wall_id'] = $count+1;
+            $data['wall'] = 1;
+            $data['id'] = $record['id'];
+            $res = $Model->where()->save($data);
         }
 
-
-        $user = M('qd')->where(array('id'=>$_REQUEST['id']))->find();
+        $user = $Model->where(array('openid'=>$openid))->find();
         $this->assign('user',$user);
+
+
         $this->display('indexMobile');
     }
 
@@ -150,10 +138,10 @@ class SmileController extends  Controller
     //检测是不是最新一条
     public function check_new()
     {
-        $Model = M('qd');
+        $Model = M('wxuser');
        $id = I('id');
         if($id){
-            $user = $Model->field('id,headimgurl,nickname')->limit(0,1)->order('id DESC')->find();
+            $user = $Model->field('id,headimgurl,nickname')->limit(0,1)->order('wall_id DESC')->find();
             if($user['id'] > $id){
                 echo json_encode(array('status'=>1,'data'=>true));
             }else{
@@ -166,7 +154,7 @@ class SmileController extends  Controller
 
     public function pc_headimg()
     {
-        $Model = M('qd');
+        $Model = M('wxuser');
         $users = array(
             '0'=>array('id'=>'1','width'=>'94','top'=>'628','left'=>'18','img'=>''),
             '1'=>array('id'=>'2','width'=>'56','top'=>'522','left'=>'41','img'=>''),
@@ -222,107 +210,25 @@ class SmileController extends  Controller
         );
 
         //获取51条最新数据
-        $headimgs = $Model->field('id,headimgurl')->limit(0,51)->order('id DESC')->select();
+        $headimgs = $Model->field('id,headimgurl')->limit(0,51)->order('wall_id DESC')->select();
 
         foreach ($users as $k=>&$v){
-            $v['id'] = $headimgs[$k]['id'];
+            $v['id'] = $headimgs[$k]['wall_id'];
             $v['img'] = $headimgs[$k]['headimgurl'];
         }
-        $user = $Model->field('id,headimgurl,nickname')->limit(0,1)->order('id DESC')->find();
+
+        foreach ($users as $k=>&$v){
+                    if($v['img'] == ''){
+                        $v['img'] = "http://thirdwx.qlogo.cn/mmopen/vi_32/5CoPhAIQLUBoWAkfBVZCHzr2ydLEPO0hTKy2t7jZTjtk1picnG04E2Zgp73AIyC9EwibxzRH3knicDGEY4fibuPL6w/132";
+                    }
+                }
+
+        $user = $Model->field('id,headimgurl,nickname,wall_id')->limit(0,1)->order('wall_id DESC')->find();
 
         echo json_encode(array('status'=>1,'msg'=>'请求成功','data'=>array('list'=>$users,'user'=>$user)));
     }
 
 
-
-    /*
-   * 获取code值
-   * 若未授权则跳转授权页面
-   * 最终返回值为 用户 OpenID*/
-    public function getcode(){
-
-        $redirect_uri = 'http://hqdj.cmlzjz.com/Dyuuu/Smile/user/';
-        $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='. $this->APPID .'&redirect_uri='. $redirect_uri .'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect ' ;
-//        $url = ' https://open.weixin.qq.com/connect/oauth2/authorize?appid='. $this->APPID .'&redirect_uri='.$redirect_uri.'&response_type=code&scope=SCOPE&state=STATE#wechat_redirect' ;
-        echo "<script language=\"javascript\">";
-        echo "document.location=\"" . $url . "\"";
-        echo "</script>";
-        exit;
-    }
-
-
-    /*
- * 获取用户信息添加用户*/
-    public function user(){
-        if($_GET['code']){
-            $url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$this->APPID.'&secret='.$this->APPSECRET.'&code='.$_GET['code'].'&grant_type=authorization_code';
-            $res = file_get_contents($url); //获取文件内容或获取网络请求的内容
-            $result = json_decode($res, true); //接受一个 JSON 格式的字符串并且把它转换为 PHP 变量
-
-//            //获取用用户信息
-//            $user = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=".$result['access_token']."&openid=".$result['openid']."&lang=zh_CN";
-//            $user = $this->httpGet($user);
-//            $users = json_decode($user,true);
-//
-//            //判断用户是否关注公共号 0 未关注 1 关注
-//            if($users['subscribe'] == 0){
-//
-//                echo "<script language=\"javascript\">";
-//                echo "document.location='https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzIyMDA1ODYyMg==&scene=124#wechat_redirect'";
-//                echo "</script>";
-//                exit;
-//            }
-
-            if($result['openid']){
-                $url2 = 'https://api.weixin.qq.com/sns/userinfo?access_token='.$result['access_token'].'&openid='.$result['openid'].'&lang=zh_CN';
-                $res2 = file_get_contents($url2); //获取文件内容或获取网络请求的内容
-                $result2 = json_decode($res2,true); //接受一个 JSON 格式的字符串并且把它转换为 PHP 变量
-                $ids =   M('qd')->where(array('openid'=>$result2['openid']))->find()  ;
-                if($ids){
-                    echo "<script language=\"javascript\">";
-                    echo "document.location=\"http://hqdj.cmlzjz.com/Dyuuu/Smile/index/id/".$ids['id']."\"";
-                    echo "</script>";
-                    exit;
-//
-                }else{
-                    $data['openid'] = $result2['openid'];
-                    $data['headimgurl'] = $result2['headimgurl'];
-                    $data['sex'] = $result2['sex'];
-                    $data['nickname'] = $result2['nickname'];
-                    $id =   M('qd')->add($data)  ;
-                    if($id){
-                        echo "<script language=\"javascript\">";
-                        echo "document.location=\"http://hqdj.cmlzjz.com/Dyuuu/Smile/index/id/".$id."\"";
-                        echo "</script>";
-                        exit;
-                    }
-                }
-            } else{
-
-                $this->getcode();
-            }
-        }else{
-            $this->getcode();
-        }
-    }
-
-
-    public function httpGet($url)
-    {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 500);
-        // 为保证第三方服务器与微信服务器之间数据传输的安全性，所有微信接口采用https方式调用，必须使用下面2行代码打开ssl安全校验。
-        // 如果在部署过程中代码在此处验证失败，请到 http://curl.haxx.se/ca/cacert.pem 下载新的证书判别文件。
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, true);
-        curl_setopt($curl, CURLOPT_URL, $url);
-
-        $res = curl_exec($curl);
-        curl_close($curl);
-
-        return $res;
-    }
 
 
 }

@@ -37,22 +37,5 @@ return array(
         '__SMILE__' => __ROOT__ . '/Public/dywxq',
 
     ),
-
-
-
-
-    'NEED_VERIFY'=>true,//此处控制默认是否需要审核，该配置项为了便于部署起见，暂时通过在此修改来设定。
-    'URL_MODEL' => '2',
-    'SERVER_IP' => "139.196.184.43",
-    /* 数据库配置 */
-
-    'DB_TYPE'   => 'mysqli', // 数据库类型
-    'DB_HOST'   => '139.196.184.43', // 服务器地址
-    'DB_NAME'   => 'clysh', // 数据库名
-    'DB_USER'   => 'clysh', // 用户名
-    'DB_PWD'    => 'wiseljz123',  // 密码
-    'DB_PORT'   => '3306', // 端口
-    'DB_PREFIX' => 'ljz_', // 数据库表前缀
-
 );
 

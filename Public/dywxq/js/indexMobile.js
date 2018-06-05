@@ -359,6 +359,30 @@ var app = new Vue({
                 left: 477,
                 img: './imgs/EdSheeran.jpg',
             }
-        ]
+        ],
+        imgData: []
+    },
+    methods: {
+        getImageData: function (session) {
+            var _this = this;
+            axios.get('http://cxdj.cmlzjz.com/dyuuu/smile/headimg',{
+                params:{
+                    id: session
+                }
+            })
+            .then(function(res){
+                var data = res.data;
+                if (data.status === 1) {
+                    _this.imgData = data.data;
+                }
+            })
+            .catch(function(error){
+                console.log(error)
+            });
+        }
+    },
+    mounted: function () {
+        var session = this.$refs.session.innerText;
+        this.getImageData(session);
     }
 });
