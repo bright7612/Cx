@@ -12,7 +12,7 @@ class CxController extends Controller
 {
     public function index()
     {
-            echo 'this is a test file ';exit();
+      $this->display('index');
     }
 
     //地图数据接口
@@ -27,6 +27,7 @@ class CxController extends Controller
 
         foreach ($result as $k=>&$v){
             $v['content'] =   preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($v['content'],""));  //过滤标签和空格
+            $v['time'] = date('Y-m-d H:i');
         }
 
         if($result){
@@ -37,18 +38,31 @@ class CxController extends Controller
 
     }
 
-    public function mapList()
+    public function activityList()
     {
 
         $id = I('category_id');
         $result = D('Cx')->mapCommon($id);
         foreach ($result as $k=>&$v){
             $v['content'] =   preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($v['content'],""));  //过滤标签和空格
+            $v['time'] = date('Y-m-d H:i');
+         }
+        $this->assign('mapList',$result[0]);
+        $this->display('activity_order');
+
+    }
+
+    public function classList()
+    {
+
+        $id = I('category_id');
+        $result = D('Cx')->mapCommon($id);
+        foreach ($result as $k=>&$v){
+            $v['content'] =   preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($v['content'],""));  //过滤标签和空格
+            $v['time'] = date('Y-m-d H:i');
         }
-
-        $this->assign('mapList',$result);
-        $this->display();
-
+        $this->assign('classList',$result[0]);
+        $this->display('theme_party');
 
     }
 
@@ -69,21 +83,31 @@ class CxController extends Controller
     }
 
 
+    //预约页面
     public function bespoke_index()
     {
-        $id = I('category_id');
+        $id = I('dataId');
         $res = D('Cx')->mapCommon($id);
-        $y_num = $res[0]['y_num']; //剩余可预约数
 
-        $this->assign('y_num',$y_num);
-        $this->display();
+        $y_num = $res[0]['y_num']; //已经预约数
+
+        if($y_num == ''){
+            $k_num = $res[0]['num'];
+        }else{
+            $k_num = $res[0]['k_num']; //剩余可预约数
+        }
+
+
+
+        $this->assign('k_num',$k_num);
+        $this->display('order');
     }
 
     //预约接口
     public function bespoke()
     {
         $Model = M('sign_bespoke');
-        $id = I('content_id');
+        $id = I('id');
         $data['content_id'] = $id;
         $data['phone'] = I('phone');
         $data['name'] = I('name');
@@ -93,8 +117,8 @@ class CxController extends Controller
         $data['types'] = I('type');
         $data['source'] = 2;   //2代表大屏预约
         $data['identity'] = I('ID_card');
+        $data['text'] = I('text');
         $data['cre_time'] = date('Y-m-d H:i:s',time());
-
         $record = $Model->add($data);
 
         if($record){

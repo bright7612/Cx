@@ -6,13 +6,13 @@
     <meta name="format-detection" content="telephone=no"/>
     <meta name="format-detection" content="email=no"/>
     <title>服务预约系统</title>
-    <link rel="stylesheet" href="../css/order.css">
+    <link rel="stylesheet" href="__CX__/css/order.css">
 </head>
 <body>
 <header class="header2">
     <p>
         <!--标题-->
-        <span class="title2">主题党课</span>
+        <span class="title2">党建活动预约</span>
         <!--返回按钮-->
         <a class="return" href="javascript:history.back(-1);">
             <span class="iconfont icon-fanhui"></span>
@@ -23,24 +23,23 @@
 <article class="content2 activity_order">
     <p class="title">
         <span class="mark1"></span>
-        <span class="font1">认真学习党史，努力贯彻十九大精神</span>
+        <span class="font1">{$mapList.title}</span>
     </p>
     <div class="list_box">
         <ul>
-            <li>时间：2018-4-20 09:30</li>
-            <li>地点：长兴县商城路1177弄12号</li>
-            <li>组织单位：林山居民区党组织</li>
-            <li>授课老师：李亮</li>
-            <li>教室容量：50/100</li>
-            <li class="act_cont">党课内容：通过党员互动讨论深化党建精神学习</li>
+            <li>活动时间：{$mapList.time}</li>
+            <li>活动地点：{$mapList.addr}</li>
+            <li>组织单位：{$mapList.host}</li>
+            <li>活动人数：{$mapList.num}人</li>
+            <li class="act_cont">活动内容：{$mapList.content}</li>
         </ul>
         <div class="img_box">
-            <img src="../imgs/ewm.jpg" alt="">
+            <img src="__CX__/imgs/ewm.jpg" alt="">
             <p>扫描二维码进行预约</p>
         </div>
     </div>
-    <p class="btn_box">
-        <a href="order.html">预约</a>
+    <p class="btn_box btn_order">
+        <a href="/Cx/Cx/bespoke_index.html?dataId={$mapList.id}">预约</a>
     </p>
 </article>
 </body>

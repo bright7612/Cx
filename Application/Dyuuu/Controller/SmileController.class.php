@@ -100,33 +100,60 @@ class SmileController extends  Controller
 
     public function index()
     {
-        setcookie('wxuserOpenid');
-        $Model = M('wxuser');
-        $wx = A('Home/Wxindex');
-        $redirect_uri = 'http://cxdj.cmlzjz.com/Dyuuu/Smile/index/';
+        //$type=1 表示大屏扫描进来的
+            $type = I('type');
+        if($type == 1){
 
-        if(!$_COOKIE['wxuserOpenid']){
-            $wx->Wxindex($redirect_uri);
+            setcookie('wxuserOpenid');
+            $Model = M('wxuser');
+            $wx = A('Home/Wxindex');
+            $redirect_uri = 'http://cxdj.cmlzjz.com/Dyuuu/Smile/index/type/1';
+
+            if(!$_COOKIE['wxuserOpenid']){
+                $wx->Wxindex($redirect_uri);
+            }
+            $openid = base64_decode($_COOKIE['wxuserOpenid']);
+            $record = $Model->where(array('openid'=>$openid))->find();
+
+            //wall_id 代表扫过党员微笑墙的排名
+            if($record['wall'] == 0){
+                $where['wall_id'] = array('neq','0');
+                $count = $Model->where($where)->count();
+
+                $data['wall_id'] = $count+1;
+                $data['wall'] = 1;
+                $data['id'] = $record['id'];
+                $res = $Model->where()->save($data);
+            }
+
+            $user = $Model->where(array('openid'=>$openid))->find();
+            $this->assign('user',$user);
+            $this->display('indexMobile');
+
+        }else{
+
+            setcookie('wxuserOpenid');
+            $Model = M('wxuser');
+            $wx = A('Home/Wxindex');
+            $redirect_uri = 'http://cxdj.cmlzjz.com/Dyuuu/Smile/index/';
+
+            if(!$_COOKIE['wxuserOpenid']){
+                $wx->Wxindex($redirect_uri);
+            }
+            $openid = base64_decode($_COOKIE['wxuserOpenid']);
+            $record = $Model->where(array('openid'=>$openid))->find();
+            $this->assign('user',$record);
+
+            if($record['wall'] == 1){
+                $this->display('indexMobile');
+                exit();
+            }else{
+                $this->display('indexMobile2');
+            }
+
+
         }
-        $openid = base64_decode($_COOKIE['wxuserOpenid']);
-        $record = $Model->where(array('openid'=>$openid))->find();
 
-        //wall_id 代表扫过党员微笑墙的排名
-        if($record['wall_id'] == 0){
-            $where['wall_id'] = array('neq','0');
-            $count = $Model->where($where)->count();
-
-            $data['wall_id'] = $count+1;
-            $data['wall'] = 1;
-            $data['id'] = $record['id'];
-            $res = $Model->where()->save($data);
-        }
-
-        $user = $Model->where(array('openid'=>$openid))->find();
-        $this->assign('user',$user);
-
-
-        $this->display('indexMobile');
     }
 
     //大屏微笑墙首页

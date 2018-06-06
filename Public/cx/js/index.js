@@ -61,7 +61,7 @@ $(function () {
         var data;
         $.ajax({
             type: "GET",
-            url: "http://192.168.1.254/cx/cx/mapData",
+            url: "http://cxdj.cmlzjz.com/cx/cx/mapData",
             data: {category_id: a},
             dataType: "json",
             success: function (e) {
@@ -87,7 +87,7 @@ $(function () {
 
     //地图上添加点的标识
     function addMarker(point, data) {
-        var myIcon = new BMap.Icon("imgs/marker.png", new BMap.Size(54, 61));
+        var myIcon = new BMap.Icon("/Public/cx/imgs/marker.png", new BMap.Size(54, 61));
         var marker = new BMap.Marker(point, {icon: myIcon});
         // var marker = new BMap.Marker(point);
         marker.data = data;
@@ -107,14 +107,15 @@ $(function () {
         var listData = marker.data;
         //渲染数据
         show = true;
-        if (dataId == 82) {
-            $('#mapMark').html(template('text1', listData));
-            $('#mapMark').show();
+        var dates={
+            list:listData
         }
-        if (dataId == 88) {
-            $('#mapMark').html(template('text2', listData));
-            $('#mapMark').show();
-        }
+        var position = {
+            '82': 'text1',
+            '88': 'text2'
+        };
+        $('#mapMark').html(template(position[dataId], dates));
+        $('#mapMark').show();
     }
 
     $('.right .mapMark').on('click', '.close', function () {

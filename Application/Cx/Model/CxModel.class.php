@@ -19,12 +19,13 @@ class CxModel extends Model
                                     (content.num-sum(bespoke.bespoke_num)) AS k_num
                                 
                                 FROM
-                                    ljz_issue_content AS content
-                                JOIN ljz_bespoke AS bespoke ON bespoke.content_id = content.id
+                                    cxdj_issue_content AS content
+                                JOIN cxdj_sign_bespoke AS bespoke ON bespoke.content_id = content.id
                                 WHERE
-                                    `status` = 1
+                                    content.`status` = 1
                                 AND
-                                     issue_id = $category_id");
+                                     content.id = $category_id");
        return $res;
+
     }
 }
