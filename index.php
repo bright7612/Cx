@@ -47,6 +47,7 @@ define ('APP_DEBUG', true);
 
 define ('APP_PATH', './Application/');
 
+
 /**
  *  主题目录 OpenCenter模板地址 （与ThinkPHP中的THEME_PATH不同）
  *  @author 郑钟良<zzl@ourstu.com>

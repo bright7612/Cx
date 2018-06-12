@@ -76,8 +76,8 @@ class IssueController extends AdminController
         if (IS_POST) {
             if ($id != 0) {
                 $issue = $this->issueModel->create();
-                $pidinfo = M("issue")->where('id='.$id)->getField('pid');
-                if (M("issue")->where('id='.$pidinfo)->find()){
+                $pidinfo = M("dk_issue")->where('id='.$id)->getField('pid');
+                if (M("dk_issue")->where('id='.$pidinfo)->find()){
                     $issue['lv'] = 1+M("issue")->where('id='.$pidinfo)->getField('lv');
                 }else{
                     $issue['lv'] = 0;
@@ -90,7 +90,11 @@ class IssueController extends AdminController
                 }
             } else {
                 $issue = $this->issueModel->create();
-                $issue['lv'] = 1+M("issue")->where('id='.$pid)->getField('lv');
+                if ($pid != 0){
+                    $issue['lv'] = 1+M("issue")->where('id='.$pid)->getField('lv');
+                }else{
+                    $issue['lv'] = 0;
+                }
                 if ($this->issueModel->add($issue)) {
 
                     $this->success(L('_SUCCESS_ADD_'));

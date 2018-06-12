@@ -57,6 +57,7 @@ return array(
         '__CSS__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/css',
         '__JS__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/js',
         '__ZUI__' => __ROOT__ . '/Application/' . MODULE_NAME . '/Static/zui',
+        '__ECHART__' => __ROOT__ . '/Application/' . MODULE_NAME . '/echart/js'
     ),
     'UPDATE_PATH'=>'./Data/Update/',
     'CLOUD_PATH'=>'./Data/Cloud/',
