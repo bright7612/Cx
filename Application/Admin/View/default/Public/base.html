@@ -174,12 +174,12 @@
                                                             <ul >
                                                                 <volist name="vo1['issuemenus']" id="vo2">
                                                                     <li class="{$vo2.class}">
-                                                                        <a href="/index.php?s=admin/Cx/{$actionname}/type/{$vo2.id}.html">{$vo2.title}</a>
+                                                                        <a href="/index.php?s=admin/{$accontroller}/{$actionname}/type/{$vo2.id}.html">{$vo2.title}</a>
                                                                     </li>
                                                                 </volist>
                                                             </ul>
                                                             <else />
-                                                            <a href="/index.php?s=admin/Cx/{$actionname}/type/{$vo1.id}.html">{$vo1.title}</a>
+                                                            <a href="/index.php?s=admin/{$accontroller}/{$actionname}/type/{$vo1.id}.html">{$vo1.title}</a>
                                                         </if>
 
                                                     </li>

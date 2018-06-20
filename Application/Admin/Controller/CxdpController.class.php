@@ -11,7 +11,6 @@ class CxdpController extends AdminController{
         $user = session('user_auth');
         $uid = $user['uid'];
 
-
         if($type){
             $fatherId1 =  $category->where('id='.$type)->getField('pid');
 

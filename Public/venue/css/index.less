@@ -1,0 +1,202 @@
+@import "base";
+//头部
+//animate滚屏
+
+.index {
+  position: relative;
+  .head1 {
+    height: 185px;
+    width: 100%;
+    .borderBox();
+    & > p {
+      color: #ffffff;
+      float: left;
+      &.time {
+        font-size: 64px;
+        margin-left: 347px;
+        margin-top: 72px;
+        line-height: 64px;
+        height: 64px;
+        width: 256px;
+      }
+      &.date {
+        font-size: 42px;
+        height: 42px;
+        line-height: 42px;
+        margin-top: 86px;
+        margin-left: 46px;
+      }
+    }
+    & > .weather_box1 {
+      float: right;
+      width: 250px;
+      height: 100px;
+      font-size: 36px;
+      line-height: 50px;
+      color: #FFFFFF;
+      margin-top: 50px;
+    }
+  }
+
+  .animate (@name, @time) {
+    -webkit-animation: @name @time linear infinite;
+    -o-animation: @name @time linear infinite;
+    animation: @name @time linear infinite;
+  }
+  //首页的信息展示部分
+  .msg_box {
+    height: 418px;
+    width: 1426px;
+    .borderBox();
+    margin: 50px auto auto;
+    //信息展示的头部
+    .title1_box {
+      width: 100%;
+      height: 65px;
+      .borderBox();
+      p.title1 {
+        float: left;
+        font-size: 35px;
+        line-height: 65px;
+        color: #ffdd67;
+      }
+      & > input {
+        float: right;
+        height: 65px;
+        line-height: 65px;
+        width: 344px;
+        border-radius: 10px;
+        outline: none;
+        border: 2px solid #FFFFFF;
+        .borderBox();
+        margin: 0;
+        font-size: 29px;
+        color: #FFFFFF;
+        background: transparent;
+        padding-left: 75px;
+      }
+      & > .text1 {
+        float: right;
+        margin-right: 20px;
+        height: 65px;
+        line-height: 65px;
+        color: #FFFFFF;
+        font-size: 35px;
+      }
+    }
+    //信息展示的页面
+    .msg {
+      width: 100%;
+      height: 312px;
+      background: rgba(0, 0, 0, 0.28);
+      margin-top: 34px;
+      overflow: hidden;
+      padding: 10px 40px;
+      .borderBox();
+      ul {
+        width: 100%;
+        li {
+          color: #FFFFFF;
+          font-size: 32px;
+          line-height: 75px;
+          height: 75px;
+          .displayFlex();
+          justify-content: space-between;
+          & > .text1 {
+            width: 1050px;
+            .textOverflow(1);
+          }
+          & > .text2 {
+            width: 230px;
+          }
+        }
+      }
+    }
+  }
+
+  //首页的参观人数页面
+  .num_box {
+    width: 1120px;
+    height: 310px;
+    margin: 60px auto;
+    .borderBox();
+    position: relative;
+    img {
+      height: 81px;
+      width: 346px;
+      position: absolute;
+      top: 95px;
+    }
+    .little_box {
+      height: 100%;
+      width: 564px;
+      color: #FFFFFF;
+      margin-left: 554px;
+      .month_box {
+        width: 100%;
+        height: 83px;
+        line-height: 83px;
+        text-align: center;
+        font-size: 47px;
+        .borderBox();
+        span {
+          display: inline-block;
+          width: 174px;
+          height: 83px;
+          border: 5px solid #FFFFFF;
+          border-radius: 10px;
+          cursor: pointer;
+          &.month1 {
+            margin-left: 30px;
+            border-color: #f6cc3c;
+          }
+        }
+      }
+      .border1 {
+        width: 100%;
+        height: 4px;
+        background: #FFFFFF;
+        margin-top: 50px;
+      }
+      .num1 {
+        margin-top: 50px;
+        height: 132px;
+        line-height: 132px;
+        font-size: 132px;
+        text-align: center;
+        color: #ffdd67;
+        font-family: MFLiHei_Noncommercial-Regular;
+      }
+    }
+  }
+  //上下滚屏
+  @keyframes swiper {
+    0% {
+      -webkit-transform: translate3d(0, 100%, 0);
+      -moz-transform: translate3d(0, 100%, 0);
+      -ms-transform: translate3d(0, 100%, 0);
+      -o-transform: translate3d(0, 100%, 0);
+      transform: translate3d(0, 100%, 0);
+    }
+    1% {
+      -webkit-transform: translate3d(0, 312px, 0);
+      -moz-transform: translate3d(0, 312px, 0);
+      -ms-transform: translate3d(0, 312px, 0);
+      -o-transform: translate3d(0, 312px, 0);
+      transform: translate3d(0, 312px, 0);
+    }
+    100% {
+      -webkit-transform: translate3d(0, -100%, 0);
+      -moz-transform: translate3d(0, -100%, 0);
+      -ms-transform: translate3d(0, -100%, 0);
+      -o-transform: translate3d(0, -100%, 0);
+      transform: translate3d(0, -100%, 0);
+    }
+  }
+  #layui-laydate1{
+    position: absolute !important;
+    left: 1365px !important;
+    top: 300px !important;
+  }
+}
+

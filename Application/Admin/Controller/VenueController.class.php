@@ -48,12 +48,11 @@ class VenueController extends AdminController
         if (IS_POST) {
             $data = $_POST;
             $data['status'] = 1;
-
+            $data['date'] = strtotime(date("Y-m-d",$_POST['date']));
 //            dump($data);die;
             $admindzz = session("dzzid");
             $data['year'] = date('Y',$data['date']);
             $data['month'] = date('m',$data['date']);
-            $data['day'] = date('d',$data['date']);
             $user = session('user_auth');
             if($admindzz) {
                 $data["dzz"] = $admindzz;

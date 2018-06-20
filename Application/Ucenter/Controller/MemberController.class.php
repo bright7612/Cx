@@ -103,6 +103,7 @@ class MemberController extends Controller
 
                 $this->success('', U('Ucenter/member/step', array('step' => get_next_step('start'))));
             } else { //注册失败，显示错误信息
+
                 $this->error($this->showRegError($uid));
             }
         } else {

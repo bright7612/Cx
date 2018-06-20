@@ -1,0 +1,157 @@
+<extend name="Public/base"/>
+<block name="body">
+    <link rel="stylesheet" type="text/css" href="/Public/zui/lib/datetimepicker/datetimepicker.css" media="all">
+    <script type="text/javascript" src="/Public/zui/lib/datetimepicker/datetimepicker.min.js" charset="UTF-8"></script>
+    <style>
+        .tb_search td{
+            padding: 5px 10px;
+        }
+        .chosen-container {
+            width: 100% !important;
+        }
+    </style>
+    <div class="main-title">
+        <h2>
+            {$title}
+            <!--<span style="font-size: 0.8em" >(红色表示与已通过审核的预约时间有冲突)</span>-->
+        </h2>
+    </div>
+    <div class="with-padding" >
+        <!--<div class="fl">-->
+        <!--<a class="btn btn-primary" href="{:U('editBmxx')}"-->
+        <!--&gt;添加-->
+        <!--</a>-->
+        <!--</div>-->
+        <div class="fl">
+            <!--<a href="{:U('wxyedit',array('type'=>$issue_id,'examine'=>1))}" class="btn btn-ajax btn-success btn">新增</a>-->
+            <button class="btn ajax-post confirm btn-danger" url="{:U('wxydel',array('status'=>-1,'type'=>$issue_id))}"
+                    target-form="ids" confirm-info="确认删除？删除后不可恢复！">删除
+            </button>
+
+            <!-- 选择框select -->
+            <div style="float: right;display: inline-block" >
+                <style>
+                    .oneselect{
+                        display: inline-block;
+                        margin-left: 10px;
+                    }
+                    .oneselect .title{
+                        float: left;
+                        line-height: 32px;
+                    }
+                    .oneselect .select_box{
+                        float: left;
+                        line-height: 32px;
+                    }
+                    .oneselect .select_box select{
+                        min-width: 200px;
+                    }
+                </style>
+
+                <form id="selectForm" method="get" action="{$selectPostUrl||default=$default_url}" class="form-dont-clear-url-param">
+                    <div class="oneselect">
+                        <div class="title">审批状态</div>
+                        <div class="select_box">
+                            <select name="types" data-role="select_text" class="form-control">
+                                <volist name="sta" id="vo">
+                                    <PHP>if($stt == $key){</PHP>
+                                    <option value="{$key}" selected>{$vo}</option>
+                                    <php>}else{</php>
+                                    <option value="{$key}" >{$vo}</option>
+
+                                    <php>}</php>
+                                </volist>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+                <script>
+                    $('[data-role="select_text"]').change(function(){
+                        $('#selectForm').submit();
+                    });
+                    function toggle_search(){
+                        $('#search_form').toggle('slide');
+                    }
+                    $(document).on('submit', '.form-dont-clear-url-param', function(e){
+                        e.preventDefault();
+
+                        var seperator = "&";
+                        var form = $(this).serialize();
+                        var action = $(this).attr('action');
+                        if(action == ''){
+                            action = location.href;
+                        }
+                        var new_location = action + seperator + form;
+                        location.href = new_location;
+
+                        return false;
+                    });
+                </script>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="with-padding">
+        <form class="ids">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th class="row-selected">
+                        <input class="checkbox check-all" type="checkbox">
+                    </th>
+                    <th>参与众筹</th>
+                    <th>微信昵称</th>
+                    <th>头像</th>
+                    <th>评价内容</th>
+                    <th>评价级别</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <notempty name="data">
+                    <volist name="data" id="di">
+                        <tr>
+                            <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$di.id}"></td>
+                            <td>{$di.zhch_id_var.title}</td>
+                            <td>{$di.openid_var.nickname}</td>
+                            <td>
+                                <a href="{$di.openid_var.headimgurl}" data-toggle="lightbox" data-group="image-group-1"><img style="width: 25px;border-radius:5px" src="{$di.openid_var.headimgurl}" class="img-thumbnail" alt=""></a>
+                            </td>
+                            <td>{$di.content}</td>
+                            <td>{$di.pj_var}</td>
+                            <td>
+                                <a title=“" href="{:U('wxyedit',array('id'=>$di['id'],'type'=>$issue_id,'examine'=>1))}">编辑</a>
+                                <a title=“" href="{:U('wxyedit',array('id'=>$di['id'],'type'=>$issue_id,'examine'=>2))}">审核</a>
+                                <a title=“" href="{:U('wxyedit',array('id'=>$di['id'],'type'=>$issue_id))}">查看</a>
+                            </td>
+                        </tr>
+                    </volist>
+                </notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+            {$pagination}
+        </div>
+    </div>
+    <script>
+
+
+        $(".form-date").datetimepicker(
+            {
+                language:  "zh-CN",
+                weekStart: 1,
+                todayBtn:  1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0,
+                format: "yyyy-mm-dd"
+            });
+
+
+    </script>
+</block>

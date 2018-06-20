@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>党建学习平台</title>
+    <link rel="stylesheet" href="__EDUCATION__/css/public.css">
+</head>
+<body class="study">
+<header class="header2">
+    <a href="javascript:history.back(-1)">
+        <span class="iconfont icon-fanhui"></span>
+        <span class="text1">返回</span>
+    </a>
+    <p class="title">学习进行时</p>
+</header>
+<article class="list_detail video_list">
+    <div class="big_box">
+        <div class="flex_box" data-id="__EDUCATION__/video/1.mp4">
+            <img src="__EDUCATION__/imgs/1.jpg" >
+            <p class="title">这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="__EDUCATION__/video/2.mp4">
+            <img src="__EDUCATION__/imgs/2.jpg" alt="">
+            <p class="title">这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="__EDUCATION__/video/3.mp4">
+            <img src="__EDUCATION__/imgs/3.jpg" >
+            <p class="title">这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="__EDUCATION__/video/4.mp4">
+            <img src="__EDUCATION__/imgs/4.jpg" alt="">
+            <p class="title">这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="__EDUCATION__/video/5.mp4">
+            <img src="__EDUCATION__/imgs/5.jpg" >
+            <p class="title">这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="__EDUCATION__/video/6.mp4">
+            <img src="__EDUCATION__/imgs/6.jpg" alt="">
+            <p class="title">这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="__EDUCATION__/video/7.mp4">
+            <img src="__EDUCATION__/imgs/7.jpg" >
+            <p class="title">这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="__EDUCATION__/video/7.mp4">
+            <img src="__EDUCATION__/imgs/7.jpg" alt="">
+            <p class="title">这是视频的标题部分视频的标题部分</p>
+        </div>
+    </div>
+</article>
+<article class="play_box" id="playBox">
+    <video src="" autoplay controls></video>
+    <span class="closer">×</span>
+</article>
+<script type="text/javascript" src="__EDUCATION__/libs/jquery/jquery.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.big_box').on('click','.flex_box',function(){
+            var link=$(this).attr('data-id');
+            $('#playBox video').attr('src',link);
+            $('.play_box').show();
+        });
+        //点击关闭按钮关闭视频
+        $('.play_box').on('click','.closer',function(){
+            $('.play_box').hide();
+            $('.play_box video').trigger('pause');
+        })
+    })
+</script>
+</body>
+</html>

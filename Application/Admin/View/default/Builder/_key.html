@@ -45,6 +45,32 @@
             </volist>
         </select>
     </case>
+    <case value="selectdzz">
+        <select name="{$field.name}" class="form-control" style="width:auto;">
+            <foreach name="field.opt" item="option">
+                <php>
+                    $selected = $field['value']==$option['NAME'] ? 'selected' : '';
+                </php>
+                <option style="font-weight:bold;font-size: 16px" value="{$option['NAME']}" {$selected}>{$option['NAME']}</option>
+                <php>if($option['_child'][0]){</php>
+                    <foreach name="option._child" item="options">
+                        <php>
+                            $selected = $field['value']==$options['NAME'] ? 'selected' : '';
+                        </php>
+                        <option  value="{$options['NAME']}" {$selected}>&nbsp;&nbsp;&nbsp;|__{$options['NAME']}</option>
+                        <php>if($option['_child'][0]){</php>
+                        <foreach name="options._child" item="optionss">
+                            <php>
+                                $selected = $field['value']==$optionss['NAME'] ? 'selected' : '';
+                            </php>
+                            <option value="{$optionss['NAME']}" {$selected}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|__|__{$optionss['NAME']}</option>
+                        </foreach>
+                        <php>}</php>
+                    </foreach>
+                <php>}</php>
+            </foreach>
+        </select>
+    </case>
     <case value="colorPicker">
         <php>
             $colorPicker = 1;

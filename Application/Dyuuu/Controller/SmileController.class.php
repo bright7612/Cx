@@ -104,15 +104,15 @@ class SmileController extends  Controller
             $type = I('type');
         if($type == 1){
 
-            setcookie('wxuserOpenid');
+//            cookie('wxuserOpenid',null);
             $Model = M('wxuser');
             $wx = A('Home/Wxindex');
             $redirect_uri = 'http://cxdj.cmlzjz.com/Dyuuu/Smile/index/type/1';
-
-            if(!$_COOKIE['wxuserOpenid']){
+//            dump(cookie('wxuserOpenid'));die;
+            if(!cookie('wxuserOpenid')){
                 $wx->Wxindex($redirect_uri);
             }
-            $openid = base64_decode($_COOKIE['wxuserOpenid']);
+            $openid = base64_decode(cookie('wxuserOpenid'));
             $record = $Model->where(array('openid'=>$openid))->find();
 
             //wall_id 代表扫过党员微笑墙的排名
@@ -132,15 +132,15 @@ class SmileController extends  Controller
 
         }else{
 
-            setcookie('wxuserOpenid');
+            cookie('wxuserOpenid',null);
             $Model = M('wxuser');
             $wx = A('Home/Wxindex');
             $redirect_uri = 'http://cxdj.cmlzjz.com/Dyuuu/Smile/index/';
 
-            if(!$_COOKIE['wxuserOpenid']){
+            if(!cookie('wxuserOpenid')){
                 $wx->Wxindex($redirect_uri);
             }
-            $openid = base64_decode($_COOKIE['wxuserOpenid']);
+            $openid = base64_decode(cookie('wxuserOpenid'));
             $record = $Model->where(array('openid'=>$openid))->find();
             $this->assign('user',$record);
 

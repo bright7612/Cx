@@ -29,7 +29,10 @@ return array(
         '__CSS__' => __ROOT__ . '/Application/'.MODULE_NAME .'/Static/css',
         '__JS__' => __ROOT__ . '/Application/'.MODULE_NAME. '/Static/js',
         '__ZUI__' => __ROOT__ . '/Public/zui',
-        '__CX__' => __ROOT__ . '/Public/cx'
+        '__CX__' => __ROOT__ . '/Public/cx',
+        '__DQ__' => __ROOT__ . '/Public/dq',
+        '__EDUCATION__' => __ROOT__ . '/Public/education',
+        '__VENUE__' => __ROOT__ . '/Public/venue'
     ),
 
 

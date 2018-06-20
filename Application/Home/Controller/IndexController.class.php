@@ -23,7 +23,7 @@ class IndexController extends Controller
     public function index()
     {
 
-        redirect("/Cx/Cx/index");
+//        redirect("/Cx/Cx/index");
         if(is_login()){
         }
         hook('homeIndex');

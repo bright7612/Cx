@@ -847,7 +847,8 @@ function session($name,$value='') {
  * @param mixed $options cookie参数
  * @return mixed
  */
-function cookie($name, $value='', $option=null) {
+function
+($name, $value='', $option=null) {
     // 默认设置
     $config = array(
         'prefix'    =>  C('COOKIE_PREFIX'), // cookie 名称前缀

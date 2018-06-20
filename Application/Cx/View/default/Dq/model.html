@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>title</title>
+    <!-- 引入css文件 -->
+    <link rel="stylesheet" href="../../../../../Public/dq/css/index-style.css">
+    <!-- 引入require及config文件  -->
+    <script src="../../../../../Public/dq/js/lib/require.min.js"></script>
+    <script src="../../../../../Public/dq/js/require-config.js"></script>
+    <script>
+      requirejs({
+        baseUrl: "js"
+      })
+    </script>
+</head>
+<body class="page home">
+
+<!-- dq_main -->
+<div class="dq_main">
+
+    <header class="dq_main-header">
+
+        <div class="dq_main-header-go">
+
+            <a href="javascript:history.back(-1);">
+
+                <i class="iconfont icon-fanhui"></i>
+
+                <span>返回</span>
+
+            </a>
+
+        </div>
+
+        <h1 class="dq_main-header-title">标题</h1>
+
+    </header>
+
+    <section class="dq_main-container">
+
+        <div class="dq_main-container-box" id="wrapper">
+
+            <ul>
+                <li></li>
+            </ul>
+
+        </div>
+
+    </section>
+
+</div>
+<!-- dq_main end-->
+
+<script>
+
+  require(['scroll'],function () {
+
+  })
+
+</script>
+</body>
+</html>

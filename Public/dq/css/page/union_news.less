@@ -1,0 +1,44 @@
+.union {
+  &-list {
+    padding: 0 28px;
+    &-item {
+      padding: 28px 21px;
+      border-bottom: 1px solid #dddcda;
+      .clearfix();
+      .pic {
+        float: left;
+        width: 358px;
+        height: 228px;
+        margin-right: 31px;
+        overflow: hidden;
+        img {
+          .img-box();
+          .img-hove();
+        }
+      }
+      .right {
+        &-title {
+          >a {
+            font-size: 36px;
+            color: #ac7c16;
+            .text-hove(red);
+            .omit();
+          }
+        }
+        &-date {
+          margin: 6px 0;
+          font-size: 28px;
+          color: #949494;
+        }
+        &-text {
+          height: 132px;
+          .omitMore(3);
+          text-indent: 2em;
+          line-height: 1.7em;
+          font-size: 28px;
+          color: #565656;
+        }
+      }
+    }
+  }
+}
