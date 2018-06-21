@@ -21,6 +21,7 @@ class DataController extends Controller
     private  $ajax_volunteer;  //志愿服务
     private  $ajax_WG;  //网格
     private  $ajax_event;  //事件
+    private  $ajax_persion;  //事件
 
 
     function _initialize()
@@ -28,8 +29,9 @@ class DataController extends Controller
         $this->ajax_dzz = M('ajax_dzz');
         $this->ajax_user = M('ajax_user');
         $this->ajax_volunteer = M('ajax_volunteer');
-        $this->ajax_WG = M('ajax_WG');
+        $this->ajax_WG = M('ajax_wg');
         $this->ajax_event = M('ajax_event');
+        $this->ajax_persion = M('ajax_persion');
     }
 
 
@@ -105,7 +107,7 @@ class DataController extends Controller
            //众筹已完成
            $love_y = $this->ajax_volunteer->where(array('sh_state'=>1,'STATE'=>3,'TYPE'=>2))->count();
            //众筹未完成
-           $love_w = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2,'xSTATE'=>array('in','1,2')))->count();
+           $love_w = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2,'STATE'=>array('in','1,2')))->count();
 
            $loveList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE')->select();
 
@@ -174,10 +176,16 @@ class DataController extends Controller
     public function WG()
     {
         $Model = M();
-        //网格总数
-        $WG = $Model->query('SELECT COUNT(*) as `count` FROM cxdj_ajax_WG ');
+        //网格事件总数
+        $WG = $Model->query("SELECT
+                                COUNT(*) AS `count`
+                            FROM
+                                cxdj_ajax_event
+                            WHERE
+                             DATE_FORMAT(HAPPEN_TIME, '%Y') = DATE_FORMAT(NOW(), '%Y')");
+
         //网格事件
-        $event1 = $this->ajax_event->query("SELECT REPORTOR_CARDNUM as IDcard FROM cxdj_ajax_event  WHERE DATE_FORMAT(ACCEPT_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y') LIMIT 100");
+        $event1 = $Model->query("SELECT REPORTOR_CARDNUM as IDcard FROM cxdj_ajax_event  WHERE DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y') LIMIT 100");
 
         foreach ($event1 as $k=>&$v){
             $res[] = $this->ajax_user->where(array('IDCARD'=>$v['IDCARD']))->field('STATE')->select();
@@ -191,37 +199,146 @@ class DataController extends Controller
         $people = $wg - $dy;
 
         //交通运输
-        $jiaotong_y = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $jiaotong_m = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+        $jiaotong_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+        $jiaotong_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
         //公共事业类
-        $public_y = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $public_m = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+        $public_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+        $public_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
         //公安类
-        $police_y = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $police_m = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+        $police_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+        $police_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
 
         //消防类
-        $xf_y = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $xf_m = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+        $xf_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+        $xf_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
 
         //卫计类
-        $wj_y = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $wj_m = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+        $wj_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+        $wj_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
 
         //国土类
-        $gt_y = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $gt_m = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+        $gt_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+        $gt_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
 
         //城乡建设类
-        $city_y = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '城乡建设类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $city_m = $this->ajax_event->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+        $city_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '城乡建设类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+        $city_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
 
 
         $year = array((int)$jiaotong_y[0]['count'],(int)$public_y[0]['count'],(int)$police_y[0]['count'],(int)$xf_y[0]['count'],(int)$wj_y[0]['count'],(int)$gt_y[0]['count'],(int)$city_y[0]['count']);
         $month = array((int)$jiaotong_m[0]['count'],(int)$public_m[0]['count'],(int)$police_m[0]['count'],(int)$xf_m[0]['count'],(int)$wj_m[0]['count'],(int)$gt_m[0]['count'],(int)$city_m[0]['count']);
 
-        echo json_encode(array('wg'=>(int)$WG[0]['count'],'dy'=>$dy,'people'=>$people,'year'=>$year,'month'=>$month));
+        echo json_encode(array('code'=>200,'wg'=>(int)$WG[0]['count'],'dy'=>$dy,'people'=>$people,'year'=>$year,'month'=>$month));
+
     }
+
+    //网格事件当年100条记录
+    public function wgRecord()
+    {
+        //当月网格数100条记录
+        $event_month = $this->ajax_event->query("SELECT
+                                                        ADDRESS AS address,
+                                                        CATEGORY1 AS category,
+                                                        REPORTOR AS person,
+                                                        DESCRIPTION AS content,
+                                                        UNIX_TIMESTAMP(ACCEPT_TIME) AS st_time,
+                                                        UNIX_TIMESTAMP(END_TIME) AS end_time
+                                                    
+                                                    FROM
+                                                        cxdj_ajax_event
+                                                    WHERE
+                                                        DATE_FORMAT(HAPPEN_TIME, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+                                                    LIMIT 100 ");
+        //end_time 事件解决日期
+        foreach ($event_month as $k=>&$v){
+            if($v['end_time'] < time()){
+                $v['status'] = '已解决';
+            }elseif ($v['end_time'] == ''){
+                $v['status'] = '未解决';
+            }
+        }
+
+        $head = array(
+            array('name'=>'上报人','width'=>20),
+            array('name'=>'事件类别','width'=>20),
+            array('name'=>'事件描述','width'=>30),
+            array('name'=>'地址','width'=>20),
+            array('name'=>'状态','width'=>10),
+        );
+
+        foreach ($event_month as $k=>&$v){
+            $data[] = array(
+                array('value'=>$v['person'], 'width'=>20),
+                array('value'=>$v['category'], 'width'=>20),
+                array('value'=>$v['content'], 'width'=>30),
+                array('value'=>$v['address'], 'width'=>20),
+                array('value'=>$v['status'], 'width'=>10),
+
+            );
+        }
+
+        echo json_encode(array('code'=>200,'data'=>array('title'=>'网格事件','head'=>$head,'list'=>$data)));
+
+    }
+
+    //四个平台数据
+    public function platform()
+    {
+        //县四个平台数据
+        $Model = M();
+        $town = $Model->query("SELECT
+                                    XZ_DEPARTMENTID,
+                                    XZ_DEPARTMENTNAME,
+                                    sum(TOTAL_HJ) AS HJ,
+                                    sum(TOTAL_HJ_DY) AS HJ_DY,
+                                    SUM(TOTAL_LD) AS LD,
+                                    SUM(TOTAL_LD_DY) LD_DY
+                                FROM 
+                                    cxdj_ajax_wg AS wg
+                                INNER JOIN cxdj_ajax_persion AS persion ON wg.DEPARTMENTID =  persion.G_ID
+                                GROUP BY
+                                    XZ_DEPARTMENTID,
+                                    XZ_DEPARTMENTNAME");
+
+        $HJ = array_column($town,'HJ');
+        $HJ_DY = array_column($town,'HJ_DY');
+        $LD = array_column($town,'LD');
+        $LD_DY = array_column($town,'LD_DY');
+
+        $HJ_SUM = array_sum($HJ);  //户籍人口
+        $HJ_DY_SUM = array_sum($HJ_DY);  //户籍党员
+        $LD_SUM = array_sum($LD);  //流动人口
+        $LD_DY_SUM = array_sum($LD_DY);  //流动党员
+
+
+        //村四个平台数据
+        $cun = $Model->query("SELECT
+                                    SQ_DEPARTMENTID,
+                                    SQ_DEPARTMENTNAME,
+                                    sum(TOTAL_HJ) AS HJ,
+                                    sum(TOTAL_HJ_DY) AS HJ_DY,
+                                    SUM(TOTAL_LD) AS LD,
+                                    SUM(TOTAL_LD_DY) LD_DY
+                                FROM 
+                                    cxdj_ajax_wg AS wg
+                                INNER JOIN cxdj_ajax_persion AS persion ON wg.DEPARTMENTID =  persion.G_ID
+                                GROUP BY
+                                    SQ_DEPARTMENTID,
+                                    SQ_DEPARTMENTNAME");
+
+        $CHJ = array_column($cun,'HJ');
+        $CHJ_DY = array_column($cun,'HJ_DY');
+        $CLD = array_column($cun,'LD');
+        $CLD_DY = array_column($cun,'LD_DY');
+
+        $CHJ_SUM = array_sum($CHJ);  //户籍人口
+        $CHJ_DY_SUM = array_sum($CHJ_DY);  //户籍党员
+        $CLD_SUM = array_sum($CLD);  //流动人口
+        $CLD_DY_SUM = array_sum($CLD_DY);  //流动党员
+
+
+    }
+
 
 
 
