@@ -127,7 +127,7 @@ class ClassController extends AdminController{
             $this->assign('type',$type);
         }
 
-        $this->assign('actionname','content');
+        $this->assign('actionname',ACTION_NAME);
         $this->assign('accontroller',CONTROLLER_NAME);
 
 

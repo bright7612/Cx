@@ -175,7 +175,37 @@ class DataController extends Controller
     //网格事件
     public function WG()
     {
+
         $Model = M();
+        if(!S('event_year')){
+            $event_count = M('event_year')->select();
+            $time = 3600 * 72;  //缓存三天
+            S('event_year',$event_count,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+        }else{
+            $event_year = S('event_year');// 获取缓存
+        }
+
+    foreach ($event_year[0] as $k=>&$v){
+        $data[] = (int)$v;
+    }
+
+          $event_year = $data;
+
+        if(!S('event_month')){
+            $event_count2 = M('event_month')->select();
+            $time = 3600 * 72;  //缓存三天
+            S('event_month',$event_count2,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+        }else{
+            $event_month = S('event_month');// 获取缓存
+        }
+
+        foreach ($event_month[0] as $k=>&$v){
+            $item[] = (int)$v;
+        }
+
+        $event_month = $item;
+
+
         //网格事件总数
         $WG = $Model->query("SELECT
                                 COUNT(*) AS `count`
@@ -184,51 +214,45 @@ class DataController extends Controller
                             WHERE
                              DATE_FORMAT(HAPPEN_TIME, '%Y') = DATE_FORMAT(NOW(), '%Y')");
 
-        //网格事件
-        $event1 = $Model->query("SELECT REPORTOR_CARDNUM as IDcard FROM cxdj_ajax_event  WHERE DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y') LIMIT 100");
+        //上报事件为党员的事件数（红色网格员数）
+        $Red_dy = $Model->query("SELECT COUNT(*) AS `count` FROM cxdj_ajax_event WHERE DATE_FORMAT(HAPPEN_TIME, '%Y') = DATE_FORMAT(NOW(), '%Y')  AND REPORTOR_CARDNUM <>''");
 
-        foreach ($event1 as $k=>&$v){
-            $res[] = $this->ajax_user->where(array('IDCARD'=>$v['IDCARD']))->field('STATE')->select();
-        }
 
-        //红色网格员/党员
-        $dy = count($res);
-        //网格事件人员总数
-        $wg = count($event1);
         //普通网格员/群众
-        $people = $wg - $dy;
+        $people = (int)$WG[0]['count'] - (int)$Red_dy[0]['count'];
 
-        //交通运输
-        $jiaotong_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $jiaotong_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-        //公共事业类
-        $public_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $public_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-        //公安类
-        $police_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $police_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+//
+//        //交通运输
+//        $jiaotong_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+//        $jiaotong_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+//        //公共事业类
+//        $public_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+//        $public_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+//        //公安类
+//        $police_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+//        $police_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+//
+//        //消防类
+//        $xf_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+//        $xf_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+//
+//        //卫计类
+//        $wj_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+//        $wj_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+//
+//        //国土类
+//        $gt_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+//        $gt_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+//
+//        //城乡建设类
+//        $city_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '城乡建设类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
+//        $city_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '城乡建设类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
+//
+//
+//        $year = array((int)$jiaotong_y[0]['count'],(int)$public_y[0]['count'],(int)$police_y[0]['count'],(int)$xf_y[0]['count'],(int)$wj_y[0]['count'],(int)$gt_y[0]['count'],(int)$city_y[0]['count']);
+//        $month = array((int)$jiaotong_m[0]['count'],(int)$public_m[0]['count'],(int)$police_m[0]['count'],(int)$xf_m[0]['count'],(int)$wj_m[0]['count'],(int)$gt_m[0]['count'],(int)$city_m[0]['count']);
 
-        //消防类
-        $xf_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $xf_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-
-        //卫计类
-        $wj_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $wj_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-
-        //国土类
-        $gt_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $gt_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-
-        //城乡建设类
-        $city_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '城乡建设类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-        $city_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-
-
-        $year = array((int)$jiaotong_y[0]['count'],(int)$public_y[0]['count'],(int)$police_y[0]['count'],(int)$xf_y[0]['count'],(int)$wj_y[0]['count'],(int)$gt_y[0]['count'],(int)$city_y[0]['count']);
-        $month = array((int)$jiaotong_m[0]['count'],(int)$public_m[0]['count'],(int)$police_m[0]['count'],(int)$xf_m[0]['count'],(int)$wj_m[0]['count'],(int)$gt_m[0]['count'],(int)$city_m[0]['count']);
-
-        echo json_encode(array('code'=>200,'wg'=>(int)$WG[0]['count'],'dy'=>$dy,'people'=>$people,'year'=>$year,'month'=>$month));
+        echo json_encode(array('code'=>200,'wg'=>(int)$WG[0]['count'],'dy'=>(int)$Red_dy[0]['count'],'people'=>$people,'year'=>$event_year,'month'=>$event_month));
 
     }
 

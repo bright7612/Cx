@@ -91,7 +91,7 @@ class IssueController extends AdminController
             } else {
                 $issue = $this->issueModel->create();
                 if ($pid != 0){
-                    $issue['lv'] = 1+M("qk_issue")->where('id='.$pid)->getField('lv');
+                    $issue['lv'] = 1+M("dq_issue")->where('id='.$pid)->getField('lv');
                 }else{
                     $issue['lv'] = 0;
                 }
