@@ -1,0 +1,467 @@
+@import "base";
+
+@color-text: #505050;
+@color-border: #C4C4C4;
+
+body.section {
+  background: url("../imgs/bg_section.jpg") no-repeat;
+}
+
+body > .header2 {
+  p {
+    text-align: center;
+    font-size: 58px;
+    height: 155px;
+    line-height: 155px;
+    position: relative;
+    .borderBox();
+    .title2 {
+      background-image: -webkit-linear-gradient(0deg, #C45724, #D68438 50%, #CD8730);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+    .return {
+      position: absolute;
+      width: 246px;
+      height: 96px;
+      font-size: 45px;
+      line-height: 96px;
+      text-align: left;
+      border-radius: 49px;
+      background: rgba(171, 73, 68, 0.9);
+      color: #FFFFFF;
+      top: 38px;
+      left: 37px;
+      .iconfont {
+        font-size: 78px;
+        float: left;
+        margin-left: 26px;
+        margin-right: 13px;
+      }
+    }
+  }
+}
+
+body > .content2 {
+  width: 1825px;
+  height: 873px;
+  background: rgba(255, 255, 255, 0.73);
+  margin: 0 auto;
+  border-radius: 20px;
+  .borderBox();
+  overflow: hidden;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+//活动进行时的页面
+body > .interacting {
+  padding: 30px 50px;
+  .title1 {
+    font-size: 46px;
+    color: #d17400;
+    line-height: 86px;
+    .textOverflow(1);
+  }
+  .time {
+    color: #9c9c9c;
+    font-size: 32px;
+    line-height: 32px;
+    margin-bottom: 10px;
+  }
+  .content {
+    color: #5e5e5e;
+    font-size: 34px;
+    line-height: 64px;
+    margin-bottom: 93px;
+  }
+  .progress {
+    width: 1095px;
+    height: 15px;
+    border-radius: 7px;
+    background: #dddddd;
+    margin: 0 auto;
+    position: relative;
+    span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #ff9d8e;
+      border-radius: 7px;
+      height: 15px;
+      width: 200px;
+    }
+  }
+  .progress_text {
+    width: 1233px;
+    margin: 0 auto 40px;
+    font-size: 34px;
+    line-height: 94px;
+    height: 94px;
+    color: #7e8082;
+    .num1 {
+      float: left;
+    }
+    .num2 {
+      float: right;
+    }
+  }
+  .border {
+    height: 2px;
+    background: #DEDCDC;
+    margin-bottom: 20px;
+  }
+  .title2 {
+    font-size: 35px;
+    line-height: 100px;
+    height: 100px;
+    color: #ff9866;
+    padding-left: 92px;
+  }
+  .img_box {
+    padding: 0 92px;
+    min-height: 144px;
+    img {
+      width: 144px !important;
+      height: 144px !important;
+      border-radius: 50% !important;
+      margin-right: 36px;
+    }
+  }
+}
+
+//党员公益先锋列表页
+body > .party_van {
+  .displayFlex();
+  width: 1838px;
+  background: transparent;
+  .spaceBetween();
+  & > div {
+    width: 909px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.73);
+    border-radius: 20px;
+    .borderBox();
+    padding: 40px 0;
+    & > .little_box {
+      display: block;
+      cursor: pointer;
+      width: 854px;
+      height: 138.7px;
+      border-bottom: 2px solid #E5E4E2;
+      margin: 0 auto;
+      .borderBox();
+      .rank_img {
+        float: left;
+        margin-left: 64px;
+        margin-top: 39px;
+        margin-right: 53px;
+      }
+      .num1 {
+        float: left;
+        font-size: 39px;
+        margin-top: 56px;
+        line-height: 39px;
+        height: 39px;
+        color: #5e5e5e;
+        margin-left: 68px;
+        margin-right: 56px;
+      }
+      .head_img {
+        float: left;
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        margin-top: 25px;
+        //margin-right: 53px;
+      }
+      .name {
+        float: left;
+        font-size: 38px;
+        color: #5e5e5e;
+        line-height: 38px;
+        height: 38px;
+        margin-top: 45px;
+        margin-left: 53px;
+      }
+      .num2 {
+        float: right;
+        margin-right: 98px;
+        color: #ebac00;
+        font-size: 51px;
+        line-height: 51px;
+        height: 51px;
+        margin-top: 40px;
+      }
+    }
+  }
+}
+
+//党员公益先锋详情页
+body > .party_van_detail {
+  padding: 37px 0;
+  .top {
+    padding: 0 85px;
+    width: 100%;
+    height: 305px;
+    .borderBox();
+    .displayFlex();
+    margin-bottom: 25px;
+    img {
+      width: 242px !important;
+      height: 305px !important;
+      margin-right: 50px;
+    }
+    .right_text {
+      height: 305px;
+      width: 1324px;
+      .borderBox();
+      .title1 {
+        font-size: 46px;
+        line-height: 68px;
+      }
+      .text1 {
+        font-size: 42px;
+        color: #5a5a5a;
+        margin-bottom: 20px;
+      }
+      .text2 {
+        font-size: 34px;
+        line-height: 54px;
+        color: #5a5a5a;
+        .textOverflow(3);
+      }
+    }
+  }
+  .title2_box {
+    width: 100%;
+    height: 54px;
+    line-height: 54px;
+    .borderBox();
+    border-left: 14px solid #c14c37;
+    font-size: 40px;
+    padding-left: 53px;
+    color: #c14c37;
+    margin-bottom: 17px;
+  }
+  .border {
+    height: 2px;
+    width: 1748px;
+    margin: 0 auto;
+    background: #DBDBDB;
+  }
+  .bottom {
+    .bottom_box {
+      .displayFlex();
+      width: 1748px;
+      .borderBox();
+      min-height: 236px;
+      margin: 0 auto;
+      padding-left: 33px;;
+      border-bottom: 1px solid #DCD8D8;
+      padding-top: 24px;
+      img {
+        width: 301px;
+        height: 190px;
+      }
+      .text_box {
+        width: 1324px;
+        min-height: 190px;
+        margin-left: 32px;
+        .title3 {
+          font-size: 38px;
+          line-height: 52px;
+          color: #363636;
+          margin-bottom: 20px;
+        }
+        .text {
+          font-size: 34px;
+          line-height: 47px;
+          color: #5e5e5e;
+        }
+      }
+    }
+  }
+}
+
+//积分商城
+body > .market {
+  padding: 20px 45px;
+  .title1 {
+    font-size: 40px;
+    color: #e37b14;
+    line-height: 80px;
+  }
+  .tabs_box {
+    width: 100%;
+    height: 80px;
+    border-bottom: 2px solid #DEDCDC;
+    .tab {
+      display: inline-block;
+      height: 80px;
+      margin-right: 85px;
+      .tab_little {
+        display: block;
+        color: #e27000;
+        font-size: 36px;
+        height: 58px;
+        line-height: 58px;
+        padding: 0 38px 0 30px;
+        border-radius: 10px;
+        cursor: pointer;
+        .iconfont {
+          font-size: 38px;
+          margin-right: 13px;
+        }
+      }
+      &:first-child {
+        border-bottom: 2px solid #f08418;
+        .tab_little {
+          color: #FFFFFF;
+          background: #f49436;
+        }
+      }
+    }
+  }
+  & > .box1 {
+    display: none;
+    height: 670px;
+    .borderBox();
+    overflow: hidden;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    & > div {
+      height: 300px;
+      width: 100%;
+      .borderBox();
+      .displayFlex();
+      border-bottom: 2px solid #DEDBDB;
+      padding: 25px 0;
+      img {
+        width: 323px !important;
+        height: 252px !important;
+        margin-left: 11px;
+        margin-right: 38px;
+      }
+      .text_box {
+        width: 1050px;
+        height: 252px;
+        margin-right: 50px;
+        .title1 {
+          font-size: 40px;
+          line-height: 66px;
+          height: 66px;
+          .textOverflow(1);
+        }
+        .text1 {
+          .textOverflow(1);
+          font-size: 34px;
+          height: 54px;
+          color: #5e5e5e;
+          line-height: 54px;
+        }
+      }
+      .exchange_box {
+        padding-top: 50px;
+        width: 180px;
+        height: 323px;
+        text-align: center;
+        .borderBox();
+        .exchange {
+          .borderBox();
+          padding-top: 20px;
+          font-size: 34px;
+          line-height: 50px;
+          color: #ffffff;
+          display: block;
+          cursor: pointer;
+          width: 100%;
+          height: 140px;
+          background: linear-gradient(0deg, #ec7731 0%, #f5952d 100%);
+          border-radius: 20px;
+          border-bottom-left-radius: 0;
+          .iconfont {
+            font-size: 45px;
+          }
+        }
+      }
+    }
+  }
+  #box1 {
+    display: block;
+  }
+}
+
+//活动进行时列表页
+body > .interacting_list {
+  .project-list {
+    width: 100%;
+    height: 100%;
+  }
+  .project-item {
+    width: 100%;
+    height: 25%;
+    .borderBox();
+    border-bottom: 2px dashed @color-border;
+    position: relative;
+    & > a {
+      display: block;
+      width: 100%;
+      height: 100%;
+      .borderBox();
+      padding: 0 25px;
+      overflow: hidden;
+    }
+    .project-title {
+      .displayFlex();
+      .spaceBetween();
+      -webkit-align-items: center;
+      align-items: center;
+      margin-top: 24px;
+      .title {
+        .flex(1);
+        color: #D17400;
+        font-size: 30px;
+        margin-right: 20px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .status {
+        position: absolute;
+        top: 100px;
+        right: 100px;
+        width: 100px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        color: #fff;
+        font-size: 24px;
+        .borderRadius(5px);
+        background: #F68F61;
+        &.complete {
+          background: #C8C8C8;
+        }
+      }
+    }
+    .project-time {
+      color: #ABABAB;
+      font-size: 22px;
+      line-height: 34px;
+      margin: 4px 0;
+    }
+    .project-text {
+      color: @color-text;
+      font-size: 24px;
+      line-height: 42px;
+      text-indent: 2em;
+      .textOverflow(2);
+      width: 85%;
+    }
+  }
+}

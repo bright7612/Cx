@@ -17,7 +17,7 @@ use Think\Model;
  */
 class IssueModel extends Model {
 
-    protected $tableName='dq_issue';
+    protected $tableName='dk_issue';
     protected $_validate = array(
       array('url','require','url必须填写'), //默认情况下用正则进行验证
     );

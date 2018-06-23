@@ -132,7 +132,7 @@ class SmileController extends  Controller
 
         }else{
 
-            cookie('wxuserOpenid',null);
+//            cookie('wxuserOpenid',null);
             $Model = M('wxuser');
             $wx = A('Home/Wxindex');
             $redirect_uri = 'http://cxdj.cmlzjz.com/Dyuuu/Smile/index/';

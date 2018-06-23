@@ -1831,10 +1831,10 @@ class CxController extends AdminController{
 
     public function activity()
     {
-        $url = 'http://www.dysfz.gov.cn/apiXC/volunteerList.do'; //党员党建
+        $url = 'http://www.dysfz.gov.cn/apiXC/activityRecordList.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 200;
-//        $da['VOLUNTEERID'] = 197;
+        $da['ACTIVITYID'] = 33594;
 
         $da['START'] = 1;
         $das = json_encode($da);
@@ -1846,12 +1846,12 @@ class CxController extends AdminController{
             $das = json_encode($da);
             $list = httpjson($url,$das);
             foreach ($list['data'] as $k=>&$v) {
-                $user = M('ajax_volunteer')->where(array('BRANCH_ID'=>$v['BRANCH_ID']))->find();
+                $user = M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$v['VOLUNTEER_ID']))->find();
                 if($v['PICTURE']){
                     $v['PICTURE'] =  'http://www.dysfz.gov.cn/'.$v['PICTURE'];
                 }
                 if($user['id']){
-                    M('ajax_volunteer')->where(array('id'=>$user['id']))->save($v);
+                    M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$user['VOLUNTEER_ID']))->save($v);
                 }else{
                     M('ajax_volunteer')->add($v);
                 }

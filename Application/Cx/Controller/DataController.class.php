@@ -142,9 +142,52 @@ class DataController extends Controller
     {
 
         //微心愿总数
-        $wxy = $this->ajax_volunteer->where(array('TYPE'=>3,'sh_state'=>1))->select();
+        $wxy_count = $this->ajax_volunteer->where(array('TYPE'=>3,'sh_state'=>1))->count();
+
+        //已认领
+        $already = $this->ajax_volunteer->where(array('TYPE'=>3,'sh_state'=>1,'STATE1'=>'结束'))->count();
+        //未认领
+        $wei = (int)$wxy_count - (int)$already;
+
+        //正在进行
+        $wxy_ing = $this->ajax_volunteer->where(array('TYPE'=>3,'sh_state'=>1,'STATE'=>1))->count();
+        //已达标
+        $wxy_db = $this->ajax_volunteer->where(array('TYPE'=>3,'sh_state'=>1,'STATE'=>2))->count();
+        //已完成
+        $wxy_ed = $this->ajax_volunteer->where(array('TYPE'=>3,'sh_state'=>1,'STATE'=>3))->count();
+
+
+
+        echo json_encode(array('status'=>200,'data'=>array('count'=>(int)$wxy_count,'already'=>(int)$already,'wei'=>(int)$wei,'wxy_ing'=>(int)$wxy_ing,'wxy_db'=>(int)$wxy_db,'wxy_ed'=>(int)$wxy_ed)));
 
     }
+
+    public function wxyRecord()
+    {
+        //微心愿记录
+        $wxyList = $this->ajax_volunteer->where(array('TYPE'=>3,'sh_state'=>1))->select();
+        $head = array(
+            array('name'=>'主题','width'=>20),
+            array('name'=>'发布单位','width'=>20),
+            array('name'=>'联系人','width'=>20),
+            array('name'=>'电话','width'=>20),
+            array('name'=>'地址','width'=>20),
+        );
+
+        foreach ($wxyList as $k=>&$v){
+            $data[] = array(
+                array('value'=>$v['NAME'],'width'=>20),
+                array('value'=>$v['BRANCH_NAME'],'width'=>20),
+                array('value'=>$v['FROM_NAME'],'width'=>20),
+                array('value'=>$v['PHONE'],'width'=>20),
+                array('value'=>$v['ADDRESS'],'width'=>20),
+            );
+        }
+
+        echo json_encode(array('status'=>200,'data'=>array('title'=>'微心愿','head'=>$head,'list'=>$data)));
+
+    }
+
 
     //党员众创互助
     public function zc_help()
@@ -221,40 +264,11 @@ class DataController extends Controller
         //普通网格员/群众
         $people = (int)$WG[0]['count'] - (int)$Red_dy[0]['count'];
 
-//
-//        //交通运输
-//        $jiaotong_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-//        $jiaotong_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '交通运输类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-//        //公共事业类
-//        $public_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-//        $public_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公共事业类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-//        //公安类
-//        $police_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-//        $police_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '公安类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-//
-//        //消防类
-//        $xf_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-//        $xf_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '消防类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-//
-//        //卫计类
-//        $wj_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-//        $wj_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '卫计类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-//
-//        //国土类
-//        $gt_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-//        $gt_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '国土类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-//
-//        //城乡建设类
-//        $city_y = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '城乡建设类' AND DATE_FORMAT(HAPPEN_TIME,'%Y') =  DATE_FORMAT(NOW(),'%Y')");
-//        $city_m = $Model->query("SELECT  COUNT(*) as `count` FROM cxdj_ajax_event  WHERE CATEGORY1 = '城乡建设类' AND DATE_FORMAT(HAPPEN_TIME,'%Y-%m') =  DATE_FORMAT(NOW(),'%Y-%m')");
-//
-//
-//        $year = array((int)$jiaotong_y[0]['count'],(int)$public_y[0]['count'],(int)$police_y[0]['count'],(int)$xf_y[0]['count'],(int)$wj_y[0]['count'],(int)$gt_y[0]['count'],(int)$city_y[0]['count']);
-//        $month = array((int)$jiaotong_m[0]['count'],(int)$public_m[0]['count'],(int)$police_m[0]['count'],(int)$xf_m[0]['count'],(int)$wj_m[0]['count'],(int)$gt_m[0]['count'],(int)$city_m[0]['count']);
 
         echo json_encode(array('code'=>200,'wg'=>(int)$WG[0]['count'],'dy'=>(int)$Red_dy[0]['count'],'people'=>$people,'year'=>$event_year,'month'=>$event_month));
 
     }
+
 
     //网格事件当年100条记录
     public function wgRecord()

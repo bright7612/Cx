@@ -55,6 +55,24 @@
 
     });
 
+    uploader_{$id}.on( 'uploadProgress', function( file, percentage ) {
+
+        var $li = $list_{$id},
+        $percent = $li.find('.progress span');
+
+        // 避免重复创建
+        if ( !$percent.length ) {
+            $percent = $('<p class="progress" style="width: 500px;"><a id="percenta" style="background-color: rgba(248, 255, 168, 0);width: 500px;height: 100%;text-align: center;color: black;position: absolute;-webkit-box-align: center">0%</a><span style="background-color: dodgerblue;height: 100%;display: block"></span></p>')
+                    .appendTo( $li )
+                    .find('span');
+        }
+
+        $("#percenta").text(parseInt(percentage * 100) + '%' );
+        $percent.css( 'width', percentage * 500 + 'px' );
+
+    });
+
+
     uploader_{$id}.on( 'uploadError', function( file ) {
         toast.error("{:L('_ERROR_UPLOAD_')}{:L('_PERIOD_')}")
     });
