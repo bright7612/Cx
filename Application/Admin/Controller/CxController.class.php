@@ -1831,15 +1831,15 @@ class CxController extends AdminController{
 
     public function activity()
     {
-        $url = 'http://www.dysfz.gov.cn/apiXC/activityRecordList.do'; //党员党建
+        $url = 'http://www.dysfz.gov.cn/apiXC/volunteerList.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 200;
-        $da['ACTIVITYID'] = 33594;
+//        $da['ACTIVITYID'] = 33594;
 
-        $da['START'] = 1;
-        $das = json_encode($da);
-        $list = httpjson($url,$das);
-        dump($list);die;
+//        $da['START'] = 1;
+//        $das = json_encode($da);
+//        $list = httpjson($url,$das);
+//        dump($list);die;
 
         for ($i = 1 ;$i < 50 ; $i++){
             $da['START'] = $i;

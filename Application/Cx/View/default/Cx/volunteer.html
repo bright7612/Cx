@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <title>服务预约系统</title>
+    <link rel="stylesheet" href="__CX__/css/order.css">
+</head>
+<body>
+<header class="header2">
+    <p>
+        <!--标题-->
+        <span class="title2">志愿活动预约</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content2 activity_order">
+    <p class="title">
+        <span class="mark1"></span>
+        <span class="font1">{$list.title}</span>
+    </p>
+    <div class="list_box">
+        <ul>
+            <li>活动时间：{$list.time_var}</li>
+            <li>活动地点：{$list.addr}</li>
+            <li>组织单位：{$list.host}</li>
+            <li class="act_cont">活动内容：{$list.content}</li>
+        </ul>
+        <div class="img_box">
+            <img src="__CX__/imgs/ewm.jpg" alt="">
+            <p>扫描二维码进行预约</p>
+        </div>
+    </div>
+    <p class="btn_box btn_order">
+        <a href="javascript:;">预约</a>
+    </p>
+</article>
+
+<script type="text/javascript" src="__CX__/libs/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var id;
+        function getUrl(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            id=r[2];
+            if (r != null) return decodeURI(r[2]);
+            return null;
+        }
+        getUrl('dataId');
+        var html=$('.btn_box a').attr('href');
+        html=html+('?dataId='+id);
+        $('.btn_box a').attr('href',html);
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务预约系统</title>
+    <link rel="stylesheet" href="__CX__/css/order.css">
+</head>
+<body>
+<header class="header2">
+    <p>
+        <!--标题-->
+        <span class="title2">微心愿</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content2 heart_detail">
+    <div class="detail_box">
+        <p class="title1">{$detail.title}<span class="status blue">{$detail.state}</span></p>
+        <div class="title2_box">
+            <p class="title2">基本信息</p>
+        </div>
+        <div class="msg_box">
+            <p class="text">联系人：{$detail.username}</p>
+            <p class="text">联系电话：{$detail.telephone}</p>
+            <p class="text">申请时间：{$detail.start_time}</p>
+            <!--<p class="text">地址：万祥镇万兴村居民区家门口服务站</p>-->
+            <!--<p class="text">所属村居联系人：郑志杨</p>-->
+            <p class="text">心愿对象：{$detail.obj}</p>
+            <p class="text">心愿形式：{$detail.form}</p>
+            <p class="text text1">心愿故事：{$detail.content}</p>
+        </div>
+        <div class="title2_box">
+            <p class="title2">心愿申请图片</p>
+        </div>
+        <div class="img_box">
+            <img src="{$detail.path}" alt="">
+        </div>
+        <div class="title2_box">
+            <p class="title2">心愿认领信息</p>
+        </div>
+        <div class="msg_box">
+            <p class="text">认领人：{$detail.name}</p>
+            <p class="text">认领电话：{$detail.phone}</p>
+        </div>
+        <div class="btn_box">
+            <a href="#">我要认领</a>
+            <a href="javascript:;">我的心愿</a>
+        </div>
+    </div>
+</article>
+</body>
+</html>

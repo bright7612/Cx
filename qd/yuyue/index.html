@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <title>服务预约系统</title>
+    <script type="text/javascript" src="js/template.js"></script>
+    <script type="text/html" id="text1">
+        {{if list}}
+        <span class="close">×</span>
+        <p class="title1">{{list.title}}</p>
+        <p>时间：{{list.time}}</p>
+        <p>活动地点：{{list.addr}}</p>
+        <p>组织单位：{{list.host}}</p>
+        <p class="cont">
+            <span>活动内容：</span>
+            <span>{{list.content}}</span>
+        </p>
+        <a class="detail" href="pages/activity.html?dataId={{list.id}}">查看详情 ></a>
+        {{/if}}
+    </script>
+    <script type="text/html" id="text2">
+        {{if list}}
+        <span class="close">×</span>
+        <p class="title1">{{list.title}}</p>
+        <p>时间：{{list.time}}</p>
+        <p>地点：{{list.addr}}</p>
+        <p>组织单位：{{list.host}}</p>
+        <p>授课老师：{{list.teacher}}</p>
+        <a class="detail" href="pages/theme_party.html?dataId={{list.id}}">查看详情 ></a>
+        {{/if}}
+    </script>
+    <script type="text/html" id="text3">
+        {{if list}}
+        <span class="close">×</span>
+        <p class="title1">{{list.title}}</p>
+        <p>时间：{{list.time}}</p>
+        <p>活动地点：{{list.addr}}</p>
+        <p>组织单位：{{list.host}}</p>
+        <p class="cont">
+            <span>活动内容：</span>
+            <span>{{list.content}}</span>
+        </p>
+        <a class="detail" href="pages/volunteer.html?dataId={{list.id}}">查看详情 ></a>
+        {{/if}}
+    </script>
+    <script type="text/html" id="text5">
+        {{if list}}
+        <span class="close">×</span>
+        <p class="title1">{{list.title}}</p>
+        <p>地址：{{list.addr}}</p>
+        <p>容纳人数：{{list.contentNum}}</p>
+        <p>预约电话：{{list.orderNumber}}</p>
+        <a class="detail" href="pages/activity.html?dataId={{list.id}}">查看详情 ></a>
+        {{/if}}
+    </script>
+    <script type="text/html" id="rlist1">
+        {{if $data.length}}
+        {{each $data as value index}}
+        <li class="list1">
+            <a href="pages/activity.html?dataId={{value.id}}">
+                <p class="list_title">{{value.title}}</p>
+                <p class="list_in">
+                    <span class="iconfont icon-shijian icon_blue"></span>
+                    时间：{{value.time}}
+                </p>
+                <p class="list_in">
+                    <span class="iconfont icon-dingwei icon_yellow"></span>
+                    活动地点：{{value.addr}}
+                </p>
+                <p class="list_in">
+                    <span class="iconfont icon-danwei1 icon_green"></span>
+                    组织单位：{{value.host}}
+                </p>
+                <p class="list_in">
+                    <span class="iconfont icon-neirong icon_red"></span>
+                    活动内容：{{value.content}}
+                </p>
+            </a>
+        </li>
+        {{/each}}
+        {{/if}}
+    </script>
+    <script type="text/html" id="rlist2">
+        {{if $data.length}}
+        {{each $data as value index}}
+        <li class="list1">
+            <a href="pages/theme_party.html?dataId={{value.data}}">
+                <p class="list_title">{{value.title}}</p>
+                <p class="list_in">
+                    <span class="iconfont icon-shijian icon_blue"></span>
+                    时间：{{value.time}}
+                </p>
+                <p class="list_in">
+                    <span class="iconfont icon-dingwei icon_yellow"></span>
+                    地点：{{value.addr}}
+                </p>
+                <p class="list_in">
+                    <span class="iconfont icon-danwei1 icon_green"></span>
+                    组织单位：{{value.host}}
+                </p>
+                <p class="list_in">
+                    <span class="iconfont icon-neirong icon_red"></span>
+                    授课老师：{{value.teacher}}
+                </p>
+            </a>
+        </li>
+        {{/each}}
+        {{/if}}
+    </script>
+    <script type="text/html" id="rlist3">
+        {{if $data.length}}
+        {{each $data as value index}}
+        <li class="list1">
+            <a href="pages/volunteer.html?dataId={{value.id}}">
+                <p class="list_title">{{value.title}}</p>
+                <p class="list_in">
+                    <span class="iconfont icon-shijian icon_blue"></span>
+                    时间：{{value.time}}
+                </p>
+                <p class="list_in">
+                    <span class="iconfont icon-dingwei icon_yellow"></span>
+                    活动地点：{{value.addr}}
+                </p>
+                <p class="list_in">
+                    <span class="iconfont icon-danwei1 icon_green"></span>
+                    组织单位：{{value.host}}
+                </p>
+                <p class="list_in">
+                    <span class="iconfont icon-neirong icon_red"></span>
+                    活动内容：{{value.content}}
+                </p>
+            </a>
+        </li>
+        {{/each}}
+        {{/if}}
+    </script>
+    <script type="text/html" id="rlist4">
+        <li class="list4">
+            <a href="pages/heart_detail.html?dataId=4">
+                <p class="title2">女儿想要一个台灯</p>
+                <p class="status yellow">已完成</p>
+                <p class="text"><span class="iconfont icon-shijian icon_blue"></span>发布时间：2018-04-08</p>
+                <p class="text"><span class="iconfont icon-danwei icon_yellow"></span>心愿类型：个人 物质</p>
+            </a>
+        </li>
+    </script>
+    <script type="text/html" id="rlist5">
+        <li class="list5">
+            <div>
+                <a href="pages/place_order.html" class="list5_order">预约</a>
+                <p class="title2">商务楼宇服务站商务楼宇服务站商务楼宇服务站商务楼宇服务站</p>
+                <p class="text2">
+                    <span class="iconfont icon-dizhi icon_orange"></span>地址：福山路33号建工大厦101室内
+                </p>
+                <p class="text2">
+                    <span class="iconfont icon-renshu icon_green"></span>容纳人数：30
+                </p>
+                <p class="text2">
+                    <span class="iconfont icon-dianhua1 icon_blue"></span>预约电话：50521377
+                </p>
+            </div>
+        </li>
+    </script>
+    <script type="text/html" id="rlist6">
+        <li class="list6">
+            <a href="pages/crowd_funding.html">
+                <span class="list6_circle">100%</span>
+                <p class="title2">爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校</p>
+                <p class="text">为每一位贫困的学生献上一个温馨的校园为每一位贫困的学生献上一个温馨的校园为每一位贫困的学生献上一个温馨的校园为每一位贫困的学生献上一个温馨的校园为每一位贫困的学生献上一个温馨的校园</p>
+                <img src="imgs/activity.jpg" alt="">
+            </a>
+        </li>
+    </script>
+    <script type="text/html" id="rlist7">
+        <li class="list7">
+            <a href="pages/item_detail.html">
+                <p class="title2">户外公益赛</p>
+                <p class="text">吸引爱心企业和青年党员共同参与吸引爱心企业和青年党员共同参与吸引爱心企业和青年党员共同参与吸引爱心企业和青年党员共同参与吸引爱心企业和青年党员共同参与吸引爱心企业和青年党员共同参与吸引爱心企业和青年党员共同参与吸引爱心企业和青年党员共同参与</p>
+                <img src="imgs/activity.jpg" alt="">
+                <img src="imgs/activity.jpg" alt="">
+            </a>
+        </li>
+    </script>
+    <link rel="stylesheet" href="css/order.css">
+</head>
+<body>
+<header class="header1">
+    <!--标题-->
+    <span class="title1">服务预约系统</span>
+    <!--搜索框和智能导览-->
+    <a href="pages/guide.html" class="daolan">
+        <span class="iconfont icon-daolan"></span>
+        <span>智能导览</span>
+    </a>
+    <span class="search1 search_btn">查询</span>
+    <span class="search1 search_input_box">
+        <span class="iconfont icon-sousuo"></span>
+        <input type="text" class="search_input">
+    </span>
+</header>
+<article class="content1">
+    <article class="left">
+        <div id="tabBox">
+            <span class="tabs" value="1" data-id="82">
+            <span class="iconfont icon-yuyue"></span>
+            <span class="tab_text">党建活动预约</span>
+            </span>
+            <span class="tabs" value="2" data-id="88">
+            <span class="iconfont icon-kecheng"></span>
+            <span class="tab_text">主题党课</span>
+            </span>
+            <span class="tabs" value="3" data-id="82">
+            <span class="iconfont icon-activity"></span>
+            <span class="tab_text">志愿活动预约</span>
+            </span>
+            <span class="tabs" value="4" data-id="88">
+            <span class="iconfont icon-weixinyuan" data-id="82"></span>
+            <span class="tab_text">微心愿</span>
+            </span>
+            <span class="tabs" value="5" data-id="88">
+            <span class="iconfont icon-yuyue"></span>
+            <span class="tab_text">场地预约</span>
+            </span>
+            <span class="tabs" value="6" data-id="82">
+            <span class="iconfont icon-zhongchou-"></span>
+            <span class="tab_text">众筹服务</span>
+            </span>
+            <span class="tabs1" value="7" data-id="88">
+            <span class="iconfont icon-che"></span>
+            <span class="tab_text">项目直通车</span>
+            </span>
+        </div>
+    </article>
+    <article class="right">
+        <div id="mapMark" class="mapMark mapBox1"></div>
+        <!--<div id="mapMark2" class="mapMark1 mapBox2"></div>-->
+        <!--地图页点击可切换列表-->
+        <div id="r1Map" class="right1_map">
+            <span class="mChange mapBox" id="mChangeList">
+            <span class="iconfont icon-ic-format-list-bulle"></span>
+            <span class="cText">切换列表</span>
+        </span>
+            <div class="map" id="mMap">
+            </div>
+        </div>
+        <!--列表页，点击可切换地图-->
+        <div id="r1List" class="right_list">
+            <span class="mChange mapBox">
+            <span class="iconfont icon-ditu"></span>
+            <span class="cText">切换地图</span>
+            </span>
+            <p class="title1">党建活动预约</p>
+            <ul id="r1ul">
+                <!--<li class="list6">-->
+                    <!--<a href="pages/crowd_funding.html">-->
+                        <!--<span class="list6_circle">100%</span>-->
+                        <!--<p class="title2">爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校爱心学校</p>-->
+                        <!--<p class="text">为每一位贫困的学生献上一个温馨的校园为每一位贫困的学生献上一个温馨的校园为每一位贫困的学生献上一个温馨的校园为每一位贫困的学生献上一个温馨的校园为每一位贫困的学生献上一个温馨的校园</p>-->
+                        <!--<img src="imgs/activity.jpg" alt="">-->
+                    <!--</a>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </article>
+</article>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=0YB46yl2t3VNV7bakAGweAVZ9q8M4WZj"></script>
+<script type="text/javascript"
+        src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js"></script>
+<script type="text/javascript" src="libs/jquery/jquery.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>

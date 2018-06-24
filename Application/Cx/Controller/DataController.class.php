@@ -615,7 +615,7 @@ class DataController extends Controller
                 );
             }
 
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'发展党员','head'=>'','list'=>'')));
+            echo json_encode(array('code'=>200,'data'=>array('title'=>'发展党员','head'=>$head,'list'=>'')));
         }elseif($type == 3 && $num == "four"){
             $head = array(
                 array('name'=>'序号','width'=>10),
@@ -649,7 +649,7 @@ class DataController extends Controller
                 );
             }
 
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'发展党员','head'=>'','list'=>'')));
+            echo json_encode(array('code'=>200,'data'=>array('title'=>'发展党员','head'=>$head,'list'=>'')));
         }elseif ($type == 3 && $num == "three"){
             $head = array(
                 array('name'=>'序号','width'=>10),
@@ -684,7 +684,7 @@ class DataController extends Controller
                 );
             }
 
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'发展党员','head'=>'','list'=>'')));
+            echo json_encode(array('code'=>200,'data'=>array('title'=>'发展党员','head'=>$head,'list'=>'')));
         }
 
 

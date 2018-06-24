@@ -175,5 +175,228 @@ class CxController extends Controller
     }
 
 
+    //服务预约列表页
+    public function applylist($classif=null){
+        $c= array(
+            1=>'待人领',
+            2=>'已认领',
+            3=>'已完成',
+            5=>'已完成',
+        );
+        $data = array();
+        $map['status'] =1;
+        $map['lat'] =array('exp','IS NOT NULL');
+        $map['issue_id'] =82;
+        $data['activity'] = M('issue_content')->where($map)->field('id,title,addr,time,content,lat,lng,host')->order('sort desc,id desc')->select();
+        foreach ($data['activity'] as $k=>&$v){
+            $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+        }
+//        dump($data);;exit;
+        $map['issue_id'] =84;
+        $data['volunteers'] = M('issue_content')->where($map)->field('id,title,addr,time,content,lat,lng,host')->order('sort desc,id desc')->select();
+        foreach ($data['volunteers'] as $k=>&$v){
+            $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+        }
+        $map['issue_id'] =86;
+        $data['direct'] = M('issue_content')->where($map)->field('id,title,addr,content,lat,lng,telphone,num')->order('sort desc,id desc')->select();
+        foreach ($data['direct'] as $k=>&$v){
+            $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+        }
+        $map['issue_id'] =88;
+        $data['lecture'] = M('issue_content')->where($map)->field('id,title,addr,time,content,lat,lng,teacher,host')->order('sort desc,id desc')->select();
+        foreach ($data['lecture'] as $k=>&$v){
+            $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+
+        }
+        $map2['status'] = 1;
+        $map2['state'] = array('in','1,2,3,5');
+        $data['wish'] = M('sign_wish')->where($map2)->field('id,title,content,obj,form,start_time,state')->order('sort desc,id desc')->select();
+        foreach ($data['wish'] as $k=>&$v){
+            $v['time_var'] =date("Y-m-d H:i:s",$v['start_time']);
+            $v['state_var'] = $c[$v['state']];
+        }
+
+        //
+        $map3['status'] = 1;
+        $map3['state'] = 1;
+        $data['raise'] = M('sign_zhch')->where($map3)->field('id,title,content,img')->order('sort desc,id desc')->select();
+        foreach ($data['raise'] as $k=>&$v){
+            $item = get_cover($v['img']);
+            $v['path'] = 'http://183.131.86.64:8620'.$item['path'];
+        }
+
+        $map4['status'] = 1;
+        $map4['state'] = array('eq','1');
+        $data['ztc'] = M('sign_direct')->where($map4)->field('id,title,desc,img')->order('sort desc,id desc')->select();
+
+        foreach ($data['ztc'] as $k=>&$v){
+           $item = get_cover($v['img']);
+           $v['path'] = 'http://183.131.86.64:8620'.$item['path'];
+        }
+
+
+
+        if($classif){
+            $this->Apireturn($data[$classif]);
+        }
+        $this->Apireturn($data);
+
+    }
+
+    public function wxyDetail()
+    {
+        $id = I('id');
+        $Model = M();
+        $detail = $Model->query("SELECT
+                                        wish.img,
+                                        wish.telephone,
+                                        username,
+                                        `title`,
+                                        wish.`content`,
+                                        `obj`,
+                                        `form`,
+                                        `start_time`,
+                                        wish.`state`,
+                                        `name`,
+                                        apply.telephone AS phone
+                                    FROM
+                                        `cxdj_sign_wish` AS wish JOIN cxdj_sign_wish_apply AS apply ON wish.id = apply.wish_id
+                                    WHERE
+                                        wish.`status` = 1
+                                    AND wish.`state` IN ('1', '2', '3', '5')
+                                    AND  wish.id = $id
+                                    ORDER BY
+                                        sort DESC,
+                                        wish.id DESC");
+
+
+        if($detail[0]['obj'] == 1){
+            $detail[0]['obj'] = '个人';
+        }elseif ($detail[0]['obj'] == 2){
+            $detail[0]['obj'] = '团体';
+        }elseif (   $detail[0]['obj'] == '3'){
+            $detail[0]['obj'] ='群众';
+        }
+
+        if($detail[0]['form'] == 1){
+            $detail[0]['form'] = '物质';
+        }elseif($detail[0]['form'] == 2){
+            $detail[0]['form'] = '精神';
+        }
+
+        //心愿状态  0未审核  1审核通过  -1审核失败  2已认领 3已完成 4用户取消申请 5已评价
+        if($detail[0]['state'] == 0){
+            $detail[0]['state'] = '未审核';
+        }elseif ($detail[0]['state'] == 1 ){
+            $detail[0]['state'] = '审核通过';
+        }elseif ($detail[0]['state'] == -1){
+            $detail[0]['state'] = '审核失败';
+        }elseif ( $detail[0]['state'] == 2){
+            $detail[0]['state'] = '已认领';
+        }elseif ($detail[0]['state'] == 3){
+            $detail[0]['state'] = '已完成';
+        }elseif ( $detail[0]['state'] == 4){
+            $detail[0]['state'] = '用户取消申请';
+        }elseif ( $detail[0]['state'] == 5){
+            $detail[0]['state'] = '已评价';
+        }
+
+        $item = get_cover($detail[0]['img']);
+        $detail[0]['path'] = 'http://183.131.86.64:8620'. $item['path'];
+        $detail[0]['start_time'] = date('Y-m-d',$detail[0]['start_time']);
+
+
+        $this->assign('detail',$detail[0]);
+        $this->display('heart_detail');
+    }
+
+
+    //场地预约页面
+    public function venueIndex()
+    {
+        $this->display('place_order');
+    }
+
+
+    //场地预约
+    public function venue()
+    {
+        $data = $_POST;
+        $data['content_id'] = $data['id'];
+        $data['source'] = 2;
+        $data['organization'] = $data['organization'];
+        $data['phone'] = $data['phone'];
+        $data['text'] = $data['text'];
+        $data['bespoke_num'] = $data['num'];
+        $data['start_time'] = $data['start_time'];
+        $data['end_time'] = $data['end_time'];
+        $data['identity'] = $data['identity'];
+        $data['facility'] = $data['facility'];
+
+        $res = M('sign_field')->add($data);
+
+        if($res){
+            echo json_encode(array('code'=>200,'msg'=>'预约成功'));
+        }else{
+            echo json_encode(array('code'=>404,'msg'=>'预约失败'));
+        }
+
+    }
+
+    //志愿活动预约详情
+    public function volunteer_activity()
+    {
+        $id = I('id');
+        $map['id'] = $id;
+        $data = M('issue_content')->where($map)->field('id,title,addr,time,content,lat,lng,host')->order('sort desc,id desc')->select();
+        foreach ($data as $k=>&$v){
+            $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+        }
+
+        $this->assign('list',$data[0]);
+        $this->display('volunteer');
+    }
+
+    //众筹服务
+    public function zhongchou()
+    {
+        $id = I('id');
+        $this->display('crowd_funding');
+    }
+
+
+
+
+    /****************************************************智能导览************************************************/
+
+    public function service_center()
+    {
+        $this->display('detail');
+    }
+
+    public function zd_fw()
+    {
+        $this->display('position_list');
+    }
+
+    public function organization()
+    {
+        $this->display('organize_bulid');
+    }
+
+    public function brand()
+    {
+        $this->display('excellent_party');
+    }
+
+
+
+
+
+
+
+
+
+
 
 }
