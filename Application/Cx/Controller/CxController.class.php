@@ -1,6 +1,7 @@
 <?php
 namespace Cx\Controller;
 use Think\Controller;
+
 // 指定允许其他域名访问
 header('Access-Control-Allow-Origin:*');
 // 响应类型
@@ -41,17 +42,23 @@ class CxController extends Controller
     public function activityList()
     {
 
-        $id = I('category_id');
+        $id = I('id');
+
+
         $result = D('Cx')->mapCommon($id);
         foreach ($result as $k=>&$v){
             $v['content'] =   preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($v['content'],""));  //过滤标签和空格
             $v['time'] = date('Y-m-d H:i');
+            $v['ewm'] = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=1';
          }
+
         $this->assign('mapList',$result[0]);
         $this->display('activity_order');
 
     }
 
+
+    //党课预约
     public function classList()
     {
 
@@ -60,7 +67,9 @@ class CxController extends Controller
         foreach ($result as $k=>&$v){
             $v['content'] =   preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($v['content'],""));  //过滤标签和空格
             $v['time'] = date('Y-m-d H:i');
+            $v['ewm'] = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=4';
         }
+
         $this->assign('classList',$result[0]);
         $this->display('theme_party');
 
@@ -143,6 +152,7 @@ class CxController extends Controller
 
         $this->display();
     }
+
 
 
     public function wxInfo()
@@ -311,12 +321,49 @@ class CxController extends Controller
     }
 
 
+    public function wxy_apply()
+    {
+        $this->display('heart_order');
+    }
+
     //场地预约页面
     public function venueIndex()
     {
         $this->display('place_order');
     }
 
+    public function qrcode($url='',$level=3,$size=20){
+
+        Vendor('phpqrcode.phpqrcode');
+        $errorCorrectionLevel =intval($level) ;//容错级别
+        $matrixPointSize = intval($size);//生成图片大小
+        //生成二维码图片
+        //echo $_SERVER['REQUEST_URI'];
+        $object = new \QRcode();
+        $object->png($url, false, $errorCorrectionLevel, $matrixPointSize, 2);
+    }
+
+    //获取二维码
+    public function qrcodefor($id=null,$type=null)
+    {
+        switch ($type) {
+            case 1: //活动
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/activity_det/id/' . $id);
+                break;
+            case 2: //志愿者
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/volunteer_det/id/' . $id);
+                break;
+            case 3: //场地
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/direct_det/id/' . $id);
+                break;
+            case 4: //党课
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/lecture_from/content_id/' . $id);
+                break;
+            case 5: // 微心愿
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/wish_det/content_id/' . $id);
+                break;
+        }
+    }
 
     //场地预约
     public function venue()
@@ -351,10 +398,17 @@ class CxController extends Controller
         $data = M('issue_content')->where($map)->field('id,title,addr,time,content,lat,lng,host')->order('sort desc,id desc')->select();
         foreach ($data as $k=>&$v){
             $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+            $v['ewm'] = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=2';
         }
+
 
         $this->assign('list',$data[0]);
         $this->display('volunteer');
+    }
+
+    public function volunteer_apply()
+    {
+        $this->display('volunteer_order');
     }
 
     //众筹服务
@@ -365,18 +419,95 @@ class CxController extends Controller
     }
 
 
+    //我要参与 众筹服务
+    public function zc_applyIndex()
+    {
+        $this->display('crowd_order');
+    }
+
+
+    //项目直通车详情
+    public function ztc_detail()
+    {
+        $id = I('id');
+        $detail = M()->query("SELECT
+                                    direct.title,
+                                    direct.img,
+                                    direct.`desc`,
+                                    apply.`name`,
+                                    eval.content
+                                    
+                                    FROM
+                                        cxdj_sign_direct AS direct
+                                    JOIN cxdj_sign_direct_apply AS apply ON direct.id = apply.direct_id
+                                    RIGHT JOIN cxdj_sign_direct_evaluate AS eval ON direct.id = eval.direct_id
+                                    WHERE
+                                        direct.state = 1
+                                    AND direct.`status` = 1
+                                    AND apply.state = 1
+                                    AND apply.`status` = 1
+                                    AND eval.state = 1
+                                    AND eval.`status` = 1
+                                    AND direct.id = $id
+                                    ");
+
+        $item = get_cover($detail[0]['img']);
+        $detail[0]['path'] = 'http://183.131.86.64:8620'. $item['path'];
+
+        $this->assign('detail',$detail[0]);
+        $this->display('item_detail');
+    }
+
+
 
 
     /****************************************************智能导览************************************************/
 
     public function service_center()
     {
+        $Model = M('issue_content');
+        $where['status'] = 1;
+        $where['issue_id'] = 170;
+        $detail = $Model ->where($where)->field('id,title,content')->find();
+        $this->assign('detail',$detail);
         $this->display('detail');
     }
 
     public function zd_fw()
     {
-        $this->display('position_list');
+        $Model = M('issue_content');
+        $where['status'] = 1;
+        $where['issue_id'] = 171;
+        $list = $Model ->where($where)->field('id,title,content,cover_id')->select();
+
+        $count = count($list);
+        if($count == 1){
+            $this->assign('detail',$list[0]);
+            $this->display('zd_detail');
+        }else{
+
+            foreach ($list as $k=>&$v){
+                $v['content'] = preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($v['content'],""));  //过滤标签和空格
+            }
+
+            $this->assign('list',$list);
+            $this->display('position_list');
+        }
+
+
+    }
+
+    public function zd_detail()
+    {
+        $Model = M('issue_content');
+        $id = I('id');
+
+        $where['status'] = 1;
+        $where['id'] = $id;
+        $detail = $Model ->where($where)->field('id,title,content')->find();
+
+        $this->assign('detail',$detail);
+        $this->display('zd_detail');
     }
 
     public function organization()
@@ -386,8 +517,21 @@ class CxController extends Controller
 
     public function brand()
     {
-        $this->display('excellent_party');
+        $Model = M('issue_content');
+        $where['status'] = 1;
+        $where['issue_id'] = 173;
+        $detail = $Model ->where($where)->field('id,title,content')->find();
+
+        $this->assign('detail',$detail);
+        $this->display('brand_detail');
     }
+
+
+    public function organization_detail()
+    {
+        $this->display('organize_construct');
+    }
+
 
 
 

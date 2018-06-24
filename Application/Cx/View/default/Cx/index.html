@@ -60,7 +60,7 @@
         {{if $data.length}}
         {{each $data as value index}}
         <li class="list1">
-            <a href="/Cx/Cx/volunteer_activity?id={{value.id}}">
+            <a href="/Cx/Cx/activityList?id={{value.id}}">
                 <p class="list_title">{{value.title}}</p>
                 <p class="list_in">
                     <span class="iconfont icon-shijian icon_blue"></span>
@@ -114,7 +114,7 @@
         {{if $data.length}}
         {{each $data as value index}}
         <li class="list1">
-            <a href="pages/volunteer.html?dataId={{value.id}}">
+            <a href="/Cx/Cx/volunteer_activity?id={{value.id}}">
                 <p class="list_title">{{value.title}}</p>
                 <p class="list_in">
                     <span class="iconfont icon-shijian icon_blue"></span>
@@ -190,7 +190,7 @@
         {{if $data.length}}
             {{each $data as value index}}
                 <li class="list7">
-                    <a href="pages/item_detail.html">
+                    <a href="/Cx/Cx/ztc_detail?id={{v.id}}">
                         <p class="title2">{{value.title}}</p>
                         <p class="text">{{value.desc}}</p>
                         <img src={{value.path}} alt="">

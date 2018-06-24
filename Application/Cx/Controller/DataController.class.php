@@ -116,7 +116,7 @@ class DataController extends Controller
            //众筹未完成
            $love_w = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2,'STATE'=>array('in','1,2')))->count();
 
-           $loveList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE')->select();
+           $loveList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE')->order('id DESC')->select();
 
             foreach ($loveList as $k=>&$v){
                 $v['Percentage'] = 60;
@@ -135,7 +135,7 @@ class DataController extends Controller
         //志愿服务总数
         $volunteer = $this->ajax_volunteer->where(array('sh_state'=>1))->count();
         //志愿者服务记录
-        $volunteerList = $this->ajax_volunteer->where(array('sh_state'=>1))->field('NAME,BEGIN_TIME')->select();
+        $volunteerList = $this->ajax_volunteer->where(array('sh_state'=>1))->field('NAME,BEGIN_TIME')->order('id DESC')->select();
 
         foreach ($volunteerList as $k=>&$v){
             $v['BEGIN_TIME'] = date("Y-m-d",strtotime($v['BEGIN_TIME']));
@@ -211,7 +211,7 @@ class DataController extends Controller
 
 //            echo json_encode(array('status'=>1,'msg'=>'请求成功','data'=>array('count'=>$count,'y_count'=>$love_y,'w_count'=>$love_w)));
             //众创互助记录
-            $zcList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE')->select();
+            $zcList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE')->order('id DESC')->select();
             foreach ($zcList as $k=>&$v){
                 $v['Percentage'] = 80;
             }
@@ -278,8 +278,40 @@ class DataController extends Controller
 
 
     //网格事件当年100条记录
-    public function wgRecord()
+    public function wgRecord($classif=null)
     {
+        //当月网格数100条记录
+        if($classif == 1){
+            $event_month = $this->ajax_event->query("SELECT
+                                                        ADDRESS AS address,
+                                                        CATEGORY1 AS category,
+                                                        REPORTOR AS person,
+                                                        DESCRIPTION AS content,
+                                                        UNIX_TIMESTAMP(ACCEPT_TIME) AS st_time,
+                                                        UNIX_TIMESTAMP(END_TIME) AS end_time
+                                                    
+                                                    FROM
+                                                        cxdj_ajax_event
+                                                    WHERE
+                                                        DATE_FORMAT(HAPPEN_TIME, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m') AND REPORTOR_CARDNUM <>''
+                                                    LIMIT 200 ");
+        } //红色网格
+        elseif($classif == 2){
+            $event_month = $this->ajax_event->query("SELECT
+                                                        ADDRESS AS address,
+                                                        CATEGORY1 AS category,
+                                                        REPORTOR AS person,
+                                                        DESCRIPTION AS content,
+                                                        UNIX_TIMESTAMP(ACCEPT_TIME) AS st_time,
+                                                        UNIX_TIMESTAMP(END_TIME) AS end_time
+                                                    
+                                                    FROM
+                                                        cxdj_ajax_event
+                                                    WHERE
+                                                        DATE_FORMAT(HAPPEN_TIME, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m') AND REPORTOR_CARDNUM =''
+                                                    LIMIT 200 ");
+        }//非红色网格
+        else{
         //当月网格数100条记录
         $event_month = $this->ajax_event->query("SELECT
                                                         ADDRESS AS address,
@@ -294,6 +326,8 @@ class DataController extends Controller
                                                     WHERE
                                                         DATE_FORMAT(HAPPEN_TIME, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
                                                     LIMIT 100 ");
+        }
+
         //end_time 事件解决日期
         foreach ($event_month as $k=>&$v){
             if($v['end_time'] < time()){
@@ -321,10 +355,19 @@ class DataController extends Controller
 
             );
         }
+        if($classif == 1){
+            echo json_encode(array('code'=>200,'data'=>array('title'=>'红色网格事件','head'=>$head,'list'=>$data)));
+        }
+        elseif($classif == 2){
+            echo json_encode(array('code'=>200,'data'=>array('title'=>'普通网格事件','head'=>$head,'list'=>$data)));
+        }
+        else{
+            echo json_encode(array('code'=>200,'data'=>array('title'=>'网格事件','head'=>$head,'list'=>$data)));
+        }
 
-        echo json_encode(array('code'=>200,'data'=>array('title'=>'网格事件','head'=>$head,'list'=>$data)));
 
     }
+
 
     //四个平台数据
     public function platform()

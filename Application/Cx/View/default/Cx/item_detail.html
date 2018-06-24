@@ -6,7 +6,7 @@
     <meta name="format-detection" content="telephone=no"/>
     <meta name="format-detection" content="email=no"/>
     <title>服务预约系统</title>
-    <link rel="stylesheet" href="../css/order.css">
+    <link rel="stylesheet" href="__CX__/css/order.css">
 </head>
 <body>
 <header class="header2">
@@ -24,12 +24,11 @@
     <div class="part1">
         <p class="title1">
             <span class="little_block"></span>
-            <span class="title1_text">随手公益</span>
+            <span class="title1_text">{$detail.title}</span>
         </p>
-        <p class="text">三新党员通过公益跑活动，向过往游客宣传文明旅游、健康生活的公益理念，号召大家一起保护环境、绿色出行</p>
+        <p class="text">{$detail.desc}</p>
         <div class="img_box">
-            <img src="../imgs/activity.jpg" alt="">
-            <img src="../imgs/activity.jpg" alt="">
+            <img src="{$detail.path}" alt="">
         </div>
     </div>
     <div class="part2">
@@ -37,10 +36,7 @@
             <span class="title1_text">认领方</span>
         </p>
         <ul class="claim_box">
-            <li class="text">李亮&nbsp;&nbsp;已认领</li>
-            <li class="text">郑志阳&nbsp;&nbsp;已认领已认领</li>
-            <li class="text">第一党组织&nbsp;&nbsp;已认领</li>
-            <li class="text">长兴县政府&nbsp;&nbsp;已认领</li>
+            <li class="text">{$detail.name}&nbsp;&nbsp;已认领</li>
         </ul>
     </div>
     <div class="part3">
@@ -67,12 +63,9 @@
             <ul class="content">
                 <li>
                     <span class="iconfont icon-daipingjia icon_blue"></span>
-                    <span>不错的项目</span>
+                    <span>{$detail.content}</span>
                 </li>
-                <li>
-                    <span class="iconfont icon-daipingjia icon_blue"></span>
-                    <span>服务大众，受惠于民，非常不错，值得支持</span>
-                </li>
+
             </ul>
         </div>
     </div>

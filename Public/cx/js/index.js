@@ -17,8 +17,8 @@ $(function () {
     function ajaxObj(data1, obj1) {
         $.ajax({
             type: "GET",
-            // url: "http://cxdj.cmlzjz.com/home/wxapi/applylist",
-            url: "http://192.168.1.254/cx/cx/applylist",
+            // url: "http://192.168.1.254/cx/cx/applylist",
+            url: "http://183.131.86.64:8620/cx/cx/applylist",
             // url: "1.json",
             // data: {category_id: a},
             dataType: "json",

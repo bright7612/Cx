@@ -12,7 +12,7 @@
 <header class="header2">
     <p>
         <!--标题-->
-        <span class="title2">志愿活动预约</span>
+        <span class="title2">微心愿</span>
         <!--返回按钮-->
         <a class="return" href="javascript:history.back(-1);">
             <span class="iconfont icon-fanhui"></span>
@@ -23,7 +23,7 @@
 <article class="content2 activity_order activity_order1">
     <p class="title">
         <span class="mark1"></span>
-        <span class="font1">志愿活动预约标题</span>
+        <span class="font1">我的微心愿</span>
     </p>
     <div class="input_box">
         <div>
@@ -35,7 +35,7 @@
         </div>
         <div>
             <p>
-                <span class="iconfont icon-shenfenzheng icon_blue"></span>
+                <span class="iconfont icon-shenfenzheng icon_yellow"></span>
                 <span class="text2">身份证号</span>
             </p>
             <input type="text" placeholder="请输入15位或18位身份证号码" id="card">
@@ -47,12 +47,32 @@
             </p>
             <input type="text" placeholder="请输入手机号码" id="phone">
         </div>
-        <div class="dang">
+        <div>
             <p>
                 <span class="iconfont icon-renlingxiangmuxuanzhong- icon_red"></span>
                 <span class="text2">所属党组织</span>
             </p>
-            <input type="text" placeholder="请输入身份证号识别" id="party" readonly>
+            <select name="" id="organization">11111
+                <option class="option1" value="0" selected>请选择所属党组织</option>
+                <option class="option1" value="第一党组织">第一党组织</option>
+                <option class="option1" value="第二党组织">第二党组织</option>
+                <option class="option1" value="第三党组织">第三党组织</option>
+            </select>
+            <img src="__CX__/imgs/arrow.png" alt="">
+        </div>
+        <div>
+            <p>
+                <span class="iconfont icon-danwei icon_blue"></span>
+                <span class="text2">单位企业</span>
+            </p>
+            <input type="text" placeholder="请输入单位名称" id="company">
+        </div>
+        <div>
+            <p>
+                <span class="iconfont icon-weibiaoti-_huabanfuben icon_green"></span>
+                <span class="text2">预约人数</span>
+            </p>
+            <input type="text" placeholder="最多可预约人数是12人" id="bespoke_num">
         </div>
         <div>
             <p>
@@ -65,24 +85,6 @@
             </select>
             <img src="__CX__/imgs/arrow.png" alt="">
         </div>
-
-        <div>
-            <p>
-                <span class="iconfont icon-weibiaoti-_huabanfuben icon_green"></span>
-                <span class="text2">预约人数</span>
-            </p>
-            <input type="text" placeholder="最多可预约人数是12人" id="order_num">
-        </div>
-        <!--<div>-->
-        <!--<textarea id="remark" placeholder="请输入活动备注"></textarea>-->
-        <!--</div>-->
-        <div class="danwei">
-            <p>
-                <span class="iconfont icon-danwei icon_blue"></span>
-                <span class="text2">单位企业</span>
-            </p>
-            <input type="text" placeholder="请输入单位名称" id="company">
-        </div>
         <div>
             <textarea name="" id="text" placeholder="请输入备注"></textarea>
         </div>
@@ -90,14 +92,14 @@
     <p class="btn_box1 submit_box">
         <a id="submit">提交</a>
     </p>
+    <input type="text" id="displayInput" style="display: none;" value="12">
     <div id="popUp">
         <p class="pop_title">提&nbsp;&nbsp;示</p>
         <p class="pop_content"></p>
         <span class="sure">确 定</span>
     </div>
 </article>
-<input type="text" id="displayInput" style="display: none;" value="12">
 </body>
 <script type="text/javascript" src="__CX__/libs/jquery/jquery.js"></script>
-<script type="text/javascript" src="__CX__/js/volunteer.js"></script>
+<script type="text/javascript" src="__CX__/js/order.js"></script>
 </html>
