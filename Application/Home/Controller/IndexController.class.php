@@ -22,8 +22,7 @@ class IndexController extends Controller
     //系统首页
     public function index()
     {
-
-//        redirect("/Cx/Cx/index");
+        header("Location:/admin");exit;
         if(is_login()){
         }
         hook('homeIndex');
@@ -66,5 +65,38 @@ class IndexController extends Controller
         }
     }
 
+    public function qrcode($url='',$level=3,$size=20){
 
+        Vendor('phpqrcode.phpqrcode');
+        $errorCorrectionLevel =intval($level) ;//容错级别
+        $matrixPointSize = intval($size);//生成图片大小
+        //生成二维码图片
+        //echo $_SERVER['REQUEST_URI'];
+        $object = new \QRcode();
+        $object->png($url, false, $errorCorrectionLevel, $matrixPointSize, 2);
+    }
+
+    public function qrcodefor($type=null,$id=null){
+        switch ($type){
+            case 1: //活动
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/activity_det/id/'.$id);
+                break;
+            case 2: //志愿者
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/volunteer_det/id/'.$id);
+                break;
+            case 3: //场地
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/direct_det/id/'.$id);
+                break;
+            case 4: //党课
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/lecture_from/content_id/'.$id);
+                break;
+            case 5: // 微心愿
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/wish_det/content_id/'.$id);
+                break;
+        }
+
+
+
+
+    }
 }

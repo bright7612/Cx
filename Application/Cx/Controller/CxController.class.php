@@ -161,4 +161,19 @@ class CxController extends Controller
 
         echo json_encode(array('status'=>1,'msg'=>'请求成功','data'=>$res));
     }
+
+    //api总出口
+    private function Apireturn($data,$code = 200,$msg = '请求成功'){
+        if(!$data){
+            $data= array();
+        }
+        $da['data'] = $data;
+        $da['code'] = $code;
+        $da['msg'] = $msg;
+        echo json_encode($da);
+        exit;
+    }
+
+
+
 }

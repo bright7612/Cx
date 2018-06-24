@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <title>长兴县党建大数据平台</title>
+    <link rel="stylesheet" href="../css/head_screen.css">
+    <script type="text/javascript" src="../libs/jquery/jquery.js"></script>
+    <script type="text/javascript" src="../libs/template.js"></script>
+    <script type="text/html" id="topUl">
+        {{if $data.length}}
+        {{each $data as value index}}
+        <li class="head_box">
+            <a href="#">
+                <img src='../imgs/head/{{value.id}}.png' alt="">
+                <p class="border"></p>
+                <p class="name">{{value.name}}</p>
+                <p class="text">{{value.text}}</p>
+            </a>
+        </li>
+        {{/each}}
+        {{/if}}
+    </script>
+    <script type="text/html" id="bottomUl">
+        {{if $data.length}}
+        {{each $data as value index}}
+        <li class="head_box">
+            <a href="#">
+                <img src='../imgs/head/{{value.id}}.png' alt="">
+                <p class="border"></p>
+                <p class="name">{{value.name}}</p>
+                <p class="text">{{value.text}}</p>
+            </a>
+        </li>
+        {{/each}}
+        {{/if}}
+    </script>
+</head>
+<body>
+<ul class="content content1" id="content1">
+    <!--<li class="head_box">-->
+    <!--<a href="#">-->
+    <!--<img src="../imgs/head/1.png" alt="">-->
+    <!--<p class="border"></p>-->
+    <!--<p class="name">包爱平</p>-->
+    <!--<p class="text">林城镇桥南村党总支书记，浙江省“千名好支书”，长兴县“美丽乡村建设优秀带头人”</p>-->
+    <!--</a>-->
+    <!--</li>-->
+
+</ul>
+<ul class="content content2" id="content2">
+    <!--<li class="head_box">-->
+    <!--<a href="">-->
+    <!--<img src="../imgs/head/6.png" alt="">-->
+    <!--<p class="border"></p>-->
+    <!--<p class="name">范妍</p>-->
+    <!--<p class="text">长兴县国家税务局纳税服务科党支部书记、科长，浙江省“千名好支书”，浙江省国税系统首届“最美国税人”</p>-->
+    <!--</a>-->
+    <!--</li>-->
+</ul>
+<script type="text/javascript">
+    $(function () {
+        //设置格子背景色的提前显示
+        var a = 0;
+        var pageNum;
+        var lastNum;
+        var lastRun;
+        var list1 = [];
+        var list2 = [];
+        var data;
+        var timmer;
+        var num = 10;
+        $.ajax({
+            type: 'GET',
+            url: "../json/head.json",
+            dataType: "json",
+            success: function (e) {
+                data = e.data;
+                pageNum = parseInt(data.length / 10);//总共展示的页数
+                lastNum = parseInt(data.length % 10);//最后一页显示的个数
+                lastRun = 0;//默认最后一页没有第二行
+                if (lastNum > 5) {
+                    lastRun = lastNum - 5;//最后一页第二行的个数
+                }
+                intervalFun();
+            },
+            error: function () {
+                console.log("访问失败");
+            }
+        });
+        //页面刚加载需要执行，以及定时器中需要执行的函数
+        function intervalFun() {
+            if (a <= pageNum) {
+                num=10;
+                list1 = data.slice(10 * a, 10 * a + 5);
+                list2 = data.slice(10 * a + 5, 10 * a + 10);
+            }
+            if (a == pageNum) {
+                num = lastNum;
+                if (lastRun == 0) {
+                    list1 = data.slice(10 * a, data.length);
+                    list2 = false;
+                } else {
+                    list1 = data.slice(10 * a, 10 * a + 5);
+                    list2 = data.slice(10 * a + 5, data.length);
+                }
+                a = 0;
+            }
+            putList();
+            headAnimate();
+            a++;
+        }
+
+        function putList() {
+            $('#content1').empty().html(template('topUl', list1));
+            if(list2){
+                $('#content2').empty().html(template('topUl', list2));
+            }
+        }
+
+        function headAnimate() {
+            $('.head_box a').animate({
+                'left': '0'
+            }, 1000, function () {
+                $('.head_box').css({
+                    'overflow': 'visible'
+                });
+                //设置头像的显示
+                for (var i = 0; i < 10; i++) {
+                    $('.head_box img').eq(i).delay(600 * i).fadeIn(100).animate({
+                        'top': '-124px'
+                    }, 500);
+                }
+                $('.head_box p').delay(630*num).fadeIn(500);
+                $('.content1').delay(630*num+2000).animate({
+                    'left': '-2000px'
+                }, 1000, function () {
+                    $('.content img').css({
+                        "top": "-200px",
+                        "display": "none"
+                    });
+                    $('.head_box').css({
+                        'overflow': 'hidden'
+                    })
+                    $('.content a').css({
+                        "left": "-316px",
+                    });
+                    $('.content p').css({
+                        "display": "none"
+                    });
+                    $('.head_box').css({
+                        'overflow': 'none'
+                    });
+                    $('.content1').css({
+                        'left': 0
+                    });
+                });
+                $('.content2').delay(630*num+2000).animate({
+                    'right': '-2000px'
+                }, 1000, function () {
+                    $('.content2').css({
+                        'right': 0
+                    });
+                    clearInterval(timmer);
+                    intervalFun();
+                    timmer = setInterval(function () {
+                        intervalFun();
+                    }, 630*num+3000);
+                });
+            })
+        }
+    })
+</script>
+</body>
+</html>

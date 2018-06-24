@@ -1,0 +1,297 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "56679924",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          119.910952,
+          31.026665
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679924,
+        "ID": 72,
+        "ADDRESS": "Georgetown Harbor / 30th St NW",
+        "TERMINAL_NUMBER": "31215",
+        "LATITUDE": 31.032188,
+        "LONGITUDE": 119.917667,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-05T13:43:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 15,
+        "NUMBER_OF_EMPTY_DOCKS": 4,
+        "X": 394863.27537199,
+        "Y": 137153.4794371,
+        "SE_ANNO_CAD_DATA": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56679925",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.99101828288666,
+          38.9336754620795
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679925,
+        "ID": 73,
+        "ADDRESS": "12th & Newton St NE",
+        "TERMINAL_NUMBER": "31501",
+        "LATITUDE": 38.933668,
+        "LONGITUDE": -76.991016,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-05T15:17:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 8,
+        "NUMBER_OF_EMPTY_DOCKS": 3,
+        "X": 400778.93906675,
+        "Y": 140642.73217716,
+        "SE_ANNO_CAD_DATA": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56679926",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.04658929718887,
+          38.89492645223698
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679926,
+        "ID": 74,
+        "ADDRESS": "US Dept of State / Virginia Ave & 21st St NW",
+        "TERMINAL_NUMBER": "31220",
+        "LATITUDE": 38.894919,
+        "LONGITUDE": -77.046587,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-09T18:05:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 0,
+        "NUMBER_OF_EMPTY_DOCKS": 15,
+        "X": 395958.57590909,
+        "Y": 136342.26423477,
+        "SE_ANNO_CAD_DATA": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56679927",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.02224328918696,
+          38.88627345122643
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679927,
+        "ID": 75,
+        "ADDRESS": "LEnfant Plaza / 7th & C St SW",
+        "TERMINAL_NUMBER": "31218",
+        "LATITUDE": 38.886266,
+        "LONGITUDE": -77.022241,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-06T20:23:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 12,
+        "NUMBER_OF_EMPTY_DOCKS": 2,
+        "X": 398070.35828347,
+        "Y": 135380.91731644,
+        "SE_ANNO_CAD_DATA": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56679928",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.026015291389,
+          38.893035452677104
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679928,
+        "ID": 76,
+        "ADDRESS": "10th St & Constitution Ave NW",
+        "TERMINAL_NUMBER": "31219",
+        "LATITUDE": 38.893028,
+        "LONGITUDE": -77.02601299999999,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-07T20:27:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 16,
+        "NUMBER_OF_EMPTY_DOCKS": 14,
+        "X": 397743.31133834,
+        "Y": 136131.63860373,
+        "SE_ANNO_CAD_DATA": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56679929",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.05484730033457,
+          38.89519145178692
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679929,
+        "ID": 77,
+        "ADDRESS": "Kennedy Center",
+        "TERMINAL_NUMBER": "31211",
+        "LATITUDE": 38.895184,
+        "LONGITUDE": -77.054845,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-05T20:31:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 7,
+        "NUMBER_OF_EMPTY_DOCKS": 4,
+        "X": 395242.2118359,
+        "Y": 136372.07931893,
+        "SE_ANNO_CAD_DATA": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56679930",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.99539928118972,
+          38.884007451746875
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679930,
+        "ID": 78,
+        "ADDRESS": "Eastern Market Metro / Pennsylvania Ave & 7th St SE",
+        "TERMINAL_NUMBER": "31613",
+        "LATITUDE": 38.884,
+        "LONGITUDE": -76.995397,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-06T20:37:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 6,
+        "NUMBER_OF_EMPTY_DOCKS": 12,
+        "X": 400399.37156595,
+        "Y": 135129.14881891,
+        "SE_ANNO_CAD_DATA": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56679931",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.04160829648593,
+          38.90474945444218
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679931,
+        "ID": 79,
+        "ADDRESS": "18th & M St NW",
+        "TERMINAL_NUMBER": "31221",
+        "LATITUDE": 38.904742,
+        "LONGITUDE": -77.041606,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-07T09:29:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 9,
+        "NUMBER_OF_EMPTY_DOCKS": 10,
+        "X": 396391.17480356,
+        "Y": 137432.48710553,
+        "SE_ANNO_CAD_DATA": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56679932",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.07938431109429,
+          38.94761446139673
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679932,
+        "ID": 80,
+        "ADDRESS": "Tenleytown / Wisconsin Ave & Albemarle St NW",
+        "TERMINAL_NUMBER": "31303",
+        "LATITUDE": 38.947607,
+        "LONGITUDE": -77.079382,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-15T09:45:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 6,
+        "NUMBER_OF_EMPTY_DOCKS": 9,
+        "X": 393118.69490052,
+        "Y": 142193.03813587,
+        "SE_ANNO_CAD_DATA": null
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "56679933",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -76.98820227974795,
+          38.900307455535724
+        ]
+      },
+      "properties": {
+        "OBJECTID": 56679933,
+        "ID": 81,
+        "ADDRESS": "13th & H St NE",
+        "TERMINAL_NUMBER": "31611",
+        "LATITUDE": 38.9003,
+        "LONGITUDE": -76.9882,
+        "INSTALLED": "YES",
+        "LOCKED": "NO",
+        "INSTALL_DATE": "2010-10-08T10:10:00.000Z",
+        "REMOVAL_DATE": null,
+        "TEMPORARY_INSTALL": "NO",
+        "NUMBER_OF_BIKES": 6,
+        "NUMBER_OF_EMPTY_DOCKS": 21,
+        "X": 401023.57329617,
+        "Y": 136938.63304319,
+        "SE_ANNO_CAD_DATA": null
+      }
+    }
+  ],
+  "name": "Transportation - DC",
+  "updated_at": 1405035068000
+}

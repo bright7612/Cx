@@ -13,6 +13,11 @@
                class="text input-large form-control" style="width: 400px"/>
     </case>
 
+    <case value="number">
+        <input type="number" name="{$field.name}" value="{$field.value|htmlspecialchars}"
+               class="text input-large form-control" style="width: 400px"/>
+    </case>
+
     <case value="label">
         {$field.value}
     </case>

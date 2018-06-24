@@ -1,0 +1,260 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>GIS地图</title>
+    <script src="js/jquery-1.10.2.min.js" type="text/javascript" language="javascript"></script>
+    <!-- 自定义立体柱状图控件 -->
+    <script src="js/raphael.js" type="text/javascript" language="javascript"></script>
+    <script src="js/column3D.js" type="text/javascript" language="javascript"></script>
+    <link href="css/popo.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-family: "微软雅黑";
+            font-size: 12px;
+            outline: none;
+        }
+        img {
+            margin: 0px;
+            padding: 0px;
+            border: none;
+        }
+    </style>
+    <script type="text/javascript" src="http://115.29.195.23:8088/pdApi4/map.js?key=d72aff96af37952a"></script>
+</head>
+
+<body>
+    <!-- MAP -->
+    <div style="position: absolute; width: 100%; height: 100%; overflow: hidden;">
+        <div id="STMap_map" style="position: relative; width: 100%; height: 100%"></div>
+    </div>
+    <!--MAP-->
+    <!-- 悬浮对话气泡 -->
+    <div class="popo" style="display: none">
+        <div class="cner"></div>
+        <span class="popotext">崂山居委会</span>
+    </div>
+    <!-- 悬浮对话气泡 -->
+</body>
+<!--初始化 start-->
+<script type="text/javascript">
+    var ZxGis = {};
+    //地图对象全局变量
+    var map;
+    var mapping = [];
+    var overlayData = [];
+
+    $(function() {
+        //初始化地图对象
+        map = new STMapObj("STMap_map");
+        //根据中心点和级别定位地图,STMapPoint表示具备x/y属性的二维点对象
+        map.locateMap(new STMapPoint(121.521548, 31.234271), 4);
+        //设置放大缩小控件是否显示,默认显示
+        map.setZoomCompVisible(true);
+        //设置比例尺控件是否显示,默认显示
+        map.setScaleCompVisible(true);
+        drawJwPlane("./data/jw_plane.json");
+        loadCnMappingDataFile();
+        if (getQueryVariable("type") != false) {
+            drawBarGraph(decodeURIComponent(getQueryVariable("type")));
+        }
+    });
+
+    function loadCnMappingDataFile() {
+        mapping["实有人口"] = "jw_syrk_count.json";
+        mapping["境外人口"] = "jw_jwlh_count.json";
+        mapping["低保低收入"] = "jw_db_count.json";
+        mapping["残疾人"] = "jw_cjr_count.json";
+    }
+</script>
+<!--初始化 end-->
+<!--ajax+json+highchart+gis实现各居委上图表的核心代码 start-->
+<script type="text/javascript">
+    var customOverObjPool; //自定义覆盖物临时存放
+
+    function drawJwPlane(url) {
+        clearCustomOverObjPool();
+        if (overlayData.length) {
+            $(overlayData).each(function (i, item) {
+                map.deleteOverlayById("jw_label_" + item.id);
+                map.deleteOverlayById("jw_poly_" + item.id);
+                map.deleteOverlayById(item.id);
+            })
+        }
+        $.get(url, function(data) {
+            overlayData = data;
+            $(data).each(function(i, event) {
+                buildJwPlane(event);
+            });
+        }, "json");
+    }
+
+    function buildJwPlane(json) {
+        var obj = new STMapPolyline();
+        obj.id = "jw_poly_" + json.id;
+        obj.points = json.gis_border;
+        obj.strokeColor = "#0955CF"; //【可选】线的颜色
+        obj.strokeWeight = 2; //【可选】宽度
+        obj.strokeOpacity = "1.0"; //【可选】透明度
+        obj.dashStyle = "Solid"; //【可选】线形
+        obj.filled = true; //【可选】是否填充
+        obj.fillColor = "#84A8E2"; //【可选】填充颜色
+        obj.fillOpacity = "0.3"; //【可选】填充透明度
+        obj.autoClose = true; //【可选】是否自动闭合
+        obj.infowin = false;
+        map.addObjEventListner(obj.id, "onmouseover", function(obj, x, y) {
+            var ev = ev || window.event;
+            var mousePos = mouseCoords(ev);
+            $(".popo .popotext").html(json.juweinamefull + "<br/>");
+            $(".popo").css({ left: (mousePos.x + 20) + "px", top: (mousePos.y - 40) + "px" });
+            $(".popo").show();
+        });
+        map.addObjEventListner(obj.id, "onmouseout", function(obj, x, y) {
+            $(".popo").hide();
+        });
+        map.addOverlay(obj, false);
+        bindJwPlaneTag(json);
+    }
+
+    /*
+    * 画蓝色区域的tag名
+    * */
+    function bindJwPlaneTag(json) {
+        var juwei_label = new STMapLabel();
+        juwei_label.id = "jw_label_" + json.id;
+        juwei_label.point = new STMapPoint(json.location_x, json.location_y);
+        juwei_label.text = json.juweinameshort;
+        map.addOverlay(juwei_label, false);
+    }
+
+    function drawBarGraph(str) {
+        $.get("./data/" + mapping[str], function(data) {
+            clearCustomOverObjPool();
+            var values = new Array();
+            $(data).each(function(i, event) {
+                values.push(event.value);
+            });
+            $(data).each(function(i, event) {
+                buildBarGraph(str, values, event);
+            });
+        }, "json");
+    }
+
+    function buildBarGraph(tagStr, values, json) {
+        var thisModel = auto3DColumnModel(32, 100, values, json.value, "hot", json.value);
+        myAddCustomOverObj(thisModel.svg_width, thisModel.svg_height, tagStr, json);
+        Raphael((json.divname + "_div"), thisModel.svg_width, thisModel.svg_height).columnChart3D(thisModel);
+    }
+
+    function myAddCustomOverObj(px, py, str, json) {
+        var obj = new STMapCustomOverObj();
+        obj.id = json.divname + "_div";
+        obj.point = new STMapPoint(parseFloat(json.juweiX), parseFloat(json.juweiY));
+        obj.html = " ";
+        obj.infowin = false;
+        obj.anchor = new STMapPoint(Math.round(px / 2), py);
+        customOverObjPool.push(obj.id);
+        map.addOverlay(obj, false);
+        //给覆盖物绑定悬浮窗
+        map.addObjEventListner(obj.id, "onclick", function(obj) {
+            alert(obj.id);
+        });
+        map.addObjEventListner(obj.id, "onmousemove", function(obj, x, y) {
+            var ev = ev || window.event;
+            var mousePos = mouseCoords(ev);
+            $(".popo .popotext").html(json.juweiname + "<br/>" + str + ": " + json.value + json.danwei);
+            $(".popo").css({ left: (mousePos.x + 20) + "px", top: (mousePos.y - 40) + "px" });
+            $(".popo").show();
+        });
+        //延时关闭悬浮窗
+        map.addObjEventListner(obj.id, "onmouseout", function(obj, x, y) {
+            $(".popo").hide();
+        });
+    }
+
+    function clearCustomOverObjPool() {
+        $(customOverObjPool).each(function(i, event) {
+            map.deleteOverlayById(event);
+        });
+        customOverObjPool = [];
+    }
+
+    //兼容版本鼠标XY坐标获取
+    function mouseCoords(ev) {
+        if (ev.pageX || ev.pageY) {
+            return { x: ev.pageX, y: ev.pageY };
+        }
+        return {
+            x: ev.clientX + document.body.scrollLeft - document.body.clientLeft,
+            y: ev.clientY + document.body.scrollTop - document.body.clientTop
+        }
+    }
+
+
+    /*
+    * 添加撒点
+    * */
+    function addSpot (url) {
+        var imgUrl = './img/party.png';
+        clearCustomOverObjPool();
+        if (overlayData.length) {
+            $(overlayData).each(function (i, item) {
+                map.deleteOverlayById("jw_label_" + item.id);
+                map.deleteOverlayById("jw_poly_" + item.id);
+                map.deleteOverlayById(item.id);
+            })
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            dataType: 'JSON',
+            cache: false,
+            success: function (data) {
+                overlayData = data;
+                $(data).each(function(i, event) {
+                    AddCustomOverObj(event, imgUrl);
+                });
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+
+
+    /*
+    * 简单自定义覆盖物
+    * */
+    function AddCustomOverObj (json, imgUrl) {
+        var obj = new STMapCustomOverObj();
+        obj.id = json.id;
+        obj.point = new STMapPoint(json.location_x, json.location_y);
+        obj.html="<div style='width: 30px;height: 30px;'>" +
+            "<img style='display: block;width: 100%;height: 100%;' src='" + imgUrl +"' />" +
+            "</div>";
+        obj.anchor=new STMapPoint(0, 0);
+        obj.size = new STMapSize(50,50);
+        obj.infowin = false;
+        map.addOverlay(obj, false);
+    }
+</script>
+<!-- ↑↑↑ ajax json gis 居委区域数据展示  ↑↑↑ -->
+<!-- mytest -->
+<script type="text/javascript">
+    function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) { return pair[1]; }
+    }
+    return (false);
+}
+<!-- mytest -->
+</script>
+
+</html>

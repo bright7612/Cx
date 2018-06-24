@@ -1,0 +1,577 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "0.000000",
+          "0.000000"
+        ]
+      },
+      "properties": {
+        "标题": "长兴县党群服务中心",
+        "地址": "长兴县前东街801号云峰大厦"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.911379",
+          "30.980778"
+        ]
+      },
+      "properties": {
+        "标题": "画溪工业功能区党群服务中心",
+        "地址": "长兴县画溪街道城南路28号,原浙江万峰包装有限公司内"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.921381",
+          "30.987444"
+        ]
+      },
+      "properties": {
+        "标题": "画溪智慧创业谷红色动力之家",
+        "地址": "长兴县画溪街道雉州大道179号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.944818",
+          "31.092220"
+        ]
+      },
+      "properties": {
+        "标题": "夹浦镇园区党群服务中心",
+        "地址": "长兴县香樟大道888号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "5",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.882664",
+          "30.805303"
+        ]
+      },
+      "properties": {
+        "标题": "和平城南工业功能区党群服务中心",
+        "地址": "长兴县和平镇中翔大道168号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "6",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.966610",
+          "30.980536"
+        ]
+      },
+      "properties": {
+        "标题": "李家巷镇园区党群服务中心",
+        "地址": "长兴县李家巷镇工业园区国和路南50米"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "7",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "116.913752",
+          "39.810554"
+        ]
+      },
+      "properties": {
+        "标题": "小浦镇园区党群服务中心",
+        "地址": "S301省道和小浦镇人民路交叉口"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "8",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.733891",
+          "31.122605"
+        ]
+      },
+      "properties": {
+        "标题": "煤山青创园党群服务中心",
+        "地址": "长兴县煤山镇五通村"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "9",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.654718",
+          "30.944618"
+        ]
+      },
+      "properties": {
+        "标题": "泗安镇工业园区党群服务中心",
+        "地址": "长兴县泗安镇浙皖大道"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "10",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.913592",
+          "31.037098"
+        ]
+      },
+      "properties": {
+        "标题": "龙山街道浙北商圈党群服务中心",
+        "地址": "长兴县浙北商业广场"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "11",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.934395",
+          "31.015423"
+        ]
+      },
+      "properties": {
+        "标题": "长兴县社会组织创新中心",
+        "地址": "长兴县社会服务发展中心海路新都汇8幢"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "12",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.885104",
+          "31.019860"
+        ]
+      },
+      "properties": {
+        "标题": "长兴县委党校、",
+        "地址": "长兴县党校路1号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "13",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.910619",
+          "30.985933"
+        ]
+      },
+      "properties": {
+        "标题": "天能集团",
+        "地址": "长兴县画溪工业园区包桥路18号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "14",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.916744",
+          "30.979939"
+        ]
+      },
+      "properties": {
+        "标题": "超威集团",
+        "地址": "长兴县城南路18号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "15",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.927943",
+          "31.014411"
+        ]
+      },
+      "properties": {
+        "标题": "诺力智能装备股份有限公司",
+        "地址": "长兴县太湖街道长州路528号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "16",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.930826",
+          "31.021416"
+        ]
+      },
+      "properties": {
+        "标题": "浙江中山化工集团有限公司",
+        "地址": "长兴县经济开发区太湖大道2303号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "17",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.943284",
+          "31.040753"
+        ]
+      },
+      "properties": {
+        "标题": "浙江盛发纺织有限公司",
+        "地址": "长兴县发展大道1号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "18",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.945514",
+          "31.085881"
+        ]
+      },
+      "properties": {
+        "标题": "长兴新城环保有限公司",
+        "地址": "夹浦工业园区众鑫路5号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "19",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.933744",
+          "31.034696"
+        ]
+      },
+      "properties": {
+        "标题": "红旗仪表（长兴）有限公司",
+        "地址": "长兴经济开发区白溪大道199"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "20",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.980828",
+          "30.975243"
+        ]
+      },
+      "properties": {
+        "标题": "长兴旗滨玻璃有限公司",
+        "地址": "长兴县李家巷镇沈湾村大桥"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "21",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.882664",
+          "30.805303"
+        ]
+      },
+      "properties": {
+        "标题": "浙江永达实业有限公司",
+        "地址": "长兴县和平镇永达集团"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "22",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.654718",
+          "30.944618"
+        ]
+      },
+      "properties": {
+        "标题": "浙江益南纤维科技有限公司",
+        "地址": "长兴县泗安镇府前街与柴湾街交汇处南200米"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "23",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.688260",
+          "30.908782"
+        ]
+      },
+      "properties": {
+        "标题": "浙江前进机械有限公司",
+        "地址": "长兴县中兴路558-1"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "24",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.977214",
+          "30.972356"
+        ]
+      },
+      "properties": {
+        "标题": "浙江新明华化工有限公司",
+        "地址": "长兴县李家巷大道东50米"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "25",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.962811",
+          "30.975245"
+        ]
+      },
+      "properties": {
+        "标题": "长兴丝绸有限公司",
+        "地址": "长兴县李家巷镇刘家渡小茆桥"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "26",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.951346",
+          "31.103575"
+        ]
+      },
+      "properties": {
+        "标题": "浙江凯瑞博科技有限公司",
+        "地址": "长兴县夹浦镇城北工业区B区"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "27",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.944818",
+          "31.092220"
+        ]
+      },
+      "properties": {
+        "标题": "莱美科技股份有限公司",
+        "地址": "长兴县香樟大道998号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "28",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.944893",
+          "31.084602"
+        ]
+      },
+      "properties": {
+        "标题": "浙江诚鑫纺织有限公司",
+        "地址": "长兴县鑫辉大道8号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "29",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.978772",
+          "31.045044"
+        ]
+      },
+      "properties": {
+        "标题": "浙江七星电容器有限公司",
+        "地址": "长兴县槐坎工业园区发展大道50号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "30",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.924436",
+          "31.036688"
+        ]
+      },
+      "properties": {
+        "标题": "长兴兴一物流有限公司",
+        "地址": "长兴县经济开发区明珠北路1358号南方大厦24楼"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "31",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.878276",
+          "30.817532"
+        ]
+      },
+      "properties": {
+        "标题": "浙江吉和包装材料有限公司",
+        "地址": "长兴县湖吉路57号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "32",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.880415",
+          "30.891625"
+        ]
+      },
+      "properties": {
+        "标题": "浙江志恒纺织有限公司",
+        "地址": "长兴县园中路88号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "33",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.762897",
+          "31.113698"
+        ]
+      },
+      "properties": {
+        "标题": "长兴利达丝绸有限公司",
+        "地址": "长兴县煤山镇大悬路25"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "34",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.903390",
+          "30.991641"
+        ]
+      },
+      "properties": {
+        "标题": "浙江加力仓储设备股份有限公司",
+        "地址": "长兴县虹星桥镇长和路1000号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "35",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.679928",
+          "30.904836"
+        ]
+      },
+      "properties": {
+        "标题": "浙江丰帆数控机械有限公司",
+        "地址": "长兴县中兴路255号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "36",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.935367",
+          "31.156084"
+        ]
+      },
+      "properties": {
+        "标题": "桐昆集团恒腾差别化纤维有限公司",
+        "地址": "长兴县104国道西50米"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "37",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.914199",
+          "30.835790"
+        ]
+      },
+      "properties": {
+        "标题": "长兴意蜂蜂业科技有限公司",
+        "地址": "长兴县林城镇工业园区华兴路1号"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "38",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          "119.928356",
+          "31.010812"
+        ]
+      },
+      "properties": {
+        "标题": "湖州威达纺织集团有限公司",
+        "地址": "长兴经济技术开发区经一路508号"
+      }
+    }
+  ],
+  "name": "Transportation - DC",
+  "updated_at": 1405035068000
+}
