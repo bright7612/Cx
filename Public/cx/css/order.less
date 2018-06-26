@@ -1,5 +1,4 @@
 @import "base";
-@import "table";
 body.guide_index{
   background: url("../imgs/bg1.png") no-repeat;
 }
@@ -496,7 +495,7 @@ body.guide_index{
 
 //党建活动预约
 .activity_order {
-  position: relative;
+  //position: relative;
   overflow: hidden;
   overflow-y: auto;
   padding-bottom: 50px;
@@ -625,6 +624,11 @@ body.guide_index{
         right: 20px;
         top: 25px;
       }
+      &.dang{
+        input{
+          color: black;
+        }
+      }
     }
   }
   .btn_box {
@@ -673,8 +677,10 @@ body.guide_index{
   #popUp {
     display: none;
     position: absolute;
-    top: 212.5px;
-    left: 500px;
+    //top: 212.5px;
+    //bottom: 200px;
+    top: 400px;
+    left: 567px;
     width: 800px;
     height: 400px;
     background: rgba(0, 0, 0, 0.75);
@@ -707,6 +713,7 @@ body.guide_index{
     }
   }
   &.activity_order1 {
+    padding-bottom: 30px;
     & > .title {
       padding-top: 50px;
     }
@@ -744,6 +751,11 @@ body.guide_index{
         width: 265px;
         .borderBox();
         cursor: pointer;
+        &.select{
+          span{
+            background: #F99A34;
+          }
+        }
         span {
           float: left;
           width: 31px;
@@ -754,6 +766,19 @@ body.guide_index{
           margin-right: 10px;
           border: 2px solid #cecece;
           border-radius: 5px;
+        }
+      }
+    }
+    div.remark{
+      width: 1600px;
+      textarea{
+        width: 1360px;
+        font-size: 28px;
+        .borderBox();
+        padding: 7px 20px;
+        line-height: 40px;
+        &::-webkit-input-placeholder{
+          color: #D1D1D1;
         }
       }
     }
@@ -1469,5 +1494,45 @@ body>.head_list{
         }
       }
     }
+  }
+}
+
+
+#popUp {
+  display: none;
+  position: absolute;
+  //top: 212.5px;
+  //bottom: 200px;
+  top: 400px;
+  left: 567px;
+  width: 800px;
+  height: 400px;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: 4px;
+  & > .pop_title {
+    font-size: 46px;
+    font-weight: bold;
+    height: 130px;
+    line-height: 130px;
+  }
+  & > .pop_content {
+    font-size: 34px;
+    height: 150px;
+    line-height: 75px;
+    letter-spacing: 10px;
+  }
+  & > .sure {
+    display: inline-block;
+    font-size: 36px;
+    width: 170px;
+    height: 90px;
+    line-height: 90px;
+    text-align: center;
+    background: rgba(232, 191, 106, 0.6);
+    border-radius: 12px;
+    cursor: pointer;
   }
 }

@@ -53,7 +53,7 @@ class CxController extends Controller
          }
 
         $this->assign('mapList',$result[0]);
-        $this->display('activity_order');
+        $this->display('activity');
 
     }
 
@@ -106,29 +106,56 @@ class CxController extends Controller
             $k_num = $res[0]['k_num']; //剩余可预约数
         }
 
+        $where['id'] = $id;
+        $title = M('issue_content')->where($where)->field('title')->find();
 
-
+        $this->assign('title',$title);
         $this->assign('k_num',$k_num);
-        $this->display('order');
+        $this->display('activity_order');
     }
+
+    //党课预约界面
+    public function bespoke_index2()
+    {
+        $id = I('dataId');
+        $res = D('Cx')->mapCommon($id);
+
+        $y_num = $res[0]['y_num']; //已经预约数
+
+        if($y_num == ''){
+            $k_num = $res[0]['num'];
+        }else{
+            $k_num = $res[0]['k_num']; //剩余可预约数
+        }
+
+        $where['id'] = $id;
+        $title = M('issue_content')->where($where)->field('title')->find();
+
+        $this->assign('title',$title);
+        $this->assign('k_num',$k_num);
+        $this->display('theme_order');
+    }
+
 
     //预约接口
     public function bespoke()
     {
+
         $Model = M('sign_bespoke');
         $id = I('id');
         $data['content_id'] = $id;
         $data['phone'] = I('phone');
         $data['name'] = I('name');
-        $data['organization'] = I('organization');
+        $data['organization'] = I('party');
         $data['company'] = I('company');
-        $data['bespoke_num'] = I('bespoke_num');
+        $data['bespoke_num'] = I('order_num');
         $data['types'] = I('type');
         $data['source'] = 2;   //2代表大屏预约
-        $data['identity'] = I('ID_card');
-        $data['text'] = I('text');
+        $data['identity'] = I('card');
+        $data['text'] = I('remark');
         $data['cre_time'] = date('Y-m-d H:i:s',time());
         $record = $Model->add($data);
+
 
         if($record){
             echo json_encode(array('status'=>1,'msg'=>'预约成功'));
@@ -323,12 +350,22 @@ class CxController extends Controller
 
     public function wxy_apply()
     {
+        $id = I('dataId');
+        $where['id'] = $id;
+        $title = M('sign_wish')->where($where)->field('id,title')->find();
+        $this->assign('title',$title);
         $this->display('heart_order');
     }
 
     //场地预约页面
     public function venueIndex()
     {
+        $id = I('dataId');
+        $where['id'] = $id;
+        $title = M('issue_content')->where($where)->field('title')->find();
+//        dump($title);die;
+
+        $this->assign('title',$title);
         $this->display('place_order');
     }
 
@@ -408,6 +445,13 @@ class CxController extends Controller
 
     public function volunteer_apply()
     {
+        $id = I('dataId');
+        $where['id'] = $id;
+        $title = M('issue_content')->where($where)->field('title')->find();
+//        dump($title);die;
+
+        $this->assign('title',$title);
+
         $this->display('volunteer_order');
     }
 
@@ -422,6 +466,12 @@ class CxController extends Controller
     //我要参与 众筹服务
     public function zc_applyIndex()
     {
+        $id = I('dataId');
+        $where['id'] = $id;
+        $title = M('sign_zhch')->where($where)->field('id,title')->find();
+
+        $this->assign('title',$title);
+
         $this->display('crowd_order');
     }
 

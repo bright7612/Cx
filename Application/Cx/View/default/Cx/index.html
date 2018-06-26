@@ -18,7 +18,7 @@
             <span>活动内容：</span>
             <span>{{list.content}}</span>
         </p>
-        <a class="detail" href="/Cx/Cx/activityList?category_id={{list.id}}">查看详情 ></a>
+        <a class="detail" href="/Cx/Cx/activityList?id={{list.id}}">查看详情 ></a>
         {{/if}}
     </script>
     <script type="text/html" id="text2">
@@ -53,7 +53,7 @@
         <p>地址：{{list.addr}}</p>
         <p>容纳人数：{{list.num}}</p>
         <p>预约电话：{{list.telphone}}</p>
-        <a class="detail" href="/Cx/Cx/venueIndex?id={{list.id}}">查看详情 ></a>
+        <a class="detail" href="/Cx/Cx/venueIndex?dataId={{list.id}}">查看详情 ></a>
         {{/if}}
     </script>
     <script type="text/html" id="rlist1">
@@ -141,7 +141,7 @@
         {{if $data.length}}
             {{each $data as value index}}
                 <li class="list4">
-                    <a href="/Cx/Cx/wxyDetail/id/{{value.id}}">
+                    <a href="/Cx/Cx/wxyDetail?id={{value.id}}">
                         <p class="title2">{{value.title}}</p>
                         <p class="status yellow">{{value.state_var}}</p>
                         <p class="text"><span class="iconfont icon-shijian icon_blue"></span>发布时间：{{value.time_var}}</p>
@@ -156,7 +156,7 @@
             {{each $data as value index}}
                 <li class="list5">
                     <div>
-                        <a href="/Cx/Cx/venueIndex?id={{value.id}}" class="list5_order">预约</a>
+                        <a href="/Cx/Cx/venueIndex?dataId={{value.id}}" class="list5_order">预约</a>
                         <p class="title2">{{value.title}}</p>
                         <p class="text2">
                             <span class="iconfont icon-dizhi icon_orange"></span>地址：{{value.addr}}
@@ -176,8 +176,8 @@
         {{if $data.length}}
             {{each $data as value index}}
                 <li class="list6">
-                    <a href="/Cx/Cx/zhongchou/id/{{value.id}}">
-                        <span class="list6_circle">100%</span>
+                    <a href="/Cx/Cx/zhongchou?id={{value.id}}">
+                        <span class="list6_circle">50%</span>
                         <p class="title2">{{value.title}}</p>
                         <p class="text">{{value.content}}</p>
                         <img src="{{value.path}}" alt="">
@@ -190,13 +190,13 @@
         {{if $data.length}}
             {{each $data as value index}}
                 <li class="list7">
-                    <a href="/Cx/Cx/ztc_detail?id={{v.id}}">
+                    <a href="/Cx/Cx/ztc_detail?id={{value.id}}">
                         <p class="title2">{{value.title}}</p>
                         <p class="text">{{value.desc}}</p>
                         <img src={{value.path}} alt="">
                         <!--<img src="__CX__/imgs/activity.jpg" alt="">-->
                     </a>
-                </li>\
+                </li>
             {{/each}}
         {{/if}}
     </script>

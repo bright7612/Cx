@@ -36,7 +36,6 @@ $(function () {
         }
     });
 
-
     //点击单位个人时候显示隐藏
     $('#type').on('change', function () {
         $('div.danwei').show();
@@ -173,10 +172,28 @@ $(function () {
                 form_submit.company = '';
             }
             console.log(form_submit);
-            popShow('信息提交成功');
+            formSubmit();
             $('#popUp').on('click', '.sure', function () {
-                window.location.reload();
+                // window.location.reload();
+                window.location.href="http://183.131.86.64:8620/cx/cx";
+
             })
         }
     });
+    function formSubmit() {
+        $.ajax({
+            url: 'http://183.131.86.64:8620/cx/cx/bespoke',
+            type: 'GET',
+            data: form_submit,
+            async: true,
+            dataType: 'JSON',
+            success: function (e) {
+                console.log("成功");
+                popShow('信息提交成功');
+            },
+            error: function () {
+                console.log("出错");
+            }
+        })
+    }
 });

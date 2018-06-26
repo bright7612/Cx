@@ -83,7 +83,7 @@ $(function () {
             console.log(form_up);
             $.ajax({
                 type: 'GET',
-                url: 'http://192.168.1.254/cx/cx/bespoke',
+                url: 'http://183.131.86.64:8620/cx/cx/bespoke',
                 data: form_up,
                 dataType: 'JSON',
                 success: function (e) {

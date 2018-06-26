@@ -23,7 +23,7 @@
 <article class="content2 crowd_order">
     <p class="title1">
         <span class="little_block"></span>
-        <span class="title1_1">爱心校园</span>
+        <span class="title1_1">{$title.title}</span>
     </p>
     <div class="input_box">
         <div class="left">
@@ -35,18 +35,18 @@
                 <input type="text" id="title" placeholder="请输入项目标题">
             </div>
             <div>
-                <label for="number">
+                <label for="crowd_number">
                     <span class="iconfont icon-renshu icon_green"></span>
                     <span>众筹人数</span>
                 </label>
-                <input type="text" id="number" placeholder="（）位">
+                <input type="text" id="crowd_number" placeholder="（）位">
             </div>
             <div>
                 <label for="time">
                     <span class="iconfont icon-shijian1 icon_yellow"></span>
                     <span>期望时间</span>
                 </label>
-                <input type="date" id="time" placeholder=" ">
+                <input type="text" id="time" placeholder="请选择期望时间">
             </div>
             <div>
                 <label for="name">
@@ -64,12 +64,26 @@
                 </label>
                 <input type="text" id="phone" placeholder="请输入手机号码">
             </div>
-            <textarea name="" id="content"rows="3" placeholder="请填写您的众筹简介（字数300字以内）"></textarea>
+            <div>
+                <label for="card">
+                    <span class="iconfont icon-credentials_icon icon_yellow"></span>
+                    <span>身份证号</span>
+                </label>
+                <input type="text" id="card" placeholder="请输入身份证号码">
+            </div>
+            <textarea name="" id="content"  placeholder="请填写您的众筹简介（字数300字以内）"></textarea>
         </div>
     </div>
     <p class="btn_box">
-        <span class="btn">提交</span>
+        <span class="btn" id="submit">提交</span>
     </p>
 </article>
-</body>
+<div id="popUp">
+    <p class="pop_title">提&nbsp;&nbsp;示</p>
+    <p class="pop_content"></p>
+    <span class="sure">确 定</span>
+</div>
 <script type="text/javascript" src="__CX__/libs/jquery/jquery.js"></script>
+<script type="text/javascript" src="__CX__/libs/laydate/laydate.js"></script>
+<script type="text/javascript" src="__CX__/js/crowd_order.js"></script>
+</body>

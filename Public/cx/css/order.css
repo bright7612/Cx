@@ -388,32 +388,6 @@ body {
 .content3::-webkit-scrollbar {
   display: none;
 }
-table {
-  width: 100% !important;
-  border: 1px solid black !important;
-}
-table th {
-  height: 66px !important;
-  color: #1F2B33 !important;
-  font-size: 24px !important;
-  text-align: center;
-  margin: 0 auto;
-  border: 1px solid black !important;
-}
-table tbody tr {
-  min-height: 85px !important;
-}
-table tbody tr td {
-  color: black !important;
-  font-size: 23px !important;
-  padding: 10px 10px !important;
-  border: 1px solid black !important;
-}
-table tbody tr td p,
-table tbody tr td span {
-  color: black !important;
-  font-size: 23px !important;
-}
 body.guide_index {
   background: url("../imgs/bg1.png") no-repeat;
 }
@@ -973,7 +947,6 @@ body.guide_index {
   margin-bottom: 20px;
 }
 .activity_order {
-  position: relative;
   overflow: hidden;
   overflow-y: auto;
   padding-bottom: 50px;
@@ -1124,6 +1097,9 @@ body.guide_index {
   right: 20px;
   top: 25px;
 }
+.activity_order .input_box > div.dang input {
+  color: black;
+}
 .activity_order .btn_box {
   position: absolute;
   bottom: 86px;
@@ -1170,8 +1146,8 @@ body.guide_index {
 .activity_order #popUp {
   display: none;
   position: absolute;
-  top: 212.5px;
-  left: 500px;
+  top: 400px;
+  left: 567px;
   width: 800px;
   height: 400px;
   background: rgba(0, 0, 0, 0.75);
@@ -1202,6 +1178,9 @@ body.guide_index {
   background: rgba(232, 191, 106, 0.6);
   border-radius: 12px;
   cursor: pointer;
+}
+.activity_order.activity_order1 {
+  padding-bottom: 30px;
 }
 .activity_order.activity_order1 > .title {
   padding-top: 50px;
@@ -1245,6 +1224,9 @@ body.guide_index {
   box-sizing: border-box;
   cursor: pointer;
 }
+.activity_order.place_order .check_box label.select span {
+  background: #F99A34;
+}
 .activity_order.place_order .check_box label span {
   float: left;
   width: 31px;
@@ -1255,6 +1237,21 @@ body.guide_index {
   margin-right: 10px;
   border: 2px solid #cecece;
   border-radius: 5px;
+}
+.activity_order.place_order div.remark {
+  width: 1600px;
+}
+.activity_order.place_order div.remark textarea {
+  width: 1360px;
+  font-size: 28px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 7px 20px;
+  line-height: 40px;
+}
+.activity_order.place_order div.remark textarea::-webkit-input-placeholder {
+  color: #D1D1D1;
 }
 .crowd_funding {
   position: relative;
@@ -2044,4 +2041,40 @@ body > .head_list > div .little_box .text_box .text {
 }
 body > .head_list > div .little_box .text_box .text::-webkit-scrollbar {
   display: none;
+}
+#popUp {
+  display: none;
+  position: absolute;
+  top: 400px;
+  left: 567px;
+  width: 800px;
+  height: 400px;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 20px;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: 4px;
+}
+#popUp > .pop_title {
+  font-size: 46px;
+  font-weight: bold;
+  height: 130px;
+  line-height: 130px;
+}
+#popUp > .pop_content {
+  font-size: 34px;
+  height: 150px;
+  line-height: 75px;
+  letter-spacing: 10px;
+}
+#popUp > .sure {
+  display: inline-block;
+  font-size: 36px;
+  width: 170px;
+  height: 90px;
+  line-height: 90px;
+  text-align: center;
+  background: rgba(232, 191, 106, 0.6);
+  border-radius: 12px;
+  cursor: pointer;
 }

@@ -65,8 +65,8 @@
             return null;
         }
 
-        getUrl('dataId');
-        var html1 = $('.btn_box a').eq(1).attr('href');
+        getUrl('id');
+        var html1 = $('.btn_box a').eq(0).attr('href');
         html1 = html1 + ('?dataId=' + id);
         $('.btn_box a').attr('href', html1);
     })

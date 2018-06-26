@@ -34,7 +34,7 @@
     <div class="pro_content">
         <div class="pro_1">
             <p>已完成</p>
-            <p>20%</p>
+            <p>50%</p>
         </div>
         <div class="pro_2">
             <p>所需总人数</p>
@@ -75,7 +75,7 @@
         </span>
     </p>
     <p class="btn_box">
-        <a href="{:U('Cx/zc_applyIndex')}" class="btn1">我要参与</a>
+        <a href="/Cx/Cx/zc_applyIndex" class="btn1">我要参与</a>
         <span class="btn2">我要评价</span>
     </p>
     <p class="ewm_box">
@@ -83,5 +83,22 @@
     </p>
     <p class="message">扫描二维码进行预约</p>
 </article>
+<script type="text/javascript" src="__CX__/libs/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var id;
+        function getUrl(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            id=r[2];
+            if (r != null) return decodeURI(r[2]);
+            return null;
+        }
+        getUrl('id');
+        var html=$('.btn_box a').attr('href');
+        html=html+('?dataId='+id);
+        $('.btn_box a').attr('href',html);
+    })
+</script>
 </body>
 </html>
