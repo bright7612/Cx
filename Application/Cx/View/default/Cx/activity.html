@@ -31,7 +31,7 @@
             <li>活动地点：{$mapList.addr}</li>
             <li>组织单位：{$mapList.host}</li>
             <li>活动人数：{$mapList.num}人</li>
-            <li class="act_cont">活动内容：{$mapList.content}</li>
+            <li class="act_cont" style="overflow: auto">活动内容：{$mapList.content}</li>
         </ul>
         <div class="img_box">
             <img src="{$mapList.ewm}" alt="">
@@ -43,6 +43,8 @@
     </p>
 </article>
 <script type="text/javascript" src="__CX__/libs/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/iScroll/5.2.0/iscroll.min"></script>
+
 <script type="text/javascript">
     $(function(){
         var id;
@@ -59,5 +61,6 @@
         $('.btn_box a').attr('href',html);
     })
 </script>
+
 </body>
 </html>

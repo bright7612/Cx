@@ -1,3 +1,4 @@
+@import "../fonts/iconfont.css";
 html {
   color: #000;
 }
@@ -214,7 +215,7 @@ body {
 }
 .index .head1 > .weather_box1 {
   float: right;
-  width: 250px;
+  width: 300px;
   height: 100px;
   font-size: 36px;
   line-height: 50px;
@@ -235,6 +236,7 @@ body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  position: relative;
 }
 .index .msg_box .title1_box p.title1 {
   float: left;
@@ -266,6 +268,13 @@ body {
   line-height: 65px;
   color: #FFFFFF;
   font-size: 35px;
+}
+.index .msg_box .title1_box > i {
+  font-size: 36px;
+  color: #FFFFFF;
+  position: absolute;
+  right: 290px;
+  top: 10px;
 }
 .index .msg_box .msg {
   width: 100%;

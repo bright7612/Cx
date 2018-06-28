@@ -1276,7 +1276,10 @@ body.guide_index {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  width: 450px;
+  width: 740px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   font-size: 46px;
   height: 76px;
   line-height: 76px;

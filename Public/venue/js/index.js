@@ -1,7 +1,18 @@
 $(function () {
+
+    $("#thismonth").click(function(){
+        $('#yearnum').css("display","none");
+        $('#monthnum').css("display","block");
+    });
+    $("#thisyear").click(function(){
+        $('#yearnum').css("display","block");
+        $('#monthnum').css("display","none");
+    });
+
+
     fillTime();
     fillDate();
-    // fillWeather();
+    fillWeather();
     fillToday();
     scrollMsg();
 
@@ -10,6 +21,7 @@ $(function () {
         fillTime();
     }, 1000);
 
+    //填充时间
     //填充时间
     function fillTime() {
         var myDate = new Date();
@@ -21,6 +33,18 @@ $(function () {
         }
         var html = h + ':' + m + ':' + s;
         $('#time').html(html);
+        if(html=='6:00:00'){
+            fillWeather();
+        }
+        if(html=='12:00:00'){
+            fillWeather();
+        }
+        if(html=='18:00:00'){
+            fillWeather();
+        }
+        if(html=='23:59:59'){
+            fillWeather();
+        }
     }
 
     //填充日期和星期
@@ -70,9 +94,19 @@ $(function () {
     //填充天气
     function fillWeather() {
         $.ajax({
-            url: "http://www.weather.com.cn/data/sk/101190408.html",
+            type:'GET',
+            async:true,
+            url: "http://api.asilu.com/weather/",
+            data:{
+                "city":'长兴县'
+            },
+            dataType:'jsonp',
             success: function (e) {
-                console.log(e);
+                var data=e.weather[0];
+                var temp=data.temp;//温度
+                var weather=data.weather;//天气
+                $('.weather_box1').find('.temperature').html(temp);
+                $('.weather_box2').find('.weather').html(weather);
             }
         })
     }
@@ -114,7 +148,15 @@ $(function () {
     }
 
     //layDate的使用(日期输入控件)
+
     laydate.render({
-        elem: '#dateInput' //指定元素
+        elem: '#dateInput'
+        ,done: function(value, date, endDate){
+            // alert(value);
+            $("#scrollMsg").load("http://183.131.86.64:8620/cx/venue/lists.html"+"?date="+value);
+        }
+    });
+    $("#dateInput").change(function(){
+        alert($("#dateInput").val());
     });
 });

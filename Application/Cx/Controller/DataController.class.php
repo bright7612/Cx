@@ -25,6 +25,7 @@ class DataController extends Controller
     private  $ajax_jiedao_people;  //街道 人口统计视图
     private  $ajax_jiedao;  //街道 人口统计视图
     private  $event_dy;  //党员办结事件
+    private  $event_bm;  //便民服务
 
 
 
@@ -39,6 +40,7 @@ class DataController extends Controller
         $this->ajax_jiedao_people = M('jiedao_people');
         $this->ajax_jiedao = M('jiedao');
         $this->event_dy = M('event_dy');
+        $this->event_bm = M('event_bm');
     }
 
 
@@ -223,7 +225,7 @@ class DataController extends Controller
 
 
     //网格事件
-    public function WG()
+    public function WG($name)
     {
 
         $Model = M();
@@ -234,6 +236,257 @@ class DataController extends Controller
         }else{
             $event_year = S('event_year');// 获取缓存
         }
+
+      //统计每个街道七大网格事件
+        $town_event_year = M()->query("SELECT
+                                (
+                                    SELECT
+                                        count(0) AS `count`
+                                    FROM
+                                        `cxdj_ajax_event` AS `event`
+                                    JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                    WHERE
+                                        (
+                                            (
+                                                `event`.`CATEGORY1` = '交通运输类'
+                                            )
+                                            AND (
+                                                date_format(`event`.`HAPPEN_TIME`, '%Y') = date_format(now(), '%Y')
+                                            )
+                                        )
+                                    AND XZ_DEPARTMENTNAME = $name
+                                ) AS jt_year,
+                                (
+                                    SELECT
+                                        count(0) AS `count`
+                                    FROM
+                                        `cxdj_ajax_event` AS `event`
+                                    JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                    WHERE
+                                        (
+                                            (
+                                                `event`.`CATEGORY1` = '公共事业类'
+                                            )
+                                            AND (
+                                                date_format(`event`.`HAPPEN_TIME`, '%Y') = date_format(now(), '%Y')
+                                            )
+                                        )
+                                    AND XZ_DEPARTMENTNAME = $name
+                                ) AS public_year,
+                                (
+                                    SELECT
+                                        count(0) AS `count`
+                                    FROM
+                                        `cxdj_ajax_event` AS `event`
+                                    JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                    WHERE
+                                        (
+                                            (
+                                                `event`.`CATEGORY1` = '公安类'
+                                            )
+                                            AND (
+                                                date_format(`event`.`HAPPEN_TIME`, '%Y') = date_format(now(), '%Y')
+                                            )
+                                        )
+                                    AND XZ_DEPARTMENTNAME = $name
+                                ) AS police_year,
+                                (
+                                    SELECT
+                                        count(0) AS `count`
+                                    FROM
+                                        `cxdj_ajax_event` AS `event`
+                                    JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                    WHERE
+                                        (
+                                            (
+                                                `event`.`CATEGORY1` = '消防类'
+                                            )
+                                            AND (
+                                                date_format(`event`.`HAPPEN_TIME`, '%Y') = date_format(now(), '%Y')
+                                            )
+                                        )
+                                    AND XZ_DEPARTMENTNAME = $name
+                                ) AS xf_year,
+                                (
+                                    SELECT
+                                        count(0) AS `count`
+                                    FROM
+                                        `cxdj_ajax_event` AS `event`
+                                    JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                    WHERE
+                                        (
+                                            (
+                                                `event`.`CATEGORY1` = '卫计类'
+                                            )
+                                            AND (
+                                                date_format(`event`.`HAPPEN_TIME`, '%Y') = date_format(now(), '%Y')
+                                            )
+                                        )
+                                    AND XZ_DEPARTMENTNAME = $name
+                                ) AS wj_year,
+                                (
+                                    SELECT
+                                        count(0) AS `count`
+                                    FROM
+                                        `cxdj_ajax_event` AS `event`
+                                    JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                    WHERE
+                                        (
+                                            (
+                                                `event`.`CATEGORY1` = '国土类'
+                                            )
+                                            AND (
+                                                date_format(`event`.`HAPPEN_TIME`, '%Y') = date_format(now(), '%Y')
+                                            )
+                                        )
+                                    AND XZ_DEPARTMENTNAME = $name
+                                ) AS gt_year,
+                                (
+                                    SELECT
+                                        count(0) AS `count`
+                                    FROM
+                                        `cxdj_ajax_event` AS `event`
+                                    JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                    WHERE
+                                        (
+                                            (
+                                                `event`.`CATEGORY1` = '城乡建设类'
+                                            )
+                                            AND (
+                                                date_format(`event`.`HAPPEN_TIME`, '%Y') = date_format(now(), '%Y')
+                                            )
+                                        )
+                                    AND XZ_DEPARTMENTNAME = $name
+                                ) AS city_year
+                            FROM
+                                cxdj_ajax_event
+                            LIMIT 1");
+
+
+        $town_event_month = M()->query("SELECT
+                                        (
+                                            SELECT
+                                                count(0) AS `count`
+                                            FROM
+                                                `cxdj_ajax_event` AS `event`
+                                            JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                            WHERE
+                                                (
+                                                    (
+                                                        `event`.`CATEGORY1` = '交通运输类'
+                                                    )
+                                                    AND (
+                                                        date_format(`event`.`HAPPEN_TIME`, '%Y-%m') = date_format(now(), '%Y-%m')
+                                                    )
+                                                )
+                                            AND XZ_DEPARTMENTNAME = $name
+                                        ) AS jt_year,
+                                        (
+                                            SELECT
+                                                count(0) AS `count`
+                                            FROM
+                                                `cxdj_ajax_event` AS `event`
+                                            JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                            WHERE
+                                                (
+                                                    (
+                                                        `event`.`CATEGORY1` = '公共事业类'
+                                                    )
+                                                    AND (
+                                                        date_format(`event`.`HAPPEN_TIME`, '%Y-%m') = date_format(now(), '%Y-%m')
+                                                    )
+                                                )
+                                            AND XZ_DEPARTMENTNAME = $name
+                                        ) AS public_year,
+                                        (
+                                            SELECT
+                                                count(0) AS `count`
+                                            FROM
+                                                `cxdj_ajax_event` AS `event`
+                                            JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                            WHERE
+                                                (
+                                                    (
+                                                        `event`.`CATEGORY1` = '公安类'
+                                                    )
+                                                    AND (
+                                                        date_format(`event`.`HAPPEN_TIME`, '%Y-%m') = date_format(now(), '%Y-%m')
+                                                    )
+                                                )
+                                            AND XZ_DEPARTMENTNAME = $name
+                                        ) AS police_year,
+                                        (
+                                            SELECT
+                                                count(0) AS `count`
+                                            FROM
+                                                `cxdj_ajax_event` AS `event`
+                                            JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                            WHERE
+                                                (
+                                                    (
+                                                        `event`.`CATEGORY1` = '消防类'
+                                                    )
+                                                    AND (
+                                                        date_format(`event`.`HAPPEN_TIME`, '%Y-%m') = date_format(now(), '%Y-%m')
+                                                    )
+                                                )
+                                            AND XZ_DEPARTMENTNAME = $name
+                                        ) AS xf_year,
+                                        (
+                                            SELECT
+                                                count(0) AS `count`
+                                            FROM
+                                                `cxdj_ajax_event` AS `event`
+                                            JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                            WHERE
+                                                (
+                                                    (
+                                                        `event`.`CATEGORY1` = '卫计类'
+                                                    )
+                                                    AND (
+                                                        date_format(`event`.`HAPPEN_TIME`, '%Y-%m') = date_format(now(), '%Y-%m')
+                                                    )
+                                                )
+                                            AND XZ_DEPARTMENTNAME = $name
+                                        ) AS wj_year,
+                                        (
+                                            SELECT
+                                                count(0) AS `count`
+                                            FROM
+                                                `cxdj_ajax_event` AS `event`
+                                            JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                            WHERE
+                                                (
+                                                    (
+                                                        `event`.`CATEGORY1` = '国土类'
+                                                    )
+                                                    AND (
+                                                        date_format(`event`.`HAPPEN_TIME`, '%Y-%m') = date_format(now(), '%Y-%m')
+                                                    )
+                                                )
+                                            AND XZ_DEPARTMENTNAME = $name
+                                        ) AS gt_year,
+                                        (
+                                            SELECT
+                                                count(0) AS `count`
+                                            FROM
+                                                `cxdj_ajax_event` AS `event`
+                                            JOIN cxdj_ajax_wg AS wg ON `event`.G_ID = wg.DEPARTMENTID
+                                            WHERE
+                                                (
+                                                    (
+                                                        `event`.`CATEGORY1` = '城乡建设类'
+                                                    )
+                                                    AND (
+                                                        date_format(`event`.`HAPPEN_TIME`, '%Y-%m') = date_format(now(), '%Y-%m')
+                                                    )
+                                                )
+                                            AND XZ_DEPARTMENTNAME = $name
+                                        ) AS city_year
+                                    FROM
+                                        cxdj_ajax_event
+                                    LIMIT 1");
+
 
     foreach ($event_year[0] as $k=>&$v){
         $data[] = (int)$v;
@@ -370,10 +623,10 @@ class DataController extends Controller
 
 
     //四个平台数据
-    public function platform()
+    public function platform($name)
     {
             //县一级数据
-//        if($type == 0){
+        if($name == 0){
             //县户籍人口
             $count_HJ = $this->ajax_jiedao_people->sum('HJ');
             //县流动人口
@@ -404,9 +657,25 @@ class DataController extends Controller
                 $SL = $this->ajax_event->where("CATEGORY1 = '公共事业类' AND date_format(`HAPPEN_TIME`, '%Y') = date_format(now(), '%Y')")->count();
 
 
-           echo  json_encode(array('code'=>200,'data'=>array('zhzl'=>array('hj'=>(int)$count_HJ,'ld'=>(int)$count_LD),'zhzf'=>array('event_dy'=>(int)$event_dy,'event_fdy'=>(int)$event_fdy),'bmfu'=>(int)$SL)));
+            echo  json_encode(array('code'=>200,'data'=>array('zhzl'=>array('hj'=>(int)$count_HJ,'ld'=>(int)$count_LD),'zhzf'=>array('event_dy'=>(int)$event_dy,'event_fdy'=>(int)$event_fdy),'bmfu'=>(int)$SL)));
 
-//        }
+        }else{
+                /*********************************街道信息*************************************/
+
+            //户籍人口，流动人口
+            $people = $this->ajax_jiedao_people->where(array('XZ_DEPARTMENTNAME'=>$name))->field('HJ,LD')-find();
+            //街道事件总数
+            $event = $this->ajax_jiedao->where(array('town'=>$name))->field('count')->find();
+            //党员办结事件总数
+            $event_dy_town = $this->event_dy->where(array('town'=>$name))->field('count')->find();
+            //非党员办结总数
+            $event_town_fdy = (int)$event - (int)$event_dy_town;
+            //便民服务
+            $event_bm = $this->event_bm->where(array('town'=>$name))->field('count')->find();
+
+        }
+
+
 
 
     }

@@ -399,6 +399,9 @@ class CxController extends Controller
             case 5: // 微心愿
                 $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/wish_det/content_id/' . $id);
                 break;
+            case 6: // 众筹
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/raise_det/id/' . $id);
+                break;
         }
     }
 
@@ -458,7 +461,81 @@ class CxController extends Controller
     //众筹服务
     public function zhongchou()
     {
-        $id = I('id');
+        $Model = M();
+        $res = $Model->query("SELECT
+                                zhch.id,
+                                zhch.title,
+                                zhch.content,
+                                zhch.count,
+                                zhch.img,
+                                zhch.state_time AS `time`,
+                                SUM(apply.count) AS num
+                            FROM
+                                cxdj_sign_zhch AS zhch
+                            JOIN cxdj_sign_zhch_apply AS apply ON zhch.id = apply.zhch_id
+                            AND apply.state IN (1, 2, 3)
+                            AND apply. STATUS = 1
+                            WHERE
+                                zhch.state = 1
+                            AND zhch.`status` = 1");
+        //完成率
+        foreach ($res as $k=>&$v){
+            $already_rate =  (round(($v['num']/$v['count']),2)*100).'%';
+            $item = get_cover($v['img']);
+            $v['path'] = 'http://183.131.86.64:8620' . $item['path'];
+            $v['ewm'] =  "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=6';
+        }
+
+
+        $res[0]['rate'] = $already_rate;
+
+        //微信头像
+        $headimg = $Model->query("SELECT
+                                    `user`.headimgurl
+                                FROM
+                                    cxdj_sign_zhch AS zhch
+                                JOIN cxdj_sign_zhch_apply AS apply ON zhch.id = apply.zhch_id
+                                JOIN cxdj_wxuser AS `user` ON apply.openid = `user`.openid
+                                AND apply.state IN (1, 2, 3)
+                                AND apply. STATUS = 1
+                                WHERE
+                                    zhch.state = 1
+                                AND zhch.`status` = 1");
+
+
+        //统计评价
+        $pj = $Model->query("SELECT
+                                eval.pj,
+                                count(pj) AS `count`
+                            FROM
+                                cxdj_sign_zhch AS zc
+                            JOIN cxdj_sign_zhch_evaluate AS eval ON zc.id = eval.zhch_id
+                            AND eval.state = 1
+                            AND  eval.`status` = 1
+                            WHERE zc.state = 1 AND zc.`status` = 1
+                            GROUP BY pj
+                            ");
+
+        foreach ($pj as $k=>&$v){
+            if($v['pj'] == 1){
+                $perfect = $v['count'];
+            }elseif ($v['pj'] == 2){
+                $satisfied = $v['count'];
+            }elseif ($v['pj'] == 3){
+                $commonly = $v['count'];
+            }elseif (($v['pj'] == 4)){
+                $dissatisfied = $v['count'];
+            }
+        }
+
+
+
+        $this->assign('headimg',$headimg);
+        $this->assign('perfect',$perfect);
+        $this->assign('satisfied',$satisfied);
+        $this->assign('commonly',$commonly);
+        $this->assign('dissatisfied',$dissatisfied);
+        $this->assign('res',$res[0]);
         $this->display('crowd_funding');
     }
 

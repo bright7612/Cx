@@ -2118,34 +2118,58 @@ class CxController extends AdminController{
     }
 
 
+    //定时调用接口
+    public function timing()
+    {
+        set_time_limit(0);
+
+        $res = $this->activity();
+        while (isset($res)){
+            flush();
+            ob_flush();
+            sleep(5);
+        }
+
+
+    }
+
+
     public function activity()
     {
+
         $url = 'http://www.dysfz.gov.cn/apiXC/activityList.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 200;
-//        $da['ACTIVITYID'] = 33594;
+        $da['ACTIVITYID'] = 33594;
 
-//        $da['START'] = 1;
-//        $das = json_encode($da);
-//        $list = httpjson($url,$das);
-//        dump($list);die;
 
-        for ($i = 1 ;$i < 50 ; $i++){
-            $da['START'] = $i;
-            $das = json_encode($da);
-            $list = httpjson($url,$das);
-            foreach ($list['data'] as $k=>&$v) {
-                $user = M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$v['VOLUNTEER_ID']))->find();
-                if($v['PICTURE']){
-                    $v['PICTURE'] =  '[图片]http://www.dysfz.gov.cn/'.$v['PICTURE'];
-                }
-                if($user['id']){
-                    M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$user['VOLUNTEER_ID']))->save($v);
-                }else{
-                    M('ajax_volunteer')->add($v);
-                }
-            }
-        }
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = httpjson($url,$das);
+        $list = "你好".time();
+        $path = "C:\\Users\\Administrator\\Desktop\\test.php";
+
+
+        $aa =  file_put_contents($path,$list);
+        return $aa;
+
+
+//        for ($i = 1 ;$i < 50 ; $i++){
+//            $da['START'] = $i;
+//            $das = json_encode($da);
+//            $list = httpjson($url,$das);
+//            foreach ($list['data'] as $k=>&$v) {
+//                $user = M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$v['VOLUNTEER_ID']))->find();
+//                if($v['PICTURE']){
+//                    $v['PICTURE'] =  '[图片]http://www.dysfz.gov.cn/'.$v['PICTURE'];
+//                }
+//                if($user['id']){
+//                    M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$user['VOLUNTEER_ID']))->save($v);
+//                }else{
+//                    M('ajax_volunteer')->add($v);
+//                }
+//            }
+//        }
 
     }
 
