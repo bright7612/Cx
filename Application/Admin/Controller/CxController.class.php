@@ -2137,21 +2137,22 @@ class CxController extends AdminController{
     public function activity()
     {
 
-        $url = 'http://www.dysfz.gov.cn/apiXC/activityList.do'; //党员党建
+        $url = 'http://www.dysfz.gov.cn/apiXC/ativityRecordlist.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-        $da['COUNT'] = 200;
-        $da['ACTIVITYID'] = 33594;
+        $da['COUNT'] = 10;
+        $da['PARTY_ID'] = 45256;
 
 
         $da['START'] = 1;
         $das = json_encode($da);
         $list = httpjson($url,$das);
-        $list = "你好".time();
-        $path = "C:\\Users\\Administrator\\Desktop\\test.php";
+//        $list = "你好".time();
+//        $path = "C:\\Users\\Administrator\\Desktop\\test.php";
 
+        dump($list);die;
 
-        $aa =  file_put_contents($path,$list);
-        return $aa;
+//        $aa =  file_put_contents($path,$list);
+//        return $aa;
 
 
 //        for ($i = 1 ;$i < 50 ; $i++){

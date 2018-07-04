@@ -12,7 +12,7 @@
 <header class="header2">
     <p>
         <!--标题-->
-        <span class="title2">微心愿</span>
+        <span class="title2">众筹服务</span>
         <!--返回按钮-->
         <a class="return" href="javascript:history.back(-1);">
             <span class="iconfont icon-fanhui"></span>
@@ -23,32 +23,9 @@
 <article class="content2 activity_order activity_order1">
     <p class="title">
         <span class="mark1"></span>
-        <span class="font1">我的微心愿</span>
+        <span class="font1">{$title.title}</span>
     </p>
     <div class="input_box">
-        <div>
-            <p>
-                <span class="iconfont icon-weixinyuan icon_red"></span>
-                <span class="text2">申请心愿</span>
-            </p>
-            <select name="" id="obj">
-                <option class="option1" value="1" selected>物质</option>
-                <option class="option1" value="2">精神</option>
-            </select>
-            <img src="__CX__/imgs/arrow.png" alt="">
-        </div>
-        <div>
-            <p>
-                <span class="iconfont icon-leixing icon_red"></span>
-                <span class="text2">申请类型</span>
-            </p>
-            <select name="" id="type">
-                <option class="option1" value="1" selected>个人</option>
-                <option class="option1" value="2">团体</option>
-                <option class="option1" value="3">群众</option>
-            </select>
-            <img src="__CX__/imgs/arrow.png" alt="">
-        </div>
         <div>
             <p>
                 <span class="iconfont icon-lianxiren icon_yellow"></span>
@@ -58,7 +35,7 @@
         </div>
         <div>
             <p>
-                <span class="iconfont icon-shenfenzheng icon_yellow"></span>
+                <span class="iconfont icon-shenfenzheng icon_blue"></span>
                 <span class="text2">身份证号</span>
             </p>
             <input type="text" placeholder="请输入15位或18位身份证号码" id="card">
@@ -70,13 +47,6 @@
             </p>
             <input type="text" placeholder="请输入手机号码" id="phone">
         </div>
-        <div>
-            <p>
-                <span class="iconfont icon-danwei icon_blue"></span>
-                <span class="text2">联系地址</span>
-            </p>
-            <input type="text" placeholder="请输入您的地址" id="addr">
-        </div>
         <div class="dang">
             <p>
                 <span class="iconfont icon-renlingxiangmuxuanzhong- icon_red"></span>
@@ -85,20 +55,53 @@
             <input type="text" placeholder="请输入身份证号识别" id="party" readonly>
         </div>
         <div>
-            <textarea name="" id="remark" placeholder="请输入备注"></textarea>
+            <p>
+                <span class="iconfont icon-leixing icon_yellow"></span>
+                <span class="text2">预约方式</span>
+            </p>
+            <select name="" id="type">
+                <option class="option1" value="0">单位</option>
+                <option class="option1" value="1">个人</option>
+            </select>
+            <img src="__CX__/imgs/arrow.png" alt="">
+        </div>
+
+        <div>
+            <p>
+                <span class="iconfont icon-weibiaoti-_huabanfuben icon_green"></span>
+                <span class="text2">预约人数</span>
+            </p>
+            <input type="text" placeholder="请输入预约人数" id="order_num">
+        </div>
+        <!--<div>-->
+        <!--<textarea id="remark" placeholder="请输入活动备注"></textarea>-->
+        <!--</div>-->
+        <div>
+            <p>
+                <span class="iconfont icon-beizhu icon_green"></span>
+                <span class="text2">活动备注</span>
+            </p>
+            <input type="text" placeholder="活动备注信息" id="remark">
+        </div>
+        <div class="danwei">
+            <p>
+                <span class="iconfont icon-danwei icon_blue"></span>
+                <span class="text2">单位企业</span>
+            </p>
+            <input type="text" placeholder="请输入单位名称" id="company">
         </div>
     </div>
     <p class="btn_box1 submit_box">
         <a id="submit">提交</a>
     </p>
-    <input type="text" id="displayInput" style="display: none;" value="12">
-    <div id="popUp">
-        <p class="pop_title">提&nbsp;&nbsp;示</p>
-        <p class="pop_content"></p>
-        <span class="sure">确 定</span>
-    </div>
 </article>
+<div id="popUp">
+    <p class="pop_title">提&nbsp;&nbsp;示</p>
+    <p class="pop_content"></p>
+    <span class="sure">确 定</span>
+</div>
+<input type="text" id="displayInput" style="display: none;" value="12">
 </body>
 <script type="text/javascript" src="__CX__/libs/jquery/jquery.js"></script>
-<script type="text/javascript" src="__CX__/js/heart_order2.js"></script>
+<script type="text/javascript" src="__CX__/js/crowd_order_new.js"></script>
 </html>

@@ -1,18 +1,22 @@
 $(function () {
-    console.log(111);
+    //id 传递的参数
+    //name  联系人姓名
+    //card   身份证信息
+    //phone  联系方式
+    //party   党员信息
+    //type  0 单位 1 个人
+    //order_num  预约人数
+    //company 单位企业
+    //remark  备注
+    var party;
     getUrl('dataId');
-    var party = '';
     var form_submit = {
         id: id,//传参
+        type: '0',//单位、个人（单位0 个人1）
         remark: '',//备注
-        party: '',//所属党组织
-        name: '',//姓名
-        card: '',//身份证信息
-        theme: '',//主题
-        start_time: '',//开始时间
-        end_time: '',//结束时间
-        sb: ''//设备
+        party: ''
     };
+    var value = '0';
     //获取传递过来的dataId,即id
     function getUrl(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -32,19 +36,14 @@ $(function () {
         }
     });
 
-    //设备选择
-    $('.sb').on('click','label',function(){
-        if($(this).hasClass('select')==true){
-            $(this).removeClass('select');
-            //去除已选择的项目
-        }else {
-            $(this).addClass('select');
-            //加上点击的项目
+    //点击单位个人时候显示隐藏
+    $('#type').on('change', function () {
+        $('div.danwei').show();
+        value = $(this).find("option:selected").attr('value');
+        if (value == '1') {
+            $('div.danwei').hide();
         }
-        var sbOrg=$('.sb').find('label.select').text();
-        var sb=sbOrg.substring(0,sbOrg.length-1).split(' ').join(',');
-        console.log(sb);
-        form_submit.sb=sb;
+        form_submit.type = value;
     });
 
     function textTest(text, tip, form_key) {
@@ -102,36 +101,22 @@ $(function () {
             popShow(text);
             return false;
         }
-        if (text == false) {
-            if (party == '非党员') {
-                popShow('非党员不能参加');
-                return false;
-            }
-        }
-        text = textTest($('#theme').val(), '活动主题', 'theme');
-        if (text) {
-            popShow(text);
-            return false;
-        }
         text = phoneTest($('#phone').val(), '联系方式', 'phone');
         if (text) {
             popShow(text);
             return false;
         }
-        text = numTest($('#place_num').val(), '人数', 'place_num');
+        text = numTest($('#order_num').val(), '预约人数', 'order_num');
         if (text) {
             popShow(text);
             return false;
         }
-        text = textTest($('#start_time').val(), '开始时间', 'start_time');
-        if (text) {
-            popShow(text);
-            return false;
-        }
-        text = textTest($('#end_time').val(), '结束时间', 'end_time');
-        if (text) {
-            popShow(text);
-            return false;
+        if (value == '0') {
+            text = textTest($('#company').val(), '单位企业', 'company');
+            if (text) {
+                popShow(text);
+                return false;
+            }
         }
         return true;
     }
@@ -171,35 +156,26 @@ $(function () {
         })
     }
 
-    //日期插件
-    laydate.render({
-        elem: '#start_time'
-        ,type: 'datetime'
-    });
-    laydate.render({
-        elem: '#end_time'
-        ,type: 'datetime'
-    });
-
     //点击提交按钮
     //点击提交按钮获取数据
     $('#submit').on('click', function () {
         testAll();
         if (testAll()) {
             form_submit.remark = $('#remark').val();
-
-            // console.log(form_submit);
+            if (value == '1') {
+                form_submit.company = '';
+            }
+            console.log(form_submit);
             formSubmit();
             $('#popUp').on('click', '.sure', function () {
                 // window.location.reload();
-                window.location.href="http://183.131.86.64:8620/cx/cx";
-
+                // window.location.href="../index.html";
             })
         }
     });
     function formSubmit() {
         $.ajax({
-            url: 'http://183.131.86.64:8620/cx/cx/place_bespoke',
+            url: 'http://183.131.86.64:8620/cx/cx/zc_apply',
             type: 'GET',
             data: form_submit,
             async: true,

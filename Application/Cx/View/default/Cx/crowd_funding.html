@@ -96,6 +96,11 @@
     </p>
     <p class="message">扫描二维码进行预约</p>
 </article>
+<div id="popAssess">
+    <span class="close">×</span>
+    <p>请扫描二维码进行评价</p>
+    <img src="{$appraise_ewm}" alt="">
+</div>
 <script type="text/javascript" src="__CX__/libs/jquery/jquery.min.js"></script>
 <script type="text/javascript">
     $(function(){
@@ -111,6 +116,12 @@
         var html=$('.btn_box a').attr('href');
         html=html+('?dataId='+id);
         $('.btn_box a').attr('href',html);
+        $('.btn_box').on('click','.btn2',function(){
+
+            $('#popAssess').show().on('click','.close',function(){
+                $('#popAssess').hide();
+            })
+        })
     })
 </script>
 </body>

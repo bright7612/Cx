@@ -10,6 +10,7 @@ namespace Home\Controller;
 
 
 use Addons\Mail\MailAddon;
+use Admin\Model\Wxuser_integralModel;
 use Think\Controller;
 
 // 指定允许其他域名访问
@@ -31,7 +32,12 @@ class WxapiController extends Controller
         if($_REQUEST['name']){$data['name'] = $_REQUEST['name'];}else{$this->Apireturn(array(),300,'申请姓名错误');}  //申请姓名
         if($_REQUEST['phone']){$data['phone'] = $_REQUEST['phone'];}else{$this->Apireturn(array(),300,'申请电话错误');}  //申请姓名
         if($_REQUEST['party']){$data['organization'] = $_REQUEST['party'];}else{$this->Apireturn(array(),300,'申请党组织错误');}  //申请党组织
-        if($_REQUEST['number']){$data['bespoke_num'] = $_REQUEST['number'];}else{$this->Apireturn(array(),300,'申请人数错误');}  //申请人数
+        if($_REQUEST['number']){
+            $data['bespoke_num'] = $_REQUEST['number'];
+
+
+
+        }else{$this->Apireturn(array(),300,'申请人数错误');}  //申请人数
         if($_REQUEST['way'] == 0){
             if($_REQUEST['theme']){$data['company'] = $_REQUEST['theme'];}else{$this->Apireturn(array(),300,'申请单位错误');}  //申请单位
         }
@@ -282,7 +288,7 @@ class WxapiController extends Controller
         }
         $this->Apireturn($data);
     }
-    //党员新的
+    //党员心得
     public function gain(){
         $data['name'] = $_REQUEST['name'];
         $data['telephone'] = $_REQUEST['phone'];
@@ -292,6 +298,26 @@ class WxapiController extends Controller
         $data['content'] = $_REQUEST['content_x'];
         $data['identity'] = $_REQUEST['identity'];
         $data['title'] = $_REQUEST['title'];
+        $data['cre_time'] = time();
+        $data['time'] = time();
+        $id = M('sign_gain')->add($data);
+        if($id){
+            $this->Apireturn($id,200,'提交成功');
+        }else{
+            $this->Apireturn(array(),300,'服务器繁忙！请稍等再次提交！');
+        }
+        exit;
+    }
+    //党员心得大屏
+    public function gains(){
+        if($_REQUEST['name']){$data['name'] = $_REQUEST['name'];}else{$this->Apireturn(array(),300,'用户名错误！！');}
+        if(preg_match("/^1[345678]{1}\d{9}$/",$_REQUEST['phone'])){$data['telephone'] = $_REQUEST['phone'];}else{$this->Apireturn(array(),300,'手机号错误！！');}
+//        if($_REQUEST['identity']){$data['identity'] = $_REQUEST['identity'];}else{$this->Apireturn(array(),300,'身份证必填！！');}
+        if($_REQUEST['title']){$data['title'] = $_REQUEST['title'];}else{$this->Apireturn(array(),300,'标题不能为空！！');}
+        if($_REQUEST['content']){$data['content'] = $_REQUEST['content'];}else{$this->Apireturn(array(),300,'心得不能为空！！');}
+        $data['age'] = $_REQUEST['age'];
+        $data['organizations'] = $_REQUEST['organizations'];
+        $data['identity'] = $_REQUEST['identity'];
         $data['cre_time'] = time();
         $data['time'] = time();
         $id = M('sign_gain')->add($data);
@@ -510,7 +536,7 @@ class WxapiController extends Controller
             $openid = base64_decode($openid);
             $user = M('wxuser')->where(array('openid'=>$openid))->find();
             if(!$user['identity']){
-                $this->Apireturn(array(),300,'对不清！您尚未进行实名认证！无法参与该活动');
+                $this->Apireturn(array(),300,'对不起！您尚未进行实名认证！无法参与该活动');
             }
             $ajaxuser = M('ajax_user')->where(array('IDCARD'=>$user['identity']))->find();
             if(!$ajaxuser['id']){
@@ -574,29 +600,52 @@ class WxapiController extends Controller
         $data = array();
         $data['organization']['count'] =(int) M('ajax_dzz')->where($cx)->count();
         //党委
+//        $map['PARENT_IDS'] =  array('like',"%,92,%");
+//        $map['TYPE'] = 0;
+//        $data['organization']['committee']['count'] = (int)M('ajax_dzz')->where($map)->count();  //党总支统计
+//        $data['organization']['committee']['name'] = '党委';  //党总支统计
+//        $data['organization']['committee']['Percentage'] = number_format( $data['organization']['committee']['count']/$data['organization']['count'],4)*100;
+
         $map['PARENT_IDS'] =  array('like',"%,92,%");
         $map['TYPE'] = 0;
-        $data['organization']['committee']['count'] = (int)M('ajax_dzz')->where($map)->count();  //党总支统计
-        $data['organization']['committee']['Percentage'] = number_format( $data['organization']['committee']['count']/$data['organization']['count'],4)*100 ;
-        //党总支部2
-        $map['PARENT_IDS'] =  array('like',"%,92,%");
-        $map['TYPE'] = 1;
         $data['organization']['general']['count'] = (int)M('ajax_dzz')->where($map)->count();  //党总支统计
-        $data['organization']['general']['Percentage'] = number_format( $data['organization']['general']['count']/$data['organization']['count'],4)*100 ;
+        $data['organization']['general']['name'] = '党委';  //党总支统计
+        $data['organization']['general']['Percentage'] = number_format( $data['organization']['general']['count']/$data['organization']['count'],4)*100;
+        //党总支部2
+//        $map1['PARENT_IDS'] =  array('like',"%,92,%");
+//        $map1['TYPE'] = 1;
+//        $data['organization']['general']['count'] = (int)M('ajax_dzz')->where($map1)->count();  //党总支统计
+//        $data['organization']['general']['name'] = '党总支';  //党总支统计
+//        $data['organization']['general']['Percentage'] = number_format( $data['organization']['general']['count']/$data['organization']['count'],4)*100 ;
+
+        $map1['PARENT_IDS'] =  array('like',"%,92,%");
+        $map1['TYPE'] = 1;
+        $data['organization']['branch']['count'] = (int)M('ajax_dzz')->where($map1)->count();  //党总支统计
+        $data['organization']['branch']['name'] = '党总支';  //党总支统计
+        $data['organization']['branch']['Percentage'] = number_format( $data['organization']['branch']['count']/$data['organization']['count'],4)*100 ;
         //党支部
+//        $map2['PARENT_IDS'] = array('like',"%,92,%");
+//        $map2['TYPE'] = 2;
+//        $data['organization']['branch']['count'] = (int)M('ajax_dzz')->where($map2)->count();  //党支部统计
+//        $data['organization']['branch']['name'] = '党支部';  //党支部统计
+//        $data['organization']['branch']['Percentage'] = number_format( $data['organization']['branch']['count']/$data['organization']['count'],4)*100 ;
+
         $map2['PARENT_IDS'] = array('like',"%,92,%");
         $map2['TYPE'] = 2;
-        $data['organization']['branch']['count'] = (int)M('ajax_dzz')->where($map2)->count();  //党支部统计
-        $data['organization']['branch']['Percentage'] = number_format( $data['organization']['branch']['count']/$data['organization']['count'],4)*100 ;
+        $data['organization']['committee']['count'] = (int)M('ajax_dzz')->where($map2)->count();  //党支部统计
+        $data['organization']['committee']['name'] = '党支部';  //党支部统计
+        $data['organization']['committee']['Percentage'] = number_format( $data['organization']['committee']['count']/$data['organization']['count'],4)*100 ;
         //联合党支部
         $map3['PARENT_IDS'] = array('like',"%,92,%");
         $map3['TYPE'] = 3;
         $data['organization']['union']['count'] = (int)M('ajax_dzz')->where($map3)->count();  //党委统计
+        $data['organization']['union']['name'] = '联合党支部';  //党委统计
         $data['organization']['union']['Percentage'] = number_format( $data['organization']['union']['count']/$data['organization']['count'],4)*100 ;
         //网络e支部
         $map3['PARENT_IDS'] = array('like',"%,92,%");
         $map3['TYPE'] = 4;
         $data['organization']['network']['count'] = (int)M('ajax_dzz')->where($map3)->count();  //党委统计
+        $data['organization']['network']['name'] ='网格e支部';  //党委统计
         $data['organization']['network']['Percentage'] = number_format( $data['organization']['network']['count']/$data['organization']['count'],4)*100 ;
 
         //党组织类别
@@ -605,26 +654,31 @@ class WxapiController extends Controller
         $map4['PARENT_IDS'] = array('like',"%,92,%");
         $map4['NATURE'] = array('like',"%部门机关%");
         $data['type']['office']['count'] =(int) M('ajax_dzz')->where($map4)->count();
+        $data['type']['office']['name'] ='部门机关';
         $data['type']['office']['Percentage'] =number_format( $data['type']['office']['count']/$data['organization']['count'],4)*100 ;
         //国有企业
         $map5['PARENT_IDS'] = array('like',"%,92,%");
         $map5['NATURE'] = array('like',"%国有企业%");
         $data['type']['enterprise']['count'] = (int)M('ajax_dzz')->where($map5)->count();
+        $data['type']['enterprise']['name'] = '国有企业';
         $data['type']['enterprise']['Percentage'] =number_format( $data['type']['enterprise']['count']/$data['organization']['count'],4)*100 ;
         //事业单位
         $map6['PARENT_IDS'] = array('like',"%,92,%");
         $map6['NATURE'] = array('like',"%事业单位%");
         $data['type']['undertaking']['count']=(int) M('ajax_dzz')->where($map6)->count();
+        $data['type']['undertaking']['name']='事业单位';
         $data['type']['undertaking']['Percentage'] =number_format( $data['type']['undertaking']['count']/$data['organization']['count'],4)*100 ;
         //村社
         $map7['PARENT_IDS'] = array('like',"%,92,%");
         $map7['NATURE'] = array('like',"%村社%");
         $data['type']['community']['count']=(int) M('ajax_dzz')->where($map7)->count();
+        $data['type']['community']['name']='村社';
         $data['type']['community']['Percentage'] =number_format( $data['type']['community']['count']/$data['organization']['count'],4)*100 ;
         //两新组织
         $map8['PARENT_IDS'] = array('like',"%,92,%");
         $map8['NATURE'] = array('like',"%两新%");
         $data['type']['new']['count']=(int) M('ajax_dzz')->where($map8)->count();
+        $data['type']['new']['name']='两新';
         $data['type']['new']['Percentage'] =number_format( $data['type']['new']['count']/$data['organization']['count'],4)*100 ;
         $da['dzz'] = $data;
         unset($data);unset($map);unset($map2);unset($map3);unset($map4);unset($map5);unset($map6);
@@ -634,10 +688,11 @@ class WxapiController extends Controller
     //数据大屏左上角 党组织
     public function details($type=1,$subtype=2,$classify=1,$page = 1, $r = 200){
         $head1 = array(  //党组织
-            array('name'=>'党组织名称', 'width'=>35),
+            array('name'=>'党组织名称', 'width'=>30),
             array('name'=>'党组织书记', 'width'=>15),
-            array('name'=>'党组织地址', 'width'=>35),
+            array('name'=>'党组织地址', 'width'=>30),
             array('name'=>'人数', 'width'=>15),
+            array('name'=>'到会率', 'width'=>10),
         );
 
         switch ($type){
@@ -649,27 +704,32 @@ class WxapiController extends Controller
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] =ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '基层党委信息';
-                    }elseif ($classify == 2) {
+                    }
+                    elseif ($classify == 2) {
                         $map3['TYPE'] = 1;
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '党总支信息';
-                    }elseif ($classify == 3) {
+                    }
+                    elseif ($classify == 3) {
                         $map3['TYPE'] = 2;
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '党支部信息';
-                    }elseif ($classify == 4) {
+                    }
+                    elseif ($classify == 4) {
                         $map3['TYPE'] = 3;
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '联合党支部信息';
-                    }elseif ($classify == 5) {
+                    }
+                    elseif ($classify == 5) {
                         $map3['TYPE'] = 4;
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '网络e支部';
-                    }else{
+                    }
+                    else{
                         $this->apiReturn(array(),300,'错误信息');
                     }
                 }
@@ -707,18 +767,20 @@ class WxapiController extends Controller
                 else{
                     $this->apiReturn(array(),300,'错误信息');
                 }
-
 //                $li = M('ajax_user_st')->select();
 //                foreach ($li as $k2=>$v2){
 //                    $li2[$v2['BRANCH_ID']] =  $v2['count'];
 //                }
                 $dzzUser = $this->dzzUser();
+                $dzzDhl = $this->dzzDHL();
+
                 foreach ($data as $k=>$v) {
                     $da[$k] = array(
-                        array('value'=>$v['NAME'], 'width'=>35,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                        array('value'=>$v['NAME'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                         array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                        array('value'=>$v['ADDRESS'], 'width'=>35,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                        array('value'=>$v['ADDRESS'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                         array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                        array('value'=>$dzzDhl[$v['BRANCH_ID']]?$dzzDhl[$v['BRANCH_ID']].'%':mt_rand(70,95).'%', 'width'=>10,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                     );
                 }
                 $list['head'] = $head1;
@@ -735,6 +797,143 @@ class WxapiController extends Controller
         }
 
     }
+    public function details2($order = null,$type=1,$subtype=1,$classify=1,$page = 1, $r = 200){
+        $head1 = array(  //党组织
+            array('name'=>'党组织名称', 'width'=>30),
+            array('name'=>'党组织书记', 'width'=>15),
+            array('name'=>'党组织地址', 'width'=>30),
+            array('name'=>'人数', 'width'=>15),
+            array('name'=>'到会率', 'width'=>10),
+        );
+
+        switch ($type){
+            case 1:
+                if($subtype == 1){
+                    $map3['PARENT_IDS'] = array('like',"%,92,%");
+                    if($classify == 1){
+                        $map3['TYPE'] = 0;
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] =ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '基层党委信息';
+                    }
+                    elseif ($classify == 2) {
+                        $map3['TYPE'] = 1;
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '党总支信息';
+                    }
+                    elseif ($classify == 3) {
+                        $map3['TYPE'] = 2;
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '党支部信息';
+                    }
+                    elseif ($classify == 4) {
+                        $map3['TYPE'] = 3;
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '联合党支部信息';
+                    }
+                    elseif ($classify == 5) {
+                        $map3['TYPE'] = 4;
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '网络e支部';
+                    }
+                    else{
+                        $this->apiReturn(array(),300,'错误信息');
+                    }
+                }
+                elseif ($subtype == 2){
+                    $map3['PARENT_IDS'] = array('like',"%,92,%");
+                    if($classify == 1){
+                        $map3['NATURE'] = array('like',"%部门机关%");
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '部门机关组织信息';
+                    }elseif($classify == 2){
+                        $map3['NATURE'] = array('like',"%国有企业%");
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '国有企业组织信息';
+                    }elseif($classify == 3){
+                        $map3['NATURE'] = array('like',"%事业单位%");
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '事业单位组织信息';
+                    }elseif($classify == 4){
+                        $map3['NATURE'] = array('like',"%村社%");
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '村社组织信息';
+                    }elseif($classify == 5){
+                        $map3['NATURE'] = array('like',"%两新%");
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+                        $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
+                        $list['title'] = '两新组织信息';
+                    }else{
+                        $this->apiReturn(array(),300,'错误信息');
+                    }
+                }
+                else{
+                    $this->apiReturn(array(),300,'错误信息');
+                }
+//                $li = M('ajax_user_st')->select();
+//                foreach ($li as $k2=>$v2){
+//                    $li2[$v2['BRANCH_ID']] =  $v2['count'];
+//                }
+                $dzzUser = $this->dzzUser();
+                $dzzDhl = $this->dzzDHL2();
+
+                foreach ($data as $k=>$v) {
+//                    if($dzzDhl[$v['BRANCH_ID']]['rcount'] ==0){
+//                        $DHL = 100;
+//                    }else{
+                        $DHL = $dzzDhl[$v['BRANCH_ID']]['count'];
+//                    }
+                    $da[$k] = array(
+                        array('value'=>$v['NAME'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                        array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                        array('value'=>$v['ADDRESS'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                        array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                        array(
+//                            'value'=>$dzzDhl[$v['BRANCH_ID']]?$dzzDhl[$v['BRANCH_ID']].'%':mt_rand(70,95).'%',
+                            'value'=>$DHL.'%',
+                            'width'=>10,
+                            'ID'=>$v['BRANCH_ID'],
+                            'type'=>'partyMember',
+                            'order'=>$dzzDhl[$v['BRANCH_ID']]['count'],
+                        ),
+                    );
+                }
+
+                if($order == 1){
+                    foreach($da as $vals){
+                        $key_arrays[]=$vals[4]['order'];
+                    }
+                    array_multisort($key_arrays,SORT_ASC,SORT_NUMERIC,$da);
+                }
+                elseif($order == -1){
+                    foreach($da as $vals){
+                        $key_arrays[]=$vals[4]['order'];
+                    }
+                    array_multisort($key_arrays,SORT_DESC,SORT_NUMERIC,$da);
+                }
+                $list['head'] = $head1;
+                if($da){
+                    $list['list'] = $da;
+                }else{
+                    $list['list'] = array();
+                }
+                $this->apiReturn($list);
+                break;
+            default:
+                $this->apiReturn(array(),300,'错误请求');
+                break;
+        }
+
+    }
+
     //数据大屏左上角 党组织  党员数据
     public function partyMember($id=null,$page = 1, $r = 200){
         $herf = array(
@@ -763,12 +962,13 @@ class WxapiController extends Controller
         }
 //        $map['BRANCH_ID'] = $id;
 //        $data = M('ajax_user')->where($map)->page($page,$r)->select();
+        $tit = M('ajax_dzz')->where(array('BRANCH_ID'=>$id))->getField('NAME');
         $map['PARENT_IDS'] = array('like',"%,".$id.",%");
         $a = M('ajax_dzz')->where($map)->field('BRANCH_ID')->select();
         foreach ($a as $k2=>&$v2){
             $b[] = $v2['BRANCH_ID'] ;
         }
-        $b = implode(',',$b).$id;
+        $b = implode(',',$b).','.$id;
         $map2['BRANCH_ID'] = array('in',$b);
         $data = M('ajax_user')->where($map2)->page($page,$r)->select();
         foreach ($data as $k=>$v) {
@@ -782,7 +982,7 @@ class WxapiController extends Controller
         }
         $list['head'] = $herf;
         $list['list'] = $da;
-        $list['title'] = '党员信息';
+        $list['title'] = $tit.'党员信息';
         $this->Apireturn($list);
 
     }
@@ -828,6 +1028,7 @@ class WxapiController extends Controller
             $da['openid'] = $user['openid'];
             $da['integral'] = 1;
             $da['classif'] = 1;
+            $da['text'] = date('Y-m-d H:i:s',time()).':签到+1';
             $iid = $tableintegral->add($da);
             if($sid&&$iid){
                 $tableuser->commit();
@@ -908,6 +1109,80 @@ class WxapiController extends Controller
         }
     }
 
+    //积分商城  列表页
+    public function goodsList($page=1,$r=100){
+        $goods = M('goods');
+        $map['state'] = 1;
+        $map['status'] = 1;
+        $data = $goods->where($map)->page($page,$r)->select();
+        foreach ($data as $k=>$v){
+            $da['pic'] = pic($v['price']);
+            $da['title'] =$v['prod_name'];
+            $da['amount'] = $v['prod_num'];
+            $da['price'] = $v['price'];
+            $da['href'] = '/home/wxindex/goods_det/goodsid/'.$v['id'];
+            $list['list'][] = $da;
+            unset($da);
+        }
+        $count = $goods->where($map)->count();
+        $list['count'] =(int)ceil($count / $r);
+        $this->Apireturn($list);
+    }
+
+    //积分商城兑换
+    public function exchange(){
+        $goods = M('goods');
+        $goodsorder = M('goods_order');
+        $tableuser = M('wxuser');
+//        dump($_REQUEST);exit;
+        if($_REQUEST['openid']){$user = $this->identitys($_REQUEST['openid']);}else{$this->Apireturn(array(),300,'用户尚未登陆');}  //党员限定
+        if($_REQUEST['goodsid']){$data['goods_id'] = $_REQUEST['goodsid'];}else{$this->Apireturn(array(),300,'尚未选择商品');}  //商品选择
+        if($_REQUEST['num']){$data['num'] = $_REQUEST['num'];}else{$this->Apireturn(array(),300,'请正确选择商品数量！！');}  //商品数量
+        $map['id'] =$data['goods_id'];
+        $map['status'] =1;
+        $map['state'] =1;
+        $good = $goods->where($map)->find(); //商品是否正式上架
+        if(!$good){$this->Apireturn(array(),300,'您兑换的商品不存在');}
+        $integral = $good['price']*$data['num'];  //所需要总积分
+        if($integral>$user['integral']){$this->Apireturn(array(),300,'积分不足');}
+        if($data['num']>$good['prod_num']){$this->Apireturn(array(),300,'商品剩余数量不足！！！');}
+
+        //实务开始
+        $goodsorder->startTrans();
+        $goods->startTrans();
+        $tableuser->startTrans();
+
+        $goodssave = $goods->where($map)->setDec('prod_num',$data['num']);  //商品剩余数量减少
+        $goodssave2 = $goods->where($map)->setInc('prod_sale',$data['num']);  //商品剩余数量减少
+        $tableusersave = $tableuser->where(array('id'=>$user['id']))->setDec('integral',$integral);  //用户积分减少
+        $order['goods_id']  = $good['id'];
+        $order['integral']  = $integral;
+        $order['user_id']  = $user['id'];
+        $order['userIntegral']  = $user['integral'];
+        $order['endIntegral']  = $user['integral']-$integral;
+        $order['cre_time']  = time();
+        $order['order']  = uniqid('JF');
+        $order['num']  = $data['num'];
+        $tableorder = $goodsorder->add($order);  //订单生成
+
+        if($goodssave&&$tableusersave&&$tableorder&&$goodssave2){  //实务执行
+            $goodsorder->commit();
+            $goods->commit();
+            $tableuser->commit();
+            $this->Apireturn(array(),200,'下单成功');
+        }else{
+            $goodsorder->rollback();
+            $goods->rollback();
+            $tableuser->rollback();
+            $this->Apireturn(array(),300,'下单失败');
+        }
+
+
+
+
+
+
+    }
     //公共图片接口
     public function uploadImg(){
         $Picture = D('Admin/Picture');
@@ -1036,7 +1311,7 @@ class WxapiController extends Controller
             foreach ($a as $k2=>&$v2){
                 $b[] = $v2['BRANCH_ID'] ;
             }
-            $b = implode(',',$b).$v['BRANCH_ID'];
+            $b = implode(',',$b).','.$v['BRANCH_ID'];
 
             $map2['BRANCH_ID'] = array('in',$b);
             $list[$v['BRANCH_ID']] = M('ajax_user')->where($map2)->count();
@@ -1051,13 +1326,573 @@ class WxapiController extends Controller
         }
     }
 
+    //党组织到会率
+    private function dzzDHL2(){
+//        S('dzz_DHL',null);
+        $da = S('dzz_DHLS');
+//        if(!$da){
+//            $data = M('dr_dzz_dhl')->group('BRANCH_ID')->select();
+//            foreach ($data as $k=>$v) {
+//                if($v['pcount']==0 || $v['pcount_ydh']==0){
+//                    $list[$v['BRANCH_ID']] = 100;
+//                }
+//                else{
+//                    $list[$v['BRANCH_ID']] =  number_format( $v['rcount']/$v['pcount_ydh'],4)*100;
+//                }
+//                if($list[$v['BRANCH_ID']] > 100){
+//                    $list[$v['BRANCH_ID']]=100;
+//                }
+//            }
+//            S('dzz_DHL',$list);
+//            $da = $list;
+//        }
+
+        if(!$da) {
+            $maps['PARENT_IDS'] = array('like', "%,92,%");
+            $das = M('ajax_dzz')->where($maps)->group('BRANCH_ID')->field('BRANCH_ID,PARENT_IDS')->select();
+            foreach ($das as $k => $v) {
+                $map['PARENT_IDS'] = array('like', "%," . $v['BRANCH_ID'] . ",%");
+                $a = M('ajax_dzz')->where($map)->field('BRANCH_ID')->select();
+                foreach ($a as $k2 => &$v2) {
+                    $b[] = $v2['BRANCH_ID'];
+                }
+                $b = implode(',', $b) . ',' . $v['BRANCH_ID'];
+
+                $map2['BRANCH_ID'] = array('in', $b);
+                $list[$v['BRANCH_ID']]['rcount'] = M('dr_dzz_dhl')->where($map2)->sum('rcount');
+                $list[$v['BRANCH_ID']]['pcount_ydh'] = M('dr_dzz_dhl')->where($map2)->sum('pcount_ydh');
+//                if ($as == 0 || $bs == 0) {
+//                    $list[$v['BRANCH_ID']] = 100;
+//                } else {
+                    $list[$v['BRANCH_ID']]['count'] = number_format($list[$v['BRANCH_ID']]['rcount'] / $list[$v['BRANCH_ID']]['pcount_ydh'], 4) * 100;
+//                }
+                if ($list[$v['BRANCH_ID']]['count'] > 100) {
+                    $list[$v['BRANCH_ID']]['count'] = 100;
+                }
+                unset($b);
+            }
+            S('dzz_DHLS', $list);
+            return $list;
+        }
+        return $da;
+
+    }
+    private function dzzDHL(){
+        $da = S('dzz_DHL');
+        if(!$da){
+            $data = M('dr_dzz_dhl')->group('BRANCH_ID')->select();
+            foreach ($data as $k=>$v) {
+                $list[$v['BRANCH_ID']] =  number_format( $v['rcount']/$v['pcount_ydh'],4)*100;
+                if($list[$v['BRANCH_ID']] > 100){
+                    $list[$v['BRANCH_ID']]=100;
+                }
+            }
+            S('dzz_DHL',$list);
+            $da = $list;
+        }
+        return $da;
+
+    }
+
+
+
+    //红色资源
+    public function redResource($classif = null){
+        $map['classif'] = 1;
+        $map['status'] = array('egt',1);
+        $data['party'] = M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip')->select();
+        foreach ($data['party'] as $k=>&$v){
+            if($v['TDID']){
+                $v['tdid'] = $v['TDID'].'$1$0$0';
+            }
+            $v['lat'] = $v['x'];
+            $v['lng'] = $v['y'];
+        }
+        $map['classif'] = array('in','1,2');
+        $data['school'] = M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip')->select();
+        foreach ($data['school'] as $k1=>&$v1){
+            if($v1['TDID']){
+                $v1['tdid'] = $v1['TDID'].'$1$0$0';
+            }
+            $v1['lat'] = $v1['x'];
+            $v1['lng'] = $v1['y'];
+        }
+        $map['classif'] = 4;
+        $data['base'] = M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip')->select();
+        foreach ($data['base'] as $k2=>&$v2){
+            if($v2['TDID']){
+                $v2['tdid'] = $v2['TDID'].'$1$0$0';
+            }
+            $v2['lat'] = $v2['x'];
+            $v2['lng'] = $v2['y'];
+        }
+        $map['classif'] = 3;
+        $da = M('ajax_map')->where($map)->field('title')->group('title')->select();
+        foreach ($da as $k3=>&$v3){
+            $map['title'] = $v3['title'];
+            $data['belt'][$k3] =  M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip,status')->order('status asc')->select();
+            foreach ($data['belt'][$k3] as $kk=>&$vv){
+                if($vv['TDID']){
+                    $vv['tdid'] = $vv['TDID'].'$1$0$0';
+                }
+                $vv['lat'] = $vv['x'];
+                $vv['lng'] = $vv['y'];
+            }
+        }
+        if($classif){
+            $this->Apireturn($data[$classif]);
+        }
+        $this->Apireturn($data);
+    }
+
+
+    //预警信息
+    public function warning(){
+      $da['organizational_life'] = array(
+          'party'=>array('count'=>1543,),
+          'personnel'=>array('count'=>11940,),
+      );
+      $da['report'] = array(
+            'sign'=>array('count'=>17398,),
+            'nosign'=>array('count'=>1974,),
+        );
+        $da['money'] = array(
+            'nomoney'=>array('count'=>11388,),
+        );
+        $this->Apireturn($da);
+    }
+    public function warning2(){
+     $da['organize'] = array(
+            'theme'=>array('start'=>1543, 'unStart'=>11940,),
+            'partier'=>array('apply'=>153, 'active'=>18943,),
+            'experience'=>array('num'=>17388, 'unNum'=>1864,),
+            'pay'=>array('payed'=>1564, 'unPay'=>8982,),
+
+     );
+     $da['partier'] = array(
+         'theme'=>array('join'=>1564, 'unJoin'=>8982,),
+         'experience'=>array('health'=>1564, 'unHealth'=>8982,'yaHealth'=>1000),
+         'register'=>array('num'=>1564, 'unNum'=>8982,),
+         'appraise'=>array('sgyx'=>1564, 'pypx'=>8982,),
+     );
+        $this->Apireturn($da);
+    }
+    //预警信息详情
+    public function warningList($types=1,$classify=1,$page=1,$r=200){
+        $head1 = array(  //党员
+            array('name'=>'序号', 'width'=>15),
+            array('name'=>'姓名', 'width'=>20),
+            array('name'=>'性别', 'width'=>15),
+            array('name'=>'身份证', 'width'=>35),
+            array('name'=>'民族', 'width'=>15),
+        );
+        $head2 = array(  //党员
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'姓名', 'width'=>20),
+            array('name'=>'性别', 'width'=>10),
+            array('name'=>'身份证', 'width'=>35),
+            array('name'=>'签到时间', 'width'=>25),
+        );
+        $head = array(  //党员
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'党组织名称', 'width'=>35),
+            array('name'=>'党组织类别', 'width'=>20),
+            array('name'=>'党组织地址', 'width'=>35),
+        );
+        switch ($types){
+            case 1:
+                $list['title'] = '组织生活';
+                $map['PARENT_IDS'] = array('like','%,92,%');
+                if($classify ==1 ){  //5月
+                    $map['classify'] = 5;
+                    $data = M('dr_noactivity')->where($map)->order('id asc')->page($page,$r)->select();
+
+                }
+                elseif ($classify==2){//4月
+                    $map['classify'] = 4;
+                    $data = M('dr_noactivity')->where($map)->order('id desc')->page($page,$r)->select();
+                }
+                elseif ($classify==3){//3月
+                    $map['classify'] = 3;
+                    $data = M('dr_noactivity')->where($map)->order('NAME asc')->page($page,$r)->select();
+                }
+                else{
+                    exit;
+                }
+                $list['head'] = $head;
+                foreach($data as $k=>&$v){
+                    $da[$k] = array(
+                        array('value'=>$k+1, 'width'=>10),
+                        array('value'=>$v['NAME'], 'width'=>35),
+                        array('value'=>$v['NATURE'], 'width'=>20),
+                        array('value'=>$v['ADDRESS'], 'width'=>35),
+                    );
+                }
+                $list['list'] = $da;
+                break;
+            case 2:
+                $list['title'] = '组织生活';
+                if($classify ==1 ){  //5月
+                    $map['classify'] = 5;
+                    $data = M('dr_notime')->where($map)->order('id asc')->page($page,$r)->select();
+                }
+                elseif ($classify==2){//4月
+                    $map['classify'] = 4;
+                    $data = M('dr_notime')->where($map)->order('id desc')->page($page,$r)->select();
+                }
+                elseif ($classify==3){//3月
+                    $map['classify'] = 3;
+                    $data = M('dr_notime')->where($map)->order('NAME asc')->page($page,$r)->select();
+                }else{
+                    exit;
+                }
+                $list['head'] = $head1;
+                foreach($data as $k=>&$v){
+                    $da[$k] = array(
+                        array('value'=>$k+1, 'width'=>15),
+                        array('value'=>$v['NAME'], 'width'=>20),
+                        array('value'=>$v['SEX'], 'width'=>15),
+                        array('value'=>$v['IDCARD'], 'width'=>35),
+                        array('value'=>$v['NATION'], 'width'=>15),
+                    );
+                }
+                $list['list'] = $da;
+                break;
+            case 3:
+                $list['title'] = '发展党员';
+                $list['head'] = $head1;
+                $list['list'] = array();
+                break;
+            case 4:
+                $data =  M('dr_2018sign')->order('lastSign desc')->page($page,$r)->select();
+                $list['head'] = $head2;
+                foreach($data as $k=>&$v){
+                    $da[$k] = array(
+                        array('value'=>$k+1, 'width'=>10),
+                        array('value'=>$v['NAME'], 'width'=>20),
+                        array('value'=>$v['SEX'], 'width'=>10),
+                        array('value'=>$v['IDCARD'], 'width'=>35),
+                        array('value'=>$v['lastSign'], 'width'=>25),
+                    );
+                }
+                $list['list'] = $da;
+                $list['title'] = '报到登记';
+                break;
+            case 5:
+                $map['CARD_STATE'] = 5;
+                $data =  M('ajax_user')->where($map)->page($page,$r)->select();
+
+                $list['head'] = $head1;
+                foreach($data as $k=>&$v){
+                    $da[$k] = array(
+                        array('value'=>$k+1, 'width'=>15),
+                        array('value'=>$v['NAME'], 'width'=>20),
+                        array('value'=>$v['SEX'], 'width'=>15),
+                        array('value'=>$v['IDCARD'], 'width'=>35),
+                        array('value'=>$v['NATION'], 'width'=>15),
+                    );
+                }
+                $list['list'] = $da;
+                $list['title'] = '报到登记';
+                break;
+            case 6:
+                $data = M('dr_nomoney')->order('lastFeeTime desc')->page($page,$r)->select();
+                $list['head'] = $head1;
+                foreach($data as $k=>&$v){
+                    $da[$k] = array(
+                        array('value'=>$k+1, 'width'=>15),
+                        array('value'=>$v['NAME'], 'width'=>20),
+                        array('value'=>$v['SEX'], 'width'=>15),
+                        array('value'=>$v['IDCARD'], 'width'=>35),
+                        array('value'=>$v['NATION'], 'width'=>15),
+                    );
+                }
+                $list['list'] = $da;
+                $list['title'] = '党费缴纳';
+                break;
+        }
+
+
+
+
+        $this->Apireturn($list);
+
+    }
+    public function warningList2($origin,$types=1,$classify=1,$page=1,$r=200){
+        $Model = M();
+        $list = array();
+        $head1 = array(  //党员
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'党组织名称', 'width'=>30),
+            array('name'=>'党组织书记', 'width'=>15),
+            array('name'=>'活动主题', 'width'=>30),
+            array('name'=>'活动时间', 'width'=>15),
+        );
+        $head2 = array(  //党员
+            array('name'=>'序号', 'width'=>5),
+            array('name'=>'姓名', 'width'=>10),
+            array('name'=>'性别', 'width'=>5),
+            array('name'=>'出生日期', 'width'=>20),
+            array('name'=>'学历', 'width'=>10),
+            array('name'=>'所在党支部', 'width'=>20),
+            array('name'=>'联系电话', 'width'=>15),
+            array('name'=>'聘任专业技术职务名称', 'width'=>15),
+        );
+        $head3 = array(  //党员
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'党员姓名', 'width'=>15),
+            array('name'=>'“党性体检”健康指数', 'width'=>15),
+            array('name'=>'反向扣分情况', 'width'=>20),
+            array('name'=>'评定党性健康状况', 'width'=>20),
+            array('name'=>'时间', 'width'=>10),
+        );
+        $head4 = array(  //党员
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'党员姓名', 'width'=>15),
+            array('name'=>'身份证号', 'width'=>10),
+            array('name'=>'所属党组织', 'width'=>35),
+            array('name'=>'缴费记录', 'width'=>25),
+        );
+        $head5 = array(  //党员
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'党员姓名', 'width'=>15),
+            array('name'=>'性别', 'width'=>10),
+            array('name'=>'身份证号', 'width'=>20),
+            array('name'=>'所属党组织', 'width'=>30),
+            array('name'=>'最近开展时间', 'width'=>15),
+        );
+        $head6 = array(  //党员
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'党员姓名', 'width'=>15),
+            array('name'=>'报到时间', 'width'=>15),
+            array('name'=>'报道名称', 'width'=>20),
+            array('name'=>'报到地所在组织', 'width'=>40),
+        );
+        $head7 = array(  //党员
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'党员姓名', 'width'=>15),
+            array('name'=>'性别', 'width'=>10),
+            array('name'=>'身份证号', 'width'=>20),
+            array('name'=>'所属党组织', 'width'=>30),
+            array('name'=>'体检结果', 'width'=>15),
+        );
+        $head8 = array(  //党员
+            array('name'=>'序号', 'width'=>5),
+            array('name'=>'党员姓名', 'width'=>10),
+            array('name'=>'所属党组织', 'width'=>30),
+            array('name'=>'闪光言行', 'width'=>20),
+            array('name'=>'评定时间', 'width'=>20),
+            array('name'=>'评定等级', 'width'=>15),
+        );
+
+        if($origin == 'organize'){
+            switch ($types){
+                case 1:
+                    $list['title'] = '已开展主题党日';
+                    $list['head'] = $head1;
+                    $data = $Model->query("SELECT
+                                                (@i:=@i+1) id,
+                                                organization,
+                                                '' AS secretary,
+                                                title,
+                                                DATE_FORMAT(start_time, '%Y-%m-%m') AS time
+                                            FROM
+                                                cxdj_dr_dzz_ztdr,(SELECT @i:=0) AS i
+                                            WHERE
+                                                DATE_FORMAT(start_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+                                            LIMIT 100
+
+                                            ");
+
+                    foreach ($data as $k=>&$v){
+                        $list['list'][] = array(
+                            array('value'=>$v['id'], 'width'=>10),
+                            array('value'=>$v['organization'], 'width'=>30),
+                            array('value'=>$v['secretary'], 'width'=>15),
+                            array('value'=>$v['title'], 'width'=>30),
+                            array('value'=>$v['time'], 'width'=>15),
+
+                        );
+                    }
+
+                    break;
+                case 2:
+                    $list['title'] = '未开展主题党日';
+
+                    if($classify ==1 ){  //5月
+
+                    }
+                    elseif ($classify==2){//4月
+
+                    }
+                    elseif ($classify==3){//3月
+
+                    }
+                    else{
+                        exit;
+                    }
+                    $list['head'] = $head1;
+//                    foreach($data as $k=>&$v){
+//                        $da[$k] = array(
+//                            array('value'=>$k+1, 'width'=>10),
+//                            array('value'=>$v['NAME'], 'width'=>35),
+//                            array('value'=>$v['NATURE'], 'width'=>20),
+//                            array('value'=>$v['ADDRESS'], 'width'=>35),
+//                        );
+//                    }
+                    $list['list'] = array();
+                    break;
+                case 3:
+                    $list['title'] = '入党申请';
+                    $list['head'] = $head2;
+                    $list['list'] = array();
+                    break;
+                case 4:
+                    $list['title'] = '入党积极分子';
+                    $list['head'] = $head2;
+                    $data = $Model->query("SELECT  (@i:=@i+1) id,`name`,sex,birthday,education,organization,phone,technical_title FROM cxdj_dr_dzz_activity_dy,(SELECT @i:=0) AS i LIMIT 100");
+                    foreach ($data as $k=>&$v){
+                        $list['list'][] = array(
+                            array('value'=>$v['id'], 'width'=>5),
+                            array('value'=>$v['name'], 'width'=>10),
+                            array('value'=>$v['sex'], 'width'=>5),
+                            array('value'=>$v['birthday'], 'width'=>20),
+                            array('value'=>$v['education'], 'width'=>10),
+                            array('value'=>$v['organization'], 'width'=>20),
+                            array('value'=>$v['phone'], 'width'=>15),
+                            array('value'=>$v['technical_title'], 'width'=>15),
+                        );
+                    }
+                    break;
+                case 5:
+                    $list['title'] = '已开展党性体检';
+                    $list['head'] = $head3;
+                    $list['list'] = array();
+                    break;
+                case 6:
+                    $list['title'] = '未开展党性体检';
+                    $list['head'] = $head3;
+                    $list['list'] = array();
+                    break;
+                case 7:
+                    $list['title'] = '已经缴纳';
+                    $list['head'] = $head4;
+                    $list['list'] = array();
+                    break;
+                case 8:
+                    $list['title'] = '未缴纳党费';
+
+                    if($classify ==1 ){  //5月
+
+                    }
+                    elseif ($classify==2){//4月
+
+                    }
+                    elseif ($classify==3){//3月
+
+                    }
+                    else{
+                        exit;
+                    }
+                    $list['head'] = $head4;
+                    $list['list'] = array();
+                    break;
+            }
+        }
+        elseif ($origin == 'partier'){
+            switch ($types){
+                case 1:
+                    $list['title'] = '已开展主题党日';
+
+                    $list['head'] = $head5;
+
+                    $list['list'] = array();
+
+                    break;
+                case 2:
+                    $list['title'] = '未开展主题党日';
+
+                    $list['head'] = $head5;
+
+                    $list['list'] = array();
+                    break;
+                case 3:
+                    $list['title'] = '2018年报到';
+                    $list['head'] = $head6;
+                    $data = $Model->query("SELECT id, `name`, DATE_FORMAT(join_time, '%Y-%m-%d') as time,bd_name,organization FROM cxdj_dr_dy_sign LIMIT 100");
+                    foreach ($data as $k=>&$v){
+                        $list['list'][] = array(
+                            array('value'=>$v['id'], 'width'=>10),
+                            array('value'=>$v['name'], 'width'=>15),
+                            array('value'=>$v['time'], 'width'=>15),
+                            array('value'=>$v['bd_name'], 'width'=>20),
+                            array('value'=>$v['organization'], 'width'=>40),
+
+                        );
+                    }
+
+                    break;
+                case 4:
+                    $list['title'] = '不计入到会党员';
+                    $list['head'] = $head6;
+                    $list['list'] = array();
+                    break;
+                case 5:
+                    $list['title'] = '体检健康';
+                    $list['head'] = $head1;
+                    $list['list'] = array();
+                    break;
+                case 6:
+                    $list['title'] = '体检亚健康';
+                    $list['head'] = $head7;
+                    $list['list'] = array();
+                    break;
+                case 7:
+                    $list['title'] = '体检不健康';
+                    $list['head'] = $head7;
+                    $list['list'] = array();
+                    break;
+                case 8:
+                    $list['title'] = '闪光言行';
+                    $list['head'] = $head8;
+                    $data = $Model->query("SELECT  id, `name`,'' AS organization,speech,time,dy_lv FROM cxdj_dr_dy_sgyx LIMIT 100");
+                    foreach ($data as $k=>&$v){
+                        $list['list'][] = array(
+                            array('value'=>$v['id'], 'width'=>5),
+                            array('value'=>$v['name'], 'width'=>10),
+                            array('value'=>$v['organization'], 'width'=>30),
+                            array('value'=>$v['speech'], 'width'=>20),
+                            array('value'=>$v['time'], 'width'=>20),
+                            array('value'=>$v['dy_lv'], 'width'=>15),
+
+                        );
+                    }
+
+                    break;
+                case 9:
+                    $list['title'] = '评优评先数据';
+
+                    $list['head'] = $head8;
+                    $list['list'] = array();
+                    break;
+            }
+
+        }
+
+
+
+
+
+        $this->Apireturn($list);
+
+    }
 
     ////////////////////////////////////////服务预约大屏/////////////////////////////////////////////////////////////
 
     //服务预约列表页
     public function applylist($classif=null){
         $c= array(
-            1=>'待人领',
+            1=>'待认领',
             2=>'已认领',
             3=>'已完成',
             5=>'已完成',
@@ -1094,9 +1929,6 @@ class WxapiController extends Controller
             $v['time_var'] =date("Y-m-d H:i:s",$v['start_time']);
             $v['state_var'] = $c[$v['state']];
         }
-
-
-
         $map3['status'] = 1;
         $map3['state'] = 1;
         $data['raise'] = M('sign_zhch')->where($map3)->field('')->order('sort desc,id desc')->select();
@@ -1105,6 +1937,25 @@ class WxapiController extends Controller
         }
         $this->Apireturn($data);
 
+    }
+
+    //服务预约大屏 身份证所属党组织
+    public function party_identity(){
+        $identity = I('identity');
+        if(!$identity){
+            $this->Apireturn(array(),300,'错误的请求！！！！');
+        }
+        $map['IDCARD'] = $identity;
+        $user = M('ajax_user')->where($map)->field('BRANCH_ID')->find();
+        if(!$user){
+            $this->Apireturn(array(),202,'非党员');
+        }
+        $data = M('ajax_dzz')->where(array('BRANCH_ID'=>$user['BRANCH_ID']))->field('NAME')->find();
+        if($data){
+            $this->Apireturn($data,200,'党员');
+        }else{
+            $this->Apireturn(array(),300,'服务器繁忙请稍后！！！！！');
+        }
     }
 
 

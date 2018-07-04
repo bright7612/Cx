@@ -541,6 +541,11 @@ body {
         right: 3px;
         bottom: 3px;
         p > {
+          .displayFlex();
+          .spaceBetween();
+          width: 100%;
+          .borderBox();
+          padding: 0 10px;
           cursor: pointer;
         }
         span {
@@ -1290,6 +1295,13 @@ body {
     position: absolute;
     top: 40px;
     right: 51px;
+    cursor: pointer;
+  }
+  .order {
+    font-size: 34px;
+    position: absolute;
+    top: 40px;
+    left: 70px;
     cursor: pointer;
   }
   .module-title {

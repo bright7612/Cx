@@ -118,7 +118,7 @@ class CxController extends Controller
     public function bespoke_index2()
     {
         $id = I('dataId');
-        $res = D('Cx')->mapCommon($id);
+        $res = D('Cx')->classCommon($id);
 
         $y_num = $res[0]['y_num']; //已经预约数
 
@@ -137,10 +137,9 @@ class CxController extends Controller
     }
 
 
-    //预约接口
+    //党建活动预约接口
     public function bespoke()
     {
-
         $Model = M('sign_bespoke');
         $id = I('id');
         $data['content_id'] = $id;
@@ -153,7 +152,7 @@ class CxController extends Controller
         $data['source'] = 2;   //2代表大屏预约
         $data['identity'] = I('card');
         $data['text'] = I('remark');
-        $data['cre_time'] = date('Y-m-d H:i:s',time());
+        $data['cre_time'] = time();
         $record = $Model->add($data);
 
 
@@ -163,6 +162,66 @@ class CxController extends Controller
             echo json_encode(array('status'=>0,'msg'=>'预约失败'));
         }
     }
+
+    //主题党课
+    public function classBespoke()
+    {
+        $Model = M('sign_lecture');
+        $id = I('id');
+        $name = I('name');
+        if($name != ''){
+            $data['content_id'] = $id;
+            $data['phone'] = I('phone');
+            $data['name'] = $name;
+            $data['organization'] = I('party');
+            $data['company'] = I('company');
+            $data['bespoke_num'] = I('order_num');
+            $data['types'] = I('type');
+            $data['source'] = 2;   //2代表大屏预约
+            $data['identity'] = I('card');
+            $data['text'] = I('remark');
+            $data['cre_time'] = time();
+        }
+
+        $record = $Model->add($data);
+
+        if($record){
+            echo json_encode(array('status'=>1,'msg'=>'预约成功'));
+        }else{
+            echo json_encode(array('status'=>0,'msg'=>'预约失败'));
+        }
+    }
+
+    //志愿活动预约
+    public function VolunteerBespoke()
+    {
+        $Model = M('sign_volunteer');
+        $id = I('id');
+        $name = I('name');
+        if($name != ''){
+            $data['content_id'] = $id;
+            $data['phone'] = I('phone');
+            $data['name'] = $name;
+            $data['organization'] = I('party');
+            $data['company'] = I('company');
+            $data['bespoke_num'] = I('order_num');
+            $data['types'] = I('type');
+            $data['source'] = 2;   //2代表大屏预约
+            $data['identity'] = I('card');
+            $data['text'] = I('remark');
+            $data['cre_time'] = time();
+        }
+
+        $record = $Model->add($data);
+
+        if($record){
+            echo json_encode(array('status'=>1,'msg'=>'预约成功'));
+        }else{
+            echo json_encode(array('status'=>0,'msg'=>'预约失败'));
+        }
+    }
+
+
 
     //服务预约系统查询
     public function search()
@@ -254,12 +313,38 @@ class CxController extends Controller
         }
 
         //
-        $map3['status'] = 1;
-        $map3['state'] = 1;
-        $data['raise'] = M('sign_zhch')->where($map3)->field('id,title,content,img')->order('sort desc,id desc')->select();
+//        $map3['status'] = 1;
+//        $map3['state'] = 1;
+//        $data['raise'] = M('sign_zhch')->where($map3)->field('id,title,content,img')->order('sort desc,id desc')->select();
+//        foreach ($data['raise'] as $k=>&$v){
+//            $item = get_cover($v['img']);
+//            $v['path'] = 'http://183.131.86.64:8620'.$item['path'];
+//        }
+
+        $Model = M();
+        $data['raise'] = $Model->query("
+                            SELECT
+                                zhch.id,
+                                zhch.title,
+                                zhch.content,
+                                zhch.count,
+                                zhch.img,
+                                zhch.state_time AS `time`,
+                                SUM(apply.count) AS num
+                            FROM
+                                cxdj_sign_zhch AS zhch
+                            JOIN cxdj_sign_zhch_apply AS apply ON zhch.id = apply.zhch_id
+                            AND apply.state IN (1, 2, 3)
+                            AND apply. STATUS = 1
+                            WHERE
+                                zhch.state = 1
+                            AND zhch.`status` = 1");
+        //完成率
         foreach ($data['raise'] as $k=>&$v){
+            $already_rate =  (round(($v['num']/$v['count']),2)*100).'%';
             $item = get_cover($v['img']);
-            $v['path'] = 'http://183.131.86.64:8620'.$item['path'];
+            $v['path'] = 'http://183.131.86.64:8620' . $item['path'];
+            $v['rate'] =  $already_rate;
         }
 
         $map4['status'] = 1;
@@ -348,15 +433,72 @@ class CxController extends Controller
     }
 
 
+    //微心愿-我要认领
     public function wxy_apply()
     {
         $id = I('dataId');
         $where['id'] = $id;
         $title = M('sign_wish')->where($where)->field('id,title')->find();
         $this->assign('title',$title);
+        $this->display('heart_renling');
+    }
+
+    //微心愿-我的心愿
+    public function wxy_receive()
+    {
         $this->display('heart_order');
     }
 
+
+    //微心愿-我的心愿
+    public function receive_apply()
+    {
+        $Model = M('sign_wish');
+        $name = I('name');
+        if($name != ''){
+            $data['addr'] = I('addr');
+            $data['name'] = $name;
+            $data['organization'] = I('party');
+            $data['form'] = I('obj');
+            $data['obj'] = I('type');
+            $data['source'] = 2;   //2代表大屏预约
+            $data['identity'] = I('card');
+            $data['remark'] = I('remark');
+            $data['cer_time'] = time();
+        }
+        $record = $Model->add($data);
+        if($record){
+            echo json_encode(array('status'=>1,'msg'=>'预约成功'));
+        }else{
+            echo json_encode(array('status'=>0,'msg'=>'预约失败'));
+        }
+    }
+
+    //微心愿接口
+    public function wxy_bespoke()
+    {
+        $Model = M('sign_wish_apply');
+        $id = I('id');
+        $name = I('name');
+        if($name != ''){
+            $data['wish_id'] = $id;
+            $data['telephone'] = I('phone');
+            $data['name'] = $name;
+            $data['party'] = I('party');
+            $data['company'] = I('company');
+            $data['types'] = I('type');
+            $data['source'] = 2;   //2代表大屏预约
+            $data['identity'] = I('card');
+            $data['content'] = I('remark');
+            $data['cer_time'] = time();
+        }
+        $record = $Model->add($data);
+        if($record){
+            echo json_encode(array('status'=>1,'msg'=>'预约成功'));
+        }else{
+            echo json_encode(array('status'=>0,'msg'=>'预约失败'));
+        }
+    }
     //场地预约页面
     public function venueIndex()
     {
@@ -368,6 +510,39 @@ class CxController extends Controller
         $this->assign('title',$title);
         $this->display('place_order');
     }
+
+
+    //场地预约接口
+    public function place_bespoke()
+    {
+        $Model = M('sign_field');
+        $id = I('id');
+        $st_tmie = I('start_time');
+        $end_tmie = I('end_time');
+        $name = I('name');
+        if($name != ''){
+            $data['content_id'] = $id;
+            $data['phone'] = I('phone');
+            $data['name'] = I('theme');
+            $data['facility'] = I('sb');
+            $data['bespoke_num'] = I('place_num');
+            $data['organization'] = I('party');
+            $data['start_time'] = strtotime($st_tmie);
+            $data['end_time'] = strtotime($end_tmie);
+            $data['source'] = 2;   //2代表大屏预约
+            $data['identity'] = I('card');
+            $data['text'] = I('remark');
+            $data['cre_time'] = time();
+        }
+        $record = $Model->add($data);
+        if($record){
+            echo json_encode(array('status'=>1,'msg'=>'预约成功'));
+        }else{
+            echo json_encode(array('status'=>0,'msg'=>'预约失败'));
+        }
+    }
+
+
 
     public function qrcode($url='',$level=3,$size=20){
 
@@ -458,6 +633,29 @@ class CxController extends Controller
         $this->display('volunteer_order');
     }
 
+    public function zc_apply()
+    {
+        $Model = M('sign_zhch_apply');
+        $name = I('name');
+        if($name != ''){
+            $data['telephone'] = I('phone');
+            $data['name'] = I('name');
+            $data['identity'] = I('card');
+            $data['organization'] = I('party');
+            $data['source'] = 2;   //2代表大屏预约
+            $data['types'] = I('type');
+            $data['company'] = I('company');
+            $data['count'] = I('order_num');
+            $data['cre_time'] = time();
+        }
+        $record = $Model->add($data);
+        if($record){
+            echo json_encode(array('status'=>1,'msg'=>'预约成功'));
+        }else{
+            echo json_encode(array('status'=>0,'msg'=>'预约失败'));
+        }
+    }
+
     //众筹服务
     public function zhongchou()
     {
@@ -486,7 +684,7 @@ class CxController extends Controller
             $v['ewm'] =  "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=6';
         }
 
-
+        $appraise_ewm = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=6';
         $res[0]['rate'] = $already_rate;
 
         //微信头像
@@ -529,7 +727,7 @@ class CxController extends Controller
         }
 
 
-
+        $this->assign('appraise_ewm',$appraise_ewm);
         $this->assign('headimg',$headimg);
         $this->assign('perfect',$perfect);
         $this->assign('satisfied',$satisfied);
@@ -549,7 +747,7 @@ class CxController extends Controller
 
         $this->assign('title',$title);
 
-        $this->display('crowd_order');
+        $this->display('crowd_order_new');
     }
 
 

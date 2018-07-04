@@ -1,13 +1,13 @@
 $(function () {
     //id 传递的参数
     //name  联系人姓名
+    //company 单位企业
     //card   身份证信息
     //phone  联系方式
     //party   党员信息
     //type  0 单位 1 个人
-    //order_num  预约人数
-    //company 单位企业
     //remark  备注
+
     var party;
     getUrl('dataId');
     var form_submit = {
@@ -173,12 +173,31 @@ $(function () {
                 form_submit.company = '';
             }
             console.log(form_submit);
-            popShow('信息提交成功');
+            formSubmit();
             $('#popUp').on('click', '.sure', function () {
-                window.location.reload();
+                // window.location.reload();
+                window.location.href="http://183.131.86.64:8620/cx/cx";
             })
+
         }
     });
+
+    function formSubmit() {
+        $.ajax({
+            url: 'http://183.131.86.64:8620/cx/cx/VolunteerBespoke',
+            type: 'POST',
+            data: form_submit,
+            async: true,
+            dataType: 'JSON',
+            success: function (e) {
+                console.log("成功");
+                popShow('信息提交成功');
+            },
+            error: function () {
+                console.log("出错");
+            }
+        })
+    }
 });
 
 

@@ -14,7 +14,7 @@ $(function () {
     getUrl('dataId');
     var form_submit = {
         id: id,//传参
-        type: '0',//单位、个人（单位0 个人1）
+        type: '1',//
         remark: '',//备注
         party: '',//所属党组织
         obj: '0',//心愿类型
@@ -45,11 +45,11 @@ $(function () {
     //点击单位个人时候显示隐藏
     $('#type').on('change', function () {
         type = $(this).find("option:selected").attr('value');
-        form_submit.type = value;
+        form_submit.type = type;
     });
     $('#obj').on('change', function () {
         obj = $(this).find("option:selected").attr('value');
-        form_submit.obj = value;
+        form_submit.obj = obj;
     });
 
     function textTest(text, tip, form_key) {
@@ -158,14 +158,30 @@ $(function () {
     //点击提交按钮
     //点击提交按钮获取数据
     $('#submit').on('click', function () {
-        testAll();
         if (testAll()) {
             form_submit.remark = $('#remark').val();
             console.log(form_submit);
-            popShow('信息提交成功');
+            // popShow('信息提交成功');
+            formSubmit();
             $('#popUp').on('click', '.sure', function () {
-                window.location.reload();
+                // window.location.reload();
             })
         }
     });
+    function formSubmit() {
+        $.ajax({
+            url: 'http://183.131.86.64:8620/cx/cx/receive_apply',
+            type: 'GET',
+            data: form_submit,
+            async: true,
+            dataType: 'JSON',
+            success: function (e) {
+                console.log("成功");
+                popShow('信息提交成功');
+            },
+            error: function () {
+                console.log("出错");
+            }
+        })
+    }
 });

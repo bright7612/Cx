@@ -23,7 +23,7 @@
 <article class="content2 activity_order place_order">
     <p class="title">
         <span class="mark1"></span>
-        <span class="font1">场地预约</span>
+        <span class="font1">{$title.title}</span>
     </p>
     <div class="input_box">
         <div>
@@ -35,17 +35,10 @@
         </div>
         <div>
             <p>
-                <span class="iconfont icon-shenfenzheng icon_red"></span>
-                <span class="text2">身份证号码</span>
-            </p>
-            <input type="text" id="card" placeholder="请输入身份证信息">
-        </div>
-        <div>
-            <p>
                 <span class="iconfont icon-ic_huodongzhuti icon_blue"></span>
                 <span class="text2">活动主题</span>
             </p>
-            <input type="text" placeholder="请输入活动主题" id="theme">
+            <input type="text" placeholder="请输入活动主题" id="card">
         </div>
         <div>
             <p>
@@ -57,49 +50,62 @@
 
         <div>
             <p>
+                <span class="iconfont icon-beizhu icon_green"></span>
+                <span class="text2">备注</span>
+            </p>
+            <input type="text" placeholder="备注请输入100字以内">
+        </div>
+
+        <div>
+            <p>
                 <span class="iconfont icon-renshu1 icon_yellow"></span>
                 <span class="text2">人数</span>
             </p>
-            <input type="text" placeholder="人数" id="place_num">
+            <input type="text" placeholder="人数" id="">
         </div>
         <div>
             <p>
-                <span class="iconfont icon-renlingxiangmuxuanzhong- icon_red"></span>
-                <span class="text2">所属党组织</span>
+                <span class="iconfont icon-shenfenzheng icon_red"></span>
+                <span class="text2">身份证号码</span>
             </p>
-            <input type="text" id="party" readonly placeholder="">
+            <input type="text">
         </div>
         <div>
             <p>
                 <span class="iconfont icon-shijian icon_green"></span>
                 <span class="text2">开始时间</span>
             </p>
-            <input type="text" id="start_time" placeholder="请选择开始时间">
+            <input type="text">
         </div>
         <div>
             <p>
                 <span class="iconfont icon-shijian icon_yellow"></span>
                 <span class="text2">结束时间</span>
             </p>
-            <input type="text" id="end_time" placeholder="请选择结束时间">
+            <input type="text">
         </div>
-
-        <div class="remark">
+        <div>
             <p>
-                <span class="iconfont icon-beizhu icon_blue"></span>
-                <span class="text2">备注</span>
+                <span class="iconfont icon-renlingxiangmuxuanzhong- icon_red"></span>
+                <span class="text2">所属支部</span>
             </p>
-            <textarea name="remark" id="remark" placeholder="请输入备注信息"></textarea>
+            <select name="" id="organization">
+                <option class="option1" value="0" selected>请选择所属党组织</option>
+                <option class="option1" value="第一党组织">第一党支部</option>
+                <option class="option1" value="第二党组织">第二支部</option>
+                <option class="option1" value="第三党组织">第三支部</option>
+            </select>
+            <img src="__CX__/imgs/arrow.png" alt="">
         </div>
         <div class="check_box">
             <p>
                 <span class="text2">设备要求</span>
             </p>
-            <div class="sb">
-                <label value="0"><span></span>LED屏幕 </label>
-                <label value="1"><span></span>投影 </label>
-                <label value="2"><span></span>话筒 </label>
-                <label value="3"><span></span>电脑 </label>
+            <div class="">
+                <label><span></span>LED屏幕 </label>
+                <label><span></span>投影 </label>
+                <label><span></span>话筒 </label>
+                <label><span></span>电脑 </label>
             </div>
         </div>
     </div>

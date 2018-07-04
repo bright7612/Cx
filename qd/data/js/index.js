@@ -6,14 +6,14 @@ var apiUrl = {
     baseList: 'http://wei.wiseljz.com/home/apibranch/details', // 基础信息列表
 
     base2: 'http://cxdj.cmlzjz.com/home/wxapi/information',
-    baseList2: 'http://cxdj.cmlzjz.com/home/wxapi/details',
+    baseList2: 'http://cxdj.cmlzjz.com/home/wxapi/details2',
     baseMember: 'http://cxdj.cmlzjz.com/home/wxapi/partyMember',
 
     partier: 'http://cxdj.cmlzjz.com/cx/data/member', // 党员数据
 
-    warn: 'http://cxdj.cmlzjz.com/home/wxapi/warning', // 预警提醒
-    warnlist: 'http://cxdj.cmlzjz.com/home/wxapi/warningList', // 预警提醒列表
-
+    warn: 'http://cxdj.cmlzjz.com/home/wxapi/warning2', // 预警提醒
+    warnlist: 'http://cxdj.cmlzjz.com/home/wxapi/warningList2', // 预警提醒列表
+    // http://cxdj.cmlzjz.com/home/wxapi/warning
     rank: 'http://wei.wiseljz.com/home/apibranch/integral', // 积分排名
 
     home: 'http://a.wiseljz.com/api/local/getdatacount.html', // 家门口
@@ -51,10 +51,9 @@ var app = new Vue({
         map: {
             myIcon: null,
             curMarker: null,
-            mkUrl1: './imgs/marker/marker1.png',
-            mkUrl2: './imgs/marker/marker2.png',
-            mkUrl3: './imgs/marker/marker3.png',
-            mkUrl4: './imgs/marker/marker4.png',
+            mkUrl1: './imgs/marker/monitor1.png',
+            mkUrl2: './imgs/marker/monitor2.png',
+            mkUrl3: './imgs/marker/monitor3.png',
             title: ''
         },
         tabStatus: false,
@@ -87,7 +86,12 @@ var app = new Vue({
                 undertaking: {},
                 community: {},
                 new: {}
-            }
+            },
+            bigtype: 0,
+            select: 0,
+            classify: 0,
+            order: 0,
+            orderShow: false
         },
         // 党员数据
         partier: {
@@ -104,31 +108,47 @@ var app = new Vue({
         warn: {
             show: false,
             basedata: {
-                organizational_life: {
-                    party: {
-                        count: 0
+                organize: {
+                    theme: {
+                        start: 0,
+                        unStart: 0
                     },
-                    personnel: {
-                        count: 11940
-                    }
-                },
-                report: {
-                    sign: {
-                        count: 0
+                    partier: {
+                        apply: 0,
+                        active: 0
                     },
-                    nosign: {
-                        count: 0
+                    experience: {
+                        num: 0,
+                        unNum: 0
+                    },
+                    pay: {
+                        payed: 0,
+                        unPay: 0
                     }
                 },
-                money: {
-                    nomoney: {
-                        count: 0
+                partier: {
+                    theme: {
+                        join: 0,
+                        unJoin: 0
+                    },
+                    experience: {
+                        health: 0,
+                        unHealth: 0
+                    },
+                    register: {
+                        num: 0,
+                        unNum: 0
+                    },
+                    appraise: {
+                        sgyx: 0,
+                        pypx: 0
                     }
-                },
+                }
             },
             listData: {},
             type: 1,
-            time: 1
+            time: 1,
+            origin: '',
         },
         // 积分排名数据
         rank: {
@@ -234,6 +254,15 @@ var app = new Vue({
                 total += value;
             });
             return total
+        },
+        // 排序文本
+        orderText: function () {
+            var index = this.base.order;
+            return index === 0 ? '未排序' : index === 1 ? '正序' : '倒序'
+        },
+        // 警告弹框tab栏文本
+        warnTabText: function () {
+            return this.warn.type === 2 ? '开展主题党日' : '缴纳党费'
         }
     },
     methods: {
@@ -242,6 +271,13 @@ var app = new Vue({
         },
         changeTabStatus: function () {
             this.tabStatus = !this.tabStatus
+        },
+        changeOrder: function () {
+            if (this.base.order === 1) {
+                this.base.order = -2;
+            }
+            this.base.order++;
+            this._getBaseData(0, 0, 0, this.base.order);
         },
         computePercent: function (current, total) {
             return Math.round(current/total*100)
@@ -327,6 +363,7 @@ var app = new Vue({
         // 打开公用模态框
         openModel: function (module, type, select, classify) {
             if (module === 'base') {
+                this.base.orderShow = true;
                 this._getBaseData(type, select, classify);
             }
             if (module === 'require') {
@@ -371,11 +408,13 @@ var app = new Vue({
         },
         // 关闭公用模态框
         closeModel: function () {
+            this.base.orderShow = false;
+            this.base.order = 0;
             this.modelShow = false;
         },
         // 打开预警提醒模态框
-        openWarn: function (type) {
-            this._getWarnList(type);
+        openWarn: function (origin, type) {
+            this._getWarnList(origin, type);
         },
         // 关闭预警提醒
         closeWarn: function () {
@@ -1283,27 +1322,21 @@ var app = new Vue({
             var _this = this;
             var url = '';
             if (data.tdid) {
-                url = this.map.mkUrl1;
-                if (data.status == '100') {
-                    url = this.map.mkUrl3;
-                }
-            } else {
                 url = this.map.mkUrl2;
                 if (data.status == '100') {
-                    url = this.map.mkUrl4;
+                    url = this.map.mkUrl1;
                 }
-            }
-
-            if (data.status == '100') {
-                this.map.myIcon = new BMap.Icon(url, new BMap.Size(50, 50));
             } else {
-                this.map.myIcon = new BMap.Icon(url, new BMap.Size(26, 26));
+                url = this.map.mkUrl3;
             }
+            this.map.myIcon = new BMap.Icon(url, new BMap.Size(32, 32));
             // 创建标注对象并添加到地图
             var marker = new BMap.Marker(point, {icon: this.map.myIcon});
             marker.data = data;
             this.bMap.addOverlay(marker);
-
+            if (data.tdid && data.status == '100') {
+                marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+            }
             // 监听覆盖物点击
             marker.addEventListener("click", function () {
                 _this._attribute(marker);
@@ -1359,8 +1392,14 @@ var app = new Vue({
             })
         },
         // 获取基础信息数据
-        _getBaseData: function (type, select, classify) {
+        _getBaseData: function (type, select, classify, order) {
             var _this = this;
+            if (!type) {type = this.base.bigtype}
+            if (!select) {select = this.base.select}
+            if (!classify) {classify = this.base.classify}
+            this.base.bigtype = type;
+            this.base.select = select;
+            this.base.classify = classify;
 
             $j.ajax({
                 type: 'GET',
@@ -1369,7 +1408,8 @@ var app = new Vue({
                 data: {
                     type: type,
                     subtype: select,
-                    classify: classify
+                    classify: classify,
+                    order: order
                 },
                 cache: false,
                 success: function (res) {
@@ -1450,8 +1490,9 @@ var app = new Vue({
             })
         },
         // 获取预警提醒列表数据
-        _getWarnList: function (type, time) {
+        _getWarnList: function (origin, type, time) {
             var _this = this;
+            this.warn.origin = origin;
             if (!type) {type = this.warn.type}
             if (!time) {time = 1}
             this.warn.type = type;
@@ -1461,6 +1502,7 @@ var app = new Vue({
                 type: 'GET',
                 url: apiUrl.warnlist,
                 data: {
+                    origin: origin,
                     types: type,
                     classify: time
                 },
@@ -1469,7 +1511,7 @@ var app = new Vue({
                 success: function (res) {
                     var data = res;
                     if (data.code === 200) {
-                        if (type === 1 || type === 2) {
+                        if (type === 2 || (origin === 'organize' && type === 8)) {
                             _this.warn.listData = data.data;
                             _this.warn.show = true;
                         } else {

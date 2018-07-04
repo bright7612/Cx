@@ -674,6 +674,18 @@ body {
   bottom: 3px;
 }
 .warn .content .warn-block .block-content p {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0 10px;
   cursor: pointer;
 }
 .warn .content .warn-block .block-content span {
@@ -1682,6 +1694,13 @@ body {
   position: absolute;
   top: 40px;
   right: 51px;
+  cursor: pointer;
+}
+.module-wrap .order {
+  font-size: 34px;
+  position: absolute;
+  top: 40px;
+  left: 70px;
   cursor: pointer;
 }
 .module-wrap .module-title {

@@ -48,7 +48,7 @@
         </div>
         <div class="btn_box">
             <a href="/Cx/Cx/wxy_apply">我要认领</a>
-            <a href="javascript:;">我的心愿</a>
+            <a href="/Cx/Cx/wxy_receive">我的心愿</a>
         </div>
     </div>
 </article>
@@ -67,8 +67,11 @@
 
         getUrl('id');
         var html1 = $('.btn_box a').eq(0).attr('href');
+        var html2 = $('.btn_box a').eq(1).attr('href');
         html1 = html1 + ('?dataId=' + id);
-        $('.btn_box a').attr('href', html1);
+        html2 = html2 + ('?dataId=' + id);
+        $('.btn_box a').eq(0).attr('href', html1);
+        $('.btn_box a').eq(1).attr('href', html2);
     })
 </script>
 </body>

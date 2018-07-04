@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="format-detection" content="telephone=no"/>
     <meta name="format-detection" content="email=no"/>
-    <title>长兴县党建大数据平台</title>
+    <title>长兴县智慧党建大数据平台</title>
     <link rel="stylesheet" href="https://js.arcgis.com/3.24/esri/css/esri.css">
     <link rel="stylesheet" href="./css/index.css?v=1.2"/>
     <link rel="stylesheet" href="./libs/swiper/dist/css/swiper.min.css">
@@ -27,7 +27,7 @@
             <!-- 时间 end -->
 
             <!-- 头部 start -->
-            <header class="header">长兴县党建大数据平台</header>
+            <header class="header">长兴县智慧党建大数据平台</header>
             <!-- 头部 end -->
 
             <!-- 副头部 start -->
@@ -254,56 +254,116 @@
                     <!--组织管理-->
                     <section class="section warn">
                         <h3 class="title">
-                            <div class="title-inner">预警提醒</div>
+                            <div class="title-inner">动态监测</div>
                         </h3>
-                        <div class="content">
+                        <div v-if="partyType === 1" class="content">
                             <div class="warn-block">
-                                <h4 class="block-title">组织生活</h4>
+                                <h4 class="block-title">主题党日</h4>
                                 <div class="block-content">
-                                    <p @click="openWarn(1)">
-                                        <span style="width: 65px;">党组织：</span>
-                                        <span style="width: 130px;" class="red">未按时开展  {{warn.basedata.organizational_life.party.count}}</span>
+                                    <p @click="openWarn('organize', 1)" class="red">
+                                        <span>已开展主题党日</span>
+                                        <span>{{warn.basedata.organize.theme.start}}</span>
                                     </p>
-                                    <p @click="openWarn(2)">
-                                        <span style="width: 65px;">党&nbsp;&nbsp;&nbsp;员：</span>
-                                        <span style="width: 130px;" class="red">未按时参加  {{warn.basedata.organizational_life.personnel.count}}</span>
+                                    <p @click="openWarn('organize', 2)" class="red">
+                                        <span>未开展主题党日</span>
+                                        <span>{{warn.basedata.organize.theme.unStart}}</span>
                                     </p>
                                 </div>
                             </div>
                             <div class="warn-block">
                                 <h4 class="block-title">发展党员</h4>
                                 <div class="block-content">
-                                    <p @click="openWarn(3)">
-                                        <span class="red">预备党员超时未转正 0</span>
+                                    <p @click="openWarn('organize', 3)" class="red">
+                                        <span>入党申请人</span>
+                                        <span>{{warn.basedata.organize.partier.apply}}</span>
                                     </p>
-                                    <p>
-                                        <span>完成计划</span>
-                                        <span class="progress-box">
-                                            <span :style="{'width': 100 + '%'}" class="progress"></span>
-                                        </span>
-                                        <span>100%</span>
+                                    <p @click="openWarn('organize', 4)" class="red">
+                                        <span>入党积极分子</span>
+                                        <span>{{warn.basedata.organize.partier.active}}</span>
                                     </p>
                                 </div>
                             </div>
                             <div class="warn-block">
-                                <h4 class="block-title">报到登记</h4>
+                                <h4 class="block-title">党性体检</h4>
                                 <div class="block-content">
-                                    <p @click="openWarn(4)" class="red">
-                                        <span style="width: 145px;">2018年党员报到数</span>
-                                        <span style="width: 50px;">{{warn.basedata.report.sign.count}}</span>
+                                    <p @click="openWarn('organize', 5)" class="red">
+                                        <span>已开展党性体检</span>
+                                        <span>{{warn.basedata.organize.experience.num}}</span>
                                     </p>
-                                    <p @click="openWarn(5)" class="red">
-                                        <span style="width: 145px;">不计入党员人数</span>
-                                        <span style="width: 50px;">{{warn.basedata.report.nosign.count}}</span>
+                                    <p @click="openWarn('organize', 6)" class="red">
+                                        <span>未开展党性体检</span>
+                                        <span>{{warn.basedata.organize.experience.unNum}}</span>
                                     </p>
                                 </div>
                             </div>
                             <div class="warn-block">
                                 <h4 class="block-title">党费缴纳</h4>
                                 <div class="block-content">
-                                    <p @click="openWarn(6)" class="red">
-                                        <span style="width: 150px;">3个月未交党费</span>
-                                        <span>{{warn.basedata.money.nomoney.count}}</span>
+                                    <p @click="openWarn('organize', 7)" class="red">
+                                        <span>已经缴纳</span>
+                                        <span>{{warn.basedata.organize.pay.payed}}</span>
+                                    </p>
+                                    <p @click="openWarn('organize', 8)" class="red">
+                                        <span>未缴纳数</span>
+                                        <span>{{warn.basedata.organize.pay.unPay}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="partyType === 2" class="content">
+                            <div class="warn-block">
+                                <h4 class="block-title">主题党日</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('partier', 1)" class="red">
+                                        <span>已开展主题党日</span>
+                                        <span>{{warn.basedata.partier.theme.join}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 2)" class="red">
+                                        <span>未开展主题党日</span>
+                                        <span>{{warn.basedata.partier.theme.unJoin}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="warn-block">
+                                <h4 class="block-title">报到登记</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('partier', 3)" class="red">
+                                        <span>2018年报到</span>
+                                        <span>{{warn.basedata.partier.register.num}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 4)" class="red">
+                                        <span>不计入到会党员</span>
+                                        <span>{{warn.basedata.partier.register.unNum}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="warn-block">
+                                <h4 class="block-title">党性体检</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('partier', 5)" class="red">
+                                        <span>体检健康</span>
+                                        <span>{{warn.basedata.partier.experience.health}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 6)" class="red">
+                                        <span>体检亚健康</span>
+                                        <span>{{warn.basedata.partier.experience.health}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 7)" class="red">
+                                        <span>体检不健康</span>
+                                        <span>{{warn.basedata.partier.experience.unHealth}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="warn-block">
+                                <h4 class="block-title">党员考评</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('partier', 8)" class="red">
+                                        <span>闪光言行</span>
+                                        <span>{{warn.basedata.partier.appraise.sgyx}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 9)" class="red">
+                                        <span>评优评先数据</span>
+                                        <span>{{warn.basedata.partier.appraise.pypx}}</span>
                                     </p>
                                 </div>
                             </div>
@@ -779,6 +839,7 @@
                 <div class="module">
                     <span @click="closeModel" class="close"></span>
                     <h2 class="module-title">{{listData.title}}</h2>
+                    <span v-if="base.orderShow" @click="changeOrder" class="order">到会率 {{orderText}}</span>
                     <div class="module-box">
                         <div class="table">
                             <h3 class="table-title">
@@ -831,15 +892,15 @@
                     <span @click="closeWarn" class="close"></span>
                     <h2 class="module-title">{{warn.listData.title}}</h2>
                     <div class="warn-select">
-                        <span @click="_getWarnList(0, 1)"
+                        <span @click="_getWarnList(warn.origin, 0, 1)"
                               :class="{'active': warn.time === 1}"
-                              class="warn-select-item bg-red">5个月未参加活动</span>
-                        <span @click="_getWarnList(0, 2)"
+                              class="warn-select-item bg-red">5个月未{{warnTabText}}</span>
+                        <span @click="_getWarnList(warn.origin, 0, 2)"
                               :class="{'active': warn.time === 2}"
-                              class="warn-select-item bg-yellow">4个月未参加活动</span>
-                        <span @click="_getWarnList(0, 3)"
+                              class="warn-select-item bg-yellow">4个月未{{warnTabText}}</span>
+                        <span @click="_getWarnList(warn.origin, 0, 3)"
                               :class="{'active': warn.time === 3}"
-                              class="warn-select-item bg-green">3个月未参加活动</span>
+                              class="warn-select-item bg-green">3个月未{{warnTabText}}</span>
                     </div>
                     <div class="module-box warn-module">
                         <div class="warn-box">
@@ -849,6 +910,9 @@
                             <ul class="warn-list">
                                 <li v-for="items in warn.listData.list" class="warn-item">
                                     <span v-for="item in items" :style="{'width': item.width + '%'}">{{item.value}}</span>
+                                </li>
+                                <li v-if="!warn.listData.list.length" class="warn-item">
+                                    <span style="width: 100%;">暂无数据</span>
                                 </li>
                             </ul>
                         </div>
