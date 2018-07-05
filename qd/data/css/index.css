@@ -974,13 +974,17 @@ body {
 }
 .statistics .content .map-size {
   width: 40px;
-  text-align: center;
-  background-color: #05123C;
+  height: 40px;
   position: absolute;
   top: 40px;
   left: 163px;
   z-index: 100;
   cursor: pointer;
+}
+.statistics .content .map-size > img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .statistics .content .video-btn {
   width: 150px;
@@ -1209,6 +1213,7 @@ body {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  position: relative;
 }
 .platform .content .platform-box {
   display: -webkit-box;
@@ -1315,6 +1320,24 @@ body {
 }
 .platform .content .tendency-box .label-item .label.color-yellow {
   background: #ffff19;
+}
+.platform .content .select-box {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #05123C;
+  overflow-y: auto;
+}
+.platform .content .select-box .select-list {
+  padding: 10px 10px;
+}
+.platform .content .select-box .select-item {
+  line-height: 50px;
+  text-align: center;
+  border-bottom: 1px solid #53e3fb;
+  cursor: pointer;
 }
 .project,
 .public {

@@ -39,6 +39,11 @@ class CxController extends Controller
 
     }
 
+    public function test()
+    {
+        $this->urlback(-2);
+    }
+
     public function activityList()
     {
 

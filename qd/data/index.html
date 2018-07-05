@@ -8,8 +8,8 @@
     <meta name="format-detection" content="email=no"/>
     <title>长兴县智慧党建大数据平台</title>
     <link rel="stylesheet" href="https://js.arcgis.com/3.24/esri/css/esri.css">
-    <link rel="stylesheet" href="./css/index.css?v=1.2"/>
-    <link rel="stylesheet" href="./libs/swiper/dist/css/swiper.min.css">
+    <link rel="stylesheet" href="./css/index.css?v=1.4"/>
+    <!--<link rel="stylesheet" href="./libs/swiper/dist/css/swiper.min.css">-->
     <style>
         [v-cloak] {
             display: none;
@@ -224,7 +224,7 @@
                             </div>
                             <div v-show="partyType === 2" class="party-section improve">
                                 <div class="party-box half">
-                                    <h4 class="subtitle">党员总数：{{partier.meb}}</h4>
+                                    <h4 @click="openModel('partier')" style="cursor: pointer;" class="subtitle">党员总数：{{partier.meb}}</h4>
                                     <h4 class="subtitle">男女比例</h4>
                                     <div class="gender-box">
                                         <div id="gender" style="width: 65px;height: 65px;"></div>
@@ -448,7 +448,9 @@
                             <span @click="changeTabStatus"
                                   :class="{'active': !tabStatus}"
                                   class="tab-control"> > </span>
-                            <span @click="changeMapSize" class="map-size">点击缩放</span>
+                            <span @click="changeMapSize" class="map-size">
+                                <img src="./imgs/icon/xixi.png" />
+                            </span>
                         </div>
                     </section>
                     <!-- 地图区域 -->
@@ -460,7 +462,7 @@
                                 <h4 class="subtitle">&nbsp;</h4>
                                 <div class="qgt">
                                     <div class="text-box">
-                                        <div @click="openModel('grid')" style="cursor: pointer;">
+                                        <div @click="openModel('grid', 3)" style="cursor: pointer;">
                                             <p class="num">{{home.all}}</p>
                                             <p class="text">网格事件总数</p>
                                         </div>
@@ -504,13 +506,14 @@
                 <div class="core-right">
 
                     <section class="platform-top">
-                    <span @click="changePlatform(1)"
-                          :class="{'active': platformType === 1}"
-                          class="top-item">县-1</span>
+                        <span @click="changePlatform(1)"
+                              :class="{'active': platform.type === 1}"
+                              class="top-item">县-1
+                        </span>
                         <span @click="changePlatform(2)"
-                              :class="{'active': platformType === 2}"
-                              class="top-item">街镇（园区）</span>
-
+                              :class="{'active': platform.type === 2}"
+                              class="top-item">{{townName}}
+                        </span>
                     </section>
 
                     <section class="section platform">
@@ -525,11 +528,11 @@
                                     <ul class="platform-list">
                                         <li class="platform-item">
                                             <span class="label red"></span>
-                                            <span class="text">户籍人口：606805</span>
+                                            <span class="text">户籍人口：{{platform.data.zhzl.hj}}</span>
                                         </li>
                                         <li class="platform-item">
                                             <span class="label orange"></span>
-                                            <span class="text">流动人口：58126</span>
+                                            <span class="text">流动人口：{{platform.data.zhzl.ld}}</span>
                                         </li>
                                         <!--<li class="platform-item">-->
                                         <!--<span class="label yellow"></span>-->
@@ -543,24 +546,21 @@
                                     <ul class="platform-list">
                                         <li class="platform-item">
                                             <span class="label"></span>
-                                            <span class="text">办结事件数：60659</span>
+                                            <span class="text">办结事件数：{{platform.data.zhzf.event_dy + platform.data.zhzf.event_fdy}}</span>
                                         </li>
-                                        <!--<li class="platform-item">-->
-                                        <!--<span class="text">在办事件：22</span>-->
-                                        <!--</li>-->
                                         <li class="platform-item">
                                             <span class="label blue"></span>
-                                            <span class="text">党员办结数：18120</span>
+                                            <span class="text">党员办结数：{{platform.data.zhzf.event_dy}}</span>
                                         </li>
                                         <li class="platform-item">
                                             <span class="label green"></span>
-                                            <span class="text">非党员办结数：42539</span>
+                                            <span class="text">非党员办结数：{{platform.data.zhzf.event_fdy}}</span>
                                         </li>
                                     </ul>
                                 </section>
                                 <section class="block">
                                     <h4 class="platform-title">便民服务</h4>
-                                    <span class="num">82</span>
+                                    <span class="num">{{platform.data.bmfw}}</span>
                                     <p>项申请</p>
                                     <p>正在受理</p>
                                 </section>
@@ -578,6 +578,14 @@
                                     </li>
                                 </ul>
                                 <div id="tendency" style="width: 320px;height: 120px;"></div>
+                            </div>
+                            <div v-if="platform.selectShow" class="select-box">
+                                <ul class="select-list">
+                                    <li @click="selectTown(item)"
+                                        v-for="item in platform.towns"
+                                        class="select-item">{{item}}
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </section>
@@ -602,7 +610,7 @@
                                     <li v-if="index < 2" v-for="(item, index) in volunteer.list" class="volunte-item">
                                         <span class="spot"></span>
                                         <span class="text">{{item.NAME}}</span>
-                                        <span class="date">-{{item.BEGIN_TIME}}</span>
+                                        <span class="date">{{item.BEGIN_TIME}}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -853,7 +861,7 @@
                                           v-for="item in items"
                                           :style="{'width': item.width + '%'}">{{item.value}}</span>
                                 </li>
-                                <li v-if="!listData.list.length" class="infor-item">
+                                <li v-if="!listData.list || !listData.list.length" class="infor-item">
                                     <span style="width: 100%;">暂无数据</span>
                                 </li>
                             </ul>
@@ -1055,7 +1063,6 @@
     </section>
 
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DQ1BXIF0qGFddSG8wudhSHCZeftt7ztz"></script>
-    <!--<script src="https://unpkg.com/axios/dist/axios.min.js"></script>-->
     <script src="./libs/jquery/jquery.min.js"></script>
     <!--<script src="./libs/swiper/dist/js/swiper.min.js"></script>-->
     <script src="./libs/echarts/echarts.simple.min.js"></script>
@@ -1121,87 +1128,87 @@
                 map.addLayer(geoJsonLayer);
             }
 
-//            SCRIPT.get({
-//                url: mapServer + "/layers",
-//                jsonp: "callback",
-//                content: { f: "json", token: mapToken },
-//                load: function (response) {
-//                    loadAGSLayer(response);
-//                },
-//                error: function (response) {
-//                    errorCallback(response);
-//                }
-//            });
-//            // 加载AGSLayer
-//            function loadAGSLayer(response) {
-//                agsLayer = new ARCGISDYNAMICMAPSERVICELAYER(mapServer + "?token=" + mapToken);
-//                agsLayer.setImageFormat("png32", !false);
-//                agsLayer.FeatureLayers = [];
-//                agsLayer.MapServerLayers = response.layers;
-//                agsLayer.LayerName = response.layername;
-//                agsLayer.on("load", LANG.hitch(this, function () {
-//                    var layerInfos = agsLayer.layerInfos;
-//                    var mapServerLayers = agsLayer.MapServerLayers;
-//                    for (var i = 0; i < mapServerLayers.length; i++) {
-//                        var mapServerLayer = mapServerLayers[i];
-//                        layerInfos[i].index = mapServerLayer.index;
-//                        layerInfos[i].fields = mapServerLayers[i].fields;
-//                        layerInfos[i].searchField = mapServerLayer.oidfield;
-//                        layerInfos[i].displayField = "";
-//                        layerInfos[i].displayAlias = "";
-//                        if (mapServerLayer.fields) {// 图层组没有fields
-//                            for (var j = 0; j < mapServerLayer.fields.length; j++) {
-//                                if (mapServerLayer.fields[j].showtype == 1 || mapServerLayer.fields[j].showtype == 2) {
-//                                    layerInfos[i].displayField += mapServerLayer.fields[j].name + ",";
-//                                    layerInfos[i].displayAlias += mapServerLayer.fields[j].alias + ",";
-//                                }
-//                            }
-//                            if (layerInfos[i].displayField != "") {
-//                                layerInfos[i].displayField = layerInfos[i].displayField.substring(0, layerInfos[i].displayField.length - 1);
-//                            }
-//                            if (layerInfos[i].displayAlias != "") {
-//                                layerInfos[i].displayAlias = layerInfos[i].displayAlias.substring(0, layerInfos[i].displayAlias.length - 1);
-//                            }
-//                        }
-//                        layerInfos[i].MapServer = agsLayer.url.replace("/MapServer", "/MapServer/" + layerInfos[i].id);;
-//                        layerInfos[i].FeatureServer = layerInfos[i].MapServer.replace("/MapServer/" + layerInfos[i].id, "/FeatureServer/" + layerInfos[i].id);
-//                    }
-//                }));
-//                map.addLayer(agsLayer);
-//            }
-//            function query(layername, where) {
-//                for (var i = 0; i < agsLayer.layerInfos.length; i++) {
-//                    var layerInfo = agsLayer.layerInfos[i];
-//                    if (layerInfo.name == layername) {
-//                        var url = layerInfo.MapServer;
-//                        var outfield = [];
-//                        for (var j = 0; j < layerInfo.fields.length; j++) {
-//                            outfield.push(layerInfo.fields[j].name);
-//                        }
-//                        var query = new QUERY();
-//                        query.where = where;
-//                        query.returnGeometry = true;
-//                        query.outFields = outfield;
-//
-//                        var queryTask = new QUERYTASK(url);
-//                        queryTask.execute(query, LANG.hitch(this, queryResult), function (e) {
-//                            console.log(layername + " 查询失败：" + e.message);
-//                        });
-//                    }
-//                }
-//            }
-//            function queryResult(featureset) {
-//                if (featureset.features.length < 1) {
-//                    alert("找不到此数据!")
-//                    return;
-//                }
-//				var feature = featureset.features[0];
-//				var name = feature.attributes["GRIDNAME"];
+            SCRIPT.get({
+                url: mapServer + "/layers",
+                jsonp: "callback",
+                content: { f: "json", token: mapToken },
+                load: function (response) {
+                    loadAGSLayer(response);
+                },
+                error: function (response) {
+                    errorCallback(response);
+                }
+            });
+            // 加载AGSLayer
+            function loadAGSLayer(response) {
+                agsLayer = new ARCGISDYNAMICMAPSERVICELAYER(mapServer + "?token=" + mapToken);
+                agsLayer.setImageFormat("png32", !false);
+                agsLayer.FeatureLayers = [];
+                agsLayer.MapServerLayers = response.layers;
+                agsLayer.LayerName = response.layername;
+                agsLayer.on("load", LANG.hitch(this, function () {
+                    var layerInfos = agsLayer.layerInfos;
+                    var mapServerLayers = agsLayer.MapServerLayers;
+                    for (var i = 0; i < mapServerLayers.length; i++) {
+                        var mapServerLayer = mapServerLayers[i];
+                        layerInfos[i].index = mapServerLayer.index;
+                        layerInfos[i].fields = mapServerLayers[i].fields;
+                        layerInfos[i].searchField = mapServerLayer.oidfield;
+                        layerInfos[i].displayField = "";
+                        layerInfos[i].displayAlias = "";
+                        if (mapServerLayer.fields) {// 图层组没有fields
+                            for (var j = 0; j < mapServerLayer.fields.length; j++) {
+                                if (mapServerLayer.fields[j].showtype == 1 || mapServerLayer.fields[j].showtype == 2) {
+                                    layerInfos[i].displayField += mapServerLayer.fields[j].name + ",";
+                                    layerInfos[i].displayAlias += mapServerLayer.fields[j].alias + ",";
+                                }
+                            }
+                            if (layerInfos[i].displayField != "") {
+                                layerInfos[i].displayField = layerInfos[i].displayField.substring(0, layerInfos[i].displayField.length - 1);
+                            }
+                            if (layerInfos[i].displayAlias != "") {
+                                layerInfos[i].displayAlias = layerInfos[i].displayAlias.substring(0, layerInfos[i].displayAlias.length - 1);
+                            }
+                        }
+                        layerInfos[i].MapServer = agsLayer.url.replace("/MapServer", "/MapServer/" + layerInfos[i].id);;
+                        layerInfos[i].FeatureServer = layerInfos[i].MapServer.replace("/MapServer/" + layerInfos[i].id, "/FeatureServer/" + layerInfos[i].id);
+                    }
+                }));
+                map.addLayer(agsLayer);
+            }
+            function query(layername, where) {
+                for (var i = 0; i < agsLayer.layerInfos.length; i++) {
+                    var layerInfo = agsLayer.layerInfos[i];
+                    if (layerInfo.name == layername) {
+                        var url = layerInfo.MapServer;
+                        var outfield = [];
+                        for (var j = 0; j < layerInfo.fields.length; j++) {
+                            outfield.push(layerInfo.fields[j].name);
+                        }
+                        var query = new QUERY();
+                        query.where = where;
+                        query.returnGeometry = true;
+                        query.outFields = outfield;
+
+                        var queryTask = new QUERYTASK(url);
+                        queryTask.execute(query, LANG.hitch(this, queryResult), function (e) {
+                            console.log(layername + " 查询失败：" + e.message);
+                        });
+                    }
+                }
+            }
+            function queryResult(featureset) {
+                if (featureset.features.length < 1) {
+                    alert("找不到此数据!")
+                    return;
+                }
+				var feature = featureset.features[0];
+				var name = feature.attributes["GRIDNAME"];
 //				alert(name);
-//            }
+            }
         });
     </script>
 
-    <script src="./js/index.js?v=1.2"></script>
+    <script src="./js/index.js?v=1.3"></script>
 </body>
 </html>

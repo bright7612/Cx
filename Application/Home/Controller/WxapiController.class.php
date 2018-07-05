@@ -1462,9 +1462,19 @@ class WxapiController extends Controller
         $this->Apireturn($da);
     }
     public function warning2(){
-     $da['organize'] = array(
+        //入党申请人
+        $application_dy = M('dr_dzz_application_party')->count();
+        //入党积极分子
+        $activity_dy = M('dr_dzz_activity_dy')->count();
+        //2018年报道
+        $sign = M('dr_dy_sign')->count();
+        //不计入到会党员
+        $late_dy = M('dr_dy_late')->count();
+        //闪光言行
+        $speech = M('dr_dy_sgyx')->count();
+        $da['organize'] = array(
             'theme'=>array('start'=>1543, 'unStart'=>11940,),
-            'partier'=>array('apply'=>153, 'active'=>18943,),
+            'partier'=>array('apply'=>$application_dy, 'active'=>$activity_dy,),
             'experience'=>array('num'=>17388, 'unNum'=>1864,),
             'pay'=>array('payed'=>1564, 'unPay'=>8982,),
 
@@ -1472,8 +1482,8 @@ class WxapiController extends Controller
      $da['partier'] = array(
          'theme'=>array('join'=>1564, 'unJoin'=>8982,),
          'experience'=>array('health'=>1564, 'unHealth'=>8982,'yaHealth'=>1000),
-         'register'=>array('num'=>1564, 'unNum'=>8982,),
-         'appraise'=>array('sgyx'=>1564, 'pypx'=>8982,),
+         'register'=>array('num'=>$sign, 'unNum'=>$late_dy,),
+         'appraise'=>array('sgyx'=>1564, 'pypx'=>$speech,),
      );
         $this->Apireturn($da);
     }
@@ -1646,12 +1656,12 @@ class WxapiController extends Controller
             array('name'=>'评定党性健康状况', 'width'=>20),
             array('name'=>'时间', 'width'=>10),
         );
-        $head4 = array(  //党员
-            array('name'=>'序号', 'width'=>10),
-            array('name'=>'党员姓名', 'width'=>15),
-            array('name'=>'身份证号', 'width'=>10),
-            array('name'=>'所属党组织', 'width'=>35),
-            array('name'=>'缴费记录', 'width'=>25),
+        $head4 = array(  //党费缴纳
+            array('name'=>'序号', 'width'=>20),
+            array('name'=>'党组织名称', 'width'=>30),
+            array('name'=>'缴费金额', 'width'=>10),
+            array('name'=>'缴费时间', 'width'=>20),
+            array('name'=>'历史缴费记录', 'width'=>20),
         );
         $head5 = array(  //党员
             array('name'=>'序号', 'width'=>10),
@@ -1683,6 +1693,21 @@ class WxapiController extends Controller
             array('name'=>'闪光言行', 'width'=>20),
             array('name'=>'评定时间', 'width'=>20),
             array('name'=>'评定等级', 'width'=>15),
+        );
+
+        $head9 = array(  //党员
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'姓名', 'width'=>15),
+            array('name'=>'性别', 'width'=>10),
+            array('name'=>'出生日期', 'width'=>20),
+            array('name'=>'学历', 'width'=>15),
+            array('name'=>'所在党支部', 'width'=>30),
+        );
+
+        $head10 = array(  //党员
+            array('name'=>'序号', 'width'=>20),
+            array('name'=>'姓名', 'width'=>30),
+            array('name'=>'所属党组织', 'width'=>50),
         );
 
         if($origin == 'organize'){
@@ -1744,8 +1769,19 @@ class WxapiController extends Controller
                     break;
                 case 3:
                     $list['title'] = '入党申请';
-                    $list['head'] = $head2;
-                    $list['list'] = array();
+                    $list['head'] = $head9;
+                    $data = $Model->query("SELECT * FROM cxdj_dr_dzz_application_party LIMIT 100");
+                    foreach ($data as $k=>&$v){
+                        $list['list'][] = array(
+                            array('value'=>$v['id'], 'width'=>10),
+                            array('value'=>$v['name'], 'width'=>15),
+                            array('value'=>$v['sex'], 'width'=>10),
+                            array('value'=>$v['birthday'], 'width'=>20),
+                            array('value'=>$v['education'], 'width'=>15),
+                            array('value'=>$v['organization'], 'width'=>30),
+                        );
+                    }
+
                     break;
                 case 4:
                     $list['title'] = '入党积极分子';
@@ -1827,15 +1863,21 @@ class WxapiController extends Controller
                             array('value'=>$v['time'], 'width'=>15),
                             array('value'=>$v['bd_name'], 'width'=>20),
                             array('value'=>$v['organization'], 'width'=>40),
-
                         );
                     }
 
                     break;
                 case 4:
                     $list['title'] = '不计入到会党员';
-                    $list['head'] = $head6;
-                    $list['list'] = array();
+                    $list['head'] = $head10;
+                    $data = $Model->query("SELECT id,`name`,organization FROM cxdj_dr_dy_late LIMIT 100");
+                    foreach ($data as $k=>&$v){
+                        $list['list'][] = array(
+                            array('value'=>$v['id'], 'width'=>20),
+                            array('value'=>$v['name'], 'width'=>30),
+                            array('value'=>$v['organization'], 'width'=>50),
+                        );
+                    }
                     break;
                 case 5:
                     $list['title'] = '体检健康';

@@ -21,6 +21,7 @@ class PublicController extends \Think\Controller {
      * @author 麦当苗儿 <zuojiazi@vip.qq.com>
      */
     public function login($username = null, $password = null, $verify = null){
+
         if(IS_POST){
             /* 检测验证码 TODO: */
             if (APP_DEBUG==false){

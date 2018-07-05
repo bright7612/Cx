@@ -769,13 +769,17 @@ body {
     }
     .map-size {
       width: 40px;
-      text-align: center;
-      background-color: #05123C;
+      height: 40px;
       position: absolute;
       top: 40px;
       left: 163px;
       z-index: 100;
       cursor: pointer;
+      & > img {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
     }
     .video-btn {
       width: 150px;
@@ -940,6 +944,7 @@ body {
   padding: 0 10px;
   .content {
     .borderBox();
+    position: relative;
     .platform-box {
       .displayFlex();
       .spaceBetween();
@@ -1025,6 +1030,24 @@ body {
             background: #ffff19;
           }
         }
+      }
+    }
+    .select-box {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: #05123C;
+      overflow-y: auto;
+      .select-list {
+        padding: 10px 10px;
+      }
+      .select-item {
+        line-height: 50px;
+        text-align: center;
+        border-bottom: 1px solid @color-theme-dark;
+        cursor: pointer;
       }
     }
   }

@@ -10,6 +10,7 @@ var apiUrl = {
     baseMember: 'http://cxdj.cmlzjz.com/home/wxapi/partyMember',
 
     partier: 'http://cxdj.cmlzjz.com/cx/data/member', // 党员数据
+    partierList: 'http://183.131.86.64:8620/cx/data/memberRecord', // 党员数据
 
     warn: 'http://cxdj.cmlzjz.com/home/wxapi/warning2', // 预警提醒
     warnlist: 'http://cxdj.cmlzjz.com/home/wxapi/warningList2', // 预警提醒列表
@@ -35,10 +36,9 @@ var apiUrl = {
     monitor: 'http://cxdj.cmlzjz.com/home/wxapi/videos_dp', // 红色资源
     redResource: 'http://cxdj.cmlzjz.com/home/wxapi/redResource', // 红色资源地图
 
-    grid: 'http://cxdj.cmlzjz.com/cx/data/WG', // 网格数据
-    gridList: 'http://cxdj.cmlzjz.com/cx/data/wgRecord' // 网格员总数
-
-    // 四个平台 http://183.131.86.64:8620/cx/data/platform
+    platform: 'http://183.131.86.64:8620/cx/data/platform', // 四个平台
+    grid: 'http://183.131.86.64:8620/cx/data/WG', // 网格数据
+    gridList: 'http://183.131.86.64:8620/cx/data/wgRecord', // 网格员总数
 }
 
 var $j = jQuery.noConflict();
@@ -62,7 +62,6 @@ var app = new Vue({
         date: '',
         tabIndex: 1,
         // mapShow: true,
-        platformType: 1,
         showType: 1,
         partyType: 1,
         rightType2: 1,
@@ -156,6 +155,42 @@ var app = new Vue({
             title: '',
             org: [],
             people: []
+        },
+        // 四个平台
+        platform: {
+            type: 1,
+            towns: [
+                '雉城街道',
+                '和平镇',
+                '虹星桥镇',
+                '洪桥镇',
+                '画溪街道',
+                '小浦镇',
+                '夹浦镇',
+                '李家巷镇',
+                '林城镇',
+                '图影管委会',
+                '太湖街道',
+                '龙山街道',
+                '吕山乡',
+                '煤山镇',
+                '南太湖管委会',
+                '水口乡',
+                '泗安镇'
+            ],
+            select: 1,
+            selectShow: false,
+            data: {
+                bmfw: 0,
+                zhzf: {
+                    event_dy: 0,
+                    event_fdy: 0
+                },
+                zhzl: {
+                    hj: 0,
+                    ld: 0
+                }
+            }
         },
         // 网格数据
         home: {
@@ -263,12 +298,26 @@ var app = new Vue({
         // 警告弹框tab栏文本
         warnTabText: function () {
             return this.warn.type === 2 ? '开展主题党日' : '缴纳党费'
+        },
+        // 四个平台街镇名
+        townName: function () {
+            var name = this.platform.select
+            return name === 1 ? '街镇（园区）' : name
+        }
+    },
+    watch: {
+        'platform.select': function () {
+            console.log(12345);
+            this._getGrid(this.platform.select);
+            this._getPlatform(this.platform.select);
         }
     },
     methods: {
+        // 改变地图大小
         changeMapSize: function () {
             this.allScreen = !this.allScreen;
         },
+        // 改变地图选项伸缩
         changeTabStatus: function () {
             this.tabStatus = !this.tabStatus
         },
@@ -301,10 +350,6 @@ var app = new Vue({
         changeParty: function (type) {
             this.partyType = type;
             this.hideDistribute();
-        },
-        // 切换四个平台
-        changePlatform: function (type) {
-            this.platformType = type;
         },
         // 显示党员分布
         showDistribute: function (type) {
@@ -342,6 +387,27 @@ var app = new Vue({
             this.bMap.centerAndZoom(point, 12);
             this.bMap.enableScrollWheelZoom(true);
         },
+        // 切换四个平台
+        changePlatform: function (type) {
+            var oldType = this.platform.type;
+
+            if (type === 1) {
+                this.platform.select = 1;
+                this.platform.selectShow = false;
+            }
+            if (oldType === 1 && type === 2) {
+                this.platform.select = this.platform.towns[0];
+            }
+            if (oldType === 2 && type === 2) {
+                this.platform.selectShow = true;
+            }
+            this.platform.type = type;
+        },
+        // 四个平台选择街镇
+        selectTown: function (town) {
+            this.platform.select = town;
+            this.platform.selectShow = false;
+        },
         // 切换爱心众筹/志愿服务
         changeRightType2: function (type) {
             this.rightType2 = type
@@ -371,6 +437,9 @@ var app = new Vue({
             }
             if (module === 'grid') {
                 this._getGridList(type);
+            }
+            if (module === 'partier') {
+                this._getPartierList();
             }
         },
         // 打开公用模态框详情
@@ -1101,8 +1170,8 @@ var app = new Vue({
                             }
                         },
                         data:[
-                            {value:606805, name:'户籍人员'},
-                            {value:58126, name:'流动人员'},
+                            {value: this.platform.data.zhzl.hj, name:'户籍人员'},
+                            {value: this.platform.data.zhzl.ld, name:'流动人员'},
                             // {value:200, name:'境外人员'}
                         ],
                         itemStyle : {
@@ -1145,8 +1214,8 @@ var app = new Vue({
                             }
                         },
                         data:[
-                            {value:18120, name:'党员办结数'},
-                            {value:42539, name:'非党员办结数'}
+                            {value: this.platform.data.zhzf.event_dy, name:'党员办结数'},
+                            {value: this.platform.data.zhzf.event_fdy, name:'非党员办结数'}
                         ],
                         itemStyle : {
                             normal : {
@@ -1182,7 +1251,7 @@ var app = new Vue({
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: ['18-01','18-02','18-03','18-04','18-05','18-06'],
+                    data: ['01','02','03','04','05','06','07','08','09','10','11','12'],
                     axisLabel: {
                         show: true,
                         textStyle: {
@@ -1214,18 +1283,18 @@ var app = new Vue({
                 },
                 series: [
                     {
-                        name:'邮件营销',
+                        name:'新增',
                         type:'line',
                         color: '#38bdff',
                         stack: '总量',
-                        data:[250, 100, 90, 40, 350, 170]
+                        data: this.platform.data.event_current
                     },
                     {
-                        name:'联盟广告',
+                        name:'历史同期',
                         type:'line',
                         color: '#ffff19',
                         stack: '总量',
-                        data:[200, 60, 110, 30, 380, 220]
+                        data: this.platform.data.event_lastyear
                     }
                 ]
             };
@@ -1469,6 +1538,25 @@ var app = new Vue({
                 }
             })
         },
+        // 获取党员列表数据
+        _getPartierList: function () {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.partierList,
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    if (res.status === 200) {
+                        _this.listData = res.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
         // 获取预警提醒数据
         _getWarn: function () {
             var _this = this;
@@ -1547,23 +1635,28 @@ var app = new Vue({
             });
         },
         // 获取网格数据
-        _getGrid: function() {
+        _getGrid: function(name) {
             var _this = this;
 
             $j.ajax({
                 type: 'GET',
                 url: apiUrl.grid,
+                data: {
+                  name: name
+                },
                 dataType: 'json',
                 cache: false,
                 success: function (res) {
-                    var data = res;
-                    _this.home.years = data.year
-                    _this.home.monthes = data.month
-                    _this.home.all = data.wg;
-                    _this.home.done = data.dy;
-                    _this.home.ordinary = data.people;
-                    _this.lineRender();
-                    _this.dealRender();
+                    if (res.code === 200) {
+                        _this.home.years = res.data.event_year
+                        _this.home.monthes = res.data.event_month
+                        _this.home.all = res.data.total;
+                        _this.home.done = res.data.fdy;
+                        _this.home.ordinary = res.data.dy;
+                        _this.lineRender();
+                        _this.dealRender();
+                    }
+
                 },
                 error: function (err) {
                     console.log(err);
@@ -1578,11 +1671,13 @@ var app = new Vue({
                 type: 'GET',
                 url: apiUrl.gridList,
                 data: {
+                  name: _this.platform.select,
                   classif: type
                 },
                 dataType: 'json',
                 cache: false,
                 success: function (res) {
+                    console.log(res);
                     var data = res;
                     if (data.code === 200) {
                         _this.listData = data.data;
@@ -1593,6 +1688,31 @@ var app = new Vue({
                     console.log(err);
                 }
             });
+        },
+        // 获取四个平台数据
+        _getPlatform: function(name) {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.platform,
+                data: {
+                  name: name
+                },
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.platform.data = res.data;
+                        _this.governRender();
+                        _this.lawRender();
+                        _this.tendency();
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
         },
         // 获取家门口服务数据
         _getHomeData: function (type, select) {
@@ -1841,7 +1961,7 @@ var app = new Vue({
     created: function () {
         var _this = this;
 
-        // this._getMapJson();
+        this._getMapJson();
 
         this.renderTime();
         this.renderDate();
@@ -1852,7 +1972,8 @@ var app = new Vue({
         this._getBase();
         this._getWarn();
         this._getPartier();
-        this._getGrid();
+        this._getPlatform(this.platform.select);
+        this._getGrid(this.platform.select);
         this._getVolunteerData();
         this._getWiseData();
         this._getRankData();
@@ -1870,9 +1991,6 @@ var app = new Vue({
             // _this.dealRender();
             _this.projectRender();
             _this.helpRender();
-            _this.governRender();
-            _this.lawRender();
-            _this.tendency();
         }, 1500);
 
     },

@@ -271,6 +271,20 @@ abstract class Controller
     {
         $this->dispatchJump($message, 1, $jumpUrl, $ajax);
     }
+    /**
+     * 页面返回的快捷方法
+     * @access protected
+     * @param string $message 提示信息
+     * @param string $stemp 回退步数
+     * @return void
+     */
+    protected function urlback($stemp = 0)
+    {
+        $script = '<script>history.go('.$stemp.');</script>';
+        $this->ajaxReturn($script,"EVAL");
+        exit;
+
+    }
 
     /**
      * Ajax方式返回数据到客户端
