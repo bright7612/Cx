@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <title>党员公益互助系统</title>
+    <link rel="stylesheet" href="__WELFARE__/css/index.css" />
+</head>
+<body>
+    <article class="wrapper">
+        <header class="header">
+            <img src="__WELFARE__/imgs/title.png" />
+        </header>
+
+        <section class="content">
+            <div class="content-left">
+                <section class="block display">
+                    <h2 class="block-title">
+                        <i class="iconfont icon-zhanshi"></i>
+                        <text class="text">公益互助活动展示</text>
+                    </h2>
+                    <a href="#" class="block-content">
+                        <div class="photo-box">
+                            <img src="{$res.path}" />
+                        </div>
+                        <div class="desc-box">
+                            <p class="desc">{$res.content}</p>
+                        </div>
+                    </a>
+                </section>
+            </div>
+
+            <div class="content-middle">
+                <section class="block doing">
+                    <h2 class="block-title">
+                        <i class="iconfont icon-zhongchouxiangmu"></i>
+                        <text class="text">互助进行时</text>
+                        <a href="{:U('welfare/hz_list')}">更多></a>
+                    </h2>
+                    <div class="block-content">
+                        <ul class="project-list">
+                            <volist name="data" id="vo">
+                            <li class="project-item">
+                                <a href="{:U('welfare/hz_detail?id='.$vo['id'])}">
+                                    <h3 class="project-title">
+                                        <span class="title">{$vo.title}</span>
+                                        <span class="status complete">{$vo.status}</span>
+                                    </h3>
+                                    <p class="project-time">{$vo.time|date='Y-m-d',###}</p>
+                                    <p class="project-text">{$vo.content}</p>
+                                </a>
+                            </li>
+                            </volist>
+                        </ul>
+                    </div>
+                </section>
+            </div>
+
+            <div class="content-right">
+                <section class="block poineer">
+                    <h2 class="block-title">
+                        <i class="iconfont icon-integral_icon"></i>
+                        <text class="text">党员积分先锋</text>
+                        <a class="a2" href="{:U('welfare/interacting_list')}">更多></a>
+                    </h2>
+                    <div class="block-content">
+                        <ul class="rank-list">
+                            <li class="rank-item">
+                                <a href="javascript:;">
+                                    <span class="rank-index">
+                                        <img src="__WELFARE__/imgs/rank/1.png" />
+                                    </span>
+                                    <span class="rank-avatar">
+                                        <img src="{$integral[0]['headimgurl']}" />
+                                    </span>
+                                    <span class="rank-name">{$integral[0]['nickname']}</span>
+                                    <span class="rank-score">{$integral[0]['integral']}</span>
+                                </a>
+                            </li>
+                            <li class="rank-item">
+                                <a href="javascript:;">
+                                    <span class="rank-index">
+                                        <img src="__WELFARE__/imgs/rank/2.png" />
+                                    </span>
+                                    <span class="rank-avatar">
+                                        <img src="{$integral[1]['headimgurl']}" />
+                                    </span>
+                                    <span class="rank-name">{$integral[1]['nickname']}</span>
+                                    <span class="rank-score">{$integral[1]['integral']}</span>
+                                </a>
+                            </li>
+                            <li class="rank-item">
+                                <a href="javascript:;">
+                                    <span class="rank-index">
+                                        <img src="__WELFARE__/imgs/rank/3.png" />
+                                    </span>
+                                    <span class="rank-avatar">
+                                        <img src="{$integral[2]['headimgurl']}" />
+                                    </span>
+                                    <span class="rank-name">{$integral[2]['nickname']}</span>
+                                    <span class="rank-score">{$integral[2]['integral']}</span>
+                                </a>
+                            </li>
+                            <li class="rank-item">
+                                <a href="javascript:;">
+                                    <span class="rank-index">
+                                        <span>4.</span>
+                                    </span>
+                                    <span class="rank-avatar">
+                                        <img src="{$integral[3]['headimgurl']}" />
+                                    </span>
+                                    <span class="rank-name">{$integral[3]['nickname']}</span>
+                                    <span class="rank-score">{$integral[3]['integral']}</span>
+                                </a>
+                            </li>
+                            <li class="rank-item">
+                                <a href="javascript:;">
+                                    <span class="rank-index">
+                                        <span>5.</span>
+                                    </span>
+                                    <span class="rank-avatar">
+                                        <img src="{$integral[4]['headimgurl']}" />
+                                    </span>
+                                    <span class="rank-name">{$integral[4]['nickname']}</span>
+                                    <span class="rank-score">{$integral[4]['integral']}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="shop">
+                    <a href="{:U('welfare/market')}">
+                        <i class="iconfont icon-jifenshangcheng"></i>
+                        <span class="text">积分商城</span>
+                    </a>
+                </section>
+            </div>
+        </section>
+
+    </article>
+</body>
+</html>

@@ -25,6 +25,10 @@ class WxapiController extends Controller
     function _initialize(){
 
     }
+    public function dxtd($telephone=null,$classify=null,$option=null,$examination=null){
+        $a = send($telephone,$classify,$option,$examination);
+        return $a;
+    }
     //活动报名接口
     public function activity(){
         if($_REQUEST['openid']){$user = $this->identitys($_REQUEST['openid']);}else{$this->Apireturn(array(),300,'用户尚未登陆');}  //党员限定
@@ -49,6 +53,10 @@ class WxapiController extends Controller
         $data['text'] = $_REQUEST['item'];
         $id = M('sign_bespoke')->add($data);
         if($id){
+            $aa['telephone'] = $data['phone'];
+            $aa['classify'] = 1;
+            $aa['option'] = '活动报名';
+            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -72,6 +80,10 @@ class WxapiController extends Controller
         $data['text'] = $_REQUEST['remark'];
         $id = M('sign_volunteer')->add($data);
         if($id){
+            $aa['telephone'] = $data['phone'];
+            $aa['classify'] = 1;
+            $aa['option'] = '志愿者报名';
+            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -103,6 +115,10 @@ class WxapiController extends Controller
         $data['text'] = $_REQUEST['item'];
         $id = M('sign_field')->add($data);
         if($id){
+            $aa['telephone'] = $data['phone'];
+            $aa['classify'] = 1;
+            $aa['option'] = '场地报名';
+            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -126,6 +142,10 @@ class WxapiController extends Controller
         $data['identity'] = $user['identity'];
         $id = M('sign_lecture')->add($data);
         if($id){
+            $aa['telephone'] = $data['phone'];
+            $aa['classify'] = 1;
+            $aa['option'] = '党课报名';
+            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -148,6 +168,10 @@ class WxapiController extends Controller
         $data['content'] = $_REQUEST['item'];
         $id = M('sign_direct_apply')->add($data);
         if($id){
+            $aa['telephone'] = $data['telephone'];
+            $aa['classify'] = 1;
+            $aa['option'] = '项目直通车报名';
+            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -164,6 +188,10 @@ class WxapiController extends Controller
         $data['content'] = $_REQUEST['remarks'];
         $id = M('sign_direct_demand')->add($data);
         if($id){
+            $aa['telephone'] = $data['telephone'];
+            $aa['classify'] = 1;
+            $aa['option'] = '项目直通车需求';
+            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'提交成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -192,6 +220,10 @@ class WxapiController extends Controller
         $data['content'] = $_REQUEST['remark'];
         $id = M('sign_zhch_apply')->add($data);
         if($id){
+            $aa['telephone'] = $data['telephone'];
+            $aa['classify'] = 1;
+            $aa['option'] = '众筹报名';
+            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -215,6 +247,10 @@ class WxapiController extends Controller
         $data['img'] = $_REQUEST['img_id'];
         $id = M('sign_zhch')->add($data);
         if($id){
+            $aa['telephone'] = $data['applytelephone'];
+            $aa['classify'] = 1;
+            $aa['option'] = '众筹申报';
+            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -237,6 +273,10 @@ class WxapiController extends Controller
         $data['content'] = $_REQUEST['item'];
         $id = M('sign_wish_apply')->add($data);
         if($id){
+            $aa['telephone'] = $data['applytelephone'];
+            $aa['classify'] = 1;
+            $aa['option'] = '微心愿报名';
+            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -1116,7 +1156,7 @@ class WxapiController extends Controller
         $map['status'] = 1;
         $data = $goods->where($map)->page($page,$r)->select();
         foreach ($data as $k=>$v){
-            $da['pic'] = pic($v['price']);
+            $da['pic'] = pic($v['prod_pic']);
             $da['title'] =$v['prod_name'];
             $da['amount'] = $v['prod_num'];
             $da['price'] = $v['price'];
@@ -1462,6 +1502,7 @@ class WxapiController extends Controller
         $this->Apireturn($da);
     }
     public function warning2(){
+        $where['status'] = 1;
         //入党申请人
         $application_dy = M('dr_dzz_application_party')->count();
         //入党积极分子
@@ -1472,10 +1513,16 @@ class WxapiController extends Controller
         $late_dy = M('dr_dy_late')->count();
         //闪光言行
         $speech = M('dr_dy_sgyx')->count();
+        //党组织-已展开党性体检
+        $dx_check = M('dr_dzz_dxtj')->where($where)->count();
+        //党组织-已展开主题党日
+        $ztdr = M('dr_dzz_ztdr')->where($where)->count();
+        //党组织-未展开主题党日
+        $ztdr_no = M('dr_dzz_no_ztdr')->where($where)->count();
         $da['organize'] = array(
-            'theme'=>array('start'=>1543, 'unStart'=>11940,),
+            'theme'=>array('start'=>$ztdr, 'unStart'=>$ztdr_no,),
             'partier'=>array('apply'=>$application_dy, 'active'=>$activity_dy,),
-            'experience'=>array('num'=>17388, 'unNum'=>1864,),
+            'experience'=>array('num'=>$dx_check, 'unNum'=>1864,),
             'pay'=>array('payed'=>1564, 'unPay'=>8982,),
 
      );
@@ -1649,17 +1696,16 @@ class WxapiController extends Controller
             array('name'=>'聘任专业技术职务名称', 'width'=>15),
         );
         $head3 = array(  //党员
-            array('name'=>'序号', 'width'=>10),
-            array('name'=>'党员姓名', 'width'=>15),
-            array('name'=>'“党性体检”健康指数', 'width'=>15),
-            array('name'=>'反向扣分情况', 'width'=>20),
-            array('name'=>'评定党性健康状况', 'width'=>20),
-            array('name'=>'时间', 'width'=>10),
+            array('name'=>'序号', 'width'=>20),
+            array('name'=>'党组织名称', 'width'=>40),
+            array('name'=>'党组织书记', 'width'=>20),
+            array('name'=>'体检时间', 'width'=>20),
+
         );
         $head4 = array(  //党费缴纳
-            array('name'=>'序号', 'width'=>20),
+            array('name'=>'序号', 'width'=>15),
             array('name'=>'党组织名称', 'width'=>30),
-            array('name'=>'缴费金额', 'width'=>10),
+            array('name'=>'缴费金额', 'width'=>15),
             array('name'=>'缴费时间', 'width'=>20),
             array('name'=>'历史缴费记录', 'width'=>20),
         );
@@ -1710,24 +1756,33 @@ class WxapiController extends Controller
             array('name'=>'所属党组织', 'width'=>50),
         );
 
+        $head11 = array(  //未展开主题党日
+            array('name'=>'序号', 'width'=>20),
+            array('name'=>'党组织名称', 'width'=>50),
+            array('name'=>'党组织书记', 'width'=>30),
+        );
+
         if($origin == 'organize'){
             switch ($types){
                 case 1:
                     $list['title'] = '已开展主题党日';
                     $list['head'] = $head1;
                     $data = $Model->query("SELECT
-                                                (@i:=@i+1) id,
+                                                (@i :=@i + 1) id,
                                                 organization,
-                                                '' AS secretary,
+                                                secretary,
                                                 title,
                                                 DATE_FORMAT(start_time, '%Y-%m-%m') AS time
                                             FROM
-                                                cxdj_dr_dzz_ztdr,(SELECT @i:=0) AS i
+                                                cxdj_dr_dzz_ztdr,
+                                                (SELECT @i := 0) AS i
                                             WHERE
                                                 DATE_FORMAT(start_time, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')
+                                                AND  status = 1
                                             LIMIT 100
 
                                             ");
+
 
                     foreach ($data as $k=>&$v){
                         $list['list'][] = array(
@@ -1740,32 +1795,104 @@ class WxapiController extends Controller
                         );
                     }
 
+
                     break;
                 case 2:
                     $list['title'] = '未开展主题党日';
-
+                    $list['head'] = $head11;
                     if($classify ==1 ){  //5月
+//                        $data = $Model->query("SELECT
+//                                                    (@i :=@i + 1) id,
+//                                                    organization,
+//                                                    secretary,
+//                                                    title,
+//                                                    date_format(start_time, '%Y-%m-%d') AS `time`
+//                                                FROM
+//                                                    cxdj_dr_dzz_ztdr,
+//                                                    (SELECT @i := 0) AS i
+//                                                WHERE
+//                                                    start_time BETWEEN date_sub(now(), INTERVAL 5 MONTH)
+//                                                AND now()
+//                                                AND date_format(start_time, '%Y-%m') != date_format(now(), '%Y-%m')
+//                                                ORDER BY
+//                                                    start_time DESC
+//                                                    LIMIT 100");
+
+                        $data = $Model->query('SELECT * FROM cxdj.cxdj_dr_dzz_no_ztdr WHERE status = 1 LIMIT 100');
+                        foreach ($data as $k=>&$v){
+                            $list['list'][] = array(
+                                array('value'=>$v['id'], 'width'=>20),
+                                array('value'=>$v['organization'], 'width'=>50),
+                                array('value'=>$v['secretary'], 'width'=>30),
+
+
+                            );
+                        }
+
 
                     }
                     elseif ($classify==2){//4月
+                        $data = $Model->query("SELECT
+                                                    (@i :=@i + 1) id,
+                                                    organization,
+                                                    secretary,
+                                                    title,
+                                                     date_format(start_time, '%Y-%m-%d') AS `time`
+                                                FROM
+                                                    cxdj_dr_dzz_ztdr,
+                                                    (SELECT @i := 0) AS i
+                                                WHERE
+                                                    start_time BETWEEN date_sub(now(), INTERVAL 4 MONTH)
+                                                AND now()
+                                                AND date_format(start_time, '%Y-%m') != date_format(now(), '%Y-%m')
+                                                ORDER BY
+                                                    start_time ASC
+                                                    LIMIT 100");
 
+                        foreach ($data as $k=>&$v){
+                            $list['list'][] = array(
+                                array('value'=>$v['id'], 'width'=>10),
+                                array('value'=>$v['organization'], 'width'=>30),
+                                array('value'=>$v['secretary'], 'width'=>15),
+                                array('value'=>$v['title'], 'width'=>30),
+                                array('value'=>$v['time'], 'width'=>15),
+
+                            );
+                        }
                     }
                     elseif ($classify==3){//3月
+                        $data = $Model->query("SELECT
+                                                    (@i :=@i + 1) id,
+                                                    organization,
+                                                    secretary,
+                                                    title,
+                                                      date_format(start_time, '%Y-%m-%d') AS `time`
+                                                FROM
+                                                    cxdj_dr_dzz_ztdr,
+                                                    (SELECT @i := 0) AS i
+                                                WHERE
+                                                    start_time BETWEEN date_sub(now(), INTERVAL 3 MONTH)
+                                                AND now()
+                                                AND date_format(start_time, '%Y-%m') != date_format(now(), '%Y-%m')
+                                                ORDER BY
+                                                    start_time ASC
+                                                    LIMIT 100");
 
+                        foreach ($data as $k=>&$v){
+                            $list['list'][] = array(
+                                array('value'=>$v['id'], 'width'=>10),
+                                array('value'=>$v['organization'], 'width'=>30),
+                                array('value'=>$v['secretary'], 'width'=>15),
+                                array('value'=>$v['title'], 'width'=>30),
+                                array('value'=>$v['time'], 'width'=>15),
+
+                            );
+                        }
                     }
                     else{
                         exit;
                     }
-                    $list['head'] = $head1;
-//                    foreach($data as $k=>&$v){
-//                        $da[$k] = array(
-//                            array('value'=>$k+1, 'width'=>10),
-//                            array('value'=>$v['NAME'], 'width'=>35),
-//                            array('value'=>$v['NATURE'], 'width'=>20),
-//                            array('value'=>$v['ADDRESS'], 'width'=>35),
-//                        );
-//                    }
-                    $list['list'] = array();
+
                     break;
                 case 3:
                     $list['title'] = '入党申请';
@@ -1803,7 +1930,15 @@ class WxapiController extends Controller
                 case 5:
                     $list['title'] = '已开展党性体检';
                     $list['head'] = $head3;
-                    $list['list'] = array();
+                    $data = $Model->query("SELECT * FROM cxdj.cxdj_dr_dzz_dxtj WHERE `status` = 1 LIMIT 100");
+                    foreach ($data as $k=>&$v){
+                        $list['list'][] = array(
+                            array('value'=>$v['id'], 'width'=>20),
+                            array('value'=>$v['organization'], 'width'=>40),
+                            array('value'=>$v['secretary'], 'width'=>20),
+                            array('value'=>$v['time'], 'width'=>20),
+                        );
+                    }
                     break;
                 case 6:
                     $list['title'] = '未开展党性体检';
@@ -1813,7 +1948,19 @@ class WxapiController extends Controller
                 case 7:
                     $list['title'] = '已经缴纳';
                     $list['head'] = $head4;
-                    $list['list'] = array();
+                    $data = $Model->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money !=0 GROUP BY organization LIMIT 200");
+
+                    $i = 1;
+                    foreach ($data as $k=>&$v){
+                        $ii = $i++;
+                        $list['list'][] = array(
+                            array('value'=>$ii, 'width'=>15),
+                            array('value'=>$v['organization'], 'width'=>30),
+                            array('value'=>$v['count'], 'width'=>15),
+                            array('value'=>$v['time'], 'width'=>20),
+                            array('value'=>$v['record'], 'width'=>20),
+                        );
+                    }
                     break;
                 case 8:
                     $list['title'] = '未缴纳党费';

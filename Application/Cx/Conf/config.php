@@ -32,7 +32,8 @@ return array(
         '__CX__' => __ROOT__ . '/Public/cx',
         '__DQ__' => __ROOT__ . '/Public/dq',
         '__EDUCATION__' => __ROOT__ . '/Public/education',
-        '__VENUE__' => __ROOT__ . '/Public/venue'
+        '__VENUE__' => __ROOT__ . '/Public/venue',
+        '__WELFARE__' => __ROOT__ . '/Public/welfare'
     ),
 
 

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>党建学习平台</title>
+    <link rel="stylesheet" href="__CX__/css/order.css">
+</head>
+<body class="guide_index">
+<header class="header3">
+    <p>
+        <!--标题-->
+        <span class="title2">党建服务中心介绍</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content3 position_list">
+    <volist name="list" id="vo">
+        <a href="{:U('Cx/service_detail?id='.$vo['id'])}">
+            <div class="text_box">
+                <p class="title1">{$vo.title}</p>
+            </div>
+        </a>
+    </volist>
+
+</article>
+</body>
+</html>

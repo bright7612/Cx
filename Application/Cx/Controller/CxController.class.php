@@ -39,10 +39,6 @@ class CxController extends Controller
 
     }
 
-    public function test()
-    {
-        $this->urlback(-2);
-    }
 
     public function activityList()
     {
@@ -160,8 +156,9 @@ class CxController extends Controller
         $data['cre_time'] = time();
         $record = $Model->add($data);
 
-
         if($record){
+            //预约成功短信提醒
+            send($data['phone'],$classify=1,$option='党建活动');
             echo json_encode(array('status'=>1,'msg'=>'预约成功'));
         }else{
             echo json_encode(array('status'=>0,'msg'=>'预约失败'));
@@ -191,6 +188,8 @@ class CxController extends Controller
         $record = $Model->add($data);
 
         if($record){
+            //预约成功短信提醒
+            send($data['phone'],$classify=1,$option='主题党课');
             echo json_encode(array('status'=>1,'msg'=>'预约成功'));
         }else{
             echo json_encode(array('status'=>0,'msg'=>'预约失败'));
@@ -220,6 +219,8 @@ class CxController extends Controller
         $record = $Model->add($data);
 
         if($record){
+            //预约成功短信提醒
+            send($data['phone'],$classify=1,$option='志愿活动');
             echo json_encode(array('status'=>1,'msg'=>'预约成功'));
         }else{
             echo json_encode(array('status'=>0,'msg'=>'预约失败'));
@@ -463,6 +464,7 @@ class CxController extends Controller
         if($name != ''){
             $data['addr'] = I('addr');
             $data['name'] = $name;
+            $data['telephone'] = I('phone');
             $data['organization'] = I('party');
             $data['form'] = I('obj');
             $data['obj'] = I('type');
@@ -473,6 +475,8 @@ class CxController extends Controller
         }
         $record = $Model->add($data);
         if($record){
+            //预约成功短信提醒
+            send($data['telephone'],$classify=1,$option='我的心愿');
             echo json_encode(array('status'=>1,'msg'=>'预约成功'));
         }else{
             echo json_encode(array('status'=>0,'msg'=>'预约失败'));
@@ -489,7 +493,7 @@ class CxController extends Controller
             $data['wish_id'] = $id;
             $data['telephone'] = I('phone');
             $data['name'] = $name;
-            $data['party'] = I('party');
+            $data['organization'] = I('party');
             $data['company'] = I('company');
             $data['types'] = I('type');
             $data['source'] = 2;   //2代表大屏预约
@@ -499,6 +503,8 @@ class CxController extends Controller
         }
         $record = $Model->add($data);
         if($record){
+            //预约成功短信提醒
+            send($data['telephone'],$classify=1,$option='我要认领');
             echo json_encode(array('status'=>1,'msg'=>'预约成功'));
         }else{
             echo json_encode(array('status'=>0,'msg'=>'预约失败'));
@@ -541,6 +547,8 @@ class CxController extends Controller
         }
         $record = $Model->add($data);
         if($record){
+            //预约成功短信提醒
+            send($data['phone'],$classify=1,$option='场地预约');
             echo json_encode(array('status'=>1,'msg'=>'预约成功'));
         }else{
             echo json_encode(array('status'=>0,'msg'=>'预约失败'));
@@ -585,7 +593,7 @@ class CxController extends Controller
         }
     }
 
-    //场地预约
+    //场地预约-旧的接口
     public function venue()
     {
         $data = $_POST;
@@ -655,6 +663,7 @@ class CxController extends Controller
         }
         $record = $Model->add($data);
         if($record){
+            send($data['telephone'],$classify=1,$option='众筹预约');
             echo json_encode(array('status'=>1,'msg'=>'预约成功'));
         }else{
             echo json_encode(array('status'=>0,'msg'=>'预约失败'));
@@ -665,6 +674,7 @@ class CxController extends Controller
     public function zhongchou()
     {
         $Model = M();
+        $id = I('id');
         $res = $Model->query("SELECT
                                 zhch.id,
                                 zhch.title,
@@ -678,6 +688,7 @@ class CxController extends Controller
                             JOIN cxdj_sign_zhch_apply AS apply ON zhch.id = apply.zhch_id
                             AND apply.state IN (1, 2, 3)
                             AND apply. STATUS = 1
+                            AND apply.zhch_id = $id
                             WHERE
                                 zhch.state = 1
                             AND zhch.`status` = 1");
@@ -701,6 +712,7 @@ class CxController extends Controller
                                 JOIN cxdj_wxuser AS `user` ON apply.openid = `user`.openid
                                 AND apply.state IN (1, 2, 3)
                                 AND apply. STATUS = 1
+                                AND apply.zhch_id = $id
                                 WHERE
                                     zhch.state = 1
                                 AND zhch.`status` = 1");
@@ -793,39 +805,99 @@ class CxController extends Controller
 
     /****************************************************智能导览************************************************/
 
-    public function service_center()
+    public function articleList()
     {
         $Model = M('issue_content');
+        $id = I('id');
+        $where['cxdj_issue_content.status'] = 1;
+        $where['cxdj_issue_content.issue_id'] = $id;
+        $list = $Model->join('cxdj_issue as issue on cxdj_issue_content.issue_id = issue.id')
+            ->where($where)
+            ->order('cxdj_issue_content.create_time desc')
+            ->field('cxdj_issue_content.id,cxdj_issue_content.title,cxdj_issue_content.content,issue.title as stitle')
+            ->select();
+
+        $count = count($list);
+
+        if ($count == 1) {
+            $this->assign('detail', $list['0']);
+            $this->display('zd_detail');
+        } else {
+            $this->assign('list', $list);
+            $this->display('list1');
+        }
+
+    }
+
+
+    //工作人员
+    public function member()
+    {
+        $Model = M('issue_content');
+        $where['issue_id'] = I('id');
         $where['status'] = 1;
-        $where['issue_id'] = 170;
-        $detail = $Model ->where($where)->field('id,title,content')->find();
-        $this->assign('detail',$detail);
+        $list = $Model ->where($where)->field('id,name,content,cover_id')->select();
+        foreach ($list as $k=>&$v){
+            $items = get_cover($v['cover_id']);
+            $v['path'] = $items['path'];
+        }
+
+        $this->assign('list',$list);
+        $this->display('head_list');
+    }
+
+    public function service_center()
+    {
+//        $Model = M('issue_content');
+//        $where['status'] = 1;
+//        $where['issue_id'] = 170;
+//        $list = $Model ->where($where)->field('id,title,content')->select();
+//        $count = count($list);
+//        if($count == 1){
+//            $this->assign('detail',$list[0]);
+//            $this->display('detail');
+//        }else{
+//
+//            $this->assign('list',$list);
+//            $this->display('service_center');
+//        }
+
+        $Model = M('issue');
+        $where['status'] = 1;
+        $where['pid'] = 172;
+        $title_id = $Model->where($where)->field('id,title')->select();
+
+        $this->assign('title_id',$title_id);
+        $this->display('organize_bulid');
+
+    }
+
+    public function service_detail()
+    {
+        $Model = M('issue_content');
+        $where['id'] = I('id');
+        $where['status'] = 1;
+        $list = $Model ->where($where)->field('id,title,content')->find();
+
+        $this->assign('detail',$list);
         $this->display('detail');
     }
 
+
+    //阵地服务
     public function zd_fw()
     {
-        $Model = M('issue_content');
+        $Model = M('issue');
         $where['status'] = 1;
-        $where['issue_id'] = 171;
-        $list = $Model ->where($where)->field('id,title,content,cover_id')->select();
+        $where['pid'] = 170;
+        $title_id = $Model->where($where)->field('id,title')->select();
 
-        $count = count($list);
-        if($count == 1){
-            $this->assign('detail',$list[0]);
-            $this->display('zd_detail');
-        }else{
-
-            foreach ($list as $k=>&$v){
-                $v['content'] = preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($v['content'],""));  //过滤标签和空格
-            }
-
-            $this->assign('list',$list);
-            $this->display('position_list');
-        }
+        $this->assign('title_id',$title_id);
+        $this->display('organize_bulid');
 
 
     }
+
 
     public function zd_detail()
     {
@@ -842,7 +914,20 @@ class CxController extends Controller
 
     public function organization()
     {
-        $this->display('organize_bulid');
+        $Model = M('issue_content');
+        $where['status'] = 1;
+        $where['issue_id'] = 171;
+        $list = $Model ->where($where)->field('id,title,content,cover_id')->select();
+
+        $count = count($list);
+        if($count == 1){
+            $this->assign('detail',$list[0]);
+            $this->display('zd_detail');
+        }else{
+
+            $this->assign('list',$list);
+            $this->display('position_list');
+        }
     }
 
     public function brand()
@@ -850,10 +935,31 @@ class CxController extends Controller
         $Model = M('issue_content');
         $where['status'] = 1;
         $where['issue_id'] = 173;
+        $list = $Model ->where($where)->field('id,title,content')->select();
+        $count = count($list);
+        if($count == 1){
+            $this->assign('detail',$list[0]);
+            $this->display('brand_detail');
+        }else{
+
+            $this->assign('list',$list);
+            $this->display('list1');
+        }
+
+    }
+
+
+    public function brand_detail()
+    {
+        $Model = M('issue_content');
+        $id = I('id');
+
+        $where['status'] = 1;
+        $where['id'] = $id;
         $detail = $Model ->where($where)->field('id,title,content')->find();
 
         $this->assign('detail',$detail);
-        $this->display('brand_detail');
+        $this->display('zd_detail');
     }
 
 

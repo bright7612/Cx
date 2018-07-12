@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <link rel="stylesheet" href="__WELFARE__/css/section.css">
+    <title>党员公益互助系统</title>
+</head>
+<body class="section">
+<header class="header2">
+    <p>
+        <!--标题-->
+        <span class="title2">积分商城</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content2 market">
+    <!--全部分类-->
+    <div class="box1" id="box1">
+        <volist name="goods" id="vo">
+        <div>
+            <img src="{$vo.path}" alt="">
+            <div class="text_box">
+                <p class="title1">{$vo.prod_name}</p>
+                <p class="text1">简介：{$vo.prod_intr}</p>
+                <p class="text1">库存：{$vo.prod_num} 兑换积分：{$vo.price}积分</p>
+            </div>
+            <div class="exchange_box">
+                <a class="exchange">
+                    <p class="iconfont icon-integral_icon"></p>
+                    <p class="text">兑换</p>
+                </a>
+                <div class="ewm_box">
+                    <img src="{$vo.ewm}">
+                    <p>扫描二维码进行兑换</p>
+                </div>
+            </div>
+        </div>
+        </volist>
+
+</article>
+<script type="text/javascript" src="__WELFARE__/libs/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="__WELFARE__/js/market.js"></script>
+</body>
+</html>

@@ -810,6 +810,7 @@ body.guide_index{
     line-height: 76px;
     color: #d3860c;
     font-weight: bold;
+    .textOverflow(1);
     & > .title1_icon {
       background-color: #d3860c;
       float: left;
@@ -817,9 +818,6 @@ body.guide_index{
       height: 46px;
       margin-top: 17px;
       margin-right: 12px;
-    }
-    &>.title1_text{
-      .textOverflow(1);
     }
   }
   & > time {
@@ -1366,13 +1364,13 @@ body>.position_list{
       margin-right: 30px;
     }
     .text_box{
-      height: 223px;
+      height: 42px;
       width: 1329px;
       .borderBox();
       .title1{
         font-size: 36px;
         line-height: 66px;
-        color: #bf7900;
+        color: #5a5a5a;
         margin-bottom: 10px;
       }
       .text{
@@ -1500,6 +1498,21 @@ body>.head_list{
   }
 }
 
+//智能导览---公用列表页
+body>.list1{
+  p{
+    width: 1720px;
+    height: 100px;
+    line-height: 100px;
+    font-size: 40px;
+    padding: 0 14px;
+    color: #595959;
+    border-bottom: 2px dashed #a9acb1;
+    .borderBox();
+    margin: 0 auto;
+    .textOverflow(1);
+  }
+}
 
 #popUp {
   display: none;

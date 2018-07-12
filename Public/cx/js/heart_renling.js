@@ -114,11 +114,15 @@ $(function () {
             popShow(text);
             return false;
         }
-        text= textTest($('#company').val(),'单位企业','company');
-        if(text){
-            popShow(text);
-            return false;
+
+        if (type == 0){
+            text= textTest($('#company').val(),'单位企业','company');
+            if(text){
+                popShow(text);
+                return false;
+            }
         }
+
         return true;
     }
 

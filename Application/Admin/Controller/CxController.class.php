@@ -357,6 +357,8 @@ class CxController extends AdminController{
             $this->assign('stt',$stt);//当前状态
             switch ($type){
                 case 92://微心愿申报管理
+                    $this->state[2] = '已认领';
+                    $this->state[2] = '已认领';
                     $this->assign('title','微心愿申报管理');
                     $count =$this->wish->where($map)->count();
                     $Page = new Page($count,$r);
@@ -365,7 +367,7 @@ class CxController extends AdminController{
                     foreach ($data as $k=>&$v) {
                         $v['img_var'] = pic($v['img']);
                         $v['status_var'] = $this->status[$v['status']];
-                        $v['state_var'] = $this->state[$v['state']];
+                        $v['state_var'] = $sta[$v['state']];
                         $v['source_var'] = $this->source[$v['source']];
                         $v['obj_var'] = $obj[$v['obj']];
                         $v['form_var'] = $form[$v['form']];
@@ -484,6 +486,7 @@ class CxController extends AdminController{
                     foreach ($data as $k => &$v) {
                         $v['status_var'] = $this->status[$v['status']];
                         $v['state_var'] = $this->state[$v['state']];
+                        $v['content'] = mb_substr($v['content'],0,20,'utf-8');
                     }
                     $this->assign('data', $data); //报名信息
                     $this->assign('pagination', $show);
@@ -812,9 +815,18 @@ class CxController extends AdminController{
                     ->data($list)
                     ->pagination($totalCount, $r)
                     ->display();
-            }elseif ($type == 170  || $type == 171 || $type == 174 || $type == 175 || $type == 176 || $type == 173){
+            }elseif ($type == 170  || $type == 171 || $type == 175  || $type == 176 || $type == 173 || $type == 177 || $type == 178 || $type == 179 || $type == 180 || $type == 181){
                 $builder->keyId()
                     ->keyText('link','标题')
+                    -> keyCreateTime()
+                    ->keyDoActionEdit("admin/Cx/addcontent/type/".$type.'?id=###')
+                    ->data($list)
+                    ->pagination($totalCount, $r)
+                    ->display();
+            }elseif ( $type == 174 || $type == 182){
+                $builder->keyId()
+                    ->keyText('name','姓名')
+                    ->keyText('content','简介')
                     -> keyCreateTime()
                     ->keyDoActionEdit("admin/Cx/addcontent/type/".$type.'?id=###')
                     ->data($list)
@@ -1021,7 +1033,8 @@ class CxController extends AdminController{
                     ->buttonSubmit()
                     ->buttonBack()
                     ->display();
-            }elseif ($type == 84){ //志愿者报名管理
+            }
+            elseif ($type == 84){ //志愿者报名管理
                 $builder->title($act . "内容")
                     ->keyId()
                     ->keyId('issue_id','分类编号')
@@ -1044,7 +1057,8 @@ class CxController extends AdminController{
                     ->buttonSubmit()
                     ->buttonBack()
                     ->display();
-            }elseif ($type == 86){ //场地预约管理
+            }
+            elseif ($type == 86){ //场地预约管理
                 $builder->title($act . "内容")
                     ->keyId()
                     ->keyId('issue_id','分类编号')
@@ -1164,7 +1178,8 @@ class CxController extends AdminController{
                     ->buttonBack()
                     ->display();
 
-            } elseif ($type == 170 || $type == 171 || $type == 173 || $type == 174 || $type == 175 || $type == 176){
+            }
+            elseif ($type == 170 || $type == 171 || $type == 173 || $type == 175  || $type == 176 || $type == 177 || $type == 178 || $type == 179 || $type == 180 || $type == 181){
                 $builder->title($act . "内容")
                     ->keyId()
                     ->keyId('issue_id','分类编号')
@@ -1177,7 +1192,20 @@ class CxController extends AdminController{
                     ->buttonBack()
                     ->display();
 
-            } else{
+            }elseif ( $type == 174 || $type == 182){
+                $builder->title($act . "内容")
+                    ->keyId()
+                    ->keyId('issue_id','分类编号')
+                    ->keyText('name', '姓名')
+                    ->keySingleImage('cover_id', '头像')
+                    ->keyText('sort', '排序')
+                    ->keyTextArea('content', "内容")
+                    ->data($data)
+                    ->buttonSubmit()
+                    ->buttonBack()
+                    ->display();
+            }
+            else{
                 echo '<script>';
                 echo"location.href='/admin/cx/content/type/".$type."'";
                 echo '</script>';
@@ -1368,13 +1396,116 @@ class CxController extends AdminController{
         }
         if (IS_POST) {
             $data = $_POST;
+            if($data['state']==''){
+                unset($data['state']);
+            }
             switch($issud_id){
+                case 82:
+                    $te = $data['phone'];
+                    $tex = '活动预约';
+
+
+                    $hd = M('issue_content')->where(array('id'=>$data['content_id'],'state'=>1,'statue'=>1))->find();
+
+                    $co = M('sign_bespoke')->where(array('content_id'=>$data['content_id'],'state'=>1,'status'=>1))->sum('bespoke_num');
+
+                    if( $data['state'] == 1){
+                        $exa = '通过';
+                        if(!$hd){
+                            $this->error("活动已失效");
+                        }
+                        if($hd['time']<=time()){
+                            $this->error("活动已开始或已结束");
+                        }
+                        if($hd['num']<($co+$data['bespoke_num'])){
+                            $this->error("预约人数过多 ！已预约".$co."位！还可以预约".($hd['num']-$co)."位");
+                        }
+                    }elseif ($data['state'] == -1){
+                        $exa = '不通过';
+                    }
+                    break;
+                case 84:
+                    $te = $data['phone'];
+                    $tex = '志愿者活动';
+                    $hd = M('issue_content')->where(array('id'=>$data['content_id'],'state'=>1,'statue'=>1))->find();
+
+                    $co = M('sign_volunteer')->where(array('content_id'=>$data['content_id'],'state'=>1,'status'=>1))->sum('bespoke_num');
+
+                    if( $data['state'] == 1){
+                        $exa = '通过';
+                        if(!$hd){
+                            $this->error("活动已失效");
+                        }
+                        if($hd['time']<=time()){
+                            $this->error("活动已开始或已结束");
+                        }
+                        if($hd['num']<($co+$data['bespoke_num'])){
+                            $this->error("预约人数过多 ！已预约".$co."位！还可以预约".($hd['num']-$co)."位");
+                        }
+                    }elseif ($data['state'] == -1){
+                        $exa = '不通过';
+                    }
+                    break;
                 case 86:
                     if($data['start_time'] > $data['end_time']){
                         $this->error("结束时间不能小于开始时间");
                     }
+
+                    $te = $data['phone'];
+                    $tex = '场馆预约';
+                    $hd = M('issue_content')->where(array('id'=>$data['content_id'],'state'=>1,'statue'=>1))->find();
+
+                    $co = M('sign_field')->where(array('content_id'=>$data['content_id'],'state'=>1,'status'=>1))->field('start_time,end_time')->select();
+
+
+                    if( $data['state'] == 1){
+                        $exa = '通过';
+                        if(!$hd){
+                            $this->error("场馆已失效");
+                        }
+                        foreach ($co as $k=>&$v){
+                            $s = $this->isMixTime($data['start_time'],$data['end_time'],$v['start_time'],$v['end_time']);
+                            if($s){
+                                $t = true;
+                            }
+//                            dump($v['start_time']);
+//                            dump($v['end_time']);
+                        }
+//                        dump($data['start_time']);
+//                        dump($data['end_time']);
+//                        dump($t);
+//                            exit;
+                        if($t){
+                            $this->error("预约时间有冲突");
+                        }
+                    }elseif ($data['state'] == -1){
+                        $exa = '不通过';
+                    }
+
+
+
                     break;
                 case 88:
+                    $te = $data['phone'];
+                    $tex = '党课预约';
+                    $hd = M('issue_content')->where(array('id'=>$data['content_id'],'state'=>1,'statue'=>1))->find();
+
+                    $co = M('sign_lecture')->where(array('content_id'=>$data['content_id'],'state'=>1,'status'=>1))->sum('bespoke_num');
+
+                    if( $data['state'] == 1){
+                        $exa = '通过';
+                        if(!$hd){
+                            $this->error("党课已失效");
+                        }
+                        if($hd['time']<=time()){
+                            $this->error("党课已开始或已结束");
+                        }
+                        if($hd['num']<($co+$data['bespoke_num'])){
+                            $this->error("预约人数过多 ！已预约".$co."位！还可以预约".($hd['num']-$co)."位");
+                        }
+                    }elseif ($data['state'] == -1){
+                        $exa = '不通过';
+                    }
                     break;
                 case 90:
                     if($data['start_time'] > $data['end_time']){
@@ -1386,6 +1517,13 @@ class CxController extends AdminController{
 //            dump($data);exit;
             if ($data["id"]) {
                 if ($tab->where(array('id'=>$data["id"]))->save($data) !== false) {
+                    if($te&&$tex&&$exa){
+                        $aa['telephone'] = $te;  //电话
+                        $aa['classify'] = 2;
+                        $aa['option'] = $tex;//提醒类型
+                        $aa['examination'] = $exa;//审批结果
+                        $s = _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+                    }
                     $this->success(L('_SUCCESS_UPDATE_'),'/admin/cx/sign/type/'.$issud_id.'/content_id/'.$content_id);
                 } else {
                     $this->error(L('_FAIL_UPDATE_'));
@@ -1416,6 +1554,7 @@ class CxController extends AdminController{
             $this->assign('dzz',$dzz);
             switch ($issud_id){
                 case 82: //党建活动预约管理
+                    unset($this->state[0]);
                     $builder->keyId()
                         ->keyId('content_id','活动编号')
                         ->keyText('name', "姓名")
@@ -1508,28 +1647,60 @@ class CxController extends AdminController{
 
     }
 
+
+
+
+    //检测2时间端是否有交际 ture  有交集    false 无交集
+
+    private function isMixTime($begintime1,$endtime1,$begintime2,$endtime2)
+    {
+//        $begintime1 = 1111111;
+//        $endtime1   = 22222222;
+//        $begintime2 = 1111111;
+//        $endtime2   = 2222222;
+
+        $status = $begintime2 - $begintime1;
+        if ($status > 0) {
+            $status2 = $begintime2 - $endtime1;
+            if ($status2 > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            $status2 = $begintime1 - $endtime2;
+            if ($status2 > 0) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+
+
     /*
      * 预约报名删除报名*/
     public function signdel(){
-        $type = I('type');
+        $type = $_REQUEST['type'];
         switch ($type){
             case 82 : //党建活动预约管理
-                $table = 'bespoke';
+                $table = 'sign_bespoke';
                 break;
             case 84: //志愿者报名管理
-                $table = 'volunteer';
+                $table = 'sign_volunteer';
                 break;
             case 86 : //场地预约管理
-                $table = 'field';
+                $table = 'sign_field';
                 break;
             case 88 : //党课预约管理
-                $table = 'lecture';
+                $table = 'sign_lecture';
                 break;
             case 90 : //讲师预约管理
-                $table = 'bespoke';
+                $table = 'sign_bespoke';
                 break;
         }
-        $ids = I('ids');
+        $ids = I('id');
+
         $status = I('get.status', 0, 'intval');
         $builder = new AdminListBuilder();
         $builder->doSetStatus($table, $ids, $status);
@@ -1548,11 +1719,11 @@ class CxController extends AdminController{
 
         $title = $id ? "编辑" : "新增";
         $sta = array(
-            100=>'全部',
+//            100=>'全部',
             -1 => '审核未通过',
-            0 => '待审核',
+//            0 => '待审核',
             1 => '审核通过',
-            2 => '已认领',
+//            2 => '已认领',
             3 => '已完成',
             4=> '用户已取消',
         );
@@ -1607,8 +1778,59 @@ class CxController extends AdminController{
         $map['status'] = 1;
         if (IS_POST) {
             $data = $_POST;
+            if($data['state']==''){
+                unset($data['state']);
+            }
+            switch ($type){
+                case 92:
+                    $te = $data['telephone'];
+                    $tex = '微心愿申请';
+
+                    if( $data['state'] == 1){
+                        $exa = '通过';
+                        $data['adopt_time'] == time();
+                    }elseif ($data['state'] == 2){
+                        $exa = '已认领';
+                        $data['claim_time'] == time();
+                    }elseif ($data['state'] == 3){
+                        $exa = '已完成';
+                        $data['complete_time'] == time();
+                    }elseif ($data['state'] == -1){
+                        $exa = '不通过';
+                    }
+                    break;
+                case 93:
+                    $te = $data['telephone'];
+                    $tex = '微心愿认领';
+                    $w['status'] = 1;
+                    $w['id'] = $data['wish_id'];
+                    if( $data['state'] == 1){
+                        $w['state'] = 1;
+                        $exa = '通过';
+                    }else if($data['state'] == -1){
+                        $exa = '不通过';
+                    }
+                    $wi = M('sign_wish')->where($w)->find();
+                    if(!$wi){
+                        $this->error(L('微心愿已认领或已删除'));
+                    }
+                    break;
+
+
+            }
             if ($data["id"]) {
                 if ($tab->where(array('id'=>$data["id"]))->save($data) !== false) {
+
+                    if($te&&$tex&&$exa){
+                        $aa['telephone'] = $te;  //电话
+                        $aa['classify'] = 2;
+                        $aa['option'] = $tex;//提醒类型
+                        $aa['examination'] = $exa;//审批结果
+                        $s = _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+                    }
+                    if($type==93&&$data['state']==1){
+                        M('sign_wish')->where($w)->save(array('state'=>2,'claim_time'=>time()));
+                    }
                     $this->success(L('_SUCCESS_UPDATE_'),'/admin/cx/content/type/'.$type);
                 } else {
                     $this->error(L('_FAIL_UPDATE_'));
@@ -1627,6 +1849,14 @@ class CxController extends AdminController{
         }else{
             $map['id']=$id;
             $data = $tab->where($map)->find();
+            foreach ($sta as $k=>$v){
+                if($k<=$data['state']){
+                    unset($sta[$k]);
+                }
+            }
+            if($data['state'] == 0){
+                $sta[-1]  =  '审核未通过';
+            }
             $data['issue_id'] = $type;
             $builder = new AdminConfigBuilder();
             $dzz = $this->cxdzz();
@@ -1635,6 +1865,7 @@ class CxController extends AdminController{
             $this->assign('dzz',$dzz);
             switch ($type){
                 case 92: //微心愿申报管理
+
                     $builder->title('微心愿'.$title)
                         ->keyId()
 //                        ->keyHidden('issue_id','')
@@ -1644,7 +1875,7 @@ class CxController extends AdminController{
                         ->keyText('telephone', "电话")
                         ->keyText('identity', "身份证")
                         ->keyText('address', "地址")
-//                        ->keySelectdzz('organization', "党组织",'',$dzz)
+                        ->keySelectdzz('organization', "党组织",'',$dzz)
                         ->keyTime('start_time', "用户选择时间")
                         ->keySelect('obj',"心愿对象",'',$obj)
                         ->keySelect('form',"心愿形式",'',$form)
@@ -1653,6 +1884,8 @@ class CxController extends AdminController{
                         ->data($data);
                     break;
                 case 93: //微心愿认领
+                    unset($sta[3]);
+                    unset($sta[4]);
                     $da = $this->wish->where(array('id'=>$data['wish_id']))->find();
                     $wishs[$da['id']]= $da['title'];
                     $mapwish['status'] =1;
@@ -1890,6 +2123,9 @@ class CxController extends AdminController{
             case 114 : //场地预约管理
                 $table = 'sign_direct_demand';
                 break;
+            case 116 : //场地预约管理
+                $table = 'sign_gain';
+                break;
         }
         $status = I('get.status', 0, 'intval');
         $state = I('get.state', 0, 'intval');
@@ -1897,7 +2133,7 @@ class CxController extends AdminController{
         $builder = new AdminListBuilder();
         if($status){
             $builder->doSetStatus($table, $ids, $status);
-        }elseif ($state){
+        }elseif ($state||$state==0){
             $builder->doSetState($table, $ids, $state);
 
         }
@@ -2099,81 +2335,25 @@ class CxController extends AdminController{
         }
     }
 
-    private function partyList2(){
-
-
-
-
+    public function partyList2(){
         $url = 'http://www.dysfz.gov.cn/apiXC/getReportInfo'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 10;
         $da['BRANCH_ID'] = 92;
-
         for ($i=1;$i<147;$i++){
             $da['START'] = $i;
             $das = json_encode($da);
             $list = httpjson($url,$das);
-                M('dr_dzz_dhl')->addAll($list['data']);
-        }
-    }
-
-
-    //定时调用接口
-    public function timing()
-    {
-        set_time_limit(0);
-
-        $res = $this->activity();
-        while (isset($res)){
-            flush();
-            ob_flush();
-            sleep(5);
-        }
-
-
-    }
-
-
-    public function activity()
-    {
-
-        $url = 'http://www.dysfz.gov.cn/apiXC/activityList.do'; //党员党建
-        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-        $da['COUNT'] = 1500;
-//        $da['PARTY_ID'] = 45256;
-//
-//
-//        $da['START'] = 1;
-//        $das = json_encode($da);
-//        $list = httpjson($url,$das);
-//        $list = "你好".time();
-//        $path = "C:\\Users\\Administrator\\Desktop\\test.php";
-
-//        dump($list['data'][0]['count(ACTIVITY_ID)']);die;
-
-//        $aa =  file_put_contents($path,$list);
-//        return $aa;
-
-
-        for ($i = 1 ;$i < 50 ; $i++){
-            $da['START'] = $i;
-            $das = json_encode($da);
-            $list = httpjson($url,$das);
-            foreach ($list['data'] as $k=>&$v) {
-                $user = M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$v['VOLUNTEER_ID']))->find();
-                if($v['PICTURE']){
-                    $v['PICTURE'] =  '[图片]http://www.dysfz.gov.cn/'.$v['PICTURE'];
-                }
-                if($user['id']){
-                    M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$user['VOLUNTEER_ID']))->save($v);
-                }else{
-                    M('ajax_volunteer')->add($v);
-                }
+            foreach($list['data'] as  $k=>$v){
+               $id = M('dr_dzz_dhl')->where(array('BRANCH_ID'=>$v['BRANCH_ID']))->find();
+               if($id){
+                   M('dr_dzz_dhl')->where(array('BRANCH_ID'=>$v['BRANCH_ID']))->save($v);
+               }else{
+                   M('dr_dzz_dhl')->add($v);
+               }
             }
         }
-
     }
-
 
 
 

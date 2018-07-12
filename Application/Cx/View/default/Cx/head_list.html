@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <title>服务预约系统</title>
+    <link rel="stylesheet" href="__CX__/css/order.css">
+</head>
+<body class="guide_index">
+<header class="header3">
+    <p>
+        <!--标题-->
+        <span class="title2">工作人员</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content3 head_list">
+    <div class="big_box">
+        <volist name="list" id="vo">
+        <div class="little_box">
+            <img src="{$vo.path}" alt="">
+            <div class="text_box">
+                <p class="title1">{$vo.name}</p>
+                <p class="text">{$vo.content}</p>
+            </div>
+        </div>
+        </volist>
+    </div>
+</article>
+</body>
+</html>

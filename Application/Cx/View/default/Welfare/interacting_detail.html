@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <link rel="stylesheet" href="__WELFARE__/css/section.css">
+    <title>党员公益互助系统</title>
+</head>
+<body class="section">
+<header class="header2">
+    <p>
+        <!--标题-->
+        <span class="title2">互动进行时</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content2 interacting">
+    <p class="title1">{$detail.title}</p>
+    <p class="time">{$detail.time|date='Y-m-d',###}</p>
+    <p class="content">{$detail.content}</p>
+    <p class="progress">
+        <span style="width: {$rate}"></span>
+    </p>
+    <p class="progress_text"><span class="num1">{$rate}</span><span class="num2">所需总人数{$detail.count}</span></p>
+    <p class="border"></p>
+    <p class="title2">参与人</p>
+    <div class="img_box">
+        <volist name="headimg" id="vo">
+              <img src="{$vo.headimgurl}" alt="">
+        </volist>
+    </div>
+</article>
+</body>
+</html>

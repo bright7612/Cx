@@ -1939,3 +1939,76 @@ function cdyyConflict($id){
     return $applied;
 }
 
+
+/**
+ * 发送短信
+ * @return boolean
+ */
+//function send($url='http://ums.zj165.com:8888/sms/Api/Send.do') {
+//例子  send(15612345678,1,'党课预约');
+function send($telephone=null,$classify=null,$option=null,$examination=null) {
+    if(empty($telephone)||empty($classify)||empty($option)){
+        return false;
+    }
+    if($classify == 1){
+        $text = '县党群服务中心提醒您:'.date('Y-m-d H:i:s',time()).'您的'.$option.'已申请成功.请等待工作人员审批.';
+    }else if($classify == 2){
+        //县党群服务中心提醒您{xxxxxxxxxxxxxxxxxxxxxxxxx}您的{xxxxxxxx}审批{xxxxxxxxx}感谢您的参与{x}若有疑问请联系{xxxxxxxxxxxxxxxxx}
+        $text = '县党群服务中心提醒您:'.date('Y-m-d H:i:s',time()).'您的'.$option.'审批'.$examination.'感谢您的参与.若有疑问请联系0572-6256568';
+
+    }
+    $url='http://zx.ums86.com:8899/sms/Api/Send.do';//联通短信接口
+    $params = array(
+        "SpCode" => 221598,
+        "LoginName" => 'huz_cxxw',
+        "Password" => 'zj221598',
+        "MessageContent" => iconv("UTF-8", "GB2312//IGNORE", $text),
+        "UserNumber" => $telephone,
+        "SerialNumber" => '',
+        "ScheduleTime" => '',
+        "ExtendAccessNum" => '',
+        "f" => '1',
+    );
+    $data = http_build_query($params);
+    $res = iconv('GB2312', 'UTF-8//IGNORE',_httpClient($data,$url));
+    $resArr = array();
+    parse_str($res, $resArr);
+    $resArr['time'] = time();
+    $resArr['text'] = $text;
+    $resArr['telephone'] = $telephone;
+
+//    dump($resArr);exit;
+//    $res2 = explode('&',$res);
+//    $das['time'] = time();
+//    foreach ($res2 as $k=>$v){
+//        $a = explode('=',$v);
+//        $das[$a[0]] = $a[1];
+//    }
+    M('ajax_message')->add($resArr);
+
+    if (!empty($resArr) && $resArr["result"] == 0) {
+        return true;
+    }else {
+        return $resArr['description'];
+    }
+}
+
+
+/**
+ * POST方式访问接口
+ * @param string $data
+ * @return mixed
+ */
+function _httpClient($data,$url) {
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+    $res = curl_exec($ch);
+    curl_close($ch);
+    return $res;
+
+}

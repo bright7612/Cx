@@ -10,7 +10,8 @@ var apiUrl = {
     baseMember: 'http://cxdj.cmlzjz.com/home/wxapi/partyMember',
 
     partier: 'http://cxdj.cmlzjz.com/cx/data/member', // 党员数据
-    partierList: 'http://183.131.86.64:8620/cx/data/memberRecord', // 党员数据
+    partierList: 'http://183.131.86.64:8620/cx/data/memberRecord', // 党员列表数据
+    partierActivity: 'http://183.131.86.64:8620/cx/data/memberRecord2', // 党员列表数据
 
     warn: 'http://cxdj.cmlzjz.com/home/wxapi/warning2', // 预警提醒
     warnlist: 'http://cxdj.cmlzjz.com/home/wxapi/warningList2', // 预警提醒列表
@@ -24,7 +25,6 @@ var apiUrl = {
 
     wise: 'http://cxdj.cmlzjz.com/cx/data/wxy', // 微心愿数
     requireList: 'http://cxdj.cmlzjz.com/cx/data/wxyRecord', // 需求资源列表
-    // http://wei.wiseljz.com/home/api/zyqdlist
     wiseDetail: 'http://192.168.1.254/cx/data/wxy', // 微心愿详情
 
     project: 'http://cxdj.cmlzjz.com/cx/data/loveList', // 爱心众筹
@@ -293,7 +293,7 @@ var app = new Vue({
         // 排序文本
         orderText: function () {
             var index = this.base.order;
-            return index === 0 ? '未排序' : index === 1 ? '正序' : '倒序'
+            return index === 0 ? '未排序' : index === 1 ? '倒序' : '正序'
         },
         // 警告弹框tab栏文本
         warnTabText: function () {
@@ -307,7 +307,6 @@ var app = new Vue({
     },
     watch: {
         'platform.select': function () {
-            console.log(12345);
             this._getGrid(this.platform.select);
             this._getPlatform(this.platform.select);
         }
@@ -446,6 +445,10 @@ var app = new Vue({
         openModelDetail: function (id, type) {
             if (id && type === 'partyMember') {
                 this._getBaseMember(id);
+                return false;
+            }
+            if (id && type === 'activity') {
+                this._getPartierActivity(id);
                 return false;
             }
             if (id) {
@@ -1371,8 +1374,8 @@ var app = new Vue({
                             }
                         },
                         data:[
-                            {value: this.project.complete, name:'已完成'},
-                            {value: this.project.implement, name:'未完成'},
+                            {value: this.help.complete, name:'已完成'},
+                            {value: this.help.implement, name:'未完成'},
                         ],
                         itemStyle : {
                             normal : {
@@ -1493,7 +1496,7 @@ var app = new Vue({
                 }
             })
         },
-        // 获取微心愿详情数据
+        // 获取基础信息党员数据
         _getBaseMember: function (id) {
             var _this = this;
             $j.ajax({
@@ -1555,6 +1558,28 @@ var app = new Vue({
                 error: function (err) {
                     console.log(err);
                 }
+            });
+        },
+        // 获取党员列表活动数据
+        _getPartierActivity: function (id) {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.partierActivity,
+                data: {
+                    id: id
+                },
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    if (res.status === 200) {
+                        _this.listDataSecond = res.data;
+                        _this.modelSecondShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
             })
         },
         // 获取预警提醒数据
@@ -1599,13 +1624,15 @@ var app = new Vue({
                 success: function (res) {
                     var data = res;
                     if (data.code === 200) {
-                        if (type === 2 || (origin === 'organize' && type === 8)) {
-                            _this.warn.listData = data.data;
-                            _this.warn.show = true;
-                        } else {
-                            _this.listData = data.data;
-                            _this.modelShow = true;
-                        }
+                        // if (type === 2 || (origin === 'organize' && type === 8)) {
+                        //     _this.warn.listData = data.data;
+                        //     _this.warn.show = true;
+                        // } else {
+                        //     _this.listData = data.data;
+                        //     _this.modelShow = true;
+                        // }
+                        _this.listData = data.data;
+                        _this.modelShow = true;
                     }
                 },
                 error: function (err) {
@@ -1773,6 +1800,8 @@ var app = new Vue({
                     _this.wise.realized = data.already;
                     _this.wise.realizeNot = data.wei;
                     _this.wise.all = data.count;
+                    _this.claimRender();
+                    _this.realizeRender();
                 },
                 error: function (err) {
                     console.log(err);
@@ -1837,6 +1866,7 @@ var app = new Vue({
                     //     _this.project = data.data;
                     // }
                     _this.project = data.data;
+                    _this.projectRender();
                 },
                 error: function (err) {
                     console.log(err);
@@ -1857,6 +1887,7 @@ var app = new Vue({
                     //     _this.help = data.data;
                     // }
                     _this.help = data.data;
+                    _this.helpRender();
                 },
                 error: function (err) {
                     console.log(err);
@@ -1983,15 +2014,5 @@ var app = new Vue({
     mounted: function () {
         var _this = this;
         _this.initMap();
-
-        setTimeout(function () {
-            _this.claimRender();
-            _this.realizeRender();
-            // _this.lineRender();
-            // _this.dealRender();
-            _this.projectRender();
-            _this.helpRender();
-        }, 1500);
-
     },
 });

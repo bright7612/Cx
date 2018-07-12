@@ -1282,6 +1282,11 @@ body.guide_index {
   line-height: 76px;
   color: #d3860c;
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .crowd_funding > .title1 > .title1_icon {
   background-color: #d3860c;
@@ -1290,13 +1295,6 @@ body.guide_index {
   height: 46px;
   margin-top: 17px;
   margin-right: 12px;
-}
-.crowd_funding > .title1 > .title1_text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
 }
 .crowd_funding > time {
   font-size: 38px;
@@ -1901,7 +1899,7 @@ body > .position_list a img {
   margin-right: 30px;
 }
 body > .position_list a .text_box {
-  height: 223px;
+  height: 42px;
   width: 1329px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1910,7 +1908,7 @@ body > .position_list a .text_box {
 body > .position_list a .text_box .title1 {
   font-size: 36px;
   line-height: 66px;
-  color: #bf7900;
+  color: #5a5a5a;
   margin-bottom: 10px;
 }
 body > .position_list a .text_box .text {
@@ -2048,6 +2046,24 @@ body > .head_list > div .little_box .text_box .text {
 }
 body > .head_list > div .little_box .text_box .text::-webkit-scrollbar {
   display: none;
+}
+body > .list1 p {
+  width: 1720px;
+  height: 100px;
+  line-height: 100px;
+  font-size: 40px;
+  padding: 0 14px;
+  color: #595959;
+  border-bottom: 2px dashed #a9acb1;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 #popUp {
   display: none;

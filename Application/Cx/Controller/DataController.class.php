@@ -28,6 +28,7 @@ class DataController extends Controller
     private  $event_bm;  //便民服务
     private  $event_lastyear;  //过去一年县事件十二个月的数量
     private  $event_current;  //当年县事件十二个月的数量
+    private  $time ;
 
 
 
@@ -45,6 +46,7 @@ class DataController extends Controller
         $this->event_bm = M('event_bm');
         $this->event_lastyear = M('event_lastyear');
         $this->event_current = M('event_current');
+        $this->time = 3600 * 72;
     }
 
 
@@ -83,7 +85,7 @@ class DataController extends Controller
 
     public function index()
     {
-        $this->display();
+
     }
 
 
@@ -143,7 +145,7 @@ class DataController extends Controller
 
     public function memberRecord()
     {
-        $head = array(  //党员
+        $head = array(  //党员详情
             array('name'=>'序号', 'width'=>15),
             array('name'=>'党员姓名', 'width'=>20),
             array('name'=>'所属党组织', 'width'=>30),
@@ -152,40 +154,79 @@ class DataController extends Controller
         );
 
 
-        if(!S('meb_record')){
-            $meb = $this->ajax_user->query("SELECT (@i:=@i+1) id,`NAME`,PARTY_ID,BRANCH_NAME,'' AS `time` FROM cxdj_ajax_user,(SELECT @i:=0) AS i LIMIT 100");
-            $time = 3600 * 72;  //缓存三天
-            S('meb_record',$meb,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
-        }else{
-            $meb = S('meb_record');// 获取缓存
-        }
-        foreach ($meb as $k=>&$v){
-            $url = 'http://www.dysfz.gov.cn/apiXC/ativityRecordCount.do';
-            $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-            $da['PARTY_ID'] = $v['PARTY_ID'];
-
-            $das = json_encode($da);
-            $list = $this->httpjson($url,$das);
-            $v['COUNT'] = $list['data'][0]['count(ACTIVITY_ID)'];
-            if( empty($v['COUNT'])){
-                $v['COUNT'] = 0;
+            if(!S('meb_record')){
+                $meb = $this->ajax_user->query("SELECT (@i:=@i+1) id,`NAME`,PARTY_ID,BRANCH_NAME,'' AS `time` FROM cxdj_ajax_user,(SELECT @i:=0) AS i LIMIT 100");
+                $time = $this->time;  //缓存三天
+                S('meb_record',$meb,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+            }else{
+                $meb = S('meb_record');// 获取缓存
             }
-        }
 
 
-        foreach ($meb as $k=>$v){
+            foreach ($meb as $k=>&$v) {
+                $url = 'http://www.dysfz.gov.cn/apiXC/ativityRecordCount.do';
+                $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                $da['PARTY_ID'] = $v['PARTY_ID'];
+
+                $das = json_encode($da);
+                $list = $this->httpjson($url, $das);
+                $v['COUNT'] = $list['data'][0]['count(ACTIVITY_ID)'];
+                if (empty($v['COUNT'])) {
+                    $v['COUNT'] = 0;
+                }
+            }
+
+
+            foreach ($meb as $k=>$v){
+                $data[] = array(
+                    array('value'=>$v['id'],'width'=>15,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
+                    array('value'=>$v['NAME'],'width'=>20,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
+                    array('value'=>$v['BRANCH_NAME'],'width'=>30,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
+                    array('value'=>$v['COUNT'],'width'=>15,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
+                    array('value'=>$v['time'],'width'=>20,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
+                );
+            }
+
+
+        $ds['data']['list']=$data;
+        $ds['data']['title']='党员基本信息';
+        $ds['data']['head']=$head;
+        $ds['status']=200;
+        echo json_encode($ds);
+    }
+
+    ///党员活动详情记录
+    public function memberRecord2($id)
+    {
+        $head1 = array(  //活动详情
+            array('name'=>'序号', 'width'=>5),
+            array('name'=>'党组织名称', 'width'=>20),
+            array('name'=>'活动主题', 'width'=>20),
+            array('name'=>'活动内容', 'width'=>40),
+            array('name'=>'开始时间', 'width'=>15)
+        );
+
+        $url = 'http://www.dysfz.gov.cn/apiXC/ativityRecordlist.do';
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['PARTY_ID'] = $id;
+        $da['COUNT'] = 1500;
+        $da['START'] = 1;
+
+        $das = json_encode($da);
+        $list = $this->httpjson($url,$das);
+        $i = 1;
+        foreach ($list['data'] as $k=>$v){
+            $ii = $i++;
+            $v['BEGINTIME'] = date('Y-m-d',strtotime($v['BEGINTIME']));
             $data[] = array(
-                array('value'=>$v['id'],'width'=>15),
-                array('value'=>$v['NAME'],'width'=>20),
-                array('value'=>$v['BRANCH_NAME'],'width'=>30),
-                array('value'=>$v['COUNT'],'width'=>15),
-                array('value'=>$v['time'],'width'=>20),
+                array('value'=>$ii,'width'=>5),
+                array('value'=>$v['BRANCHNAME'],'width'=>20),
+                array('value'=>$v['ACTIVITYNAME'],'width'=>20),
+                array('value'=>$v['ACTIVITYCONTENT'],'width'=>40),
+                array('value'=>$v['BEGINTIME'],'width'=>15),
             );
         }
-
-
-
-        echo json_encode(array('status'=>200,'data'=>array('title'=>'党员基本信息','head'=>$head,'list'=>$data)));
+        echo json_encode(array('status'=>200,'data'=>array('title'=>'活动详细记录','head'=>$head1,'list'=>$data)));
 
     }
 
@@ -299,10 +340,11 @@ class DataController extends Controller
 
 //            echo json_encode(array('status'=>1,'msg'=>'请求成功','data'=>array('count'=>$count,'y_count'=>$love_y,'w_count'=>$love_w)));
             //众创互助记录
-            $zcList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE')->order('id DESC')->select();
+            $zcList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE,rCount,PEOPLENUMBER')->order('id DESC')->select();
             foreach ($zcList as $k=>&$v){
-                $v['Percentage'] = 80;
+                $v['Percentage'] = (round(($v['rCount']/$v['PEOPLENUMBER']),2)*100);
             }
+
 
             echo json_encode(array('data'=>array('complete'=>(int)$love_y,'implement'=>(int)$love_w,'list'=>$zcList),));
 
@@ -321,7 +363,7 @@ class DataController extends Controller
             /***************************************************************县当年数据************************************************************************/
             if(!S('event_year')){
                 $event_count = M('event_year')->select();
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('event_year',$event_count,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $event_year = S('event_year');// 获取缓存
@@ -335,7 +377,7 @@ class DataController extends Controller
             /**********************************************************************县当月数据*****************************************************************************************************/
             if(!S('event_month')){
                 $event_count2 = M('event_month')->select();
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('event_month',$event_count2,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $event_month = S('event_month');// 获取缓存
@@ -366,7 +408,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total');// 获取缓存
@@ -374,7 +416,7 @@ class DataController extends Controller
 
             if(!S('jd_dy')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy');// 获取缓存
@@ -506,7 +548,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year');// 获取缓存
@@ -642,7 +684,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month');// 获取缓存
@@ -658,7 +700,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_1')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_1',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_1');// 获取缓存
@@ -666,7 +708,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_1')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_1',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_1');// 获取缓存
@@ -798,7 +840,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_1',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_1');// 获取缓存
@@ -934,7 +976,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_1',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_1');// 获取缓存
@@ -950,7 +992,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_2')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_2',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_2');// 获取缓存
@@ -958,7 +1000,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_2')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_2',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_2');// 获取缓存
@@ -1090,7 +1132,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_2',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_2');// 获取缓存
@@ -1226,7 +1268,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_2',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_2');// 获取缓存
@@ -1242,7 +1284,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_3')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_3',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_3');// 获取缓存
@@ -1250,7 +1292,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_3')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_3',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_3');// 获取缓存
@@ -1382,7 +1424,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_3',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_3');// 获取缓存
@@ -1518,7 +1560,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_3',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_3');// 获取缓存
@@ -1534,7 +1576,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_4')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_4',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_4');// 获取缓存
@@ -1542,7 +1584,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_4')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_4',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_4');// 获取缓存
@@ -1674,7 +1716,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_4',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_4');// 获取缓存
@@ -1810,7 +1852,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_4',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_4');// 获取缓存
@@ -1826,7 +1868,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_5')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_5',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_5');// 获取缓存
@@ -1834,7 +1876,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_5')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_5',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_5');// 获取缓存
@@ -1966,7 +2008,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_5',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_5');// 获取缓存
@@ -2102,7 +2144,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_5',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_5');// 获取缓存
@@ -2118,7 +2160,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_6')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_6',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_6');// 获取缓存
@@ -2126,7 +2168,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_6')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_6',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_6');// 获取缓存
@@ -2258,7 +2300,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_6',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_6');// 获取缓存
@@ -2394,7 +2436,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_6',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_6');// 获取缓存
@@ -2410,7 +2452,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_7')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_7',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_7');// 获取缓存
@@ -2418,7 +2460,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_7')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_7',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_7');// 获取缓存
@@ -2550,7 +2592,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_7',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_7');// 获取缓存
@@ -2686,7 +2728,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_7',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_7');// 获取缓存
@@ -2702,7 +2744,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_8')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_8',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_8');// 获取缓存
@@ -2710,7 +2752,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_8')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_8',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_8');// 获取缓存
@@ -2842,7 +2884,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_8',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_8');// 获取缓存
@@ -2978,7 +3020,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_8',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_8');// 获取缓存
@@ -2994,7 +3036,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_9')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_9',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_9');// 获取缓存
@@ -3002,7 +3044,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_9')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_9',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_9');// 获取缓存
@@ -3134,7 +3176,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_9',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_9');// 获取缓存
@@ -3270,7 +3312,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_9',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_9');// 获取缓存
@@ -3286,7 +3328,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_10')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_10',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_10');// 获取缓存
@@ -3294,7 +3336,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_10')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_10',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_10');// 获取缓存
@@ -3426,7 +3468,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_10',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_10');// 获取缓存
@@ -3562,7 +3604,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_10',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_10');// 获取缓存
@@ -3578,7 +3620,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_11')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_11',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_11');// 获取缓存
@@ -3586,7 +3628,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_11')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_11',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_11');// 获取缓存
@@ -3718,7 +3760,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_11',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_11');// 获取缓存
@@ -3854,7 +3896,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_11',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_11');// 获取缓存
@@ -3870,7 +3912,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_12')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_12',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_12');// 获取缓存
@@ -3878,7 +3920,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_12')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_12',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_12');// 获取缓存
@@ -4010,7 +4052,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_12',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_12');// 获取缓存
@@ -4146,7 +4188,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_12',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_12');// 获取缓存
@@ -4162,7 +4204,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_13')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_13',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_13');// 获取缓存
@@ -4170,7 +4212,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_13')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_13',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_13');// 获取缓存
@@ -4302,7 +4344,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_13',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_13');// 获取缓存
@@ -4438,7 +4480,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_13',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_13');// 获取缓存
@@ -4454,7 +4496,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_14')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_14',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_14');// 获取缓存
@@ -4462,7 +4504,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_14')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_14',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_14');// 获取缓存
@@ -4594,7 +4636,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_14',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_14');// 获取缓存
@@ -4730,7 +4772,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_14',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_14');// 获取缓存
@@ -4746,7 +4788,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_15')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_15',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_15');// 获取缓存
@@ -4754,7 +4796,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_15')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_15',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_15');// 获取缓存
@@ -4886,7 +4928,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_15',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_15');// 获取缓存
@@ -5022,7 +5064,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_15',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_15');// 获取缓存
@@ -5038,7 +5080,7 @@ class DataController extends Controller
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_16')){
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_total_16',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_total = S('jd_total_16');// 获取缓存
@@ -5046,7 +5088,7 @@ class DataController extends Controller
 
             if(!S('jd_dy_16')){
                 $jd_dy = $Model1->where(array('town'=>$name))->field('count')->find();   //街道红色网格员处理事件
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('jd_dy_16',$jd_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $jd_dy = S('jd_dy_16');// 获取缓存
@@ -5178,7 +5220,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_year_16',$town_event_year,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_year = S('town_event_year_16');// 获取缓存
@@ -5314,7 +5356,7 @@ class DataController extends Controller
                             FROM
                                 cxdj_ajax_event
                             LIMIT 1");
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('town_event_month_16',$town_event_month,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $town_event_month = S('town_event_month_16');// 获取缓存
@@ -5472,7 +5514,7 @@ class DataController extends Controller
              //办结事件总数
             if(!S('event_count')){
                 $event_count1 = $this->ajax_jiedao->sum('count');
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('event_count',$event_count1,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $event_count = S('event_count');// 获取缓存
@@ -5481,7 +5523,7 @@ class DataController extends Controller
             //党员办结事件
             if(!S('event_dy')){
                 $event_dy = $this->event_dy->sum('count');
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('event_dy',$event_dy,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $event_dy = S('event_dy');// 获取缓存
@@ -5560,7 +5602,7 @@ class DataController extends Controller
             //街道事件总数
             if(!S('event_jd')){
                 $event = $this->ajax_jiedao->where(array('town'=>$name))->field('count')->find();
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('event_jd',$event,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $event = S('event_jd');// 获取缓存
@@ -5569,7 +5611,7 @@ class DataController extends Controller
             //党员办结事件总数
             if(!S('event_dy_jd')){
                 $event_dy_town = $this->event_dy->where(array('town'=>$name))->field('count')->find();
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('event_dy_jd',$event_dy_town,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $event_dy_town = S('event_dy_jd');// 获取缓存
@@ -5582,7 +5624,7 @@ class DataController extends Controller
             //便民服务
             if(!S('event_bm')){
                 $event_bm = $this->event_bm->where(array('town'=>$name))->field('count')->find();
-                $time = 3600 * 72;  //缓存三天
+                $time = $this->time;  //缓存三天
                 S('event_bm',$event_bm,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
                 $event_bm = S('event_bm');// 获取缓存

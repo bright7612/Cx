@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <link rel="stylesheet" href="__WELFARE__/css/section.css">
+    <title>党员公益互助系统</title>
+</head>
+<body class="section">
+<header class="header2">
+    <p>
+        <!--标题-->
+        <span class="title2">党员公益先锋</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content2 party_van">
+    <div class="left">
+        <a href="javascript:;" class="little_box">
+            <img class="rank_img" src="__WELFARE__/imgs/rank/1.png" alt="">
+            <img class="head_img" src="{$integral[0]['headimgurl']}" alt="">
+            <span class="name">{$integral[0]['nickname']}</span>
+            <span class="num2">{$integral[0]['integral']}</span>
+        </a>
+        <a href="javascript:;" class="little_box">
+            <img class="rank_img" src="__WELFARE__/imgs/rank/2.png" alt="">
+            <img class="head_img" src="{$integral[1]['headimgurl']}" alt="">
+            <span class="name">{$integral[1]['nickname']}</span>
+            <span class="num2">{$integral[1]['integral']}</span>
+        </a>
+        <a href="javascript:;" class="little_box">
+            <img class="rank_img" src="__WELFARE__/imgs/rank/3.png" alt="">
+            <img class="head_img" src="{$integral[2]['headimgurl']}" alt="">
+            <span class="name">{$integral[2]['nickname']}</span>
+            <span class="num2">{$integral[2]['integral']}</span>
+        </a>
+
+              <a href="javascript:;" class="little_box">
+                    <span class="num1">4.</span>
+                    <img class="head_img" src="{$integral[3]['headimgurl']}" alt="">
+                    <span class="name">{$integral[3]['nickname']}</span>
+                    <span class="num2">{$integral[3]['integral']}</span>
+                </a>
+            </if>
+
+        <a href="javascript:;" class="little_box">
+            <span class="num1">5.</span>
+            <img class="head_img" src="{$integral[4]['headimgurl']}" alt="">
+            <span class="name">{$integral[4]['nickname']}</span>
+            <span class="num2">{$integral[4]['integral']}</span>
+        </a>
+        <a href="javascript:;" class="little_box">
+            <span class="num1">6.</span>
+            <img class="head_img" src="{$integral[5]['headimgurl']}" alt="">
+            <span class="name">{$integral[5]['nickname']}</span>
+            <span class="num2">{$integral[5]['integral']}</span>
+        </a>
+    </div>
+    <div class="right">
+        <volist name="integral" key="k" id="vo">
+            <if condition="$k gt 6 ">
+                <a href="javascript:;" class="little_box">
+                    <span class="num1">{$k}.</span>
+                    <img class="head_img" src="{$vo.headimgurl}" alt="">
+                    <span class="name">{$vo.nickname}</span>
+                    <span class="num2">{$vo.integral}</span>
+                </a>
+            </if>
+        </volist>
+    </div>
+</article>
+</body>
+</html>
