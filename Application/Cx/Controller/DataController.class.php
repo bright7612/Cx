@@ -146,16 +146,16 @@ class DataController extends Controller
     public function memberRecord()
     {
         $head = array(  //党员详情
-            array('name'=>'序号', 'width'=>15),
+            array('name'=>'序号', 'width'=>20),
             array('name'=>'党员姓名', 'width'=>20),
-            array('name'=>'所属党组织', 'width'=>30),
-            array('name'=>'活动记录数', 'width'=>15),
-            array('name'=>'党费缴纳时间', 'width'=>20),
+            array('name'=>'所属党组织', 'width'=>40),
+            array('name'=>'活动记录数', 'width'=>20),
+
         );
 
 
             if(!S('meb_record')){
-                $meb = $this->ajax_user->query("SELECT (@i:=@i+1) id,`NAME`,PARTY_ID,BRANCH_NAME,'' AS `time` FROM cxdj_ajax_user,(SELECT @i:=0) AS i LIMIT 100");
+                $meb = $this->ajax_user->query("SELECT DISTINCT (@i:=@i+1) id,`NAME`,PARTY_ID,BRANCH_NAME,'' AS `time` FROM cxdj_ajax_user,(SELECT @i:=0) AS i LIMIT 1,100");
                 $time = $this->time;  //缓存三天
                 S('meb_record',$meb,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
             }else{
@@ -176,19 +176,21 @@ class DataController extends Controller
                 }
             }
 
+            array_multisort(array_column($meb,'COUNT'),SORT_DESC,$meb); //数组排序
 
+            $i = 1;
             foreach ($meb as $k=>$v){
+                $ii = $i++;
                 $data[] = array(
-                    array('value'=>$v['id'],'width'=>15,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
+                    array('value'=>$ii,'width'=>20,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
                     array('value'=>$v['NAME'],'width'=>20,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
-                    array('value'=>$v['BRANCH_NAME'],'width'=>30,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
-                    array('value'=>$v['COUNT'],'width'=>15,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
-                    array('value'=>$v['time'],'width'=>20,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
+                    array('value'=>$v['BRANCH_NAME'],'width'=>40,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
+                    array('value'=>$v['COUNT'],'width'=>20,'ID'=>$v['PARTY_ID'],'type'=>'activity'),
                 );
             }
 
 
-        $ds['data']['list']=$data;
+        $ds['data']['list']= $data;
         $ds['data']['title']='党员基本信息';
         $ds['data']['head']=$head;
         $ds['status']=200;
@@ -245,10 +247,10 @@ class DataController extends Controller
            //众筹未完成
            $love_w = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2,'STATE'=>array('in','1,2')))->count();
 
-           $loveList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE')->order('id DESC')->select();
+           $loveList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE,MONEY,sMoney')->order('id DESC')->select();
 
             foreach ($loveList as $k=>&$v){
-                $v['Percentage'] = 60;
+                $v['Percentage'] = (round(($v['sMoney']/$v['MONEY']),2)*100);
             }
 
           echo json_encode(array('data'=>array('complete'=>(int)$love_y,'implement'=>(int)$love_w,'list'=>$loveList),));
@@ -5738,435 +5740,7 @@ class DataController extends Controller
 
     }
 
-    public function warning_information()
-    {
-        $life = array(15,15);
-        $report = array(6,7);
-       echo json_encode(array('code'=>200,'msg'=>'请求成功','data'=>array('life'=>$life,'dev'=>0,'report'=>$report,'pay'=>7,'progress'=>100)));
-    }
 
-    public function warning_Record($type)
-    {
-        $num = I('num');
-
-        //三个月未开展
-        if($type == 1 && $num == 'five'){
-
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-                array('id'=>1,'name'=>'臧国平','sex'=>'男','IDCARD'=>'330522199005114713','time'=>'2018-3-03','status'=>'一般'),
-                array('id'=>2,'name'=>'董粉华','sex'=>'女','IDCARD'=>'330522198902191028','time'=>'2018-4-12','status'=>'一般'),
-                array('id'=>3,'name'=>'吴建良','sex'=>'男','IDCARD'=>'33052219810112292X','time'=>'2018-3-13','status'=>'一般'),
-                array('id'=>4,'name'=>'汪书杰','sex'=>'男','IDCARD'=>'411323199201121116','time'=>'2018-03-18','status'=>'一般'),
-                array('id'=>5,'name'=>'蒋舒兴','sex'=>'男','IDCARD'=>'330522199305042520','time'=>'2018-05-08','status'=>'一般'),
-                array('id'=>6,'name'=>'孔德余','sex'=>'男','IDCARD'=>'330522198001101028','time'=>'2018-05-12','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'组织生活','head'=>$head,'list'=>$data)));
-        }elseif($type == 1 && $num == "four"){
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-
-                array('id'=>1,'name'=>'庄良城','sex'=>'女','IDCARD'=>'33052219641214027X','time'=>'2018-04-12','status'=>'一般'),
-                array('id'=>2,'name'=>'章建南','sex'=>'男','IDCARD'=>'330522199304161026','time'=>'2018-01-26','status'=>'一般'),
-                array('id'=>3,'name'=>'殷金茂','sex'=>'男','IDCARD'=>'330522197208140437','time'=>'2018-03-12','status'=>'一般'),
-                array('id'=>4,'name'=>'唐阿如','sex'=>'男','IDCARD'=>'330522199002151914','time'=>'2018-03-26','status'=>'一般'),
-                array('id'=>5,'name'=>'周振方','sex'=>'男','IDCARD'=>'330522199103053715','time'=>'2018-04-18','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'组织生活','head'=>$head,'list'=>$data)));
-        }elseif ($type == 1 && $num == "three"){
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-                array('id'=>1,'name'=>'陆首石','sex'=>'男','IDCARD'=>'330522199204061044','time'=>'2018-03-01','status'=>'一般'),
-                array('id'=>2,'name'=>'郑娇','sex'=>'女','IDCARD'=>'330522198902191028','time'=>'2018-04-12','status'=>'一般'),
-                array('id'=>3,'name'=>'范利新','sex'=>'男','IDCARD'=>'33052219810112292X','time'=>'2018-05-01','status'=>'一般'),
-                array('id'=>4,'name'=>'吴文超','sex'=>'男','IDCARD'=>'330522198902191028','time'=>'2018-11-15','status'=>'一般'),
-                array('id'=>5,'name'=>'徐仙法','sex'=>'男','IDCARD'=>'330522194701116111','time'=>'2018-02-21','status'=>'一般'),
-                array('id'=>6,'name'=>'吴欣欣','sex'=>'男','IDCARD'=>'330522197710115712','time'=>'2018-02-12','status'=>'一般'),
-                array('id'=>7,'name'=>'董佩华','sex'=>'男','IDCARD'=>'330522199304166716','time'=>'2018-04-25','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'组织生活','head'=>$head,'list'=>$data)));
-        }
-
-
-
-        //三个月未参加
-        if($type == 2 && $num == 'five'){
-
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-                array('id'=>1,'name'=>'朱金龙','sex'=>'男','IDCARD'=>'33052219641112151X','time'=>'2018-03-01','status'=>'一般'),
-                array('id'=>2,'name'=>'张启龙','sex'=>'男','IDCARD'=>'33052218890219102X','time'=>'2018-03-12','status'=>'一般'),
-                array('id'=>3,'name'=>'王世雄','sex'=>'男','IDCARD'=>'33052219810112292X','time'=>'2018-05-01','status'=>'一般'),
-                array('id'=>4,'name'=>'汪书杰','sex'=>'男','IDCARD'=>'411323199201121116','time'=>'2018-03-15','status'=>'一般'),
-                array('id'=>5,'name'=>'高学伟','sex'=>'男','IDCARD'=>'330522199305042520','time'=>'2018-04-01','status'=>'一般'),
-                array('id'=>6,'name'=>'计国权','sex'=>'男','IDCARD'=>'330522198001101028','time'=>'2018-04-12','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'组织生活','head'=>$head,'list'=>$data)));
-        }elseif($type == 2 && $num == "four"){
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-                array('id'=>1,'name'=>'秦振','sex'=>'男','IDCARD'=>'330522197902021534','time'=>'2018-03-01','status'=>'一般'),
-                array('id'=>2,'name'=>'庄良城','sex'=>'女','IDCARD'=>'33052219641214027X','time'=>'2018-03-12','status'=>'一般'),
-                array('id'=>3,'name'=>'苏立富','sex'=>'男','IDCARD'=>'33052219641112151X','time'=>'2018-04-01','status'=>'一般'),
-                array('id'=>4,'name'=>'汪书杰','sex'=>'男','IDCARD'=>'330522198902191028','time'=>'2018-01-15','status'=>'一般'),
-
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'组织生活','head'=>$head,'list'=>$data)));
-        }elseif ($type == 2 && $num == "three"){
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-
-                array('id'=>1,'name'=>'王涛','sex'=>'男','IDCARD'=>'33052219810112292X','time'=>'2018-04-01','status'=>'一般'),
-                array('id'=>2,'name'=>'吴文超','sex'=>'男','IDCARD'=>'330522198902191028','time'=>'2018-03-15','status'=>'一般'),
-                array('id'=>3,'name'=>'魏巍','sex'=>'男','IDCARD'=>'330522194512013711','time'=>'2018-04-01','status'=>'一般'),
-                array('id'=>4,'name'=>'徐仙法','sex'=>'男','IDCARD'=>'330522194701116111','time'=>'2018-04-21','status'=>'一般'),
-                array('id'=>5,'name'=>'吴欣欣','sex'=>'男','IDCARD'=>'330522197710115712','time'=>'2018-02-12','status'=>'一般'),
-
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'组织生活','head'=>$head,'list'=>$data)));
-        }
-
-        //发展党员
-        if($type == 3 && $num == 'five'){
-
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-                array('id'=>1,'name'=>'朱自强','sex'=>'男','IDCARD'=>'330522197912191510','time'=>'2018-03-16','status'=>'一般'),
-                array('id'=>2,'name'=>'郑娇','sex'=>'女','IDCARD'=>'330522198902191028','time'=>'2018-03-12','status'=>'一般'),
-                array('id'=>3,'name'=>'胡俊勇','sex'=>'男','IDCARD'=>'33052219810112292X','time'=>'2018-05-04','status'=>'一般'),
-                array('id'=>4,'name'=>'汪书杰','sex'=>'男','IDCARD'=>'411323199201121116','time'=>'2018-04-15','status'=>'一般'),
-                array('id'=>5,'name'=>'魏巍','sex'=>'男','IDCARD'=>'330522199305042520','time'=>'2018-03-01','status'=>'一般'),
-                array('id'=>6,'name'=>'孔德余','sex'=>'男','IDCARD'=>'330522198001101028','time'=>'2018-02-12','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'发展党员','head'=>$head,'list'=>'')));
-        }elseif($type == 3 && $num == "four"){
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-
-                array('id'=>1,'name'=>'庄良城','sex'=>'女','IDCARD'=>'33052219641214027X','time'=>'2018-02-12','status'=>'一般'),
-                array('id'=>2,'name'=>'章建南','sex'=>'男','IDCARD'=>'330522199304161026','time'=>'2018-04-02','status'=>'一般'),
-                array('id'=>3,'name'=>'汪书杰','sex'=>'男','IDCARD'=>'330522198902191028','time'=>'2018-03-15','status'=>'一般'),
-                array('id'=>4,'name'=>'魏巍','sex'=>'男','IDCARD'=>'330522199305042520','time'=>'2018-02-16','status'=>'一般'),
-                array('id'=>5,'name'=>'殷金茂','sex'=>'男','IDCARD'=>'330522197208140437','time'=>'2018-04-12','status'=>'一般'),
-                array('id'=>6,'name'=>'唐阿如','sex'=>'男','IDCARD'=>'330522199002151914','time'=>'2018-03-26','status'=>'一般'),
-                array('id'=>7,'name'=>'周振方','sex'=>'男','IDCARD'=>'330522199103053715','time'=>'2018-03-18','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'发展党员','head'=>$head,'list'=>'')));
-        }elseif ($type == 3 && $num == "three"){
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-
-                array('id'=>1,'name'=>'郑娇','sex'=>'女','IDCARD'=>'330522198902191028','time'=>'2018-02-12','status'=>'一般'),
-                array('id'=>2,'name'=>'范利新','sex'=>'男','IDCARD'=>'33052219810112292X','time'=>'2018-3-01','status'=>'一般'),
-                array('id'=>3,'name'=>'吴文超','sex'=>'男','IDCARD'=>'330522198902191028','time'=>'2018-2-15','status'=>'一般'),
-                array('id'=>4,'name'=>'魏巍','sex'=>'男','IDCARD'=>'330522194512013711','time'=>'2018-04-01','status'=>'一般'),
-                array('id'=>5,'name'=>'徐仙法','sex'=>'男','IDCARD'=>'330522194701116111','time'=>'2018-03-21','status'=>'一般'),
-                array('id'=>6,'name'=>'吴欣欣','sex'=>'男','IDCARD'=>'330522197710115712','time'=>'2018-05-12','status'=>'一般'),
-                array('id'=>7,'name'=>'徐仙法','sex'=>'男','IDCARD'=>'330522199212100824','time'=>'2018-02-15','status'=>'一般'),
-                array('id'=>8,'name'=>'董佩华','sex'=>'男','IDCARD'=>'330522199304166716','time'=>'2018-0425','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'发展党员','head'=>$head,'list'=>'')));
-        }
-
-
-        //报道登记
-        if($type == 4){
-
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-                array('id'=>1,'name'=>'王强','sex'=>'男','IDCARD'=>'330522199005114713','time'=>'2018-03-01','status'=>'一般'),
-                array('id'=>2,'name'=>'郑娇','sex'=>'女','IDCARD'=>'330522198902191028','time'=>'2018-03-12','status'=>'一般'),
-                array('id'=>3,'name'=>'胡俊勇','sex'=>'男','IDCARD'=>'33052219810112292X','time'=>'2018-04-03','status'=>'一般'),
-                array('id'=>4,'name'=>'汪书杰','sex'=>'男','IDCARD'=>'411323199201121116','time'=>'2018-03-15','status'=>'一般'),
-                array('id'=>5,'name'=>'魏巍','sex'=>'男','IDCARD'=>'330522199305042520','time'=>'2018-03-05','status'=>'一般'),
-                array('id'=>6,'name'=>'孔德余','sex'=>'男','IDCARD'=>'330522198001101028','time'=>'2018-04-12','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'报到登记','head'=>$head,'list'=>$data)));
-        }elseif($type == 5 ){
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-
-                array('id'=>1,'name'=>'庄良城','sex'=>'女','IDCARD'=>'33052219641214027X','time'=>'2018-04-12','status'=>'一般'),
-                array('id'=>2,'name'=>'章建南','sex'=>'男','IDCARD'=>'330522199304161026','time'=>'2018-05-01','status'=>'一般'),
-                array('id'=>3,'name'=>'汪书杰','sex'=>'男','IDCARD'=>'330522198902191028','time'=>'2018-03-15','status'=>'一般'),
-                array('id'=>4,'name'=>'魏巍','sex'=>'男','IDCARD'=>'330522199305042520','time'=>'2018-02-06','status'=>'一般'),
-                array('id'=>5,'name'=>'殷金茂','sex'=>'男','IDCARD'=>'330522197208140437','time'=>'2018-03-12','status'=>'一般'),
-                array('id'=>6,'name'=>'唐阿如','sex'=>'男','IDCARD'=>'330522199002151914','time'=>'2018-04-26','status'=>'一般'),
-                array('id'=>7,'name'=>'周振方','sex'=>'男','IDCARD'=>'330522199103053715','time'=>'2018-03-18','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'报到登记','head'=>$head,'list'=>$data)));
-        }
-
-            //党费缴纳
-
-            if ($type == 6 ){
-            $head = array(
-                array('name'=>'序号','width'=>10),
-                array('name'=>'姓名','width'=>20),
-                array('name'=>'性别','width'=>10),
-                array('name'=>'身份证','width'=>30),
-                array('name'=>'时间','width'=>20),
-                array('name'=>'状态','width'=>10),
-            );
-
-            $item = array(
-                array('id'=>1,'name'=>'郑娇','sex'=>'女','IDCARD'=>'330522198902191028','time'=>'2018-04-12','status'=>'一般'),
-                array('id'=>2,'name'=>'陆首石','sex'=>'男','IDCARD'=>'330522199204061044','time'=>'2018-05-06','status'=>'一般'),
-                array('id'=>3,'name'=>'范利新','sex'=>'男','IDCARD'=>'33052219810112292X','time'=>'2018-03-05','status'=>'一般'),
-                array('id'=>4,'name'=>'吴文超','sex'=>'男','IDCARD'=>'330522198902191028','time'=>'2018-04-15','status'=>'一般'),
-                array('id'=>5,'name'=>'徐仙法','sex'=>'男','IDCARD'=>'330522194701116111','time'=>'2018-03-21','status'=>'一般'),
-                array('id'=>6,'name'=>'吴欣欣','sex'=>'男','IDCARD'=>'330522197710115712','time'=>'2018-04-12','status'=>'一般'),
-                array('id'=>7,'name'=>'董佩华','sex'=>'男','IDCARD'=>'330522199304166716','time'=>'2018-03-25','status'=>'一般'),
-            );
-
-            foreach ($item as $k=>&$v){
-                $data[] = array(
-                    array('value'=>$v['id'], 'width'=>10),
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['sex'], 'width'=>10),
-                    array('value'=>$v['IDCARD'], 'width'=>30),
-                    array('value'=>$v['time'], 'width'=>20),
-                    array('value'=>$v['status'], 'width'=>10),
-
-                );
-            }
-
-            echo json_encode(array('code'=>200,'data'=>array('title'=>'党费缴纳','head'=>$head,'list'=>$data)));
-        }
-
-
-    }
 
 
 

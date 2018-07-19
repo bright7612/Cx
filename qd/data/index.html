@@ -8,8 +8,7 @@
     <meta name="format-detection" content="email=no"/>
     <title>长兴县智慧党建大数据平台</title>
     <link rel="stylesheet" href="https://js.arcgis.com/3.24/esri/css/esri.css">
-    <link rel="stylesheet" href="./css/index.css?v=1.4"/>
-    <!--<link rel="stylesheet" href="./libs/swiper/dist/css/swiper.min.css">-->
+    <link rel="stylesheet" href="./css/index.css?v=1.5"/>
     <style>
         [v-cloak] {
             display: none;
@@ -249,10 +248,37 @@
                                          style="width: 350px;height: 95px;cursor: pointer;"></div>
                                 </div>
                             </div>
+                            <div v-show="partyType === 4" class="party-section shzz">
+                                <div class="shzz-total">
+                                    <p @click="openShzzModel('social')" class="shzz-total-item">社会组织总数：{{shzzBase.social_organization.social}}</p>
+                                    <p @click="openShzzModel('party')" class="shzz-total-item">建立党组织数：{{shzzBase.social_organization.party}}</p>
+                                    <p class="shzz-total-item">从业人员总数：{{shzzBase.social_organization.employment}}</p>
+                                    <p class="shzz-total-item">党员人数：{{shzzBase.social_organization.party_member}}</p>
+                                </div>
+                                <div class="shzz-people">
+                                    <p class="shzz-people-left">社工师人数：</p>
+                                    <div class="shzz-people-box">
+                                        <p @click="openShzzModel('assistant_worker')" class="shzz-people-item">助理社会工作师 {{shzzBase.social_worker.assistant_worker}}人</p>
+                                        <p @click="openShzzModel('social_worker')" class="shzz-people-item">社会工作师 {{shzzBase.social_worker.social_worker}}人</p>
+                                        <!--<p class="shzz-people-item">高级社会工作师 {{shzzBase.social_worker.senior_worker}}人</p>-->
+                                        <p class="shzz-people-item">&nbsp;</p>
+                                    </div>
+                                </div>
+                                <div class="shzz-charts clearfix">
+                                    <div class="shzz-chart fl">
+                                        <h4 class="shzz-chart-title">社会组织类别</h4>
+                                        <div id="shzzOrg" style="width: 200px;height: 90px;"></div>
+                                    </div>
+                                    <div class="shzz-chart fr">
+                                        <h4 class="shzz-chart-title">社工学历分布</h4>
+                                        <div id="shzzEdu" style="width: 200px;height: 90px;"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <!--组织管理-->
-                    <section class="section warn">
+                    <section v-if="partyType === 1 || partyType === 2" class="section warn">
                         <h3 class="title">
                             <div class="title-inner">动态监测</div>
                         </h3>
@@ -261,11 +287,11 @@
                                 <h4 class="block-title">主题党日</h4>
                                 <div class="block-content">
                                     <p @click="openWarn('organize', 1)" class="red">
-                                        <span>已开展主题党日</span>
+                                        <span>已开展</span>
                                         <span>{{warn.basedata.organize.theme.start}}</span>
                                     </p>
                                     <p @click="openWarn('organize', 2)" class="red">
-                                        <span>未开展主题党日</span>
+                                        <span>未开展</span>
                                         <span>{{warn.basedata.organize.theme.unStart}}</span>
                                     </p>
                                 </div>
@@ -287,11 +313,11 @@
                                 <h4 class="block-title">党性体检</h4>
                                 <div class="block-content">
                                     <p @click="openWarn('organize', 5)" class="red">
-                                        <span>已开展党性体检</span>
+                                        <span>已开展</span>
                                         <span>{{warn.basedata.organize.experience.num}}</span>
                                     </p>
                                     <p @click="openWarn('organize', 6)" class="red">
-                                        <span>未开展党性体检</span>
+                                        <span>未开展</span>
                                         <span>{{warn.basedata.organize.experience.unNum}}</span>
                                     </p>
                                 </div>
@@ -315,11 +341,11 @@
                                 <h4 class="block-title">主题党日</h4>
                                 <div class="block-content">
                                     <p @click="openWarn('partier', 1)" class="red">
-                                        <span>已开展主题党日</span>
+                                        <span>已开展</span>
                                         <span>{{warn.basedata.partier.theme.join}}</span>
                                     </p>
                                     <p @click="openWarn('partier', 2)" class="red">
-                                        <span>未开展主题党日</span>
+                                        <span>未开展</span>
                                         <span>{{warn.basedata.partier.theme.unJoin}}</span>
                                     </p>
                                 </div>
@@ -341,15 +367,15 @@
                                 <h4 class="block-title">党性体检</h4>
                                 <div class="block-content">
                                     <p @click="openWarn('partier', 5)" class="red">
-                                        <span>体检健康</span>
+                                        <span>健康</span>
                                         <span>{{warn.basedata.partier.experience.health}}</span>
                                     </p>
                                     <p @click="openWarn('partier', 6)" class="red">
-                                        <span>体检亚健康</span>
-                                        <span>{{warn.basedata.partier.experience.health}}</span>
+                                        <span>亚健康</span>
+                                        <span>{{warn.basedata.partier.experience.yaHealth}}</span>
                                     </p>
                                     <p @click="openWarn('partier', 7)" class="red">
-                                        <span>体检不健康</span>
+                                        <span>不健康</span>
                                         <span>{{warn.basedata.partier.experience.unHealth}}</span>
                                     </p>
                                 </div>
@@ -370,31 +396,71 @@
                         </div>
                     </section>
                     <!--阵地服务-->
-                    <section class="section resource">
+                    <section v-if="partyType === 1 || partyType === 2" class="section resource">
                         <h3 class="title">
                             <div class="title-inner">红色资源</div>
                         </h3>
                         <div class="content">
                             <ul class="resource-list">
-                                <li @click="openResource('party')" class="resource-item">
+                                <li @click="openResource('party')" style="width: 246px;" class="resource-item">
                                     <img src="./imgs/icon/party.png" class="item-icon"/>
                                     <span class="item-name">区域党群服务中心数量</span>
                                     <span class="item-num">11</span>
                                 </li>
-                                <li @click="openResource('school')" class="resource-item">
+                                <li @click="openResource('school')" style="width: 174px;" class="resource-item">
                                     <img src="./imgs/icon/teacher.png" class="item-icon"/>
                                     <span class="item-name">红领学院数量</span>
                                     <span class="item-num">37</span>
                                 </li>
-                                <li @click="openResource('belt')" class="resource-item">
+                                <li @click="openResource('belt')" style="width: 246px;" class="resource-item">
                                     <img src="./imgs/icon/building.png" class="item-icon"/>
-                                    <span class="item-name">示范带数量</span>
+                                    <span class="item-name">示范点数量</span>
                                     <span class="item-num">10</span>
                                 </li>
-                                <li @click="openResource('base')" class="resource-item">
+                                <li @click="openResource('base')" style="width: 174px;" class="resource-item">
                                     <img src="./imgs/icon/book.png" class="item-icon"/>
                                     <span class="item-name">教学基地数量</span>
                                     <span class="item-num">4</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <!--社会组织活动数排名-->
+                    <section v-if="partyType === 4" class="section exponent exponent1">
+                        <h3 class="title">
+                            <div @click="_getShzzRank(true)" class="title-inner">社会组织活动数排名</div>
+                        </h3>
+                        <div class="content">
+                            <div class="exponent-title">
+                                <span class="name">社会组织名称</span>
+                                <span class="num">活动数量</span>
+                            </div>
+                            <ul class="exponent-list">
+                                <li v-for="item in shzzList.rank" class="exponent-item">
+                                    <span class="name">{{item.organization}}</span>
+                                    <span @click="_getShzzRankList(item.organization)" class="num">{{item.count}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <!--社工活跃指数-->
+                    <section v-if="partyType === 4" class="section exponent exponent2">
+                        <h3 class="title">
+                            <div class="title-inner">社工活跃指数</div>
+                        </h3>
+                        <div class="content">
+                            <div class="exponent-title">
+                                <span class="name">社工名称</span>
+                                <span class="num">活跃指数</span>
+                            </div>
+                            <ul class="exponent-list">
+                                <li class="exponent-item">
+                                    <span class="name">陈飞燕</span>
+                                    <span class="num">66</span>
+                                </li>
+                                <li class="exponent-item">
+                                    <span class="name">吴卓文</span>
+                                    <span class="num">59</span>
                                 </li>
                             </ul>
                         </div>
@@ -407,7 +473,7 @@
                         <div class="statistics-number">
                             <p class="number-item red">近期活动：1.广开进贤之路————解读我省“万人计划”</p>
                         </div>
-                        <div :class="{'allScreen': allScreen === true}" class="content">
+                        <div v-show="partyType === 1 || partyType === 2" :class="{'allScreen': allScreen === true}" class="content">
                             <div class="view">
                                 <iframe v-show="tabIndex === 1 || tabIndex === 2"
                                         :src="iframeUrl" class="iframe"
@@ -452,10 +518,42 @@
                                 <img src="./imgs/icon/xixi.png" />
                             </span>
                         </div>
+                        <div v-show="partyType === 4" class="content" :class="{'allScreen': allScreen}">
+                            <div class="view">
+                                <div id="bmapShzz" class="video"></div>
+                                <div v-show="map2.show" class="infor-box">
+                                    <h3 class="infor-title">{{map2.data.address}}</h3>
+                                    <div v-for="item in map2.data.list" style="margin-bottom: 10px">
+                                        <p class="infor-text">
+                                            <span class="label">社会组织名称：</span>
+                                            <span>{{item.organization}}</span>
+                                        </p>
+                                        <p class="infor-text">
+                                            <span class="label">会员人数：</span>
+                                            <span>{{item.member}}</span>
+                                        </p>
+                                        <p class="infor-text">
+                                            <span class="label">专职工作人员数：</span>
+                                            <span>{{item.personnel}}</span>
+                                        </p>
+                                        <p class="infor-text">
+                                            <span class="label">类别：</span>
+                                            <span>{{item.classify}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="btn-box">
+                                        <span @click="closeMap2" class="btn">关闭</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span @click="changeMapSize" class="map-size" style="background: #9ffeff;top: 20px;left: 20px;">
+                                <img src="./imgs/icon/xixi.png" />
+                            </span>
+                        </div>
                     </section>
                     <!-- 地图区域 -->
 
-                    <section class="section jmkServer">
+                    <section v-show="partyType === 1 || partyType === 2" class="section jmkServer">
                         <h3 class="jml-title">网格事件</h3>
                         <div class="content">
                             <div class="content-half">
@@ -501,94 +599,124 @@
                             </div>
                         </div>
                     </section>
-                </div>
 
-                <div class="core-right">
-
-                    <section class="platform-top">
-                        <span @click="changePlatform(1)"
-                              :class="{'active': platform.type === 1}"
-                              class="top-item">县-1
-                        </span>
-                        <span @click="changePlatform(2)"
-                              :class="{'active': platform.type === 2}"
-                              class="top-item">{{townName}}
-                        </span>
-                    </section>
-
-                    <section class="section platform">
-                        <h3 class="title">
-                            <span>四个平台</span>
-                        </h3>
-                        <div class="content">
-                            <div class="platform-box">
-                                <section class="block">
-                                    <h4 class="platform-title">综合治理</h4>
-                                    <div id="govern" style="width: 68px;height: 68px;"></div>
-                                    <ul class="platform-list">
-                                        <li class="platform-item">
-                                            <span class="label red"></span>
-                                            <span class="text">户籍人口：{{platform.data.zhzl.hj}}</span>
-                                        </li>
-                                        <li class="platform-item">
-                                            <span class="label orange"></span>
-                                            <span class="text">流动人口：{{platform.data.zhzl.ld}}</span>
-                                        </li>
-                                        <!--<li class="platform-item">-->
-                                        <!--<span class="label yellow"></span>-->
-                                        <!--<span class="text">境外人员：200</span>-->
-                                        <!--</li>-->
-                                    </ul>
-                                </section>
-                                <section class="block">
-                                    <h4 class="platform-title">综合执法</h4>
-                                    <div id="law" style="width: 68px;height: 68px;"></div>
-                                    <ul class="platform-list">
-                                        <li class="platform-item">
-                                            <span class="label"></span>
-                                            <span class="text">办结事件数：{{platform.data.zhzf.event_dy + platform.data.zhzf.event_fdy}}</span>
-                                        </li>
-                                        <li class="platform-item">
-                                            <span class="label blue"></span>
-                                            <span class="text">党员办结数：{{platform.data.zhzf.event_dy}}</span>
-                                        </li>
-                                        <li class="platform-item">
-                                            <span class="label green"></span>
-                                            <span class="text">非党员办结数：{{platform.data.zhzf.event_fdy}}</span>
-                                        </li>
-                                    </ul>
-                                </section>
-                                <section class="block">
-                                    <h4 class="platform-title">便民服务</h4>
-                                    <span class="num">{{platform.data.bmfw}}</span>
-                                    <p>项申请</p>
-                                    <p>正在受理</p>
-                                </section>
+                    <section v-show="partyType === 4" class="section server-infor">
+                        <h3 class="infor-title">服务信息</h3>
+                        <div class="content clearfix">
+                            <div class="infor-chart fl">
+                                <h4 class="infor-chart-title">扶贫济弱</h4>
+                                <div id="inforPoor" style="width: 400px;height: 120px;"></div>
                             </div>
-                            <div class="tendency-box">
-                                <h4 class="tendency-title">事件增长趋势统计</h4>
-                                <ul class="label-list">
-                                    <li class="label-item">
-                                        <span class="text">新增</span>
-                                        <span class="label color-blue"></span>
-                                    </li>
-                                    <li class="label-item">
-                                        <span class="text">历史同期</span>
-                                        <span class="label color-yellow"></span>
-                                    </li>
-                                </ul>
-                                <div id="tendency" style="width: 320px;height: 120px;"></div>
-                            </div>
-                            <div v-if="platform.selectShow" class="select-box">
-                                <ul class="select-list">
-                                    <li @click="selectTown(item)"
-                                        v-for="item in platform.towns"
-                                        class="select-item">{{item}}
-                                    </li>
-                                </ul>
+                            <div class="infor-chart fr">
+                                <h4 class="infor-chart-title">关爱老人</h4>
+                                <div id="inforOld" style="width: 400px;height: 120px;"></div>
                             </div>
                         </div>
                     </section>
+                </div>
+
+                <div class="core-right">
+                    <article class="right-box">
+                        <!--四个平台-->
+                        <section v-show="partyType === 1 || partyType === 2" class="platform-top">
+                            <span @click="changePlatform(1)"
+                                  :class="{'active': platform.type === 1}"
+                                  class="top-item">县-1
+                            </span>
+                            <span @click="changePlatform(2)"
+                                  :class="{'active': platform.type === 2}"
+                                  class="top-item">{{townName}}
+                            </span>
+                        </section>
+                        <!--四个平台-->
+                        <section v-show="partyType === 1 || partyType === 2" class="section platform">
+                            <h3 class="title">
+                                <span>四个平台</span>
+                            </h3>
+                            <div class="content">
+                                <div class="platform-box">
+                                    <section class="block">
+                                        <h4 class="platform-title">综合治理</h4>
+                                        <div id="govern" style="width: 68px;height: 68px;"></div>
+                                        <ul class="platform-list">
+                                            <li class="platform-item">
+                                                <span class="label red"></span>
+                                                <span class="text">户籍人口：{{platform.data.zhzl.hj}}</span>
+                                            </li>
+                                            <li class="platform-item">
+                                                <span class="label orange"></span>
+                                                <span class="text">流动人口：{{platform.data.zhzl.ld}}</span>
+                                            </li>
+                                            <!--<li class="platform-item">-->
+                                            <!--<span class="label yellow"></span>-->
+                                            <!--<span class="text">境外人员：200</span>-->
+                                            <!--</li>-->
+                                        </ul>
+                                    </section>
+                                    <section class="block">
+                                        <h4 class="platform-title">综合执法</h4>
+                                        <div id="law" style="width: 68px;height: 68px;"></div>
+                                        <ul class="platform-list">
+                                            <li class="platform-item">
+                                                <span class="label"></span>
+                                                <span class="text">办结事件数：{{platform.data.zhzf.event_dy + platform.data.zhzf.event_fdy}}</span>
+                                            </li>
+                                            <li class="platform-item">
+                                                <span class="label blue"></span>
+                                                <span class="text">党员办结数：{{platform.data.zhzf.event_dy}}</span>
+                                            </li>
+                                            <li class="platform-item">
+                                                <span class="label green"></span>
+                                                <span class="text">非党员办结数：{{platform.data.zhzf.event_fdy}}</span>
+                                            </li>
+                                        </ul>
+                                    </section>
+                                    <section class="block">
+                                        <h4 class="platform-title">便民服务</h4>
+                                        <span class="num">{{platform.data.bmfw}}</span>
+                                        <p>项申请</p>
+                                        <p>正在受理</p>
+                                    </section>
+                                </div>
+                                <div class="tendency-box">
+                                    <h4 class="tendency-title">事件增长趋势统计</h4>
+                                    <ul class="label-list">
+                                        <li class="label-item">
+                                            <span class="text">新增</span>
+                                            <span class="label color-blue"></span>
+                                        </li>
+                                        <li class="label-item">
+                                            <span class="text">历史同期</span>
+                                            <span class="label color-yellow"></span>
+                                        </li>
+                                    </ul>
+                                    <div id="tendency" style="width: 320px;height: 120px;"></div>
+                                </div>
+                                <div v-if="platform.selectShow" class="select-box">
+                                    <ul class="select-list">
+                                        <li @click="selectTown(item)"
+                                            v-for="item in platform.towns"
+                                            class="select-item">{{item}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                        <!--优秀活动展示-->
+                        <section v-show="partyType === 4" class="section sec-display">
+                            <h3 class="title">
+                                <span @click="_getShzzActivity(true)">优秀活动展示</span>
+                            </h3>
+                            <div class="content">
+                                <ul class="display-list">
+                                    <li @click="openDisplayDetail(item.title, item.content)" v-for="(item, index) in shzzList.display" class="display-item">
+                                        <span class="display-title">{{index + 1}}.{{item.title}}</span>
+                                        <span class="display-date">{{item.time}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </article>
 
                     <section class="section public">
                         <h3 class="title">
@@ -857,7 +985,7 @@
                                 <li v-if="listData.list.length"
                                     v-for="items in listData.list"
                                     class="infor-item">
-                                    <span @click="openModelDetail(item.ID, item.type)"
+                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization)"
                                           v-for="item in items"
                                           :style="{'width': item.width + '%'}">{{item.value}}</span>
                                 </li>
@@ -937,40 +1065,7 @@
                         <div class="wise-detail">
                             <p class="wise-desc">
                                 <label class="label">完成状态：</label>
-                                <span class="text">{{wise.detail.RLQK}}</span>
-                            </p>
-                            <p class="wise-desc">
-                                <label class="label">许愿方：</label>
-                                <span class="text">{{wise.detail.USERNAME}}</span>
-                            </p>
-                            <p class="wise-desc">
-                                <label class="label">许愿联系方式：</label>
-                                <span class="text">{{wise.detail.USERPHONE}}</span>
-                            </p>
-                            <p class="wise-desc">
-                                <label class="label">心愿发布时间：</label>
-                                <span class="text">{{wise.detail.CREATETIME}}</span>
-                            </p>
-                            <p class="wise-desc">
-                                <label class="label">心愿类型：</label>
-                                <span class="text">{{wiseFunc}}  {{wiseType}}</span>
-                            </p>
-                            <p class="wise-desc">
-                                <label class="label">所属村居联系人：</label>
-                                <span class="text">{{wise.detail.CONTACTPERSON}}</span>
-                            </p>
-                            <img :src="wise.detail.IMG" class="wise-image"/>
-                            <p class="wise-desc">
-                                <label class="label">我的故事：</label>
-                                <span class="text">{{wise.detail.STORY}}</span>
-                            </p>
-                            <p class="wise-desc">
-                                <label class="label">认领组织：</label>
-                                <span class="text">{{wise.detail.RLQK}}</span>
-                            </p>
-                            <p class="wise-desc">
-                                <label class="label">认领电话：</label>
-                                <span class="text">{{wise.detail.CONTACTPHONE}}</span>
+                                <span class="text">违法的服务范围</span>
                             </p>
                         </div>
                     </div>
@@ -1033,6 +1128,19 @@
                 </div>
             </section>
 
+            <!-- 社会组织优秀活动展示 -->
+            <section v-if="shzzList.displayModelShow" class="module-wrap">
+                <div class="module">
+                    <span @click="closeDisplayDetail" class="close"></span>
+                    <h2 style="line-height: 50px;padding: 24px 0;" class="module-title">{{shzzList.displayModelTitle}}</h2>
+                    <div class="module-box">
+                        <div class="display-detail">
+                            <p class="text">{{shzzList.displayModelText}}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </article>
 
         <article v-if="partyType === 3" class="wrapper-addition rc">
@@ -1044,14 +1152,6 @@
             </ul>
         </article>
 
-        <article v-if="partyType === 4" class="wrapper-addition shzz">
-            <ul class="link-list">
-                <li @click="changeParty(1)" class="link-item"></li>
-                <li @click="changeParty(2)" class="link-item"></li>
-                <li @click="changeParty(3)" class="link-item"></li>
-                <li @click="changeParty(4)" class="link-item"></li>
-            </ul>
-        </article>
     </section>
 
     <section id="monitor" style="overflow: hidden;" class="monitor-box">
@@ -1064,9 +1164,9 @@
 
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DQ1BXIF0qGFddSG8wudhSHCZeftt7ztz"></script>
     <script src="./libs/jquery/jquery.min.js"></script>
-    <!--<script src="./libs/swiper/dist/js/swiper.min.js"></script>-->
     <script src="./libs/echarts/echarts.simple.min.js"></script>
     <script src="./libs/vue/vue.js"></script>
+
     <script src="./My97DatePicker/WdatePicker.js"></script>
     <script src="./js/json2.js"></script>
     <script src="./js/ocxfun.js"></script>
@@ -1087,7 +1187,6 @@
             });
         }
     </script>
-
     <script>
         var map = undefined;
         var agsLayer = undefined;
@@ -1209,6 +1308,6 @@
         });
     </script>
 
-    <script src="./js/index.js?v=1.3"></script>
+    <script src="./js/index.js?v=1.5"></script>
 </body>
 </html>

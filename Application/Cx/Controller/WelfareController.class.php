@@ -16,42 +16,53 @@ class WelfareController extends Controller
         $items = get_cover($res['img']);
         $res['path'] ='http://183.131.86.64:8620'.$items['path'];
 
-        $zh = $Model->query('SELECT
-                                    zhch.id,
-                                    zhch.title,
-                                    zhch.content,
-                                    zhch.count,
-                                    zhch.img,
-                                    zhch.state_time AS `time`,
-                                    SUM(apply.count) AS num
-                                FROM
-                                    cxdj_sign_zhch AS zhch
-                                JOIN cxdj_sign_zhch_apply AS apply ON zhch.id = apply.zhch_id
-                                AND apply.state IN (1, 2, 3)
-                                AND apply. STATUS = 1
-                                WHERE
-                                    zhch.state = 1
-                                AND zhch.`status` = 1');
+        $data = M('sign_zhch')->where(array('state'=>1,'status'=>1))->field('id,title,content,img,state_time,state')->order('state_time desc')->select();
 
-        foreach ($zh as $k=>&$v)
+        foreach ($data as $k=>&$v)
         {
-            if($v['count'] == $v['num']){
-                $v['status'] = '已完成';
-            }else{
-                $v['status'] = '未完成';
-            }
+                if($v['state'] == 2){
+                    $v['status'] = '已完成';
+                    $v['class'] = 'complete';
+                }else{
+                    $v['status'] = '未完成';
+                }
+
+
         }
 
+
         //积分排行榜
-        $integral = M('wxuser')->where('integral IS NOT NULL')->field('id,headimgurl,nickname,integral')->order('integral DESC')->limit(5)->select();
+        $integral = M('wxuser')->where('integral IS NOT NULL')->field('id,headimgurl,nickname,integral,openid')->order('integral DESC')->limit(5)->select();
 
 
         $this->assign(array(
             'integral'=>$integral,
-            'data'=>$zh,
+            'data'=>$data,
             'res'=>$res
         ));
         $this->display('index');
+    }
+
+    //积分人员详情
+    public function meb_detail()
+    {
+        $openid = I('id');
+        $Model = M();
+        $detail = $Model->query("SELECT
+                                    headimgurl,
+                                    nickname,
+                                    `user`.integral,
+                                    text
+                                FROM
+                                    cxdj_wxuser AS `user`
+                                JOIN cxdj_wxuser_integral AS integral ON `user`.openid = integral.openid
+                                WHERE
+                                    integral.classif <> 4
+                                    AND `user`.openid = '$openid'
+                                    ");
+
+        $this->assign('detail',$detail);
+        $this->display('party_van_detail');
     }
 
     //互助进行时列表
@@ -142,7 +153,7 @@ class WelfareController extends Controller
     //党员积分列表
     public function interacting_list()
     {
-        $integral = M('wxuser')->where('integral IS NOT NULL')->field('id,headimgurl,nickname,integral')->order('integral DESC')->limit(12)->select();
+        $integral = M('wxuser')->where('integral IS NOT NULL')->field('id,headimgurl,nickname,integral,openid')->order('integral DESC')->limit(12)->select();
         $this->assign('integral',$integral);
         $this->display('party_van');
     }

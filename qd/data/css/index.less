@@ -116,6 +116,12 @@ body {
     }
     .core-right {
       width: 430px;
+      .right-box {
+        .displayFlex();
+        .flexDirColumn();
+        .spaceBetween();
+        height: 440px;
+      }
     }
     .partier-distribute {
       width: 297px;
@@ -305,8 +311,8 @@ body {
   }
 }
 
-.platform {
-  padding: 0 16px;
+.platform, .sec-display {
+  padding: 0 10px;
   .title {
     width: 100%;
     height: 45px;
@@ -344,7 +350,7 @@ body {
 }
 
 .party {
-  height: 361px;
+  height: 375px;
   .title {
     width: 100%;
     height: 60px;
@@ -393,6 +399,10 @@ body {
         -ms-flex-direction: row;
         -o-flex-direction: row;
         flex-direction: row;
+      }
+      &.shzz {
+        .borderBox();
+        padding: 0 18px;
       }
       .party-desc {
         font-size: 20px;
@@ -498,6 +508,40 @@ body {
         }
         #education, #age {
           margin: 0 auto;
+        }
+      }
+      .shzz-total {
+        .displayFlex();
+        .flexWrap();
+        font-size: 18px;
+        line-height: 28px;
+        margin-top: 10px;
+        .shzz-total-item {
+          width: 50%;
+          cursor: pointer;
+        }
+      }
+      .shzz-people {
+        .displayFlex();
+        font-size: 18px;
+        line-height: 28px;
+        margin-top: 15px;
+        .shzz-people-item {
+          cursor: pointer;
+        }
+      }
+      .shzz-charts {
+        width: 100%;
+        margin-top: 10px;
+        .shzz-chart {
+          .displayFlex();
+          .flexDirColumn();
+          align-items: center;
+          -webkit-align-items: center;
+          width: 50%;
+        }
+        .shzz-chart-title {
+          font-size: 20px;
         }
       }
     }
@@ -608,6 +652,72 @@ body {
   }
 }
 
+.exponent {
+  .borderBox();
+  padding: 0 5px;
+  &.exponent1 {
+    height: 332px;
+  }
+  &.exponent2 {
+    height: 206px;
+  }
+  .title {
+    .displayFlex();
+    -webkit-justify-content: center;
+    justify-content: center;
+    width: 100%;
+    height: 58px;
+    margin-top: 5px;
+    background: url("../imgs/title_one.png") no-repeat top;
+    background-size: 100% 100%;
+    overflow: hidden;
+    .title-inner {
+      width: 325px;
+      height: 78px;
+      line-height: 78px;
+      font-size: 22px;
+      text-align: center;
+      .borderBox();
+      margin: -12px 0 0 15px;
+      background: url("../imgs/button/buttonbg_01.png");
+      background-size: 100% 100%;
+      position: relative;
+    }
+  }
+  .content {
+    .displayFlex();
+    .flexDirColumn();
+    -webkit-align-items: center;
+    align-items: center;
+    font-size: 20px;
+    .exponent-title, .exponent-item {
+      .displayFlex();
+      .spaceBetween();
+      width: 365px;
+      line-height: 38px;
+      .name {
+        width: 270px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .num {
+        width: 80px;
+        text-align: center;
+      }
+    }
+    .exponent-title {
+      margin: 15px 0 5px;
+    }
+    .exponent-item {
+      cursor: pointer;
+      .num {
+        color: @color-red;
+      }
+    }
+  }
+}
+
 .statistics {
   .displayFlex();
   .flexDirColumn();
@@ -641,6 +751,7 @@ body {
     .view {
       .flex(1);
       overflow: hidden;
+      position: relative;
       .iframe {
         width: 100%;
         height: 100%;
@@ -672,6 +783,59 @@ body {
           top: 405px;
           right: 245px;
           cursor: pointer;
+        }
+      }
+      .infor-box {
+        width: 530px;
+        max-height: 350px;
+        .borderBox();
+        padding: 0 26px;
+        .borderRadius(8px);
+        background: #FFF;
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        overflow-y: auto;
+        .infor-title {
+          color: #474747;
+          font-size: 28px;
+          line-height: 36px;
+          margin: 20px 0 10px;
+        }
+        .infor-text {
+          display: table;
+          color: #5A5A5A;
+          font-size: 24px;
+          line-height: 40px;
+          & > span {
+            display: table-cell;
+          }
+          .label {
+            white-space: nowrap;
+          }
+        }
+        .btn-box {
+          .displayFlex();
+          //.spaceBetween();
+          -webkit-justify-content: center;
+          justify-content: center;
+          width: 200px;
+          margin: 20px auto 10px;
+          .btn {
+            display: inline-block;
+            width: 130px;
+            height: 54px;
+            line-height: 54px;
+            text-align: center;
+            color: #FFF;
+            font-size: 26px;
+            .borderRadius(8px);
+            background: #B1B1B1;
+            cursor: pointer;
+            &.active {
+              background: #3DA6E9;
+            }
+          }
         }
       }
     }
@@ -796,6 +960,7 @@ body {
   }
 }
 
+// 网格事件
 .jmkServer {
   height: 206px;
   position: relative;
@@ -909,6 +1074,31 @@ body {
   }
 }
 
+// 服务信息
+.server-infor {
+  height: 206px;
+  .infor-title {
+    width: 100%;
+    color: #9ffeff;
+    font-size: 26px;
+    line-height: 46px;
+    text-align: center;
+  }
+  .infor-chart {
+    .displayFlex();
+    .flexDirColumn();
+    -webkit-align-items: center;
+    align-items: center;
+    width: 50%;
+    .infor-chart-title {
+      color: #fff;
+      font-size: 20px;
+      line-height: 30px;
+    }
+  }
+}
+
+// 四个平台
 .platform-top {
   .displayFlex();
   .spaceBetween();
@@ -916,6 +1106,7 @@ body {
   height: 52px;
   .borderBox();
   padding: 2px 0px 2px 3px;
+  margin-bottom: 5px;
   background: url("../imgs/top.png") no-repeat;
   background-size: 100% 100%;
   .top-item {
@@ -1053,9 +1244,34 @@ body {
   }
 }
 
+.sec-display {
+  width: 100%;
+  height: 100%;
+  .display-list {
+    padding-top: 15px;
+  }
+  .display-item {
+    .displayFlex();
+    .spaceBetween();
+    font-size: 20px;
+    line-height: 36px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    .display-title {
+      .flex(1);
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .display-date {
+      margin-left: 15px;
+    }
+  }
+}
+
 .project, .public {
   height: 280px;
-  margin-top: -15px;
+  //margin-top: -15px;
   .title {
     height: 60px;
     -webkit-align-items: center;
@@ -1324,7 +1540,7 @@ body {
     font-size: 34px;
     position: absolute;
     top: 40px;
-    left: 70px;
+    right: 120px;
     cursor: pointer;
   }
   .module-title {
@@ -1430,6 +1646,19 @@ body {
         display: block;
         width: 60%;
         margin: 40px auto;
+      }
+    }
+    .display-detail {
+      width: 1360px;
+      min-height: 100%;
+      .borderBox();
+      padding: 20px 30px;
+      border-right: 2px solid @color-border;
+      background: #00153f;
+      .text {
+        font-size: 36px;
+        line-height: 60px;
+        text-indent: 2em;
       }
     }
     .project-box {

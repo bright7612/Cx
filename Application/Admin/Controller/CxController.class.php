@@ -2354,7 +2354,29 @@ class CxController extends AdminController{
             }
         }
     }
-
+    public function activity(){
+        $url = 'http://www.dysfz.gov.cn/apiXC/volunteerList.do';
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 2500;
+//        $da['START'] = 1;
+//        $da['PARTY_ID'] = '1705,1703';
+//        $das = json_encode($da);
+//        $list = httpjson($url,$das);
+//        dump($list);die;
+        for ($i=1;$i<10;$i++){
+            $da['START'] = $i;
+            $das = json_encode($da);
+            $list = httpjson($url,$das);
+            foreach($list['data'] as  $k=>$v){
+                $id = M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$v['VOLUNTEER_ID']))->find();
+                if($id){
+                    M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$v['VOLUNTEER_ID']))->save($v);
+                }else{
+                    M('ajax_volunteer')->add($v);
+                }
+            }
+        }
+    }
 
 
 

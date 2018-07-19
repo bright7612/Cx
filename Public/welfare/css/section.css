@@ -369,7 +369,7 @@ body > .party_van_detail .bottom .bottom_box {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  min-height: 236px;
+  min-height: 103px;
   margin: 0 auto;
   padding-left: 33px;
   border-bottom: 1px solid #DCD8D8;
@@ -381,7 +381,7 @@ body > .party_van_detail .bottom .bottom_box img {
 }
 body > .party_van_detail .bottom .bottom_box .text_box {
   width: 1324px;
-  min-height: 190px;
+  min-height: 83px;
   margin-left: 32px;
 }
 body > .party_van_detail .bottom .bottom_box .text_box .title3 {

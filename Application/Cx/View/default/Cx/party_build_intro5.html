@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务预约系统</title>
+    <link rel="stylesheet" href="__CX__/css/order.css">
+</head>
+<body class="guide_index">
+<header class="header3">
+    <p>
+        <!--标题-->
+        <span class="title2">阵地服务</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="organize_build squre5">
+    <a href="{:U('cx/articleList?id='.$title_id[0][id])}" class="red">
+        <span class="iconfont icon-gongzuo"></span>
+        <p>服务事项</p>
+    </a>
+    <a href="{:U('cx/articleList?id='.$title_id[1][id])}" class="orange_navy">
+        <span class="iconfont icon-guizhangzhidu"></span>
+        <p>人才政策</p>
+    </a>
+    <a href="{:U('cx/articleList?id='.$title_id[2][id])}" class="orange_lite">
+        <span class="iconfont icon-zuzhijiagou"></span>
+        <p>组织关系转接</p>
+    </a>
+    <a href="{:U('cx/articleList?id='.$title_id[3][id])}" class="orange_navy">
+        <span class="iconfont icon-dangjiangongzuo"></span>
+        <p>党建工作</p>
+    </a>
+    <a href="{:U('cx/articleList?id='.$title_id[4][id])}" class="red">
+        <span class="iconfont icon-lirenxiaochangshujix"></span>
+        <p>书记带教</p>
+    </a>
+</article>
+</body>
+</html>

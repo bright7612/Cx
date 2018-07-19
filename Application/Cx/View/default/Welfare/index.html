@@ -46,9 +46,9 @@
                                 <a href="{:U('welfare/hz_detail?id='.$vo['id'])}">
                                     <h3 class="project-title">
                                         <span class="title">{$vo.title}</span>
-                                        <span class="status complete">{$vo.status}</span>
+                                        <span class="status {$vo.class}">{$vo.status}</span>
                                     </h3>
-                                    <p class="project-time">{$vo.time|date='Y-m-d',###}</p>
+                                    <p class="project-time">{$vo.state_time|date='Y-m-d',###}</p>
                                     <p class="project-text">{$vo.content}</p>
                                 </a>
                             </li>
@@ -68,7 +68,7 @@
                     <div class="block-content">
                         <ul class="rank-list">
                             <li class="rank-item">
-                                <a href="javascript:;">
+                                <a href="{:U('welfare/meb_detail/?id='.$integral[0][openid])}">
                                     <span class="rank-index">
                                         <img src="__WELFARE__/imgs/rank/1.png" />
                                     </span>
@@ -80,7 +80,7 @@
                                 </a>
                             </li>
                             <li class="rank-item">
-                                <a href="javascript:;">
+                                <a href="{:U('welfare/meb_detail/?id='.$integral[1][openid])}">
                                     <span class="rank-index">
                                         <img src="__WELFARE__/imgs/rank/2.png" />
                                     </span>
@@ -92,7 +92,7 @@
                                 </a>
                             </li>
                             <li class="rank-item">
-                                <a href="javascript:;">
+                                <a href="{:U('welfare/meb_detail/?id='.$integral[2][openid])}">
                                     <span class="rank-index">
                                         <img src="__WELFARE__/imgs/rank/3.png" />
                                     </span>
@@ -104,7 +104,7 @@
                                 </a>
                             </li>
                             <li class="rank-item">
-                                <a href="javascript:;">
+                                <a href="{:U('welfare/meb_detail/?id='.$integral[3][openid])}">
                                     <span class="rank-index">
                                         <span>4.</span>
                                     </span>
@@ -116,7 +116,7 @@
                                 </a>
                             </li>
                             <li class="rank-item">
-                                <a href="javascript:;">
+                                <a href="{:U('welfare/meb_detail/?id='.$integral[4][openid])}">
                                     <span class="rank-index">
                                         <span>5.</span>
                                     </span>

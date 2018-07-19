@@ -1,44 +1,54 @@
 /**
  * Created by GM on 2018/4/6.
  */
+var DOMAIN_CXDJ = 'http://cxdj.cmlzjz.com'
+var DOMAIN_183 = 'http://183.131.86.64:8620'
+
 var apiUrl = {
-    base: 'http://wei.wiseljz.com/home/apibranch/information', // 基础信息
-    baseList: 'http://wei.wiseljz.com/home/apibranch/details', // 基础信息列表
+    base: DOMAIN_CXDJ + '/home/wxapi/information', // 基础信息
+    baseList: DOMAIN_CXDJ + '/home/wxapi/details2', // 基础信息列表
+    baseMember: DOMAIN_CXDJ + '/home/wxapi/partyMember',
 
-    base2: 'http://cxdj.cmlzjz.com/home/wxapi/information',
-    baseList2: 'http://cxdj.cmlzjz.com/home/wxapi/details2',
-    baseMember: 'http://cxdj.cmlzjz.com/home/wxapi/partyMember',
+    partier: DOMAIN_CXDJ + '/cx/data/member', // 党员数据
+    partierList: DOMAIN_183 + '/cx/data/memberRecord', // 党员列表数据
+    partierActivity: DOMAIN_183 + '/cx/data/memberRecord2', // 党员列表数据
 
-    partier: 'http://cxdj.cmlzjz.com/cx/data/member', // 党员数据
-    partierList: 'http://183.131.86.64:8620/cx/data/memberRecord', // 党员列表数据
-    partierActivity: 'http://183.131.86.64:8620/cx/data/memberRecord2', // 党员列表数据
-
-    warn: 'http://cxdj.cmlzjz.com/home/wxapi/warning2', // 预警提醒
-    warnlist: 'http://cxdj.cmlzjz.com/home/wxapi/warningList2', // 预警提醒列表
+    warn: DOMAIN_CXDJ + '/home/wxapi/warning2', // 预警提醒
+    warnlist: DOMAIN_CXDJ + '/home/wxapi/warningList2', // 预警提醒列表
     // http://cxdj.cmlzjz.com/home/wxapi/warning
     rank: 'http://wei.wiseljz.com/home/apibranch/integral', // 积分排名
 
     home: 'http://a.wiseljz.com/api/local/getdatacount.html', // 家门口
     homeList: 'http://a.wiseljz.com/api/local/getdatalist', // 家门口列表
 
-    volunteer: 'http://cxdj.cmlzjz.com/cx/data/volunteer', // 志愿服务列表
+    volunteer: DOMAIN_CXDJ + '/cx/data/volunteer', // 志愿服务列表
 
-    wise: 'http://cxdj.cmlzjz.com/cx/data/wxy', // 微心愿数
-    requireList: 'http://cxdj.cmlzjz.com/cx/data/wxyRecord', // 需求资源列表
+    wise: DOMAIN_CXDJ + '/cx/data/wxy', // 微心愿数
+    requireList: DOMAIN_CXDJ + '/cx/data/wxyRecord', // 需求资源列表
     wiseDetail: 'http://192.168.1.254/cx/data/wxy', // 微心愿详情
 
-    project: 'http://cxdj.cmlzjz.com/cx/data/loveList', // 爱心众筹
-    help: 'http://cxdj.cmlzjz.com/cx/data/zc_help', // 党员创业互助
+    project: DOMAIN_CXDJ + '/cx/data/loveList', // 爱心众筹
+    help: DOMAIN_CXDJ + '/cx/data/zc_help', // 党员创业互助
 
-    // http://wei.wiseljz.com/home/apibranch/funding
-    map: 'http://cxdj.cmlzjz.com/home/wxapi/geoMap',
+    map: DOMAIN_CXDJ + '/home/wxapi/geoMap',
 
-    monitor: 'http://cxdj.cmlzjz.com/home/wxapi/videos_dp', // 红色资源
-    redResource: 'http://cxdj.cmlzjz.com/home/wxapi/redResource', // 红色资源地图
+    monitor: DOMAIN_CXDJ + '/home/wxapi/videos_dp', // 红色资源
+    redResource: DOMAIN_CXDJ + '/home/wxapi/redResource', // 红色资源地图
 
-    platform: 'http://183.131.86.64:8620/cx/data/platform', // 四个平台
-    grid: 'http://183.131.86.64:8620/cx/data/WG', // 网格数据
-    gridList: 'http://183.131.86.64:8620/cx/data/wgRecord', // 网格员总数
+    platform: DOMAIN_183 + '/cx/data/platform', // 四个平台
+    grid: DOMAIN_183 + '/cx/data/WG', // 网格数据
+    gridList: DOMAIN_183 + '/cx/data/wgRecord', // 网格员总数
+
+    shzzMap: DOMAIN_183 + '/home/SocialApi/map', // 社会组织地图
+
+    shzzBaseData: DOMAIN_183 + '/home/SocialApi/SocialOrganization', // 社会组织基础数据
+    shzzBaseList: DOMAIN_183 + '/home/SocialApi/socialList', // 社会组织基础列表数据
+
+    shzzActivityData: DOMAIN_183 + '/home/SocialApi/social_activity', // 社会组织优秀活动展示列表
+
+    shzzRank: DOMAIN_183 + '/home/SocialApi/activity_ranking', // 社会组织活动数排名
+
+    shzzRankList: DOMAIN_183 + '/home/SocialApi/social_activity_list' // 社会组织活动数排名列表
 }
 
 var $j = jQuery.noConflict();
@@ -48,6 +58,7 @@ var app = new Vue({
     data: {
         allScreen: false,
         bMap: '',
+        bMap2: '',
         map: {
             myIcon: null,
             curMarker: null,
@@ -56,12 +67,25 @@ var app = new Vue({
             mkUrl3: './imgs/marker/monitor3.png',
             title: ''
         },
+        map2: {
+            show: false,
+            data: {
+                address: '',
+                list: [
+                    {
+                        organization: '',
+                        member: '',
+                        personnel: '',
+                        classify: ''
+                    }
+                ]
+            }
+        },
         tabStatus: false,
         time: '',
         day: '',
         date: '',
         tabIndex: 1,
-        // mapShow: true,
         showType: 1,
         partyType: 1,
         rightType2: 1,
@@ -132,6 +156,7 @@ var app = new Vue({
                     },
                     experience: {
                         health: 0,
+                        yaHealth: 0,
                         unHealth: 0
                     },
                     register: {
@@ -244,6 +269,34 @@ var app = new Vue({
                 title: ''
             },
             show: false
+        },
+
+        // 社会组织基础数据
+        shzzBase: {
+            social_organization: {
+                social: 0,
+                party: 0,
+                employment: 0,
+                party_member: 0
+            },
+            social_worker: {
+                assistant_worker: 0,
+                social_worker: 0,
+                senior_worker: 0
+            },
+            social: [],
+            education: []
+        },
+        // 社会组织优秀活动展示数据
+        shzzList: {
+            display: [],
+            displayModel: false,
+            displayModelShow: false,
+            displayModelTitle: '',
+            displayModelText: '',
+            rank: [],
+            rankModel: false,
+            rankOrg: ''
         }
     },
     computed: {
@@ -386,6 +439,13 @@ var app = new Vue({
             this.bMap.centerAndZoom(point, 12);
             this.bMap.enableScrollWheelZoom(true);
         },
+        // 社会组织地图初始化
+        initMap2: function () {
+            this.bMap2 = new BMap.Map("bmapShzz");
+            var point = new BMap.Point(119.885592, 31.036098);
+            this.bMap2.centerAndZoom(point, 14);
+            this.bMap2.enableScrollWheelZoom(true);
+        },
         // 切换四个平台
         changePlatform: function (type) {
             var oldType = this.platform.type;
@@ -442,7 +502,7 @@ var app = new Vue({
             }
         },
         // 打开公用模态框详情
-        openModelDetail: function (id, type) {
+        openModelDetail: function (id, type, title, content, org) {
             if (id && type === 'partyMember') {
                 this._getBaseMember(id);
                 return false;
@@ -453,6 +513,14 @@ var app = new Vue({
             }
             if (id) {
                 this._getWiseDetail(id);
+            }
+            if (this.shzzList.displayModel) {
+                this.shzzList.displayModelTitle = title;
+                this.shzzList.displayModelText = content;
+                this.shzzList.displayModelShow = true;
+            }
+            if (org) {
+                this._getShzzRankList(org);
             }
         },
         // 关闭二级公用模态框
@@ -482,6 +550,7 @@ var app = new Vue({
         closeModel: function () {
             this.base.orderShow = false;
             this.base.order = 0;
+            this.shzzList.displayModel = false;
             this.modelShow = false;
         },
         // 打开预警提醒模态框
@@ -558,6 +627,20 @@ var app = new Vue({
             video.style.width = 740 + 'px';
             video.style.height = 560 + 'px';
             ButtonStartRealplayByWndNo_onclick(tdid);
+        },
+        // 社会组织打开公用模态框
+        openShzzModel: function (social) {
+            this._getShzzBaseList(social);
+        },
+        // 打开优秀活动展示框
+        openDisplayDetail: function (title, content) {
+            this.shzzList.displayModelTitle = title;
+            this.shzzList.displayModelText = content;
+            this.shzzList.displayModelShow = true;
+        },
+        // 关闭优秀活动展示框
+        closeDisplayDetail: function () {
+            this.shzzList.displayModelShow = false;
         },
         // 党员男女比例饼图
         genderRender: function () {
@@ -1072,26 +1155,6 @@ var app = new Vue({
                 ]
             };
             myChartRate.setOption(option);
-            myChartRate.on("click", function(param) {
-                if (typeof param.seriesIndex == 'undefined') {
-                    return;
-                }
-                if (param.type == 'click') {
-                    var types = {
-                        '党群': 1,
-                        '政务': 2,
-                        '生活': 3,
-                        '法律': 4,
-                        '健康': 5,
-                        '文化': 6,
-                        '社区': 7,
-                        '自治': 8
-                    }
-                    var type =  types[param.name];
-                    var select = param.seriesIndex + 1;
-                    _this.openModel('home', type, select);
-                }
-            });
         },
         // 网格饼图
         dealRender: function () {
@@ -1235,7 +1298,7 @@ var app = new Vue({
         // 趋势统计折线图
         tendency: function () {
             var myChart = echarts.init(document.getElementById('tendency'));
-            option = {
+            var option = {
                 tooltip: {
                     trigger: 'axis'
                 },
@@ -1351,7 +1414,7 @@ var app = new Vue({
             var myChart2 = echarts.init(document.getElementById('project2'));
             var i = 0;
             var color = ['#F67C46', '#ffd441'];
-            option = {
+            var option = {
                 animation: false,
                 tooltip : {
                     trigger: 'item',
@@ -1389,6 +1452,323 @@ var app = new Vue({
             };
             myChart2.setOption(option);
         },
+        // 社会组织类别柱状图
+        shzzOrgRender: function () {
+            var _this = this;
+            var myChartRate = echarts.init(document.getElementById('shzzOrg'));
+            var option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '0%',
+                    right: '0%',
+                    bottom: '0%',
+                    top: '8%',
+                    containLabel: true,
+                    borderColor: '#fff',
+                    borderWidth: 1
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['社团', '基金会', '民非', '其他'],
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 12
+                        }
+                    },
+                    axisLine:{
+                        lineStyle: {
+                            color: '#48b8f0',
+                            width: 2
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                },
+                yAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01],
+                    axisLabel: {
+                        formatter: '{value}',
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 12
+                        }
+                    },
+                    axisLine:{
+                        lineStyle: {
+                            color: '#48b8f0',
+                            width: 2
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitNumber: 2,
+                    splitLine:{
+                        show:false
+                    }
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: 'white'
+                    }
+                },
+                series: [
+                    {
+                        name: '类别',
+                        type: 'bar',
+                        barWidth: 12,
+                        data: _this.shzzBase.social,
+                        label: {
+                            color: '#fff'
+                        },
+                        itemStyle:{
+                            normal:{
+                                color:'#f6db46',
+                            }
+                        }
+                    }
+                ]
+            };
+            myChartRate.setOption(option);
+            myChartRate.on("click", function(param) {
+                if (typeof param.seriesIndex == 'undefined') {
+                    return;
+                }
+                if (param.type == 'click') {
+                    var types = ['shetuan', 'jijinhui', 'minfei', 'qita'];
+                    _this.openShzzModel(types[param.dataIndex])
+                }
+            });
+        },
+        // 社工学历分布柱状图
+        shzzEduRender: function () {
+            var _this = this;
+            var myChartRate = echarts.init(document.getElementById('shzzEdu'));
+            var option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '0%',
+                    right: '0%',
+                    bottom: '0%',
+                    top: '8%',
+                    containLabel: true,
+                    borderColor: '#fff',
+                    borderWidth: 1
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['高中', '大专', '本科', '研究生'],
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 12
+                        }
+                    },
+                    axisLine:{
+                        lineStyle: {
+                            color: '#48b8f0',
+                            width: 2
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                },
+                yAxis: {
+                    type: 'value',
+                    boundaryGap: [0, 0.01],
+                    axisLabel: {
+                        formatter: '{value}',
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 12
+                        }
+                    },
+                    axisLine:{
+                        lineStyle: {
+                            color: '#48b8f0',
+                            width: 2
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitNumber: 2,
+                    splitLine:{
+                        show:false
+                    }
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: 'white'
+                    }
+                },
+                series: [
+                    {
+                        name: '学历',
+                        type: 'bar',
+                        barWidth: 12,
+                        data: _this.shzzBase.education,
+                        label: {
+                            color: '#fff'
+                        },
+                        itemStyle:{
+                            normal:{
+                                color:'#f67c46',
+                            }
+                        }
+                    }
+                ]
+            };
+            myChartRate.setOption(option);
+        },
+        // 趋势统计折线图
+        inforPoorRender: function () {
+            var myChart = echarts.init(document.getElementById('inforPoor'));
+            var option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    top: '5%',
+                    bottom: '5%',
+                    containLabel: true,
+                    borderColor: '#fff',
+                    borderWidth: 1
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 14
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#48b8f0',
+                            width: 2
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}',
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 14
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#48b8f0',
+                            width: 2
+                        }
+                    },
+                    splitNumber: 3,
+                },
+                series: [
+                    {
+                        name:'新增',
+                        type:'line',
+                        color: '#fcfd1a',
+                        stack: '总量',
+                        data: [50, 100, 70, 105, 115, 110, 50, 100, 135, 110, 80, 105]
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        },
+        // 趋势统计折线图
+        inforOldRender: function () {
+            var myChart = echarts.init(document.getElementById('inforOld'));
+            var option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                grid: {
+                    left: '5%',
+                    right: '5%',
+                    top: '5%',
+                    bottom: '5%',
+                    containLabel: true,
+                    borderColor: '#fff',
+                    borderWidth: 1
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 14
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#fff'
+                        }
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLabel: {
+                        formatter: '{value}',
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 14
+                        }
+                    },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    splitNumber: 3,
+                },
+                series: [
+                    {
+                        name:'新增',
+                        type:'line',
+                        color: '#86e319',
+                        stack: '总量',
+                        data: [50, 100, 70, 105, 115, 110, 50, 100, 135, 110, 80, 105]
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        },
+
+        closeMap2: function () {
+            this.map2.show = false;
+        },
         // 创建覆盖物
         _addMarker: function (point, data) {
             var _this = this;
@@ -1416,6 +1796,26 @@ var app = new Vue({
 
             // var label = new BMap.Label(data.status,{offset:new BMap.Size(20,-10)});
             // marker.setLabel(label);
+        },
+        _addMarker2: function (point, data) {
+            var _this = this;
+            var marker = new BMap.Marker(point);  // 创建标注
+            marker.data = data;
+            this.bMap2.addOverlay(marker);
+
+            var label = new BMap.Label(marker.data.address, {
+                offset: new BMap.Size(20,-10)
+            });
+            marker.setLabel(label);
+
+            marker.addEventListener("click", function () {
+                var p = marker.getPosition();
+                _this.bMap2.panTo(p);
+                _this.map2.show = true;
+                _this.map2.data.address = marker.data.address;
+                _this.map2.data.list = marker.data.content;
+            });
+
         },
         // 创建连线
         _addLine: function (arrPoint, color) {
@@ -1448,7 +1848,7 @@ var app = new Vue({
 
             $j.ajax({
                 type: 'GET',
-                url: apiUrl.base2,
+                url: apiUrl.base,
                 dataType: 'json',
                 cache: false,
                 success: function (res) {
@@ -1475,7 +1875,7 @@ var app = new Vue({
 
             $j.ajax({
                 type: 'GET',
-                url: apiUrl.baseList2,
+                url: apiUrl.baseList,
                 dataType: 'json',
                 data: {
                     type: type,
@@ -1952,6 +2352,168 @@ var app = new Vue({
             });
             return def;
         },
+
+        // 获取社会组织基本数据
+        _getShzzBaseData: function () {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzBaseData,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code === 200) {
+                        _this.shzzBase = data.data;
+
+                        _this.shzzOrgRender();
+                        _this.shzzEduRender();
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // 获取社会组织基础列表数据
+        _getShzzBaseList: function (classify) {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzBaseList,
+                data: {
+                    classify: classify
+                },
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code === 200) {
+                        console.log(data);
+                        _this.listData = data.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // 获取社会组织优秀活动展示数据
+        _getShzzActivity: function (more) {
+            var _this = this;
+            var data = {};
+            if (more) {
+                data = {
+                    classify: 'list'
+                }
+            }
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzActivityData,
+                data: data,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code === 200) {
+                        if (more) {
+                            _this.listData = data.data;
+                            _this.modelShow = true;
+                            _this.shzzList.displayModel = true;
+                            return false;
+                        }
+                        _this.shzzList.display = data.data
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // 获取社会组织活动数排名数据
+        _getShzzRank: function (more) {
+            var _this = this;
+            var data = {};
+            if (more) {
+                data = {
+                    classify: 'list'
+                }
+            }
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzRank,
+                data: data,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code === 200) {
+                        if (more) {
+                            _this.listData = data.data;
+                            _this.modelShow = true;
+                            return false;
+                        }
+                        _this.shzzList.rank = data.data
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // 获取社会组织活动数排名详情数据
+        _getShzzRankList: function (organization) {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzRankList,
+                dataType: 'json',
+                data: {
+                    organization: organization
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listDataSecond = res.data;
+                        _this.modelSecondShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+
+        // 获取社会组织服务信息数据
+        _getShzzServerData: function () {
+            var _this = this;
+
+            _this.inforPoorRender();
+            _this.inforOldRender();
+        },
+        // 获取社会组织地图信息数据
+        _getShzzMapData: function () {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzMap,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code === 200 && data.data.length > 0) {
+                        var data = data.data;
+
+                        for (var i = 0; i < data.length; i++) {
+                            var point = new BMap.Point(data[i].lng, data[i].lat);
+                            _this._addMarker2(point, data[i]);
+                        }
+
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+
+        },
         // 获取星期
         _getWeek: function (day) {
             day = String(day);
@@ -2014,5 +2576,12 @@ var app = new Vue({
     mounted: function () {
         var _this = this;
         _this.initMap();
+        _this.initMap2();
+
+        this._getShzzBaseData();
+        this._getShzzActivity();
+        this._getShzzRank();
+        this._getShzzServerData();
+        this._getShzzMapData();
     },
 });

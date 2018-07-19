@@ -1282,11 +1282,6 @@ body.guide_index {
   line-height: 76px;
   color: #d3860c;
   font-weight: bold;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
 }
 .crowd_funding > .title1 > .title1_icon {
   background-color: #d3860c;
@@ -1295,6 +1290,13 @@ body.guide_index {
   height: 46px;
   margin-top: 17px;
   margin-right: 12px;
+}
+.crowd_funding > .title1 > .title1_text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .crowd_funding > time {
   font-size: 38px;
@@ -1311,7 +1313,9 @@ body.guide_index {
   padding-left: 25px;
   font-size: 36px;
   line-height: 76px;
-  height: 76px;
+  min-height: 76px;
+  max-height: 152px;
+  overflow-y: auto;
   color: #565c63;
 }
 .crowd_funding > .progress {
@@ -1899,7 +1903,7 @@ body > .position_list a img {
   margin-right: 30px;
 }
 body > .position_list a .text_box {
-  height: 42px;
+  height: 223px;
   width: 1329px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -1908,7 +1912,7 @@ body > .position_list a .text_box {
 body > .position_list a .text_box .title1 {
   font-size: 36px;
   line-height: 66px;
-  color: #5a5a5a;
+  color: #bf7900;
   margin-bottom: 10px;
 }
 body > .position_list a .text_box .text {
@@ -1934,7 +1938,12 @@ body > .organize_build {
   display: flex;
   margin: 210px auto auto;
 }
-body > .organize_build a {
+body > .organize_build.squre2 {
+  padding: 0 400px;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+body > .organize_build.squre2 a {
   width: 353px;
   height: 409px;
   margin-right: 43px;
@@ -1946,11 +1955,49 @@ body > .organize_build a {
   box-sizing: border-box;
   padding-top: 104px;
 }
-body > .organize_build a .iconfont {
+body > .organize_build.squre2 a .iconfont {
   font-size: 120px;
 }
-body > .organize_build a p {
+body > .organize_build.squre2 a p {
   font-size: 42px;
+  margin-top: 50px;
+}
+body > .organize_build.squre4 a {
+  width: 353px;
+  height: 409px;
+  margin-right: 43px;
+  text-align: center;
+  color: #FFFFFF;
+  border-radius: 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-top: 104px;
+}
+body > .organize_build.squre4 a .iconfont {
+  font-size: 120px;
+}
+body > .organize_build.squre4 a p {
+  font-size: 42px;
+  margin-top: 50px;
+}
+body > .organize_build.squre5 a {
+  width: 353px;
+  height: 360px;
+  margin-right: 30px;
+  text-align: center;
+  color: #FFFFFF;
+  border-radius: 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding-top: 70px;
+}
+body > .organize_build.squre5 a .iconfont {
+  font-size: 120px;
+}
+body > .organize_build.squre5 a p {
+  font-size: 36px;
   margin-top: 50px;
 }
 body > .organize_build a.red {

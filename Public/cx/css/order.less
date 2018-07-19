@@ -1,7 +1,9 @@
 @import "base";
-body.guide_index{
+
+body.guide_index {
   background: url("../imgs/bg1.png") no-repeat;
 }
+
 //首页
 @blue: #2DAFF3;
 @yellow: #FF921C;
@@ -485,7 +487,7 @@ body.guide_index{
             }
           }
         }
-        li:last-child{
+        li:last-child {
           margin-bottom: 20px;
         }
       }
@@ -624,8 +626,8 @@ body.guide_index{
         right: 20px;
         top: 25px;
       }
-      &.dang{
-        input{
+      &.dang {
+        input {
           color: black;
         }
       }
@@ -717,7 +719,7 @@ body.guide_index{
     & > .title {
       padding-top: 50px;
     }
-    &>.input_box>div{
+    & > .input_box > div {
       margin-bottom: 40px;
     }
     & > .input_box > div > textarea {
@@ -751,8 +753,8 @@ body.guide_index{
         width: 265px;
         .borderBox();
         cursor: pointer;
-        &.select{
-          span{
+        &.select {
+          span {
             background: #F99A34;
           }
         }
@@ -769,15 +771,15 @@ body.guide_index{
         }
       }
     }
-    div.remark{
+    div.remark {
       width: 1600px;
-      textarea{
+      textarea {
         width: 1360px;
         font-size: 28px;
         .borderBox();
         padding: 7px 20px;
         line-height: 40px;
-        &::-webkit-input-placeholder{
+        &::-webkit-input-placeholder {
           color: #D1D1D1;
         }
       }
@@ -810,7 +812,6 @@ body.guide_index{
     line-height: 76px;
     color: #d3860c;
     font-weight: bold;
-    .textOverflow(1);
     & > .title1_icon {
       background-color: #d3860c;
       float: left;
@@ -818,6 +819,9 @@ body.guide_index{
       height: 46px;
       margin-top: 17px;
       margin-right: 12px;
+    }
+    &>.title1_text{
+      .textOverflow(1);
     }
   }
   & > time {
@@ -833,7 +837,9 @@ body.guide_index{
     padding-left: 25px;
     font-size: 36px;
     line-height: 76px;
-    height: 76px;;
+    min-height: 76px;
+    max-height: 152px;
+    overflow-y: auto;
     color: #565c63;
   }
   & > .progress {
@@ -1262,10 +1268,10 @@ body.guide_index{
         height: 365px !important;
       }
     }
-    .btn_box{
+    .btn_box {
       text-align: center;
       margin-top: 50px;
-      a{
+      a {
         display: inline-block;
         height: 108px;
         width: 310px;
@@ -1274,15 +1280,15 @@ body.guide_index{
         margin-bottom: 50px;
         .borderBox();
         line-height: 108px;
-        &:first-child{
+        &:first-child {
           border-bottom: 8px solid #d88612;
           background: #f99a34;
           margin-right: 10px;
         }
-        &:nth-child(2){
-           border-bottom: 8px solid #2691be;
-           background: #42b2e1;
-         }
+        &:nth-child(2) {
+          border-bottom: 8px solid #2691be;
+          background: #42b2e1;
+        }
       }
     }
   }
@@ -1303,7 +1309,7 @@ body > .guide {
       font-size: 32px;
       background: linear-gradient(0deg, #bf7d3d 19%, #e9b758 100%);
       padding: 0 17px;
-      margin:0 18px;
+      margin: 0 18px;
       border-radius: 10px;
       height: 76px;
       .borderBox();
@@ -1316,12 +1322,12 @@ body > .guide {
       }
     }
   }
-  .guide_img1{
-     width: 1449px;
-     height: 536px;
-     margin-left: 280px;
-     margin-top: 20px;
-   }
+  .guide_img1 {
+    width: 1449px;
+    height: 536px;
+    margin-left: 280px;
+    margin-top: 20px;
+  }
 }
 
 //公用详情页
@@ -1348,9 +1354,9 @@ body > .detail {
 }
 
 //阵地服务（有图片的列表页）
-body>.position_list{
+body > .position_list {
   width: 1825px;
-  a{
+  a {
     display: block;
     width: 1748px;
     margin: 0 auto;
@@ -1358,22 +1364,22 @@ body>.position_list{
     padding: 25px 22px;
     .borderBox();
     .displayFlex();
-    img{
+    img {
       width: 358px !important;
       height: 223px !important;
       margin-right: 30px;
     }
-    .text_box{
-      height: 42px;
+    .text_box {
+      height: 223px;
       width: 1329px;
       .borderBox();
-      .title1{
+      .title1 {
         font-size: 36px;
         line-height: 66px;
-        color: #5a5a5a;
+        color: #bf7900;
         margin-bottom: 10px;
       }
-      .text{
+      .text {
         font-size: 26px !important;
         line-height: 48px !important;
         color: #565656 !important;
@@ -1384,58 +1390,102 @@ body>.position_list{
 }
 
 //组织建设的四个方块列表
-body>.organize_build{
+body > .organize_build {
   min-height: 409px;
   width: 1585px;
   .borderBox();
   .displayFlex();
   margin: 210px auto auto;
-  a{
-    width: 353px;
-    height: 409px;
-    margin-right: 43px;
-    text-align: center;
-    color: #FFFFFF;
-    border-radius: 20px;
-    .borderBox();
-    padding-top: 104px;
-    .iconfont{
-      font-size: 120px;
+  &.squre2 {
+    padding: 0 400px;
+    .spaceBetween();
+    a {
+      width: 353px;
+      height: 409px;
+      margin-right: 43px;
+      text-align: center;
+      color: #FFFFFF;
+      border-radius: 20px;
+      .borderBox();
+      padding-top: 104px;
+      .iconfont {
+        font-size: 120px;
+      }
+      p {
+        font-size: 42px;
+        margin-top: 50px;
+      }
     }
-    p{
-      font-size: 42px;
-      margin-top: 50px;
+  }
+  &.squre4 {
+    a {
+      width: 353px;
+      height: 409px;
+      margin-right: 43px;
+      text-align: center;
+      color: #FFFFFF;
+      border-radius: 20px;
+      .borderBox();
+      padding-top: 104px;
+      .iconfont {
+        font-size: 120px;
+      }
+      p {
+        font-size: 42px;
+        margin-top: 50px;
+      }
     }
-    &.red{
+  }
+  &.squre5 {
+    a {
+      width: 353px;
+      height: 360px;
+      margin-right: 30px;
+      text-align: center;
+      color: #FFFFFF;
+      border-radius: 20px;
+      .borderBox();
+      padding-top: 70px;
+      .iconfont {
+        font-size: 120px;
+      }
+      p {
+        font-size: 36px;
+        margin-top: 50px;
+      }
+    }
+  }
+  a {
+    &.red {
       background: linear-gradient(-35deg, #cf5646 0%, #ff7b79 100%);
     }
-    &.orange_navy{
+    &.orange_navy {
       background: linear-gradient(-35deg, #d25c2e 0%, #f89670 100%)
     }
-    &.orange_lite{
+    &.orange_lite {
       background: linear-gradient(-35deg, #d57a05 0%, #f3b96b 100%)
     }
-    &.yellow{
+    &.yellow {
       background: linear-gradient(-35deg, #c69400 0%, #f5c450 100%);
     }
   }
 }
 
 //组织架构
-body>.organize_contruct{
+body > .organize_contruct {
   width: 1825px;
   height: 873px;
   .borderBox();
   margin: 0 auto;
-  img{
+  img {
     width: 100% !important;
     height: 100% !important;
   }
 }
 
 //优秀党建品牌
-body>.excellent_party{
-  &>div{
+body > .excellent_party {
+  & > div {
     width: 1400px;
     margin: 0 auto;
     .borderBox();
@@ -1445,7 +1495,7 @@ body>.excellent_party{
       height: 549px;
       margin: 150px auto auto;
       overflow: visible;
-      img{
+      img {
         width: 733px !important;
         height: 549px !important;
       }
@@ -1454,42 +1504,42 @@ body>.excellent_party{
 }
 
 //头像列表
-body>.head_list{
-  &>div{
+body > .head_list {
+  & > div {
     width: 100%;
     .displayFlex();
     flex-wrap: wrap;
     .borderBox();
     padding: 10px 20px;
     .spaceBetween();
-    .little_box{
+    .little_box {
       padding: 30px 20px;
       width: 870px;
       border-bottom: 2px dashed #DEDAD3;
       .borderBox();
-      img{
+      img {
         width: 230px !important;
         height: 250px !important;
         float: left;
         margin-right: 40px;
       }
-      .text_box{
+      .text_box {
         float: left;
         width: 556px;
         height: 250px;
         .borderBox();
-        .title1{
+        .title1 {
           font-size: 36px;
           line-height: 100px;
           color: #483F3A;
         }
-        .text{
+        .text {
           font-size: 26px;
           line-height: 46px;
           max-height: 129px;
           overflow: hidden;
-          overflow-y:auto;
-          &::-webkit-scrollbar{
+          overflow-y: auto;
+          &::-webkit-scrollbar {
             display: none;
           }
         }
@@ -1499,8 +1549,8 @@ body>.head_list{
 }
 
 //智能导览---公用列表页
-body>.list1{
-  p{
+body > .list1 {
+  p {
     width: 1720px;
     height: 100px;
     line-height: 100px;
@@ -1552,7 +1602,8 @@ body>.list1{
     cursor: pointer;
   }
 }
-#popAssess{
+
+#popAssess {
   display: none;
   position: absolute;
   width: 500px;
@@ -1560,10 +1611,10 @@ body>.list1{
   top: 240px;
   right: 714px;
   text-align: center;
-  background: rgba(255,255,255,1);
+  background: rgba(255, 255, 255, 1);
   .borderBox();
   border-radius: 20px;
-  .close{
+  .close {
     position: absolute;
     font-size: 50px;
     width: 80px;
@@ -1573,15 +1624,15 @@ body>.list1{
     text-align: center;
     line-height: 80px;
     border-radius: 50%;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.45);
     cursor: pointer;
   }
-  p{
+  p {
     line-height: 100px;
     font-size: 38px;
     color: #FC684B;
   }
-  img{
+  img {
     width: 380px !important;
     height: 380px !important;
     border-radius: 20px;

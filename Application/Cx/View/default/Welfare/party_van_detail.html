@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="format-detection" content="telephone=no"/>
     <meta name="format-detection" content="email=no"/>
-    <link rel="stylesheet" href="../css/section.css">
+    <link rel="stylesheet" href="__WELFARE__/css/section.css">
     <title>党员公益互助系统</title>
 </head>
 <body class="section">
@@ -22,37 +22,24 @@
 </header>
 <article class="content2 party_van_detail">
     <div class="top">
-        <img src="../imgs/head.png" alt="">
+        <img src="{$detail[0]['headimgurl']}" alt="">
         <div class="right_text">
-            <p class="title1">王书记</p>
-            <p class="text1">书记</p>
-            <p class="text2">项目由民生公益基金会发起，通过整合社区企业资源，为区域内的困难家庭学生提供爱心资助，期待您的参与项目由民生公益基金会发起，通过整合社区企业资源，为区域内的困难家庭学生提供爱心资助，期待您的参与项目由民生公益基金会发起，通过整合社区企业资源，为区域内的困难家庭学生提供爱心资助，期待您的参与项目由民生公益基金会发起，通过整合社区企业资源，为区域内的困难家庭学生提供爱心资助，期待您的参与项目由民生公益基金会发起，通过整合社区企业资源，为区域内的困难家庭学生提供爱心资助，期待您的参与。</p>
+            <p class="title1">{$detail[0]['nickname']}</p>
+            <!--<p class="text1">书记</p>-->
+            <p class="text2">总积分：{$detail[0][integral]}</p>
         </div>
     </div>
     <div class="title2_box">参与的公益活动</div>
     <p class="border"></p>
     <div class="bottom">
+        <volist name="detail" id="vo">
         <div class="bottom_box">
-            <img src="../imgs/test1.png" alt="">
             <div class="text_box">
-                <p class="title3">爱心助学</p>
-                <p class="text">项目由民生公益基金会发起，通过整合社区企业资源，为区域内的困难家庭学生提供爱心资助，期待您的参与。</p>
+                <!--<p class="title3">爱心助学</p>-->
+                <p class="text">{$vo.text}</p>
             </div>
         </div>
-        <div class="bottom_box">
-            <img src="../imgs/test1.png" alt="">
-            <div class="text_box">
-                <p class="title3">爱心助学</p>
-                <p class="text">项目由民生公益基金会发起，通过整合社区企业资源，为区域内的困难家庭学生提供爱心资助，期待您的参与。</p>
-            </div>
-        </div>
-        <div class="bottom_box">
-            <img src="../imgs/test1.png" alt="">
-            <div class="text_box">
-                <p class="title3">爱心助学</p>
-                <p class="text">项目由民生公益基金会发起，通过整合社区企业资源，为区域内的困难家庭学生提供爱心资助，期待您的参与。</p>
-            </div>
-        </div>
+        </volist>
     </div>
 </article>
 </body>

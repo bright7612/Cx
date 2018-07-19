@@ -22,26 +22,26 @@
 </header>
 <article class="content2 party_van">
     <div class="left">
-        <a href="javascript:;" class="little_box">
+        <a href="{:U('welfare/meb_detail/?id='.$integral[0][openid])}" class="little_box">
             <img class="rank_img" src="__WELFARE__/imgs/rank/1.png" alt="">
             <img class="head_img" src="{$integral[0]['headimgurl']}" alt="">
             <span class="name">{$integral[0]['nickname']}</span>
             <span class="num2">{$integral[0]['integral']}</span>
         </a>
-        <a href="javascript:;" class="little_box">
+        <a href="{:U('welfare/meb_detail/?id='.$integral[1][openid])}" class="little_box">
             <img class="rank_img" src="__WELFARE__/imgs/rank/2.png" alt="">
             <img class="head_img" src="{$integral[1]['headimgurl']}" alt="">
             <span class="name">{$integral[1]['nickname']}</span>
             <span class="num2">{$integral[1]['integral']}</span>
         </a>
-        <a href="javascript:;" class="little_box">
+        <a href="{:U('welfare/meb_detail/?id='.$integral[2][openid])}" class="little_box">
             <img class="rank_img" src="__WELFARE__/imgs/rank/3.png" alt="">
             <img class="head_img" src="{$integral[2]['headimgurl']}" alt="">
             <span class="name">{$integral[2]['nickname']}</span>
             <span class="num2">{$integral[2]['integral']}</span>
         </a>
 
-              <a href="javascript:;" class="little_box">
+              <a href="{:U('welfare/meb_detail/?id='.$integral[3][openid])}" class="little_box">
                     <span class="num1">4.</span>
                     <img class="head_img" src="{$integral[3]['headimgurl']}" alt="">
                     <span class="name">{$integral[3]['nickname']}</span>
@@ -49,13 +49,13 @@
                 </a>
             </if>
 
-        <a href="javascript:;" class="little_box">
+        <a href="{:U('welfare/meb_detail/?id='.$integral[4][openid])}" class="little_box">
             <span class="num1">5.</span>
             <img class="head_img" src="{$integral[4]['headimgurl']}" alt="">
             <span class="name">{$integral[4]['nickname']}</span>
             <span class="num2">{$integral[4]['integral']}</span>
         </a>
-        <a href="javascript:;" class="little_box">
+        <a href="{:U('welfare/meb_detail/?id='.$integral[5][openid])}" class="little_box">
             <span class="num1">6.</span>
             <img class="head_img" src="{$integral[5]['headimgurl']}" alt="">
             <span class="name">{$integral[5]['nickname']}</span>
@@ -65,7 +65,7 @@
     <div class="right">
         <volist name="integral" key="k" id="vo">
             <if condition="$k gt 6 ">
-                <a href="javascript:;" class="little_box">
+                <a href="{$vo.openid}" class="little_box">
                     <span class="num1">{$k}.</span>
                     <img class="head_img" src="{$vo.headimgurl}" alt="">
                     <span class="name">{$vo.nickname}</span>

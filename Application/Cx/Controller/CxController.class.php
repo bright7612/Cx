@@ -328,7 +328,8 @@ class CxController extends Controller
 //        }
 
         $Model = M();
-        $data['raise'] = $Model->query("
+        $data['raise'] = M('sign_zhch')->where(array('state'=>1,'status'=>1))->field('id,title,content,img')->select();
+        $items = $Model->query("
                             SELECT
                                 zhch.id,
                                 zhch.title,
@@ -345,13 +346,29 @@ class CxController extends Controller
                             WHERE
                                 zhch.state = 1
                             AND zhch.`status` = 1");
-        //完成率
-        foreach ($data['raise'] as $k=>&$v){
-            $already_rate =  (round(($v['num']/$v['count']),2)*100).'%';
-            $item = get_cover($v['img']);
-            $v['path'] = 'http://183.131.86.64:8620' . $item['path'];
-            $v['rate'] =  $already_rate;
+
+        foreach ($data['raise'] as $k=>&$value){
+            $item = get_cover($value['img']);
+            $value['path'] = 'http://183.131.86.64:8620' . $item['path'];
+            if($value['id'] == $items[$k]['id']){
+                $already_rate =  (round(($items[$k]['num']/$items[$k]['count']),2)*100).'%';
+                $value['rate'] =  $already_rate;
+            }else{
+                $value['rate'] = '0%';
+            }
+
         }
+        //完成率
+//        foreach ($items as $k=>&$v){
+//            if($v['id'] == $data['raise'][$k]['id']){
+//                $already_rate =  (round(($v['num']/$v['count']),2)*100).'%';
+//                $data['raise'][$k]['rate'] =  $already_rate;
+//            }else{
+//                $data['raise'][$k]['rate'] = '0%';
+//            }
+//
+//        }
+
 
         $map4['status'] = 1;
         $map4['state'] = array('eq','1');
@@ -728,6 +745,7 @@ class CxController extends Controller
                             AND eval.state = 1
                             AND  eval.`status` = 1
                             WHERE zc.state = 1 AND zc.`status` = 1
+                            AND  zc.id = $id
                             GROUP BY pj
                             ");
 
@@ -893,7 +911,7 @@ class CxController extends Controller
         $title_id = $Model->where($where)->field('id,title')->select();
 
         $this->assign('title_id',$title_id);
-        $this->display('organize_bulid');
+        $this->display('party_build_intro5');
 
 
     }
