@@ -13,33 +13,33 @@ use Think\Page;
 class DataController extends AdminController{
     public function content($page = 1, $r = 10,$type='1',$title=1)
     {
+
+
         $category = M('data_issue');
         $groupid = session('GroupId');
         $user = session('user_auth');
         $uid = $user['uid'];
 
-
-        $content = M('dk_issue_content');
         $this->leftnav($type); //左侧栏显示
-        if($type == 110){
-            $this->assign('issue_id',$type);
-            $this->assign('title','党员学习心得');
-            $map['issue_id'] = $type;
-            $map['status'] = 1;
-            $count = $content->where($map)->count();
-            $Page = new Page($count,$r);
-            $show = $Page->show();
-            $data = $content->where($map)->limit($Page->firstRow.','.$Page->listRows)->order('id desc')->select();
-            $this->assign('data',$data); //报名信息
-            $this->assign('pagination',$show);
-            $this->display('study');
-            exit();
-        }
         Cookie('__forward__', $_SERVER['REQUEST_URI']);
         $map['status'] = 1;
         if($type){
             $map['issue_id'] = $type;
         }
+
+        if(!empty($type)){
+            $count =$category->where($map)->count();
+            $Page = new Page($count,$r);
+            $show = $Page->show();
+            $data = $category->where($map)->limit($Page->firstRow.','.$Page->listRows)->order('sort desc,id desc')->select();
+
+//                    dump($data);exit;
+            $this->assign('data',$data); //申报信息
+            $this->assign('pagination',$show);
+            $this->display('data');
+            exit();
+        }
+
 
         $model = M('dk_issue_content');
         $map['status'] = $title;
@@ -83,11 +83,11 @@ class DataController extends AdminController{
         }
 
 
-
         $builder->button('新增', array('class' => 'btn btn-success','href' => U('admin/Class/addcontent?type='.$type)));
         $builder->button('已发布列表', array('class' => 'btn btn-info','href' => U('admin/Class/content?title=1&type='.$type)))
             ->button('编辑中列表', array('class' => 'btn btn-warning','href' => U('admin/Class/content?title=0&type='.$type)))
             ->button('已删除列表', array('class' => 'btn btn-danger','href' => U('admin/Class/content?title=-1&type='.$type)))
+            ->button('导入', array('class' => 'btn btn-warning','href' => 'javastript:;','onclick'=>'importClick()'))
 
             ->keyId()
             ->keyText('link','标题')
@@ -431,32 +431,81 @@ class DataController extends AdminController{
         }
     }
 
+    //导入
+    public function import_excel(){
+        $file = $_FILES;
+        dump($file);die;
+        $dataa = import_excel_online_mb($file);
+        dump($dataa);die;
+        $Model = M();
+        //$sql ="insert into sa_t9 (c37,c2,c3,c34,c4,c32,c5,c8,c9,c42,c21,c7,c10,c6,c11,c14,c12,c13,c15,c18,c16,c17,c45,c20,c38,c22,c23,c24,c25,c26,c27,c28,c29,c30,c41,c43,c44,c46,c39,c40)values";
+        foreach ($dataa as $key=>$value){
+            $dw_name = $value[9];
+            $ks_name = $value[10];
+            if($dw_name!=""){
+                $t6 = M('t6')->where("c2= '".$dw_name."'")->find();
+            }
+            if($ks_name!=""){
+                $t7 = M('t7')->where("c2= '".$ks_name."'")->find();
+                if(!$t7){
+                    $ks[c2] = $ks_name;
+                    M('t7')->add($ks);
+                }
+            }
+            $list = $Model->execute("insert into sa_t9 (c37,c2,c3,c34,c4,c32,c5,c8,c9,c42,c21,c7,c10,c6,c11,c14,c12,c13,c15,c18,c16,c17,c45,c20,c38,c22,c23,c24,c25,c26,c27,c28,c29,c30,c31,c41,c43,c44,c46,c39,c40,c36)values(
+				'".$value[0]."',
+				'".$value[1]."',
+				'".$value[2]."',
+				'".$value[3]."',
+				'".$value[4]."',
+				'".$value[5]."',
+				'".$value[6]."',
+				'".$value[7]."',
+				'".$value[8]."',
+				'".$value[9]."',	
+				'".$t7[c1]."',
+				'".$value[11]."',
+				'".$value[12]."',
+				'".$value[13]."',
+				'".$value[14]."',
+				'".$value[15]."',
+				'".$value[16]."',
+				'".$value[17]."',
+				'".$value[18]."',
+				'".$value[19]."',
+				'".$value[20]."',
+				'".$value[21]."',
+				'".$value[22]."',
+				'".$value[23]."',
+				'".$value[24]."',
+				'".$value[25]."',
+				'".$value[26]."',
+				'".$value[27]."',
+				'".$value[28]."',
+				'".$value[29]."',
+				'".$value[30]."',
+				'".$value[31]."',
+				'".$value[32]."',
+				'".$value[33]."',
+				'".$value[34]."',
+				'".$value[35]."',
+				'".$value[36]."',
+				'".$value[37]."',
+				'".$value[38]."',
+				'".$value[39]."',
+				'".$value[40]."',
+				'".$t6[c1]."'
+				)"
+            );
 
-    public function yuyue($page = 1, $r = 10)
-    {
-        //读取列表
-        $map['content_id'] = I('id');
-        $model = M('dk_yuyue');
-        $list = $model->where($map)->page($page, $r)->order('time DESC')->select();
-        unset($li);
-        $totalCount = $model->where($map)->count();
+        }
+        if($list){
+            $this -> success('添加成功!','facility');
+        } else {
+            $this -> error('添加失败!','facility');
+        }
 
-        //显示页面
-        $builder = new AdminListBuilder();
-        $attr['class'] = 'btn ajax-post';
-        $attr['target-form'] = 'ids';
-
-
-        $builder->title('预约人员')
-            ->keyId()
-            ->keyText('name','姓名')
-            ->keyText('sex','性别')
-            ->keyText('organization','所属支部')
-            ->data($list)
-            ->pagination($totalCount, $r)
-            ->display();
     }
-
 
     /*
      * 设置状态
@@ -489,6 +538,8 @@ class DataController extends AdminController{
         $builder = new AdminListBuilder();
         $builder->doSetStatus('dk_issue_content', $ids, $status);
     }
+
+
 
 
 

@@ -266,7 +266,7 @@ class DataController extends Controller
         //志愿服务总数
         $volunteer = $this->ajax_volunteer->where(array('sh_state'=>1))->count();
         //志愿者服务记录
-        $volunteerList = $this->ajax_volunteer->where(array('sh_state'=>1))->field('NAME,BEGIN_TIME')->order('id DESC')->select();
+        $volunteerList = $this->ajax_volunteer->where(array('sh_state'=>1))->field('NAME,BEGIN_TIME')->order('BEGIN_TIME DESC')->select();
 
         foreach ($volunteerList as $k=>&$v){
             $v['BEGIN_TIME'] = date("Y-m-d",strtotime($v['BEGIN_TIME']));
@@ -701,6 +701,7 @@ class DataController extends Controller
         }elseif ($name == '和平镇'){
             /********************************************************************街道当年数据*****************************************************************************/
             if(!S('jd_total_1')){
+                echo '111';die;
                 $jd_total = $Model->where(array('town'=>$name))->field('count')->find(); //街道事件总数
                 $time = $this->time;  //缓存三天
                 S('jd_total_1',$jd_total,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒

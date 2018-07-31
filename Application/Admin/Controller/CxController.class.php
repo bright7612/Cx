@@ -208,7 +208,7 @@ class CxController extends AdminController{
                     $this->display('directevaluate');
                     break;
             }
-        }
+        } //项目直通车
         elseif($type == 96 || $type == 97 || $type == 98){
             $builder  = new AdminConfigBuilder();
             $this->assign('issue_id',$type);
@@ -230,7 +230,9 @@ class CxController extends AdminController{
                 unset($sta[2]);
             }
             if($type == 97 ){
-               $sta[2]='已联系';
+                unset($sta['2']);
+                unset($sta['3']);
+
             }
             if($type == 98 ){
                 unset($sta[2]);
@@ -357,7 +359,6 @@ class CxController extends AdminController{
             $this->assign('stt',$stt);//当前状态
             switch ($type){
                 case 92://微心愿申报管理
-                    $this->state[2] = '已认领';
                     $this->state[2] = '已认领';
                     $this->assign('title','微心愿申报管理');
                     $count =$this->wish->where($map)->count();
@@ -815,7 +816,7 @@ class CxController extends AdminController{
                     ->data($list)
                     ->pagination($totalCount, $r)
                     ->display();
-            }elseif ($type == 170  || $type == 171 || $type == 175  || $type == 176 || $type == 173 || $type == 177 || $type == 178 || $type == 179 || $type == 180 || $type == 181){
+            }elseif ($type == 170  || $type == 171 || $type == 174 || $type == 175 || $type == 176 || $type == 177 || $type == 173 || $type == 178 || $type == 179 || $type == 180 || $type == 181 || $type == 182 ){
                 $builder->keyId()
                     ->keyText('link','标题')
                     -> keyCreateTime()
@@ -1020,6 +1021,7 @@ class CxController extends AdminController{
                     ->keyId('issue_id','分类编号')
 
                     ->keyText('title', '标题')
+                    ->key('integral','活动积分','整数 默认1','number')
                     ->keyText('host','组织单位')
 //                    ->keySelect("issue_id", "分类", "", $options)
                     ->keyText('sort', '排序','数值越大越靠前')
@@ -1040,6 +1042,8 @@ class CxController extends AdminController{
                     ->keyId('issue_id','分类编号')
 
                     ->keyText('title', '标题')
+                    ->key('integral','活动积分','整数 默认1','number')
+
                     ->keyText('host','实施队伍')
 //                    ->keySelect("issue_id", "分类", "", $options)
 
@@ -1091,6 +1095,7 @@ class CxController extends AdminController{
                     ->keyId()
                     ->keyId('issue_id','分类编号')
                     ->keyText('title', '党课名称')
+                    ->key('integral','党课积分','整数 默认1','number')
                     ->keyText('host','举办单位')
 //                    ->keySelect("issue_id", "分类", "", $options)
                     ->keyText('sort', '排序','数值越大越靠前')
@@ -1112,7 +1117,7 @@ class CxController extends AdminController{
                     ->keyId()
                     ->keyId('issue_id','分类编号')
                     ->keyText('title', '讲师姓名')
-                    ->keyText('host','讲述所属组织')
+                    ->keyText('host','讲师所属组织')
 //                    ->keySelect("issue_id", "分类", "", $options)
                     ->keyText('sort', '排序','数值越大越靠前')
                     ->keySingleImage('cover_id','讲师头像')
@@ -1123,13 +1128,14 @@ class CxController extends AdminController{
                     ->display();
             }
             elseif ($type == 105){ //优秀党员
-                $dzz = $this->cxdzz();
+//                $dzz = $this->cxdzz();
                 $builder->title($act . "内容")
                     ->keyId()
                     ->keyId('issue_id','分类编号')
                     ->keySingleImage('cover_id','党员头像')
                     ->keyText('title', '姓名')
-                    ->keySelectdzz('host', "党组织",'',$dzz)
+//                    ->keySelectdzz('host', "党组织",'',$dzz)
+                    ->keyText('host', "党组织",'')
                     ->keyText('sort', '排序','数值越大越靠前')
                     ->keyTextArea("content", "简介")
                     ->data($data)
@@ -1172,14 +1178,14 @@ class CxController extends AdminController{
                     ->keyText('addr', '地址')
                     ->keyText('teacher', '讲师')
                     ->keyTime('time', '上课时间')
-                    ->keySingleFile('video_id', '视频','100M已下')
+                    ->keySingleFile('video_id', '视频','小于100M')
                     ->data($data)
                     ->buttonSubmit()
                     ->buttonBack()
                     ->display();
 
             }
-            elseif ($type == 170 || $type == 171 || $type == 173 || $type == 175  || $type == 176 || $type == 177 || $type == 178 || $type == 179 || $type == 180 || $type == 181){
+            elseif ($type == 170 || $type == 171 || $type == 173 || $type == 174 || $type == 175 || $type == 176 || $type == 177 || $type == 178 || $type == 179 || $type == 180 || $type == 181 || $type == 182){
                 $builder->title($act . "内容")
                     ->keyId()
                     ->keyId('issue_id','分类编号')
@@ -1299,7 +1305,7 @@ class CxController extends AdminController{
                     $v['company_var'] = $this->company[$v['type']];
                 }
                 $tit = $this->issue_content->where(array('id'=>$content_id))->find();
-                $count = $this->volunteer->where(array('status'=>1,'state'=>1))->sum('bespoke_num');
+//                $count = $this->volunteer->where(array('status'=>1,'state'=>1))->sum('bespoke_num');
                 $this->assign('tit',$tit);  //活动信息
                 $this->assign('data',$data); //报名信息
                 $this->assign('pagination',$show); //分页
@@ -1319,7 +1325,6 @@ class CxController extends AdminController{
                     $v['company_var'] = $this->company[$v['type']];
                 }
                 $tit = $this->issue_content->where(array('id'=>$content_id))->find();
-                $count = $this->field->where(array('status'=>1,'state'=>1))->sum('bespoke_num');
                 $this->assign('tit',$tit);  //活动信息
                 $this->assign('data',$data); //报名信息
                 $this->assign('pagination',$show); //分页
@@ -1338,7 +1343,6 @@ class CxController extends AdminController{
                     $v['company_var'] = $this->company[$v['type']];
                 }
                 $tit = $this->issue_content->where(array('id'=>$content_id))->find();
-                $count = $this->lecture->where(array('status'=>1,'state'=>1))->sum('bespoke_num');
                 $this->assign('tit',$tit);  //活动信息
                 $this->assign('data',$data); //报名信息
                 $this->assign('pagination',$show); //分页
@@ -1357,7 +1361,6 @@ class CxController extends AdminController{
                     $v['company_var'] = $this->company[$v['type']];
                 }
                 $tit = $this->issue_content->where(array('id'=>$content_id))->find();
-                $count = $this->tutor->where(array('status'=>1,'state'=>1))->sum('bespoke_num');
                 $this->assign('tit',$tit);  //活动信息
                 $this->assign('data',$data); //报名信息
                 $this->assign('pagination',$show); //分页
@@ -1420,6 +1423,7 @@ class CxController extends AdminController{
                         if($hd['num']<($co+$data['bespoke_num'])){
                             $this->error("预约人数过多 ！已预约".$co."位！还可以预约".($hd['num']-$co)."位");
                         }
+
                     }elseif ($data['state'] == -1){
                         $exa = '不通过';
                     }
@@ -1524,6 +1528,55 @@ class CxController extends AdminController{
                         $aa['examination'] = $exa;//审批结果
                         $s = _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
                     }
+                    //积分
+                    if($data['state'] == 1){
+                        if($issud_id == 82){
+                            $a = $tab->where(array('id'=>$data["id"]))->find();
+                            if($a['openid']){
+                                $b = M('wxuser')->where(array('openid'=>$a['openid']))->setInc('integral',$hd['integral']);
+                                if($b){
+                                    $integral['user_id'] =  M('wxuser')->where(array('openid'=>$a['openid']))->getField('id');
+                                    $integral['openid'] = $a['openid'];
+                                    $integral['integral'] = $hd['integral'];
+                                    $integral['classif'] = 3;
+                                    $integral['time'] = time();
+                                    $integral['text'] = '参与活动：'.$hd['title'].'。';
+                                    M('wxuser_integral')->add($integral);
+                                }
+                            }
+                        }
+                        elseif ($issud_id == 84){
+                            $a = $tab->where(array('id'=>$data["id"]))->find();
+                            if($a['openid']){
+                                $b = M('wxuser')->where(array('openid'=>$a['openid']))->setInc('integral',$hd['integral']);
+                                if($b){
+                                    $integral['user_id'] =  M('wxuser')->where(array('openid'=>$a['openid']))->getField('id');
+                                    $integral['openid'] = $a['openid'];
+                                    $integral['integral'] = $hd['integral'];
+                                    $integral['classif'] = 3;
+                                    $integral['time'] = time();
+                                    $integral['text'] = '参与活动：'.$hd['title'].'。';
+                                    M('wxuser_integral')->add($integral);
+                                }
+                            }
+                        }
+                        elseif ($issud_id == 88){
+                            $a = $tab->where(array('id'=>$data["id"]))->find();
+                            if($a['openid']){
+                                $b = M('wxuser')->where(array('openid'=>$a['openid']))->setInc('integral',$hd['integral']);
+                                if($b){
+                                    $integral['user_id'] =  M('wxuser')->where(array('openid'=>$a['openid']))->getField('id');
+                                    $integral['openid'] = $a['openid'];
+                                    $integral['integral'] = $hd['integral'];
+                                    $integral['classif'] = 3;
+                                    $integral['time'] = time();
+                                    $integral['text'] = '参与党课：'.$hd['title'].'。';
+                                    M('wxuser_integral')->add($integral);
+                                }
+                            }
+                        }
+                    }
+
                     $this->success(L('_SUCCESS_UPDATE_'),'/admin/cx/sign/type/'.$issud_id.'/content_id/'.$content_id);
                 } else {
                     $this->error(L('_FAIL_UPDATE_'));
@@ -1725,7 +1778,7 @@ class CxController extends AdminController{
             1 => '审核通过',
 //            2 => '已认领',
             3 => '已完成',
-            4=> '用户已取消',
+//            4=> '用户已取消',
         );
         $obj = array(
             1=>'个人',
@@ -1815,12 +1868,88 @@ class CxController extends AdminController{
                         $this->error(L('微心愿已认领或已删除'));
                     }
                     break;
+                case 96:
+                    $te = $data['applytelephone'];
+                    $tex = '众筹申报';
+                    if($data['state'] == 1){
+                        $exa = '通过';
+                        if($data['state_time']>=$data['end_time']){
+                            $this->error(L('开始时间要小于结束时间'));
+                        }
+                        if($data['classif'] == 1){
+                            if(empty($data['money'])){
+                                $this->error(L('金钱众筹金额不能小于1'));
+                            }
+                        }
+                        else if($data['classif'] == 2){
+                            if(empty($data['count'])){
+                                $this->error(L('人员众筹人员不能小于1'));
+                            }
+                        }
+                    }
+                    else if($data['state'] == -1){
+                        $exa = '不通过';
+                    }
+                    break;
+                case 97:
+                    if($data['zhch_id']){
+                        $ch['status'] = 1;
+                        $ch['state'] = 1;
+                        $ch['id'] = $data['zhch_id'];
+                        $zh = M('sign_zhch')->where($ch)->find();
+                    }
+                    if(!$zh){
+                        $this->error(L('该众筹不存在'));
+                    }
+                    $comap['status'] = 1;
+                    $comap['state'] = array('egt',1);
+                    $comap['zhch_id'] = $data['zhch_id'];
+                    $co = M('sign_zhch_apply')->where($comap)->field('sum(count) as counts,sum(money) as moneys')->find();
 
+                    $te = $data['telephone'];
+                    $tex = '众筹服务参与';
+                    if($data['state'] == 1)
+                    {
+                        if($zh['end_time']<=time()){
+                            $this->error(L('该众筹已结束'));
+                        }
+                        $exa = '通过';
+                        //众筹金额 判定
 
+                        if($zh['classif'] == 1){
+                            if(empty($data['money'])){
+                                $this->error(L('金钱众筹金额不能小于1'));
+                            }
+                            if($zh['money'] < ($co['moneys']+$data['money'])){
+                                $this->error(L('认领金额超出众筹金额！'.'总需金额：'.$zh['money'].'还需金额：'.($zh['money']-$co['moneys'])));
+                            }
+                        }
+                        //众筹人员判定
+                        else if($zh['classif'] == 2){
+                            if(empty($data['count'])){
+                                $this->error(L('人员众筹人员不能小于1'));
+                            }
+                            if($zh['count'] < ($co['counts']+$data['count'])){
+                                $this->error(L('参与人数超出众筹人数！'.'总需人数：'.$zh['count'].'还需人数：'.($zh['count']-$co['counts'])));
+                            }
+                        }
+                    }
+
+                    else if($data['state'] == -1){
+                        $exa = '不通过';
+                    }
+                    break;
+                case 100:
+                    $te = $data['telephone'];
+                    $tex ='项目直通车';
+                    if($data['state'] == 1){
+                        $exa = '通过';
+                    }
+                    break;
             }
+//            dump($data);exit;
             if ($data["id"]) {
                 if ($tab->where(array('id'=>$data["id"]))->save($data) !== false) {
-
                     if($te&&$tex&&$exa){
                         $aa['telephone'] = $te;  //电话
                         $aa['classify'] = 2;
@@ -1830,15 +1959,45 @@ class CxController extends AdminController{
                     }
                     if($type==93&&$data['state']==1){
                         M('sign_wish')->where($w)->save(array('state'=>2,'claim_time'=>time()));
+                        $a = $tab->where(array('id'=>$data["id"]))->find();
+                        if($a['openid']){
+                            $b = M('wxuser')->where(array('openid'=>$a['openid']))->setInc('integral',$wi['integral']);
+                            if($b){
+                                $integral['user_id'] =  M('wxuser')->where(array('openid'=>$a['openid']))->getField('id');
+                                $integral['openid'] = $a['openid'];
+                                $integral['integral'] = $wi['integral'];
+                                $integral['classif'] = 3;
+                                $integral['time'] = time();
+                                $integral['text'] = '认领微心愿：'.$wi['title'].'。';
+                                M('wxuser_integral')->add($integral);
+                            }
+                        }
+                    }
+                    if($type==97&&$data['state']==1){
+                        $a = $tab->where(array('id'=>$data["id"]))->find();
+                        if($a['openid']){
+                            $b = M('wxuser')->where(array('openid'=>$a['openid']))->setInc('integral',$zh['integral']);
+                            if($b){
+                                $integral['user_id'] =  M('wxuser')->where(array('openid'=>$a['openid']))->getField('id');
+                                $integral['openid'] = $a['openid'];
+                                $integral['integral'] = $zh['integral'];
+                                $integral['classif'] = 3;
+                                $integral['time'] = time();
+                                $integral['text'] = '参与众筹：'.$zh['title'].'。';
+                                M('wxuser_integral')->add($integral);
+                            }
+                        }
+
                     }
                     $this->success(L('_SUCCESS_UPDATE_'),'/admin/cx/content/type/'.$type);
                 } else {
                     $this->error(L('_FAIL_UPDATE_'));
                 }
-            }else {
+            }
+            else {
                 $data['source'] = 3;
-                $data['cre_time'] = date('Y-m-d H:i:s',time());
-                $data['cer_time'] = date('Y-m-d H:i:s',time());
+                $data['cre_time'] = time();
+                $data['cer_time'] = time();
                 if ($tab->add($data) !== false) {
                     $this->success("添加成功",'/admin/cx/content/type/'.$type);
                 } else {
@@ -1846,7 +2005,8 @@ class CxController extends AdminController{
                 }
             }
 
-        }else{
+        }
+        else{
             $map['id']=$id;
             $data = $tab->where($map)->find();
             foreach ($sta as $k=>$v){
@@ -1904,7 +2064,7 @@ class CxController extends AdminController{
                         ->keyText('company', "单位")
                         ->keySelect('types', "申请类型",'',$this->company)
                         ->keyText('identity', "身份证")
-                        ->keyText('address', "地址")
+//                        ->keyText('address', "地址")
                         ->keySelect('party', "党员",'',$this->party)
                         ->keyTextArea('content', "备注")
                         ->data($data);
@@ -1934,7 +2094,7 @@ class CxController extends AdminController{
                         ->keySelect('classif','众筹类别','',$typ)
                         ->keyText('money','金额')
                         ->keyText('count','人员')
-                        ->keySingleImage('img','图片')
+                        ->keyMultiImage('img','图片')
                         ->keyTime('state_time','开始参与时间')
                         ->keyTime('end_time','终止参与时间')
                         ->keyText('applyname','申请人')
@@ -1946,7 +2106,7 @@ class CxController extends AdminController{
                         ->data($data);
                     break;
                 case 97: //项目众筹参与
-                    $sta[2] = '已联系';
+//                    $sta[2] = '已联系';
                     $da = $this->zhch->where(array('id'=>$data['zhch_id']))->find();
                     $wishs[$da['id']]= $da['title'];
                     $mapwish['status'] =1;
@@ -2070,7 +2230,21 @@ class CxController extends AdminController{
             if($examine == 1){
                 $builder->buttonSubmit()
                     ->buttonBack();
-            }elseif($examine == 2){
+            }
+            elseif($examine == 2){
+                if($type==92||$type==96||$type==99){
+                    $builder->key('integral','活动积分','整数 默认1','number');
+                }
+                if($type==92){
+                    if($data['state'] == -1){
+                        unset($sta[-1]);
+                        unset($sta[3]);
+                    }
+                    elseif($data['state'] == 1 ||$data['state'] == 2){
+                        unset($sta[1]);
+                        unset($sta[-1]);
+                    }
+                }
                 $builder->keySelect('state',"审批",'',$sta)
                     ->buttonSubmit()
                     ->buttonBack();
@@ -2286,7 +2460,7 @@ class CxController extends AdminController{
 
     /*
      * 党组织接口*/
-    private function branchList(){
+    public function branchList(){
         $url = 'http://www.dysfz.gov.cn/apiXC/branchList.do';//党组织
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 1500;
@@ -2312,24 +2486,26 @@ class CxController extends AdminController{
 
     /*
      * 党员接口更新*/
-    private function partyList(){
+    public function partyList(){
+        set_time_limit(0);
         $url = 'http://www.dysfz.gov.cn/apiXC/partyList.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 1500;
-
-        for ($i = 1 ;$i < 50 ; $i++){
+//        dump(1);exit;
+        for ($i = 15 ;$i < 50 ; $i++){
             $da['START'] = $i;
             $das = json_encode($da);
             $list = httpjson($url,$das);
+//            dump($list);exit;
             foreach ($list['data'] as $k=>&$v) {
-                $user = M('ajax_user')->where(array('PARTY_ID'=>$v['PARTY_ID']))->find();
+                $user = M('ajax_user2')->where(array('PARTY_ID'=>$v['PARTY_ID']))->find();
                 if($v['PHOTO']){
                     $v['PHOTO'] =  'http://www.dysfz.gov.cn/'.$v['PHOTO'];
                 }
                 if($user['id']){
-                    M('ajax_user')->where(array('PARTY_ID'=>$v['PARTY_ID']))->save($v);
+                    M('ajax_user2')->where(array('PARTY_ID'=>$v['PARTY_ID']))->save($v);
                 }else{
-                    M('ajax_user')->add($v);
+                    M('ajax_user2')->add($v);
                 }
             }
         }
@@ -2354,31 +2530,5 @@ class CxController extends AdminController{
             }
         }
     }
-    public function activity(){
-        $url = 'http://www.dysfz.gov.cn/apiXC/volunteerList.do';
-        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-        $da['COUNT'] = 2500;
-//        $da['START'] = 1;
-//        $da['PARTY_ID'] = '1705,1703';
-//        $das = json_encode($da);
-//        $list = httpjson($url,$das);
-//        dump($list);die;
-        for ($i=1;$i<10;$i++){
-            $da['START'] = $i;
-            $das = json_encode($da);
-            $list = httpjson($url,$das);
-            foreach($list['data'] as  $k=>$v){
-                $id = M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$v['VOLUNTEER_ID']))->find();
-                if($id){
-                    M('ajax_volunteer')->where(array('VOLUNTEER_ID'=>$v['VOLUNTEER_ID']))->save($v);
-                }else{
-                    M('ajax_volunteer')->add($v);
-                }
-            }
-        }
-    }
-
-
-
 
 }

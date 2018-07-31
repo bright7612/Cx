@@ -291,30 +291,30 @@ class CxController extends Controller
         $map['issue_id'] =82;
         $data['activity'] = M('issue_content')->where($map)->field('id,title,addr,time,content,lat,lng,host')->order('sort desc,id desc')->select();
         foreach ($data['activity'] as $k=>&$v){
-            $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+            $v['time_var'] =date("Y-m-d H:i",$v['time']);
         }
 //        dump($data);;exit;
         $map['issue_id'] =84;
         $data['volunteers'] = M('issue_content')->where($map)->field('id,title,addr,time,content,lat,lng,host')->order('sort desc,id desc')->select();
         foreach ($data['volunteers'] as $k=>&$v){
-            $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+            $v['time_var'] =date("Y-m-d H:i",$v['time']);
         }
         $map['issue_id'] =86;
         $data['direct'] = M('issue_content')->where($map)->field('id,title,addr,content,lat,lng,telphone,num')->order('sort desc,id desc')->select();
         foreach ($data['direct'] as $k=>&$v){
-            $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+            $v['time_var'] =date("Y-m-d H:i",$v['time']);
         }
         $map['issue_id'] =88;
         $data['lecture'] = M('issue_content')->where($map)->field('id,title,addr,time,content,lat,lng,teacher,host')->order('sort desc,id desc')->select();
         foreach ($data['lecture'] as $k=>&$v){
-            $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
+            $v['time_var'] =date("Y-m-d H:i",$v['time']);
 
         }
         $map2['status'] = 1;
         $map2['state'] = array('in','1,2,3,5');
         $data['wish'] = M('sign_wish')->where($map2)->field('id,title,content,obj,form,start_time,state')->order('sort desc,id desc')->select();
         foreach ($data['wish'] as $k=>&$v){
-            $v['time_var'] =date("Y-m-d H:i:s",$v['start_time']);
+            $v['time_var'] =date("Y-m-d H:i",$v['start_time']);
             $v['state_var'] = $c[$v['state']];
         }
 

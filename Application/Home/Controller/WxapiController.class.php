@@ -1553,15 +1553,16 @@ class WxapiController extends Controller
     public function warning2(){
         $where['status'] = 1;
         //入党申请人
-        $application_dy = M('dr_dzz_application_party')->count();
+        $application_dy = M('dr_dzz_application_party')->where($where)->count();
         //入党积极分子
-        $activity_dy = M('dr_dzz_activity_dy')->count();
+        $activity_dy = M('dr_dzz_activity_dy')->where($where)->count();
         //2018年报道
-        $sign = M('dr_dy_ztdr')->where($where)->count();
+        $sign1 = M()->query("SELECT id,`name`,organization FROM cxdj_dr_dy_ztdr  ztdr WHERE ztdr.`name` NOT IN (SELECT `name` FROM cxdj_dr_dy_late)");
+        $sign =count($sign1);
         //不计入到会党员
-        $late_dy = M('dr_dy_late')->count();
+        $late_dy = M('dr_dy_late')->where($where)->count();
         //闪光言行
-        $speech = M('dr_dy_sgyx')->count();
+        $speech = M('dr_dy_sgyx')->where($where)->count();
 
         //党员-党性体检-cml
 
@@ -1582,10 +1583,10 @@ class WxapiController extends Controller
         //党组织-未展开主题党日
         $ztdr_no = M('dr_dzz_no_ztdr')->where($where)->count();
         //党组织-已经缴纳党费
-        $data = M('dr_dzz_money')->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money !=0 GROUP BY organization");
+        $data = M('dr_dzz_money')->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money !=0  AND  status = 1  GROUP BY organization");
         $money = count($data);
         //党组织 - 未缴纳党费
-        $data2 = M('dr_dzz_money')->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money =0 GROUP BY organization");
+        $data2 = M('dr_dzz_money')->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money =0  AND  status = 1  GROUP BY organization");
         $money_no = count($data2);
         //党组织- 评优评先
         $honor = M('dr_dzz_honor')->where($where)->count();
@@ -1762,11 +1763,11 @@ class WxapiController extends Controller
             array('name'=>'序号', 'width'=>5),
             array('name'=>'姓名', 'width'=>10),
             array('name'=>'性别', 'width'=>5),
-            array('name'=>'出生日期', 'width'=>20),
+            array('name'=>'出生日期', 'width'=>15),
             array('name'=>'学历', 'width'=>10),
-            array('name'=>'所在党支部', 'width'=>20),
+            array('name'=>'所在党支部', 'width'=>25),
             array('name'=>'联系电话', 'width'=>15),
-            array('name'=>'聘任专业技术职务名称', 'width'=>15),
+            array('name'=>'职务名称', 'width'=>15),
         );
         $head3 = array(  //党员
             array('name'=>'序号', 'width'=>20),
@@ -1801,11 +1802,11 @@ class WxapiController extends Controller
             array('name'=>'民主评议结果', 'width'=>20),
         );
         $head8 = array(  //党员
-            array('name'=>'序号', 'width'=>5),
+            array('name'=>'序号', 'width'=>10),
             array('name'=>'党员姓名', 'width'=>10),
             array('name'=>'闪光言行', 'width'=>50),
             array('name'=>'评定时间', 'width'=>20),
-            array('name'=>'评定等级', 'width'=>15),
+            array('name'=>'评定等级', 'width'=>10),
         );
 
         $head9 = array(  //党员
@@ -2010,9 +2011,9 @@ class WxapiController extends Controller
                             array('value'=>$v['id'], 'width'=>5),
                             array('value'=>$v['name'], 'width'=>10),
                             array('value'=>$v['sex'], 'width'=>5),
-                            array('value'=>$v['birthday'], 'width'=>20),
+                            array('value'=>$v['birthday'], 'width'=>15),
                             array('value'=>$v['education'], 'width'=>10),
-                            array('value'=>$v['organization'], 'width'=>20),
+                            array('value'=>$v['organization'], 'width'=>25),
                             array('value'=>$v['phone'], 'width'=>15),
                             array('value'=>$v['technical_title'], 'width'=>15),
                         );
@@ -2046,7 +2047,7 @@ class WxapiController extends Controller
                 case 7:
                     $list['title'] = '已经缴纳';
                     $list['head'] = $head4;
-                    $data = $Model->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money !=0 GROUP BY organization LIMIT 1000");
+                    $data = $Model->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money !=0  AND  status = 1  GROUP BY organization LIMIT 1000");
 
                     $i = 1;
                     foreach ($data as $k=>&$v){
@@ -2073,6 +2074,7 @@ class WxapiController extends Controller
                                                     cxdj_dr_dzz_money
                                                 WHERE
                                                     money = 0
+                                                AND  status = 1                                      
                                                 GROUP BY
                                                     organization
                                                 LIMIT 200");
@@ -2133,7 +2135,7 @@ class WxapiController extends Controller
                 case 3:
                     $list['title'] = '2018年报到';
                     $list['head'] = $head6;
-                    $data = $Model->query("SELECT id,name,organization FROM cxdj_dr_dy_ztdr WHERE `status` = 1 LIMIT 1000");
+                    $data = $Model->query("SELECT id,`name`,organization FROM cxdj_dr_dy_ztdr  ztdr WHERE ztdr.`name` NOT IN (SELECT `name` FROM cxdj_dr_dy_late) AND `status` = 1 LIMIT 1000");
                     foreach ($data as $k=>&$v){
                         $list['list'][] = array(
                             array('value'=>$v['id'], 'width'=>20),
@@ -2200,14 +2202,14 @@ class WxapiController extends Controller
                 case 8:
                     $list['title'] = '闪光言行';
                     $list['head'] = $head8;
-                    $data = $Model->query("SELECT  id, `name`, speech,DATE_FORMAT(time,'%Y-%m-%d') AS time,dy_lv FROM cxdj_dr_dy_sgyx LIMIT 1000");
+                    $data = $Model->query("SELECT  id, `name`, speech,DATE_FORMAT(time,'%Y-%m-%d') AS time,dy_lv FROM cxdj_dr_dy_sgyx ORDER BY `time` DESC LIMIT 1000");
                     foreach ($data as $k=>&$v){
                         $list['list'][] = array(
-                            array('value'=>$v['id'], 'width'=>5),
+                            array('value'=>$v['id'], 'width'=>10),
                             array('value'=>$v['name'], 'width'=>10),
                             array('value'=>$v['speech'], 'width'=>50),
                             array('value'=>$v['time'], 'width'=>20),
-                            array('value'=>$v['dy_lv'], 'width'=>15),
+                            array('value'=>$v['dy_lv'], 'width'=>10),
 
                         );
                     }
