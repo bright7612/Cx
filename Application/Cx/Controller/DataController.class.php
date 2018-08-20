@@ -242,10 +242,22 @@ class DataController extends Controller
 
            //爱心众筹总数
            $count = $this->ajax_volunteer->where($where)->count();
+
+           $love_y = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2))->field('UNIX_TIMESTAMP(END_TIME) as time,MONEY,sMoney')->select();
            //众筹已完成
-           $love_y = $this->ajax_volunteer->where(array('sh_state'=>1,'STATE'=>3,'TYPE'=>2))->count();
-           //众筹未完成
-           $love_w = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2,'STATE'=>array('in','1,2')))->count();
+            $i = 1;
+            foreach($love_y as $k=>&$v){
+                $v['rate'] = ($v['sMoney']/$v['MONEY']);
+                if( time() > $v['time'] && $v['rate'] != 0){
+                    $ii = $i++;
+                }
+            }
+
+        //众筹未完成
+         $love_w = (int)$count - (int)$ii;
+
+
+//           $love_w = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2,'STATE'=>array('in','1,2')))->count();
 
            $loveList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE,MONEY,sMoney')->order('id DESC')->select();
 
@@ -253,7 +265,8 @@ class DataController extends Controller
                 $v['Percentage'] = (round(($v['sMoney']/$v['MONEY']),2)*100);
             }
 
-          echo json_encode(array('data'=>array('complete'=>(int)$love_y,'implement'=>(int)$love_w,'list'=>$loveList),));
+          echo json_encode(array('data'=>array('complete'=>(int)$ii,'implement'=>(int)$love_w,'list'=>$loveList),));
+//          echo json_encode(array('data'=>array('complete'=>18,'implement'=>0,'list'=>$loveList),));
 
 
 
@@ -335,21 +348,29 @@ class DataController extends Controller
 
             //众创互助总数
             $count = $this->ajax_volunteer->where($where)->count();
-            //众创互助完成
-            $love_y = $this->ajax_volunteer->where(array('sh_state'=>1,'STATE'=>3,'TYPE'=>4))->count();
-            //众创互助未完成
-            $love_w = $this->ajax_volunteer->where(array('sh_state'=>1,'STATE'=>array('in','1,2'),'TYPE'=>4))->count();
+//            //众创互助完成
+//            $love_y = $this->ajax_volunteer->where(array('sh_state'=>1,'STATE'=>3,'TYPE'=>4))->count();
+//            //众创互助未完成
+//            $love_w = $this->ajax_volunteer->where(array('sh_state'=>1,'STATE'=>array('in','1,2'),'TYPE'=>4))->count();
 
 //            echo json_encode(array('status'=>1,'msg'=>'请求成功','data'=>array('count'=>$count,'y_count'=>$love_y,'w_count'=>$love_w)));
             //众创互助记录
-            $zcList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE,rCount,PEOPLENUMBER')->order('id DESC')->select();
+            $zcList = $this->ajax_volunteer->where($where)->field('VOLUNTEER_ID,NAME as title,CONTENT as text,STATE,rCount,PEOPLENUMBER,UNIX_TIMESTAMP(END_TIME) as time')->order('id DESC')->select();
+
+            //众创互助已完成
+            $i =  1;
             foreach ($zcList as $k=>&$v){
                 $v['Percentage'] = (round(($v['rCount']/$v['PEOPLENUMBER']),2)*100);
+                if(time() > $v['time'] && $v['Percentage'] !=0){
+                    $ii = $i++;
+
+                }
             }
 
+            //众创互助未完成
+            $zh_w = (int)$count - (int)$ii;
 
-            echo json_encode(array('data'=>array('complete'=>(int)$love_y,'implement'=>(int)$love_w,'list'=>$zcList),));
-
+           echo json_encode(array('data'=>array('complete'=>(int)$ii,'implement'=>(int)$zh_w,'list'=>$zcList),));
 
     }
 

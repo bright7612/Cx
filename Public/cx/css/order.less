@@ -1,7 +1,9 @@
 @import "base";
+@import "table";
 
 body.guide_index {
   background: url("../imgs/bg1.png") no-repeat;
+  position: relative;
 }
 
 //首页
@@ -230,6 +232,39 @@ body.guide_index {
         margin: 0 auto;
         .borderBox();
         border-bottom: 1px solid #cfcfcf;
+      }
+      .search_box {
+        position: absolute;
+        right: 20px;
+        width: 400px;
+        height: 60px;
+        top: 45px;
+        .borderBox();
+        p {
+          height: 100%;
+          line-height: 60px;
+          input {
+            width: 300px;
+            height: 100%;
+            .borderBox();
+            outline: none;
+            border: 1px solid #d3d3d3;
+            border-radius: 10px;
+            float: left;
+            font-size: 30px;
+            padding-left: 20px;
+          }
+          span {
+            width: 90px;
+            float: right;
+            background-image: linear-gradient(0deg, #d36f00 19%, #fece32 100%);
+            border-radius: 10px;
+            font-size: 30px;
+            color: #FFFFFF;
+            text-align: center;
+            cursor: pointer;
+          }
+        }
       }
       ul {
         width: 100%;
@@ -785,6 +820,26 @@ body.guide_index {
       }
     }
   }
+  //项目直通车-我有需求
+  &.item_need {
+    .textarea_box {
+      width: 1600px;
+      height: 200px;
+      p {
+        line-height: 200px;
+      }
+      textarea {
+        width: 1360px;
+        padding: 0 24px;
+        line-height: 88px;
+        font-size: 34px;
+        .borderBox();
+        &::-webkit-input-placeholder {
+          color: #D1D1D1;
+        }
+      }
+    }
+  }
 }
 
 //众筹服务
@@ -820,7 +875,7 @@ body.guide_index {
       margin-top: 17px;
       margin-right: 12px;
     }
-    &>.title1_text{
+    & > .title1_text {
       .textOverflow(1);
     }
   }
@@ -1198,6 +1253,30 @@ body.guide_index {
       }
     }
   }
+  & > .btn_box {
+    text-align: center;
+    margin-top: 40px;
+    a {
+      display: inline-block;
+      .borderBox();
+      width: 270px;
+      text-align: center;
+      border-radius: 8px;
+      height: 100px;
+      line-height: 92px;
+      font-size: 44px;
+      color: #FFFFFF;
+      &.btn1 {
+        margin-right: 50px;
+        background: #f99a34;
+        border-bottom: 8px solid #d88612;
+      }
+      &.btn2 {
+        background: #42b2e1;
+        border-bottom: 8px solid #2691be;
+      }
+    }
+  }
 }
 
 //微心愿详情页
@@ -1370,7 +1449,7 @@ body > .position_list {
       margin-right: 30px;
     }
     .text_box {
-      height: 223px;
+      height: 50px;
       width: 1329px;
       .borderBox();
       .title1 {
@@ -1500,6 +1579,57 @@ body > .excellent_party {
         height: 549px !important;
       }
     }
+  }
+}
+
+//优秀党建品牌（新）
+body>.excellent_party1{
+  background: transparent;
+  .borderBox();
+  &>div{
+    .displayFlex();
+    .spaceBetween();
+    .borderBox();
+    width: 100%;
+    height: 300px;
+    a{
+      width: 300px;
+      height: 300px;
+      .borderBox();
+      background: red;
+      .borderRadius(50%);
+      text-align: center;
+      i{
+        display: block;
+        font-size: 90px;
+        color: #FFFFFF;
+        margin-top: 60px;
+        margin-bottom: 20px;
+      }
+      p{
+        font-size: 30px;
+        color: #FFFFFF;
+      }
+      &.purple{
+        background-image: linear-gradient(0deg, #B623EE 0%, #7913DE 100%);
+      }
+      &.yellow{
+        background-image: linear-gradient(0deg, #FFCC2C 0%, #FFAA03 100%);
+      }
+      &.blue{
+        background-image: linear-gradient(0deg, #00DCCC 0%, #009F8E 100%);
+      }
+      &.red{
+        background-image: linear-gradient(0deg, #F46D57 0%, #930605 100%);
+      }
+    }
+  }
+  .top{
+    padding: 0 350px;
+    margin: 70px 0;
+  }
+  .bottom{
+    padding: 0 200px;
   }
 }
 
@@ -1639,4 +1769,91 @@ body > .list1 {
     .borderBox();
     border: 3px solid #42B2E1;
   }
+}
+//视频播放列表
+//视频列表页
+body >.video_list {
+    background: transparent;
+    .big_box {
+      .displayFlex();
+      flex-wrap: wrap;
+      width: 100%;
+      max-height: 850px;
+      padding: 40px 10px 40px 20px;
+      .borderBox();
+      .flex_box {
+        width: 435px;
+        height: 384px;
+        margin-bottom: 70px;
+        .borderBox();
+        text-align: center;
+        position: relative;
+        margin-right: 12px;
+        background: rgba(255, 255, 255, 0.8);
+        padding-top: 26px;
+        cursor: pointer;
+        img {
+          width: 390px !important;
+          height: 214px !important;
+        }
+        p.title {
+          color: #4E4E4E;
+          font-size: 30px;
+          line-height: 43px;
+          text-align: left;
+          padding: 0 20px;
+          margin-top: 10px;
+          .textOverflow(2);
+        }
+      }
+    }
+}
+body > .play_box {
+  display: none;
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 4;
+  top: 0;
+  left: 0;
+  .borderBox();
+  video {
+    width: 100%;
+    height: 100%;
+    .borderBox();
+  }
+  .closer {
+    position: absolute;
+    font-size: 100px;
+    background: #6C6C6C;
+    height: 100px;
+    line-height: 100px;
+    width: 100px;
+    text-align: center;
+    right: 0;
+    top: 20px;
+    color: #FFFFFF;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+}
+
+.ewm_box {
+  width: 100%;
+  height: 290px;
+  text-align: center;
+  margin-top:90px;
+  img {
+    width: 258px;
+    height: 258px;
+    border: 8px solid #e6a236;
+  }
+}
+
+.message {
+  text-align: center;
+  font-size: 38px;
+  line-height: 38px;
+  color: #b7781e;
 }

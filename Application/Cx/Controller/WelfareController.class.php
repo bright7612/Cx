@@ -16,7 +16,7 @@ class WelfareController extends Controller
         $items = get_cover($res['img']);
         $res['path'] ='http://183.131.86.64:8620'.$items['path'];
 
-        $data = M('sign_zhch')->where(array('state'=>1,'status'=>1))->field('id,title,content,img,state_time,state')->order('state_time desc')->select();
+        $data = M('sign_zhch')->where(array('state'=>1,'status'=>1))->field('id,title,content,img,state_time,state')->order('state_time desc')->limit(3)->select();
 
         foreach ($data as $k=>&$v)
         {
@@ -69,33 +69,48 @@ class WelfareController extends Controller
     public function hz_list()
     {
         $Model = M();
-        $zh = $Model->query('SELECT
-                                    zhch.id,
-                                    zhch.title,
-                                    zhch.content,
-                                    zhch.count,
-                                    zhch.img,
-                                    zhch.state_time AS `time`,
-                                    SUM(apply.count) AS num
-                                FROM
-                                    cxdj_sign_zhch AS zhch
-                                JOIN cxdj_sign_zhch_apply AS apply ON zhch.id = apply.zhch_id
-                                AND apply.state IN (1, 2, 3)
-                                AND apply. STATUS = 1
-                                WHERE
-                                    zhch.state = 1
-                                AND zhch.`status` = 1');
+//        $zh = $Model->query('SELECT
+//                                    zhch.id,
+//                                    zhch.title,
+//                                    zhch.content,
+//                                    zhch.count,
+//                                    zhch.img,
+//                                    zhch.state_time AS `time`,
+//                                    SUM(apply.count) AS num
+//                                FROM
+//                                    cxdj_sign_zhch AS zhch
+//                                JOIN cxdj_sign_zhch_apply AS apply ON zhch.id = apply.zhch_id
+//                                AND apply.state IN (1, 2, 3)
+//                                AND apply. STATUS = 1
+//                                WHERE
+//                                    zhch.state = 1
+//                                AND zhch.`status` = 1');
+//
+//       foreach ($zh as $k=>&$v)
+//       {
+//           if($v['count'] == $v['num']){
+//               $v['status'] = '已完成';
+//           }else{
+//               $v['status'] = '未完成';
+//          }
+//       }
 
-       foreach ($zh as $k=>&$v)
-       {
-           if($v['count'] == $v['num']){
-               $v['status'] = '已完成';
-           }else{
-               $v['status'] = '未完成';
-          }
-       }
+        $data = M('sign_zhch')->where(array('state'=>1,'status'=>1))->field('id,title,content,img,state_time,state')->order('state_time desc')->select();
 
-        $this->assign('data',$zh);
+        foreach ($data as $k=>&$v)
+        {
+            if($v['state'] == 2){
+                $v['status'] = '已完成';
+                $v['class'] = 'complete';
+            }else{
+                $v['status'] = '未完成';
+            }
+
+
+        }
+
+
+        $this->assign('data',$data);
         $this->display('interacting_list');
     }
 
@@ -190,4 +205,52 @@ class WelfareController extends Controller
         $this->assign('goods',$goods);
         $this->display('market');
     }
+
+    //党员服务
+    public function dy_service()
+    {
+        $this->display('party_server');
+    }
+
+    //党费核算
+    public function dy_pay()
+    {
+        $this->display('party_pay');
+    }
+
+    //党费核算细则
+    public function dy_rule()
+    {
+        $this->display('detail');
+    }
+
+    //党员服务列表
+    public function dy_list()
+    {
+        $where['issue_id'] = I('id');
+        $where['status'] = 1;
+        $data = M('wel_issue_content')->where($where)->field('id,title,content')->select();
+        $count = count($data);
+
+        if($count == 1){
+            $this->assign('detail',$data['0']);
+            $this->display('dy_detail');
+        }else{
+            $this->assign('data',$data);
+            $this->display('list');
+        }
+
+    }
+
+    //党员服务详情
+    public function dy_detail()
+    {
+        $where['id'] = I('id');
+        $where['status'] = 1;
+        $detail = M('wel_issue_content')->where($where)->field('id,title,content')->find();
+
+        $this->assign('detail',$detail);
+        $this->display('dy_detail');
+    }
+
 }

@@ -24,11 +24,11 @@
     <div class="part1">
         <p class="title1">
             <span class="little_block"></span>
-            <span class="title1_text">{$detail.title}</span>
+            <span class="title1_text">{$ztc_detail.title}</span>
         </p>
-        <p class="text">{$detail.desc}</p>
+        <p class="text">{$ztc_detail.desc}</p>
         <div class="img_box">
-            <img src="{$detail.path}" alt="">
+            <img src="{$ztc_detail.path}" alt="">
         </div>
     </div>
     <div class="part2">
@@ -43,32 +43,71 @@
         <p class="title2">评价内容</p>
         <div class="content_box">
             <p class="star_box">
+           <span class="little_box">
+            <span class="iconfont icon-wujiaoxing icon_red"></span>
+            <if condition="$perfect eq '' ">
+                  <span class="star_text">非常满意：0</span>
+             <else />
+                 <span class="star_text">非常满意：{$perfect}</span>
+            </if>
+            </span>
                 <span class="little_box">
-                    <span class="iconfont icon-wujiaoxing icon_red"></span>
-                    <span class="star_text">非常满意：0</span>
-                </span>
+            <span class="iconfont icon-wujiaoxing icon_yellow"></span>
+          <if condition="$satisfied eq '' ">
+                  <span class="star_text">满意：0</span>
+             <else />
+                 <span class="star_text">满意：{$satisfied}</span>
+            </if>
+        </span>
+            <span class="little_box">
+            <span class="iconfont icon-wujiaoxing icon_blue"></span>
+             <if condition="$commonly eq '' ">
+                  <span class="star_text">一般：0</span>
+             <else />
+                 <span class="star_text">一般：{$commonly}</span>
+            </if>
+        </span>
                 <span class="little_box">
-                    <span class="iconfont icon-wujiaoxing icon_yellow"></span>
-                    <span class="star_text">满意：0</span>
-                </span>
-                <span class="little_box">
-                    <span class="iconfont icon-wujiaoxing icon_green"></span>
-                    <span class="star_text">一般：0</span>
-                </span>
-                <span class="little_box">
-                    <span class="iconfont icon-wujiaoxing icon_grey"></span>
-                    <span class="star_text">不够满意：0</span>
-                </span>
+            <span class="iconfont  icon-wujiaoxing icon_grey"></span>
+            <if condition="$dissatisfied eq '' ">
+                  <span class="star_text">不够满意：0</span>
+             <else />
+                 <span class="star_text">不够满意：{$dissatisfied}</span>
+            </if>
+        </span>
             </p>
-            <ul class="content">
-                <li>
-                    <span class="iconfont icon-daipingjia icon_blue"></span>
-                    <span>{$detail.content}</span>
-                </li>
-
-            </ul>
         </div>
     </div>
+    <p class="btn_box">
+        <a class="btn1" href="/Cx/Cx/ztc_join_view">我要参与</a>
+        <a class="btn2" href="/Cx/Cx/ztc_demand_view">我有需求</a>
+    </p>
+    <p class="ewm_box">
+        <img src="{$ztc_detail.ewm}" alt="">
+    </p>
+    <p class="message">扫描二维码进行预约</p>
 </article>
+
+<script type="text/javascript" src="__CX__/libs/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var id;
+        function getUrl(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            id=r[2];
+            if (r != null) return decodeURI(r[2]);
+            return null;
+        }
+        getUrl('id');
+        var html1 = $('.btn_box a').eq(0).attr('href');
+        var html2 = $('.btn_box a').eq(1).attr('href');
+        html1 = html1 + ('?dataId=' + id);
+        html2 = html2 + ('?dataId=' + id);
+        $('.btn_box a').eq(0).attr('href', html1);
+        $('.btn_box a').eq(1).attr('href', html2);
+
+    })
+</script>
 </body>
 </html>

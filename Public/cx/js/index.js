@@ -5,6 +5,7 @@ $(function () {
     var value = '1';
     var obj1 = {};
     var data1;
+     var key_show={};
 
     //地图初始化代码
 
@@ -79,19 +80,29 @@ $(function () {
         //清空地图
         map.clearOverlays();
         //获取撒点数据
+        $('#searchBox2 input').val() == '';
         if (value == "1" || value == "2" || value == "3" || value == "5") {
             //需要地图渲染的tab
             if (value == "1") {
+                $('#searchBox2 input').val('');
                 data1 = obj1.activity;
+                $('#searchBox2').show();
+                searchEvent(value);
             }
             if (value == "2") {
                 data1 = obj1.lecture;
+                $('#searchBox2').hide();
             }
             if (value == "3") {
+                $('#searchBox2 input').val('');
                 data1 = obj1.volunteers;
+                $('#searchBox2').hide();
             }
             if (value == "5") {
                 data1 = obj1.direct;
+                $('#searchBox2').hide();
+                $('#searchBox2').show();
+                searchEvent(value);
             }
             $('#r1ul').empty();
             $('#r1ul').html(template('rlist' + value, data1));
@@ -110,12 +121,17 @@ $(function () {
         } else {
             if (value == "4") {
                 data1 = obj1.wish;
+                $('#searchBox2').hide();
             }
             if (value == "6") {
-                data1=obj1.raise;
+                data1 = obj1.raise;
+                $('#searchBox2').hide();
             }
-            if(value=="7"){
-                data1=obj1.ztc;
+            if (value == "7") {
+                $('#searchBox2 input').val('');
+                data1 = obj1.ztc;
+                $('#searchBox2').show();
+                searchEvent(value);
             }
             $('#r1ul').empty();
             $('#r1ul').html(template('rlist' + value, data1));
@@ -159,4 +175,59 @@ $(function () {
         show = false;
         $(this).parent().hide();
     });
+    function searchEvent(value) {
+        var v = value;
+        var urlList = {
+            'url1': 'http://183.131.86.64:8620/cx/cx/activity_search',
+            'url2': 'http://183.131.86.64:8620/cx/cx/direct_search',
+            'url3': 'http://183.131.86.64:8620/cx/cx/ztc_search'
+        };
+        if (v == "1") {
+            $('#search').off('click').on('click', function () {
+                var search_key = $('#searchBox2 input').val();
+               key_show=getSearchDate(urlList.url1, search_key);
+                $('#r1ul').empty();
+                $('#r1ul').html(template('rlist1', key_show));
+            })
+        }
+        if (v == "5") {
+            $('#search').off('click').on('click', function () {
+                var search_key = $('#searchBox2 input').val();
+                key_show=getSearchDate(urlList.url2, search_key);
+                $('#r1ul').empty();
+                $('#r1ul').html(template('rlist5', key_show));
+            })
+        }
+        if (v == "7") {
+            $('#search').off('click').on('click', function () {
+                var search_key = $('#searchBox2 input').val();
+                key_show=getSearchDate(urlList.url3, search_key);
+                $('#r1ul').empty();
+                $('#r1ul').html(template('rlist7', key_show));
+            })
+        }
+    }
+
+    function getSearchDate(url, sub_key) {
+        var key_list;
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {
+                title: sub_key
+            },
+            dataType: "json",
+            async: false,
+            success: function (e) {
+                 key_list=e.data;
+            },
+            error: function (e) {
+                console.log("访问错误");
+                 key_list={}
+            },
+            complete: function () {
+            }
+        });
+        return key_list;
+    }
 });

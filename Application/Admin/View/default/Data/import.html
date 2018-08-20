@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/Public/zui/lib/datetimepicker/datetimepicker.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__ZUI__/lib/uploader/zui.uploader.min.css" media="all">
+    <link rel="stylesheet" type="text/css" href="__ZUI__/css/zui.css" media="all">
+    <style>
+         * {padding: 0;margin: 0}
+        html,body{width: 100%;height: 100%;position: relative}
+        .section {
+            width: 100%;
+            position: absolute;
+            bottom: 5px;
+            left: 0;
+
+        }
+        .uploader {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div id='uploaderExample' class="uploader" data-ride="uploader">
+            <div class="uploader-message text-center">
+                <div class="content"></div>
+                <button type="button" class="close">×</button>
+            </div>
+            <div class="uploader-files file-list file-list-lg" data-drag-placeholder="请拖拽文件到此处"></div>
+            <div class="uploader-actions">
+                <div class="uploader-status pull-right text-muted"></div>
+                <button type="button" class="btn btn-link uploader-btn-browse"><i class="icon icon-plus"></i> 选择文件</button>
+                <button type="button" class="btn btn-link uploader-btn-start"><i class="icon icon-cloud-upload"></i> 开始上传</button>
+            </div>
+        </div>
+    </section>
+<script type="text/javascript" src="__STATIC__/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="__ZUI__/js/zui.js"></script>
+<script src="__ZUI__/lib/uploader/moxie.min.js"></script>
+<script src="__ZUI__/lib/uploader/plupload.min.js"></script>
+<script src="__ZUI__/lib/uploader/zui.uploader.js"></script>
+<script>
+    $('#uploaderExample').uploader({
+        autoUpload: false,            // 当选择文件后立即自动进行上传操作
+        url: 'Admin/Data/import_excel',  // 文件上传提交地址
+        filters:{
+            mime_types: [
+                {title: 'EXCEL', extensions: 'xls'},
+            ],
+        },
+        responseHandler: function (responseObject, file) {
+            var data = file.remoteData
+            if (data && data.status === 1) {
+                console.log(data.data)
+            }
+        }
+    });
+</script>
+</body>
+</html>

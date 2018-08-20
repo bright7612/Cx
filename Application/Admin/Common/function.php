@@ -859,7 +859,7 @@ function import_excel_m($file){
     //从第一行开始读取数据
     for($j=2;$j<=$highestRow;$j++){
         //从A列读取数据
-        for($k=0;$k<$highestColumnIndex;$k++){
+        for($k=1;$k<$highestColumnIndex;$k++){
             // 读取单元格
             $data[$j][]=$objPHPExcel->getActiveSheet()->getCellByColumnAndRow($k,$j)->getValue();
         }
@@ -916,200 +916,39 @@ function getMerge(&$start,&$jump,$merge){
     //var_dump($jump);
 }
 
-function import_excel00($file){
-    Vendor('PHPExcel.PHPExcel');
-    $type = pathinfo($file);
-    $type = strtolower($type["extension"]);
-    $type=$type==='Excel2007' ? $type : 'Excel5';
+function create_xls($data,$filename='simple.xls'){
     ini_set('max_execution_time', '0');
-    $objReader = PHPExcel_IOFactory::createReader($type);//use excel2007 for 2007 format
-    $objPHPExcel = $objReader->load ($file);
-    //$objWorksheet = $objPHPExcel->getActiveSheet ();
-    $objWorksheet = $objPHPExcel->getSheet (0);
-    //取得excel的总行数
-    $highestRow = $objWorksheet->getHighestRow ();
-    //取得excel的总列数
-    $highestColumn = $objWorksheet->getHighestColumn ();
-    $merge = $objWorksheet->getMergeCells();
-    $highestColumnIndex = PHPExcel_Cell::columnIndexFromString ( $highestColumn );
-
-    $excelData = array ();
-    foreach($merge as $m){
-        $merge[]=$m;
-    }
-    $start = array();
-    $jump = array();
-    getMerge($start,$jump,$merge);
-    for($row = 0; $row <= $highestRow; $row++) {
-        $order = $objWorksheet->getCellByColumnAndRow ( 0, $row )->getValue ();
-        if($order==4){
-            $startrow = ($objWorksheet->getCellByColumnAndRow ( 2, $row )->getValue ())-1;
-            $endrow = $objWorksheet->getCellByColumnAndRow ( 4, $row )->getValue ();
-            $startcol = ($objWorksheet->getCellByColumnAndRow ( 3, $row )->getValue ())-1;
-            $endcol = $objWorksheet->getCellByColumnAndRow ( 5, $row )->getValue ();
-            break;
-        }
-    }
-
-
-    echo'
-    <link href="/Public/statics/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/Public/statics/js/jquery.min.js?v=2.1.4"></script>
-    <script src="/Public/statics/bootstrap-3.3.5/js/bootstrap.min.js"></script>';
-    echo '
-          <form class="form-inline" action="/index.php/Admin/Examination/import_excel" method="post" target="_self" >
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-addon" >表格名称</div>
-                <input class="form-control" required="" type="text" name="name" placeholder="请输入表格名称">
-            </div>
-          </div>
-          <div class="form-group">
-              <div class="input-group">
-                  <a target="_self">
-                    <button class="btn btn-primary" type="submit">保存表格</button>
-                  </a>
-              </div>
-          </div>
-          </form>
-          ';
-    echo"<table class='table table-bordered' id='tableid'>";
-    for($row = $startrow; $row < $endrow; $row++) {
-        echo"<tr>";
-        for($col = $startcol; $col < $endcol; $col++) {
-            if($jump[$row.$col]==-1){
-                //echo($row.$col);echo("-1");
-                //echo"<br>";
-                continue;
-            }else if($start[$row.$col]!=NULL){
-                //echo($row.$col);echo("-2");
-                //echo"<br>";
-                $arr = $start[$row.$col];
-                echo "<td colspan='";
-                echo($start[$row.$col][1]);
-                echo"' rowspan='";
-                echo($start[$row.$col][0]);
-                echo"' >";
-            }else {
-                //echo($row.$col);echo("-3");
-                //echo"<br>";
-                echo "<td>";
-            }
-            //echo($start[$row.$col][0]);echo($start[$row.$col][1]);
-            echo("&nbsp;");
-            echo($objWorksheet->getCellByColumnAndRow ( $col, $row+1 )->getValue ());
-            echo "</td>";
-        }
-        echo "</tr>";
-    }
-    echo "</table>";
-}
-
-function import_excel_online_mb($file){
     Vendor('PHPExcel.PHPExcel');
-    $type = pathinfo($file);
-    $type = strtolower($type["extension"]);
-    $type = $type==='Excel2007' ? $type : 'Excel5';
-    ini_set('max_execution_time', '0');
-    $objReader = PHPExcel_IOFactory::createReader($type);//use excel2007 for 2007 format
-    $objPHPExcel = $objReader->load ($file);
-    //$objWorksheet = $objPHPExcel->getActiveSheet ();
-    $objWorksheet = $objPHPExcel->getSheet (0);
-    //取得excel的总行数
-    $highestRow = $objWorksheet->getHighestRow ();
-    //取得excel的总列数
-    $highestColumn = $objWorksheet->getHighestColumn ();
-    $merge = $objWorksheet->getMergeCells();
-    $highestColumnIndex = PHPExcel_Cell::columnIndexFromString ( $highestColumn );
+    $filename=str_replace('.xls', '', $filename).'.xls';
+    $phpexcel = new PHPExcel();
+    $phpexcel->getProperties()
+        ->setCreator("jiangjunge")
+        ->setLastModifiedBy("jiangjunge")
+        ->setTitle("Office 2007 XLSX Document")
+        ->setSubject("Office 2007 XLSX Document")
+        ->setDescription("Document for Office 2007 XLSX, generated using PHP classes.")
+        ->setKeywords("office 2007 openxml php")
+        ->setCategory("Result file");
 
-    $excelData = array ();
-    foreach($merge as $m){
-        $merge[]=$m;
-    }
-    $start = array();
-    $jump = array();
-    getMerge($start,$jump,$merge);
-    for($row = 0; $row <= $highestRow; $row++) {
-        $order = $objWorksheet->getCellByColumnAndRow ( 0, $row )->getValue ();
-        if($order==4){
-            $startrow = ($objWorksheet->getCellByColumnAndRow ( 2, $row )->getValue ())-1;
-            $endrow = $objWorksheet->getCellByColumnAndRow ( 4, $row )->getValue ();
-            $startcol = ($objWorksheet->getCellByColumnAndRow ( 3, $row )->getValue ())-1;
-            $endcol = $objWorksheet->getCellByColumnAndRow ( 5, $row )->getValue ();
-            break;
-        }
-    }
+    //防止excel导出的长数字串变为科学计数法，下面三行
+    $phpexcel->setActiveSheetIndex(0);
+    $phpexcel->getActiveSheet()->setTitle('Simple');
+//    $phpexcel->getActiveSheet()->setCellValueExplicit('D1', 123456789033, PHPExcel_Cell_DataType::TYPE_STRING);
 
-    for ($row = 0; $row <= $highestRow; $row++) {
-        $order = $objWorksheet->getCellByColumnAndRow ( 0, $row )->getValue ();
-        if ($order == 14) {
-            $subjectCol = ($objWorksheet->getCellByColumnAndRow ( 1, $row )->getValue ())-1;
-        }
-        if ($order == 13) {
-            $totalRow = ($objWorksheet->getCellByColumnAndRow ( 1, $row )->getValue ());
-        }
-        if ($order == 30) {
-            $addorminus = ($objWorksheet->getCellByColumnAndRow ( 1, $row )->getValue ());
-        }
-    }
+    $phpexcel->getActiveSheet()->fromArray($data);
+    $phpexcel->getActiveSheet()->setTitle('Sheet1');
+    $phpexcel->setActiveSheetIndex(0);
 
-    echo'
-    <link href="/Public/statics/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
-    <script src="/Public/statics/js/jquery.min.js?v=2.1.4"></script>
-    <script src="/Public/statics/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-    <script>
-        function bc()
-        {
-            var bg_name = $("#sc_bc").val();
-            var img =$("#pf").val();
-            var subjects = $("#subjects").val();
-            var totalrow = $("#totolscorerow").val();
-            var addorminus = $("#addorminus").val();
-            $.ajax({
-                type: "post",
-                url: "/index.php/Admin/Examination/areate",
-                dataType:"json",
-                data: {bg_name:bg_name,fk:1,img:img,subjects:subjects,totalrow:totalrow,addorminus:addorminus},
-                success: function(a) {
-                    $("#bg_id").val(a);
-                    $("#yc_d").css("display","none");
-                    $("#yc_c").css("display","none");
-                },
-                error: function(json) {
-                    alert("加载失败");
-                }
-            });
-        }
-    </script>
-    ';
-    echo"<table class='table table-bordered'>";
-    for($row = $startrow; $row < $endrow; $row++) {
-        echo"<tr>";
-        for($col = $startcol; $col < $endcol; $col++) {
-            if($jump[$row.$col]==-1){
-                //echo($row.$col);echo("-1");
-                //echo"<br>";
-                continue;
-            }else if($start[$row.$col]!=NULL){
-                //echo($row.$col);echo("-2");
-                //echo"<br>";
-                $arr = $start[$row.$col];
-                echo "<td colspan='";
-                echo($start[$row.$col][1]);
-                echo"' rowspan='";
-                echo($start[$row.$col][0]);
-                echo"' >";
-            }else {
-                //echo($row.$col);echo("-3");
-                //echo"<br>";
-                echo "<td>";
-            }
-            //echo($start[$row.$col][0]);echo($start[$row.$col][1]);
-            echo("&nbsp;");
-            echo($objWorksheet->getCellByColumnAndRow ( $col, $row+1 )->getValue ());
-            echo "</td>";
-        }
-        echo "</tr>";
-    }
-    echo "</table>";
+    ob_end_clean();
+    header('Content-Type: application/vnd.ms-excel');
+    header("Content-Disposition: attachment;filename=$filename");
+    header('Cache-Control: max-age=0');
+    header('Cache-Control: max-age=1');
+    header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+    header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+    header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+    header ('Pragma: public'); // HTTP/1.0
+    $objwriter = PHPExcel_IOFactory::createWriter($phpexcel, 'Excel5');
+    $objwriter->save('php://output');
+    exit;
 }

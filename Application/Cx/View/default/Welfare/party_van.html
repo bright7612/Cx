@@ -65,7 +65,7 @@
     <div class="right">
         <volist name="integral" key="k" id="vo">
             <if condition="$k gt 6 ">
-                <a href="{$vo.openid}" class="little_box">
+                <a href="{:U('welfare/meb_detail/?id='.$vo[openid])}" class="little_box">
                     <span class="num1">{$k}.</span>
                     <img class="head_img" src="{$vo.headimgurl}" alt="">
                     <span class="name">{$vo.nickname}</span>

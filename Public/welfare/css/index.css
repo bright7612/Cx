@@ -1,57 +1,5 @@
 @import "reset.css";
-@font-face {
-  font-family: "iconfont";
-  src: url('../fonts/iconfont.eot?t=1529287878726');
-  /* IE9*/
-  src: url('../fonts/iconfont.eot?t=1529287878726#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('../fonts/iconfont.woff?t=1529287878726') format('woff'), url('../fonts/iconfont.ttf?t=1529287878726') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/ url('../fonts/iconfont.svg?t=1529287878726#iconfont') format('svg');
-  /* iOS 4.1- */
-}
-.iconfont {
-  font-family: "iconfont" !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.icon-zhekou:before {
-  content: "\e665";
-}
-.icon-huodong:before {
-  content: "\e658";
-}
-.icon-zhongchouxiangmu:before {
-  content: "\e680";
-}
-.icon-goods:before {
-  content: "\e741";
-}
-.icon-jieshao:before {
-  content: "\e639";
-}
-.icon-ceping:before {
-  content: "\e603";
-}
-.icon-quanbu:before {
-  content: "\e60e";
-}
-.icon-fanhui:before {
-  content: "\e607";
-}
-.icon-jifenshangcheng:before {
-  content: "\e612";
-}
-.icon-paihang:before {
-  content: "\e62c";
-}
-.icon-zhanshi:before {
-  content: "\e6b3";
-}
-.icon-integral_icon:before {
-  content: "\e608";
-}
-.icon-fuwu:before {
-  content: "\e6a0";
-}
+@import "../fonts/iconfont.css";
 html {
   width: 1920px;
   height: 1080px;
@@ -387,34 +335,40 @@ body {
   font-family: 'HYk2gj';
   text-align: center;
 }
-.shop {
+.right_bottom {
   width: 100%;
   height: 229px;
   margin-top: 22px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  background: #CC4F5E;
-  overflow: hidden;
-}
-.shop > a {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -moz-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-justify-content: center;
-  justify-content: center;
-  -webkit-align-items: center;
-  align-items: center;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+.right_bottom a {
   width: 100%;
   height: 100%;
+  border-radius: 10px;
   color: #fff;
+  text-align: center;
 }
-.shop > a .iconfont {
-  font-size: 120px;
-  margin-right: 40px;
+.right_bottom a .iconfont {
+  font-size: 75px;
+  display: block;
+  margin-top: 46px;
+  margin-bottom: 20px;
 }
-.shop > a .text {
-  font-size: 44px;
+.right_bottom a .text {
+  font-size: 36px;
+}
+.right_bottom .tab1 {
+  width: 281px;
+  background-image: linear-gradient(0deg, #cc4e5d 0%, #fc98a1 100%);
+}
+.right_bottom .tab2 {
+  width: 235px;
+  background-image: linear-gradient(0deg, #d54d37 0%, #fc926d 100%);
 }

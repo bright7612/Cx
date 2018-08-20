@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <link rel="stylesheet" href="__WELFARE__/css/section.css">
+    <title>党员公益互助系统</title>
+</head>
+<body class="section">
+<header class="header2">
+    <p>
+        <!--标题-->
+        <span class="title2">党组织、转入转出须知</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content2 list">
+    <ul class="item_box">
+        <volist name="data" id="vo">
+        <li><a href="{:U('Welfare/dy_detail?id='.$vo[id])}">{$vo.title}</a></li>
+        </volist>
+    </ul>
+</article>
+</body>
+</html>

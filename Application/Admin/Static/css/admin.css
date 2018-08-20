@@ -124,7 +124,7 @@ body {
   left: 200px;
   bottom: 0;
   right: 0;
-  z-index: 12;
+  /*z-index: 12;*/
   overflow: hidden;
 }
 .panel-main .nav-parent > a {

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <link rel="stylesheet" href="__WELFARE__/css/section.css">
+    <title>党员公益互助系统</title>
+    <style>
+        input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+            text-align: right;
+        }
+        input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            text-align: right;
+        }
+        input::-moz-placeholder { /* Mozilla Firefox 19+ */
+            text-align: right;
+        }
+        input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            text-align: right;
+        }
+    </style>
+</head>
+<body class="section">
+<header class="header2">
+    <p>
+        <!--标题-->
+        <span class="title2">党费核算</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content2 party_pay">
+    <!--标题-->
+    <p class="title2">党费缴纳在线计算</p>
+    <!--input-->
+    <div class="input_box">
+        <div>
+            <span>党员分类</span>
+            <select>
+                <option value="1">月薪制党员</option>
+                <option value="2">年薪制党员</option>
+                <option value="3">个体经营党员</option>
+                <option value="4">离退休党员</option>
+                <option value="5">退休返聘党员</option>
+                <option value="6">农民党员</option>
+                <option value="7">学生党员</option>
+                <option value="8">下岗失业党员</option>
+                <option value="9">生活困难党员</option>
+            </select>
+        </div>
+        <div class="new">
+            <span>月税后收入</span>
+            <input type="text" placeholder="元" id="input1">
+        </div>
+        <!--<div class="text">-->
+            <!--<span>您的身份享受党费特殊照顾政策</span>-->
+        <!--</div>-->
+        <!--<div class="long">-->
+            <!--<span>月开退休费或养老金总额</span>-->
+            <!--<input type="text" placeholder="（）元" id="input1">-->
+        <!--</div>-->
+    </div>
+    <!--按钮在线试算-->
+    <p class="btn_box">
+        <span class="btn">在线试算</span>
+    </p>
+    <div class="tip_box">
+        <p>温馨提示：</p>
+        <p>党费是党员向党组织交纳的用于党的事业和党的活动的经费。交纳党费是党员对党组织应尽的义务，是对党员党性的检验，也是党员关心党的事业的一种表现。按照《党章》规定，党员向党组织交纳党费，是党员必须具备的起码条件。</p>
+    </div>
+    <div class="party_show">
+        <p class="show_title">提示</p>
+        <p class="show_content"></p>
+        <p class="btn">确定</p>
+    </div>
+</article>
+<script type="text/javascript" src="__WELFARE__/libs/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="__WELFARE__/js/party_pay.js"></script>
+</body>
+</html>

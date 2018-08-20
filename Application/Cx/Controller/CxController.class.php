@@ -229,20 +229,47 @@ class CxController extends Controller
 
 
 
-    //服务预约系统查询
-    public function search()
+    //党建活动查询
+    public function activity_search()
     {
         $Model = M('issue_content');
         $title = I('title');
         $where['title'] = array('like',"%$title%");
         $where['status'] = 1;
-        $res = $Model->where($where)->field('id,title,addr,host,time,content')->select();
-
+        $where['issue_id'] = 82;
+        $res = $Model->where($where)->field('id,title,addr,time,content,lat,lng,host')->order('sort desc,id desc')->select();
         foreach ($res as $k=>&$v){
-            $v['content'] = preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($res['content'],"")); // 过滤标签和空格
+            $v['time_var'] = date('Y-m-d h:i',$v['time']);
         }
+        $this->Apireturn($res);
+    }
 
-        $this->display();
+    //场地查询
+    public function direct_search()
+    {
+        $Model = M('issue_content');
+        $title = I('title');
+        $where['title'] = array('like',"%$title%");
+        $where['status'] = 1;
+        $where['issue_id'] = 86;
+        $res = $Model->where($where)->field('id,title,addr,content,lat,lng,telphone,num')->select();
+        $this->Apireturn($res);
+    }
+
+    //场地查询
+    public function ztc_search()
+    {
+        $Model = M('sign_direct');
+        $title = I('title');
+        $where['title'] = array('like',"%$title%");
+        $where['status'] = 1;
+        $where['issue_id'] = 86;
+        $res = $Model->where($where)->field('id,title,desc,img')->select();
+        foreach ($res as $k=>&$v){
+            $item = get_cover($v['img']);
+            $v['path'] = 'http://183.131.86.64:8620'.$item['path'];
+        }
+        $this->Apireturn($res);
     }
 
 
@@ -607,6 +634,8 @@ class CxController extends Controller
             case 6: // 众筹
                 $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/raise_det/id/' . $id);
                 break;
+            case 7:
+                $this->qrcode('http://cxdj.cmlzjz.com/home/wxindex/project_det/id/' . $id);
         }
     }
 
@@ -656,12 +685,12 @@ class CxController extends Controller
         $id = I('dataId');
         $where['id'] = $id;
         $title = M('issue_content')->where($where)->field('title')->find();
-//        dump($title);die;
 
         $this->assign('title',$title);
-
         $this->display('volunteer_order');
     }
+
+    //
 
     public function zc_apply()
     {
@@ -785,36 +814,142 @@ class CxController extends Controller
         $this->display('crowd_order_new');
     }
 
+    //项目直通车-我要参与页面
+    public function ztc_join_view()
+    {
+        $id = I('dataId');
+        $where['id'] = $id;
+        $title = M('sign_direct')->where($where)->field('title')->find();
+
+        $this->assign('title',$title);
+        $this->display('item_party_in');
+    }
+
+    //项目直通车-我有需求
+    public function ztc_demand_view()
+    {
+        $id = I('dataId');
+        $where['id'] = $id;
+        $title = M('sign_direct')->where($where)->field('title')->find();
+
+        $this->assign('title',$title);
+        $this->display('item_need');
+    }
+
+    //项目直通车-我要参与
+    public function ztc_join()
+    {
+        $Model = M('sign_direct_apply');
+        $name = I('name');
+        if($name != ''){
+            $data['telephone'] = I('phone');
+            $data['name'] = I('name');
+            $data['direct_id'] = I('id');
+            $data['identity'] = I('card');
+            $data['organization'] = I('party');
+            $data['source'] = 2;   //2代表大屏预约
+            $data['types'] = I('type');
+            $data['remark'] = I('remark');
+            $data['company'] = I('company');
+            $data['cer_time'] = time();
+        }
+        $record = $Model->add($data);
+        if($record){
+            send($data['telephone'],$classify=1,$option='直通车认领');
+            echo json_encode(array('status'=>1,'msg'=>'预约成功'));
+        }else{
+            echo json_encode(array('status'=>0,'msg'=>'预约失败'));
+        }
+    }
+
+    //项目直通车-我有需求
+    public function ztc_demand()
+    {
+        $Model = M('sign_direct_demand');
+        $name = I('name');
+        if($name != ''){
+            $data['telephone'] = I('phone');
+            $data['name'] = I('name');
+            $data['source'] = 2;   //2代表大屏预约
+            $data['content'] = I('remark');
+            $data['cer_time'] = time();
+        }
+        $record = $Model->add($data);
+        if($record){
+            send($data['telephone'],$classify=1,$option='需求提交');
+            echo json_encode(array('status'=>1,'msg'=>'提交成功'));
+        }else{
+            echo json_encode(array('status'=>0,'msg'=>'提交失败'));
+        }
+    }
 
     //项目直通车详情
     public function ztc_detail()
     {
+        $Model = M();
         $id = I('id');
-        $detail = M()->query("SELECT
+        $ztc_detail = M('sign_direct')->where("state=1 and status=1 and id=$id")->field('id,title,desc,img')->select();
+        foreach ($ztc_detail as $k=>&$v){
+            $items = get_cover($v['img']);
+            $v['path'] ='http://183.131.86.64:8620'. $items['path'];
+            $v['ewm'] = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=7';
+        }
+
+        $detail = $Model->query("SELECT
                                     direct.title,
                                     direct.img,
                                     direct.`desc`,
-                                    apply.`name`,
-                                    eval.content
-                                    
+                                    apply.`name`                                    
                                     FROM
                                         cxdj_sign_direct AS direct
-                                    JOIN cxdj_sign_direct_apply AS apply ON direct.id = apply.direct_id
-                                    RIGHT JOIN cxdj_sign_direct_evaluate AS eval ON direct.id = eval.direct_id
+                                    JOIN cxdj_sign_direct_apply AS apply ON direct.id = apply.direct_id                           
                                     WHERE
                                         direct.state = 1
                                     AND direct.`status` = 1
                                     AND apply.state = 1
-                                    AND apply.`status` = 1
-                                    AND eval.state = 1
-                                    AND eval.`status` = 1
+                                    AND apply.`status` = 1   
                                     AND direct.id = $id
                                     ");
+
+
+        //统计评价
+        $pj = $Model->query("SELECT
+                                eval.pj,
+                                count(pj) AS `count`
+                            FROM
+                                cxdj_sign_direct AS direct
+                            JOIN cxdj_sign_direct_evaluate AS eval ON direct.id = eval.direct_id
+                            AND eval.state = 1
+                            AND  eval.`status` = 1
+                            WHERE direct.state = 1 AND direct.`status` = 1
+                            AND  direct.id = $id
+                            GROUP BY pj
+                            ");
+
+
+        foreach ($pj as $k=>&$v){
+            if($v['pj'] == 1){
+                $perfect = $v['count'];
+            }elseif ($v['pj'] == 2){
+                $satisfied = $v['count'];
+            }elseif ($v['pj'] == 3){
+                $commonly = $v['count'];
+            }elseif (($v['pj'] == 4)){
+                $dissatisfied = $v['count'];
+            }
+        }
 
         $item = get_cover($detail[0]['img']);
         $detail[0]['path'] = 'http://183.131.86.64:8620'. $item['path'];
 
+        $this->assign(array(
+            'perfect'=>$perfect,
+            'satisfied'=>$satisfied,
+            'commonly'=>$commonly,
+            'dissatisfied'=>$dissatisfied,
+        ));
         $this->assign('detail',$detail[0]);
+        $this->assign('ztc_detail',$ztc_detail[0]);
         $this->display('item_detail');
     }
 
@@ -836,7 +971,6 @@ class CxController extends Controller
             ->select();
 
         $count = count($list);
-
         if ($count == 1) {
             $this->assign('detail', $list['0']);
             $this->display('zd_detail');
@@ -948,7 +1082,7 @@ class CxController extends Controller
         }
     }
 
-    public function brand()
+    public function brand1()
     {
         $Model = M('issue_content');
         $where['status'] = 1;
@@ -966,6 +1100,12 @@ class CxController extends Controller
 
     }
 
+    //优秀党建品牌
+    public function brand()
+    {
+        $this->display('brand');
+    }
+
 
     public function brand_detail()
     {
@@ -978,6 +1118,65 @@ class CxController extends Controller
 
         $this->assign('detail',$detail);
         $this->display('zd_detail');
+    }
+
+    public function  brand_videoList()
+    {
+        $Model = M();
+        $id = I('id');
+        $res = $Model->query("SELECT
+                                    CONCAT(
+                                        file.savepath,
+                                        file.savename
+                                    ) AS path,
+                                    content.id,
+                                    content.title,
+                                    content.cover_id
+                                FROM
+                                     cxdj_issue_content AS content
+                                JOIN cxdj_file AS file ON content.video_id = file.id
+                                WHERE
+                                    `status` = 1
+                                AND issue_id = $id                           
+                                ORDER BY
+                                    content.create_time DESC
+                                    ");
+
+            foreach ($res as $k=>&$v){
+                $items = get_cover($v['cover_id']);
+                $v['img_url'] = $items['path'];
+            }
+
+            $this->assign('result',$res);
+            $this->display("video_list");
+
+
+    }
+
+    public function brand_video()
+    {
+        $id = I('id');
+        $Model = M();
+        $video = $Model->query("SELECT
+                                        CONCAT(
+                                            file.savepath,
+                                            file.savename
+                                        ) AS path,
+                                        content.id,
+                                        content.title
+                                    FROM
+                                         cxdj_issue_content AS content
+                                    JOIN cxdj_file AS file ON content.video_id = file.id
+                                    WHERE
+                                        `status` = 1
+                                    AND content.id = $id
+                                    ORDER BY
+                                        content.create_time DESC
+                                        ");
+
+
+        $this->assign('video',$video['0']);
+        $this->display('brand_video');
     }
 
 

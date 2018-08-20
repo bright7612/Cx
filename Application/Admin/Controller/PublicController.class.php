@@ -48,7 +48,7 @@ class PublicController extends \Think\Controller {
 //                        $this->success(L('_LOGIN_SUCCESS_'), U('zzgl/zqdw'));
 //                    }
                     
-                    if(session("GroupId")==3){
+                    if(session("GroupId")==3 || session("GroupId")==6){
 
                         $this->success(L('_LOGIN_SUCCESS_'), U('Cx/content'));
                     }elseif(session("GroupId")==5){

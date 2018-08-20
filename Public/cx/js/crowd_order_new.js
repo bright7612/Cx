@@ -169,7 +169,7 @@ $(function () {
             formSubmit();
             $('#popUp').on('click', '.sure', function () {
                 // window.location.reload();
-                // window.location.href="../index.html";
+                window.location.href="http://183.131.86.64:8620/cx/cx";
             })
         }
     });

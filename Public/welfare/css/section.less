@@ -260,7 +260,7 @@ body > .party_van_detail {
       .displayFlex();
       width: 1748px;
       .borderBox();
-      min-height: 103px;
+      min-height: 236px;
       margin: 0 auto;
       padding-left: 33px;;
       border-bottom: 1px solid #DCD8D8;
@@ -271,7 +271,7 @@ body > .party_van_detail {
       }
       .text_box {
         width: 1324px;
-        min-height: 83px;
+        min-height: 190px;
         margin-left: 32px;
         .title3 {
           font-size: 38px;
@@ -330,7 +330,7 @@ body > .market {
   }
   & > .box1 {
     display: none;
-    height: 864px;
+    height: 888px;
     .borderBox();
     overflow: hidden;
     overflow-y: auto;
@@ -392,7 +392,7 @@ body > .market {
             font-size: 45px;
           }
         }
-        .ewm_box{
+        .ewm_box {
           display: none;
           position: absolute;
           width: 300px;
@@ -400,7 +400,7 @@ body > .market {
           top: 0;
           left: -68px;
           cursor: pointer;
-          img{
+          img {
             width: 200px !important;
             height: 200px !important;
             display: block;
@@ -409,7 +409,7 @@ body > .market {
             border-radius: 20px;
             border: 4px solid #F87450;
           }
-          p{
+          p {
             font-size: 28px;
             line-height: 40px;
             margin-top: 15px;
@@ -490,5 +490,199 @@ body > .interacting_list {
       .textOverflow(2);
       width: 85%;
     }
+  }
+}
+
+//党员服务
+body > .party_server {
+  background: transparent;
+  .displayFlex();
+  padding: 200px 300px;
+  .spaceBetween();
+  .circle {
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: red;
+    color: #FFFFFF;
+    text-align: center;
+    &.red {
+      background-image: linear-gradient(0deg, #cc4e5d 0%, #fc98a1 100%)
+    }
+    &.orange {
+      background-image: linear-gradient(0deg, #d54d37 0%, #fc926d 100%)
+    }
+    .iconfont {
+      display: block;
+      font-size: 120px;
+      margin: 80px 0 40px 0;
+    }
+    .text {
+      font-size: 30px;
+    }
+  }
+}
+
+//公用列表页
+body > .list {
+  padding: 25px 58px;
+  & > .item_box {
+    width: 100%;
+    height: 790px;
+    overflow: hidden;
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    & > li {
+      height: 96px;
+      width: 100%;
+      line-height: 96px;
+      border-bottom: 1px dashed #6A7A7C;
+      .textOverflow(1);
+      font-size: 44px;
+      color: #444444;
+    }
+  }
+}
+
+//党费核算
+body > .party_pay {
+  padding: 25px 32px;
+  position: relative;
+  .title2 {
+    font-size: 46px;
+    text-align: center;
+    color: #ff6750;
+    line-height: 86px;
+    margin-bottom: 60px;
+  }
+  .input_box {
+    width: 100%;
+    padding: 0 150px;
+    .borderBox();
+    .displayFlex();
+    .spaceBetween();
+    flex-wrap: wrap;
+    color: #5E5E5E;
+    font-size: 40px;
+    line-height: 90px;
+    min-height: 90px;
+    text-align: center;
+    //margin-bottom: 60px;
+    & > div {
+      //width: 680px;
+      .displayFlex();
+      margin-bottom: 30px;
+      line-height: 90px;
+      & > span {
+        width: 280px;
+      }
+      & > select, & > input {
+        width: 440px;
+        outline: none;
+        border: 2px solid #cfcfcf;
+        border-radius: 10px;
+        .borderBox();
+        padding: 0 35px;
+        -webkit-appearance: none;
+        color: #818181;
+      }
+      & > select {
+        background: url("../imgs/arror.png") no-repeat scroll 95% 50% #FFFFFF;
+      }
+      & > input {
+        background: #FFFFFF;
+      }
+      &.long{
+        span{
+          font-size: 36px;
+          line-height: 45px;
+        }
+      }
+      &.text{
+        width: 100%;
+        span{
+          width: 680px;
+        }
+      }
+    }
+  }
+  .btn_box {
+    text-align: center;
+    padding-bottom: 60px;
+    border-bottom: 1px solid #DDD9D9;
+    span {
+      box-shadow: 2px 2px 7px 0px rgba(0, 0, 0, 0.21);
+      display: inline-block;
+      text-align: center;
+      height: 110px;
+      width: 490px;
+      background: linear-gradient(0deg, #e3553d 0%, #fc926d 100%);
+      border-radius: 10px;
+      cursor: pointer;
+      line-height: 110px;
+      color: #FFFFFF;
+      font-size: 40px;
+    }
+  }
+  .tip_box{
+    padding: 0 30px;
+    .borderBox();
+    p{
+      color: #a8a8a8;
+      font-size: 36px;
+      line-height: 60px;
+      &:first-child{
+        margin: 30px 0 5px;
+      }
+      a{
+        text-decoration: underline;
+        color: #5BBFE1;
+      }
+    }
+  }
+  .party_show{
+    display: none;
+    position: absolute;
+    width: 800px;
+    height: 400px;
+    .borderBox();
+    background: rgba(0,0,0,0.8);
+    top: 160px;
+    left: 530px;
+    color: #FFFFFF;
+    font-size: 40px;
+    text-align: center;
+    .show_title{
+      height: 150px;
+      line-height: 150px;
+      font-weight: bold;
+      letter-spacing: 20px;
+    }
+    .show_content{
+      height: 100px;
+      line-height: 100px;
+    }
+    .btn{
+      margin-top: 30px;
+      height: 80px;
+      line-height: 80px;
+      width: 150px;
+      display: inline-block;
+      border-radius: 10px;
+      background: #EB675B;
+      cursor: pointer;
+    };
+  }
+}
+//纯文字详情页
+body>.detail{
+  padding: 30px 40px;
+  .content{
+    font-size: 34px;
+    line-height: 65px;
+    color: #5e5e5e;
+    text-indent: 2em;
   }
 }

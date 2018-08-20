@@ -27,9 +27,9 @@
             <a href="{:U('welfare/hz_detail?id='.$vo['id'])}">
                 <h3 class="project-title">
                     <span class="title">{$vo.title}</span>
-                    <span class="status complete">{$vo.status}</span>
+                    <span class="status {$vo.class}">{$vo.status}</span>
                 </h3>
-                <p class="project-time">{$vo.time|date='Y-m-d',###}</p>
+                <p class="project-time">{$vo.state_time|date='Y-m-d',###}</p>
                 <p class="project-text">{$vo.content}</p>
             </a>
         </li>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <title>服务预约系统</title>
+    <link rel="stylesheet" href="__CX__/css/order.css">
+</head>
+<body>
+<header class="header2">
+    <p>
+        <!--标题-->
+        <span class="title2">项目直通车</span>
+        <!--返回按钮-->
+        <a class="return" href="javascript:history.back(-1);">
+            <span class="iconfont icon-fanhui"></span>
+            <span class="text2">返回</span>
+        </a>
+    </p>
+</header>
+<article class="content2 activity_order item_need">
+    <p class="title">
+        <span class="mark1"></span>
+        <span class="font1">我有需求</span>
+    </p>
+    <div class="input_box">
+        <div>
+            <p>
+                <span class="iconfont icon-lianxiren icon_yellow"></span>
+                <span class="text2">联系人</span>
+            </p>
+            <input type="text" placeholder="请输入联系人姓名" id="name">
+        </div>
+        <div>
+            <p>
+                <span class="iconfont icon-dianhua icon_green"></span>
+                <span class="text2">联系方式</span>
+            </p>
+            <input type="text" placeholder="请输入手机号码" id="phone">
+        </div>
+        <div class="textarea_box">
+            <p>
+                <span class="iconfont icon-beizhu icon_green"></span>
+                <span class="text2">备注</span>
+            </p>
+            <textarea id="remark" placeholder="请输入需求备注,字数限制在500字以内"></textarea>
+        </div>
+    </div>
+    <p class="btn_box1 submit_box">
+        <a id="submit">提交</a>
+    </p>
+</article>
+<div id="popUp">
+    <p class="pop_title">提&nbsp;&nbsp;示</p>
+    <p class="pop_content"></p>
+    <span class="sure">确 定</span>
+</div>
+<input type="text" id="displayInput" style="display: none;" value="12">
+</body>
+<script type="text/javascript" src="__CX__/libs/jquery/jquery.js"></script>
+<script type="text/javascript" src="__CX__/js/item_need.js"></script>
+</html>
