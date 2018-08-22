@@ -1331,10 +1331,12 @@ class CxController extends AdminController
                                 $ho[$t['title']]['sign_count']++;  //微心愿总申请数
                                 if ($p['state'] == 1) {
                                     $ho[$t['title']]['sign_state']++; //通过人数
-                                } elseif ($p['state'] == 3) {
+                                } elseif ($p['state'] == 4) {
                                     $ho[$t['title']]['sign_cancel']++; //取消人数
                                 } elseif ($p['state'] == 0) {
                                     $ho[$t['title']]['sign_wait']++; //待审批人数
+                                }elseif ($p['state'] == 3) {
+                                    $ho[$t['title']]['sign_wancheng']++; //待审批人数
                                 }
                             }
 
@@ -1370,10 +1372,12 @@ class CxController extends AdminController
                                 $ho[$t['title']]['sign_count']++;  //总报名
                                 if ($p['state'] == 1) {
                                     $ho[$t['title']]['sign_state']++; //通过人数
-                                } elseif ($p['state'] == 3) {
+                                } elseif ($p['state'] == 4) {
                                     $ho[$t['title']]['sign_cancel']++; //取消人数
                                 } elseif ($p['state'] == 0) {
                                     $ho[$t['title']]['sign_wait']++; //待审批人数
+                                }elseif ($p['state'] == 3) {
+                                    $ho[$t['title']]['sign_wancheng']++; //待审批人数
                                 }
                             }
                         }
@@ -1392,6 +1396,7 @@ class CxController extends AdminController
                         $hoo[$oh]['sign_state'] = (int)$di['sign_state'];
                         $hoo[$oh]['sign_wait'] = (int)$di['sign_wait'];
                         $hoo[$oh]['sign_cancel'] = (int)$di['sign_cancel'];
+                        $hoo[$oh]['sign_wancheng'] = (int)$di['sign_wancheng'];
                         $hoo[$oh]['host'] = $dii;
                         $oh++;
                     }
@@ -1406,7 +1411,7 @@ class CxController extends AdminController
                     }
                     $data = array_filter($data);
                     $this->assign('data',$data);
-                    $this->display('bespoke_statistics3');
+                    $this->display('bespoke_statistics4');
                     break;
                 //项目直通车
                 case 191:
@@ -1540,7 +1545,7 @@ class CxController extends AdminController
                     }
                     $data = array_filter($data);
                     $this->assign('data',$data);
-                    $this->display('bespoke_statistics3');
+                    $this->display('bespoke_statistics5');
                     break;
 
 
@@ -2607,6 +2612,701 @@ class CxController extends AdminController
                         break;
                 }
                 break;
+            //微心愿
+            case 95:
+                $map['status'] = 1;
+
+                $timehd = I('timebm');
+                $timebm = I('timehd');
+                if($timebm||$timehd){
+                    if($timehd){
+                        $this->assign('timehd',$timehd);
+                        $timehd = explode('-',$timehd);
+                        $timehd = $this->mFristAndLast($timehd[0],$timehd[1]);
+                        $map['cre_time'] = array(array('egt',$timehd['firstday']),array('elt',$timehd['lastday']));
+                    }
+                    if($timebm){
+                        $this->assign('timebm',$timebm);
+                        $timebm = explode('-',$timebm);
+                        $timebm = $this->mFristAndLast($timebm[0],$timebm[1]);
+                        $map2['cer_time'] = array(array('egt',$timebm['firstday']),array('elt',$timebm['lastday']));
+                    }
+                }
+                switch ($classify){
+                    case 'fbxyzsl':
+                        $map['organization'] = $host;
+                        $count = $this->wish->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->wish->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['wish_id'] = $v['id'];
+                            $v['bm_count'] =$this->wishapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+
+                        break;
+                    case 'drl':
+                        $map['organization'] = $host;
+                        $map['state'] = 1;
+                        $count = $this->wish->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->wish->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['wish_id'] = $v['id'];
+                            $v['bm_count'] =$this->wishapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+
+                        break;
+                    case 'wsp':
+                        $map['organization'] = $host;
+                        $map['state'] = 0;
+                        $count = $this->wish->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->wish->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['wish_id'] = $v['id'];
+                            $v['bm_count'] =$this->wishapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+
+                        break;
+                    case 'spsb':
+                        $map['organization'] = $host;
+                        $map['state'] = -1;
+                        $count = $this->wish->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->wish->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['wish_id'] = $v['id'];
+                            $v['bm_count'] =$this->wishapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+                        break;
+                    case 'yrl':
+                        $map['organization'] = $host;
+                        $map['state'] = 2;
+                        $count = $this->wish->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->wish->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['wish_id'] = $v['id'];
+                            $v['bm_count'] =$this->wishapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+                        break;
+                    case 'ywc':
+                        $map['organization'] = $host;
+                        $map['state'] = 3;
+                        $count = $this->wish->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->wish->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['wish_id'] = $v['id'];
+                            $v['bm_count'] =$this->wishapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+                        break;
+                    case 'yhqx':
+                        $map['organization'] = $host;
+                        $map['state'] = 4;
+                        $count = $this->wish->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->wish->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['wish_id'] = $v['id'];
+                            $v['bm_count'] =$this->wishapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+                        break;
+                    case 'cyzs':
+                        $map['organization'] = $host;
+                        $data = $this->wish->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['wish_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $data2 = $this->wishapply->where($map2)->page($page,$r)->select();
+                        $count = $this->wishapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                            4=>'用户取消',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['wish_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details3');
+                        exit;
+                        break;
+                    case 'cycg':
+                        $map['organization'] = $host;
+                        $data = $this->wish->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['wish_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $map2['state'] = 1;
+                        $data2 = $this->wishapply->where($map2)->page($page,$r)->select();
+                        $count = $this->wishapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                            4=>'用户取消',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['wish_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details3');
+                        exit;
+                        break;
+                    case 'cywsp':
+                        $map['organization'] = $host;
+                        $data = $this->wish->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['wish_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $map2['state'] = 0;
+                        $data2 = $this->wishapply->where($map2)->page($page,$r)->select();
+                        $count = $this->wishapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                            4=>'用户取消',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['wish_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details3');
+                        exit;
+                        break;
+                    case 'yhqxcy':
+                        $map['organization'] = $host;
+                        $data = $this->wish->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['wish_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $map2['state'] = 4;
+                        $data2 = $this->wishapply->where($map2)->page($page,$r)->select();
+                        $count = $this->wishapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                            4=>'用户取消',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['wish_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details3');
+                        exit;
+                        break;
+                }
+                break;
+            //众筹
+            case 190:
+                $map['status'] = 1;
+
+                $timehd = I('timebm');
+                $timebm = I('timehd');
+                if($timebm||$timehd){
+                    if($timehd){
+                        $this->assign('timehd',$timehd);
+                        $timehd = explode('-',$timehd);
+                        $timehd = $this->mFristAndLast($timehd[0],$timehd[1]);
+                        $map['cre_time'] = array(array('egt',$timehd['firstday']),array('elt',$timehd['lastday']));
+                    }
+                    if($timebm){
+                        $this->assign('timebm',$timebm);
+                        $timebm = explode('-',$timebm);
+                        $timebm = $this->mFristAndLast($timebm[0],$timebm[1]);
+                        $map2['cer_time'] = array(array('egt',$timebm['firstday']),array('elt',$timebm['lastday']));
+                    }
+                }
+                switch ($classify){
+                    case 'fbxmzsl':
+                        $map['title'] = $host;
+                        $count = $this->zhch->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->zhch->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['zhch_id'] = $v['id'];
+                            $v['bm_count'] =$this->zhchapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+
+                        break;
+                    case 'zcz':
+                        $map['title'] = $host;
+                        $map['state'] = 1;
+                        $count = $this->zhch->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->zhch->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['zhch_id'] = $v['id'];
+                            $v['bm_count'] =$this->zhchapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+
+                        break;
+                    case 'wsp':
+                        $map['title'] = $host;
+                        $map['state'] = 0;
+                        $count = $this->zhch->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->zhch->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['zhch_id'] = $v['id'];
+                            $v['bm_count'] =$this->zhchapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+                        break;
+                    case 'spsb':
+                        $map['title'] = $host;
+                        $map['state'] = -1;
+                        $count = $this->zhch->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->zhch->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['zhch_id'] = $v['id'];
+                            $v['bm_count'] =$this->zhchapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+                        break;
+                    case 'ywc':
+                        $map['title'] = $host;
+                        $map['state'] = 2;
+                        $count = $this->zhch->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->zhch->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['zhch_id'] = $v['id'];
+                            $v['bm_count'] =$this->zhchapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+                        break;
+                    case 'cyzs':
+                        $map['title'] = $host;
+                        $data = $this->zhch->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['zhch_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $data2 = $this->zhchapply->where($map2)->page($page,$r)->select();
+                        $count = $this->zhchapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                            3=>'已完成',
+                            4=>'用户取消',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['zhch_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details4');
+                        exit;
+                        break;
+                    case 'cycg':
+                        $map['title'] = $host;
+                        $data = $this->zhch->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['zhch_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $map2['state'] = 1;
+                        $data2 = $this->zhchapply->where($map2)->page($page,$r)->select();
+                        $count = $this->zhchapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                            3=>'已完成',
+                            4=>'用户取消',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['zhch_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details4');
+                        exit;
+                        break;
+                    case 'cywsp':
+                        $map['title'] = $host;
+                        $data = $this->zhch->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['zhch_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $map2['state'] = 0;
+                        $data2 = $this->zhchapply->where($map2)->page($page,$r)->select();
+                        $count = $this->zhchapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                            3=>'已完成',
+                            4=>'用户取消',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['zhch_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details4');
+                        exit;
+                        break;
+                    case 'wc':
+                        $map['title'] = $host;
+                        $data = $this->zhch->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['zhch_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $map2['state'] = 3;
+                        $data2 = $this->zhchapply->where($map2)->page($page,$r)->select();
+                        $count = $this->zhchapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                            3=>'已完成',
+                            4=>'用户取消',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['zhch_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details4');
+                        exit;
+                        break;
+                    case 'yhqxcy':
+                        $map['title'] = $host;
+                        $data = $this->zhch->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['zhch_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $map2['state'] = 4;
+                        $data2 = $this->zhchapply->where($map2)->page($page,$r)->select();
+                        $count = $this->zhchapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                            3=>'已完成',
+                            4=>'用户取消',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['zhch_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details4');
+                        exit;
+                        break;
+                }
+                break;
+                //项目直通车
+            case 191:
+                $map['status'] = 1;
+
+                $timehd = I('timebm');
+                $timebm = I('timehd');
+                if($timebm||$timehd){
+                    if($timehd){
+                        $this->assign('timehd',$timehd);
+                        $timehd = explode('-',$timehd);
+                        $timehd = $this->mFristAndLast($timehd[0],$timehd[1]);
+                        $map['cer_time'] = array(array('egt',$timehd['firstday']),array('elt',$timehd['lastday']));
+                    }
+                    if($timebm){
+                        $this->assign('timebm',$timebm);
+                        $timebm = explode('-',$timebm);
+                        $timebm = $this->mFristAndLast($timebm[0],$timebm[1]);
+                        $map2['cer_time'] = array(array('egt',$timebm['firstday']),array('elt',$timebm['lastday']));
+                    }
+                }
+                switch ($classify){
+                    case 'xmzsl':
+                        $map['title'] = $host;
+                        $count = $this->direct->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->direct->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['direct_id'] = $v['id'];
+                            $v['bm_count'] =$this->directapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+
+                        break;
+                    case 'zcz':
+                        $map['title'] = $host;
+                        $map['state'] = 1;
+                        $count = $this->direct->where($map)->count();
+                        $Page = new Page($count, $r);
+                        $show = $Page->show();
+                        $data = $this->direct->where($map)->page($page,$r)->select();
+                        foreach ($data as $k=>&$v){
+                            $map2['status'] = 1;
+                            $map2['direct_id'] = $v['id'];
+                            $v['bm_count'] =$this->directapply->where($map2)->count();
+                        }
+                        $this->assign('data',$data);
+                        $this->assign('pagination', $show);
+
+                        $this->display('details');exit;
+
+                        break;
+                    case 'cyzs':
+                        $map['title'] = $host;
+                        $data = $this->direct->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['direct_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $data2 = $this->directapply->where($map2)->page($page,$r)->select();
+                        $count = $this->directapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['direct_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details4');
+                        exit;
+                        break;
+                    case 'cycg':
+                        $map['title'] = $host;
+                        $data = $this->direct->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['direct_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $map2['state'] = 1;
+                        $data2 = $this->directapply->where($map2)->page($page,$r)->select();
+                        $count = $this->directapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['direct_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details4');
+                        exit;
+                        break;
+                    case 'cywsp':
+                        $map['title'] = $host;
+                        $data = $this->direct->where($map)->field('id,title')->select();
+                        $hd = array();
+                        $hdid = '';
+                        foreach ($data as $k=>&$v){
+                            $hd[$v['id']] = $v['title'];
+                            $hdid[] =$v['id'];
+
+                        }
+                        $map2['direct_id']=array('in',implode(',',$hdid));
+                        $map2['status'] = 1;
+                        $map2['state'] = 0;
+                        $data2 = $this->directapply->where($map2)->page($page,$r)->select();
+                        $count = $this->directapply->where($map2)->count();
+                        $Page = new Page($count,$r);
+                        $show = $Page->show();
+
+                        $ste = array(
+                            0=>'待审批',
+                            1=>'审批通过',
+                            -1=>'审批未通过',
+                        );
+                        foreach ($data2 as $kk=>&$vv){
+                            $vv['state_var'] = $ste[$vv['state']];
+                            $vv['hd_title'] = $hd[$vv['direct_id']];
+                        }
+                        $this->assign('data',$data2);
+                        $this->assign('pagination', $show);
+                        $this->display('details4');
+                        exit;
+                        break;
+                }
+                break;
         }
 
 
@@ -2972,7 +3672,7 @@ class CxController extends AdminController
                     ->buttonSubmit()
                     ->buttonBack()
                     ->display();
-            }elseif ($type >= 183 && $type <=188){
+            } elseif ($type >= 183 && $type <=188){
                 $builder->title($act . "内容")
                     ->keyId()
                     ->keyId('issue_id', '分类编号')
@@ -2995,8 +3695,7 @@ class CxController extends AdminController
                     ->buttonSubmit()
                     ->buttonBack()
                     ->display();
-            }
-            else{
+            }else {
                 echo '<script>';
                 echo "location.href='/admin/cx/content/type/" . $type . "'";
                 echo '</script>';
