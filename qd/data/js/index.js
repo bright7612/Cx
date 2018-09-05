@@ -17,14 +17,19 @@ var apiUrl = {
     warnlist: DOMAIN_CXDJ + '/home/wxapi/warningList2', // 预警提醒列表
     // http://cxdj.cmlzjz.com/home/wxapi/warning
     rank: 'http://wei.wiseljz.com/home/apibranch/integral', // 积分排名
+    theme: DOMAIN_183 + '/Cx/data/dzz_ztdr', // 主题党日一级数据
+    theme2: DOMAIN_183 + '/Cx/data/ztdr_activity', // 主题党日二级数据
+    theme3: DOMAIN_183 + '/Cx/data/dzz_detail', // 主题党日三级数据
 
     home: 'http://a.wiseljz.com/api/local/getdatacount.html', // 家门口
     homeList: 'http://a.wiseljz.com/api/local/getdatalist', // 家门口列表
 
-    volunteer: DOMAIN_CXDJ + '/cx/data/volunteer', // 志愿服务列表
+    volunteer: DOMAIN_183 + '/cx/data/volunteer', // 志愿服务列表
+    volunteerRecord: DOMAIN_183 + '/cx/data/volunteerRecord', // 志愿服务表格
 
-    wise: DOMAIN_CXDJ + '/cx/data/wxy', // 微心愿数
-    requireList: DOMAIN_CXDJ + '/cx/data/wxyRecord', // 需求资源列表
+    wise: DOMAIN_183 + '/cx/data/wxy', // 微心愿数
+    requireList: DOMAIN_183 + '/cx/data/wxyRecord', // 微心愿列表
+    requireList2: DOMAIN_183 + '/Cx/data/wxy_party', // 微心愿二级列表
     wiseDetail: 'http://192.168.1.254/cx/data/wxy', // 微心愿详情
 
     project: DOMAIN_CXDJ + '/cx/data/loveList', // 爱心众筹
@@ -47,8 +52,13 @@ var apiUrl = {
     shzzActivityData: DOMAIN_183 + '/home/SocialApi/social_activity', // 社会组织优秀活动展示列表
 
     shzzRank: DOMAIN_183 + '/home/SocialApi/activity_ranking', // 社会组织活动数排名
+    shzzRankList: DOMAIN_183 + '/home/SocialApi/social_activity_list', // 社会组织活动数排名列表
 
-    shzzRankList: DOMAIN_183 + '/home/SocialApi/social_activity_list' // 社会组织活动数排名列表
+    shzzActive: DOMAIN_183 + '/home/SocialApi/social_active', // 社会组织社工活跃指数排名
+    shzzActiveList: DOMAIN_183 + '/home/SocialApi/social_active_list', // 社会组织社工活跃指数排名列表
+
+    shzzServer: DOMAIN_183 + '/home/SocialApi/social_service', // 社会组织服务信息接口
+    shzzServerList: DOMAIN_183 + '/home/SocialApi/social_service_list' // 社会组织服务信息列表接口
 }
 
 var $j = jQuery.noConflict();
@@ -65,7 +75,8 @@ var app = new Vue({
             mkUrl1: './imgs/marker/monitor1.png',
             mkUrl2: './imgs/marker/monitor2.png',
             mkUrl3: './imgs/marker/monitor3.png',
-            title: ''
+            title: '',
+
         },
         map2: {
             show: false,
@@ -185,6 +196,7 @@ var app = new Vue({
         platform: {
             type: 1,
             towns: [
+                '开发区(太湖街道)',
                 '雉城街道',
                 '和平镇',
                 '虹星桥镇',
@@ -195,7 +207,6 @@ var app = new Vue({
                 '李家巷镇',
                 '林城镇',
                 '图影管委会',
-                '太湖街道',
                 '龙山街道',
                 '吕山乡',
                 '煤山镇',
@@ -270,6 +281,11 @@ var app = new Vue({
             },
             show: false
         },
+        // 主题党日数据
+        theme: {
+            show: false,
+            data: {}
+        },
 
         // 社会组织基础数据
         shzzBase: {
@@ -296,10 +312,22 @@ var app = new Vue({
             displayModelText: '',
             rank: [],
             rankModel: false,
-            rankOrg: ''
+            rankOrg: '',
+            active: [],
+            poor: {
+                list: [],
+                date: []
+            },
+            old: {
+                list: [],
+                date: []
+            }
         }
     },
     computed: {
+        bigTitle: function () {
+            return this.partyType === 4 ? '长兴县社会组织党建数据平台' : '长兴县智慧党建大数据平台'
+        },
         // 子网页链接
         iframeUrl: function () {
             var url = ''
@@ -322,6 +350,10 @@ var app = new Vue({
         // 微心愿形式
         wiseType: function () {
             return this.wise.detail.NEEDTYPE === '1' ? '精神' : '物质';
+        },
+        // 众筹数据/党群创业互助
+        phTitle: function () {
+            return this.rightType2 === 1 ? '项目众筹' : '党群创业互助';
         },
         // 微心愿对象
         wiseFunc:  function () {
@@ -365,6 +397,10 @@ var app = new Vue({
         }
     },
     methods: {
+        // 图片地址拼接
+        imgCDN: function (url) {
+            return 'http://www.dysfz.gov.cn/' + url
+        },
         // 改变地图大小
         changeMapSize: function () {
             this.allScreen = !this.allScreen;
@@ -500,9 +536,15 @@ var app = new Vue({
             if (module === 'partier') {
                 this._getPartierList();
             }
+            if (module === 'volunteer') {
+                this._getVolunteerRecord();
+            }
+            if (module === 'theme') {
+                this._getThemeData();
+            }
         },
         // 打开公用模态框详情
-        openModelDetail: function (id, type, title, content, org) {
+        openModelDetail: function (id, type, title, content, org, name, ztdrId, ztdrType, developNum, wxyId) {
             if (id && type === 'partyMember') {
                 this._getBaseMember(id);
                 return false;
@@ -522,10 +564,34 @@ var app = new Vue({
             if (org) {
                 this._getShzzRankList(org);
             }
+            if (name) {
+                this._getShzzActiveList(name);
+            }
+            if (ztdrId && ztdrType) {
+                this._getThemeData2(ztdrId, ztdrType);
+            }
+            if (title) {
+                this._getThemeData3(title);
+            }
+            if (wxyId) {
+                this._getRequireData2(wxyId);
+            }
+            if (developNum) {
+                this.openWarn('organize', 3)
+                this.developFlag = true;
+                return false;
+            }
+            if (this.developFlag) {
+                this._getFuck();
+            }
         },
         // 关闭二级公用模态框
         closeSecondModel: function () {
             this.modelSecondShow = false;
+        },
+        // 关闭主题党日详情页
+        closeThemeDetail: function () {
+            this.theme.show = false;
         },
         // 关闭微心愿详情
         closeWiseDetail: function () {
@@ -552,6 +618,7 @@ var app = new Vue({
             this.base.order = 0;
             this.shzzList.displayModel = false;
             this.modelShow = false;
+            this.developFlag = false;
         },
         // 打开预警提醒模态框
         openWarn: function (origin, type) {
@@ -561,6 +628,26 @@ var app = new Vue({
         closeWarn: function () {
             this.warn.title = '';
             this.warn.show = false;
+        },
+        // !!!!!
+        openDevelop: function () {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: './data/develop1.json',
+                cache: false,
+                success: function (res) {
+                    var data = res;
+                    if (data.status === 200) {
+                        _this.listData = data.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
         },
         // 打开积分排名
         openRank: function (item) {
@@ -583,7 +670,7 @@ var app = new Vue({
             var mapTitle = {
                 party: '区域党群服务中心数量',
                 school: '红领学院数量',
-                belt: '示范带数量',
+                belt: '示范点数量',
                 base: '教学基地数量'
             }
             this.map.title = mapTitle[type];
@@ -599,7 +686,7 @@ var app = new Vue({
                             for (var i = 0; i < value.length; i++) {
                                 var point = new BMap.Point(value[i].lng, value[i].lat);
                                 arrPoint.push(point);
-                                _this._addMarker(point, value[i], true);
+                                _this._addMarker(point, value[i], type);
                             }
                             // _this._addLine(arrPoint, colors[index]);
                         })
@@ -608,7 +695,7 @@ var app = new Vue({
 
                     for (var i = 0; i < data.length; i++) {
                         var point = new BMap.Point(data[i].lng, data[i].lat);
-                        _this._addMarker(point, data[i]);
+                        _this._addMarker(point, data[i], type);
                     }
                 }
             })
@@ -642,22 +729,14 @@ var app = new Vue({
         closeDisplayDetail: function () {
             this.shzzList.displayModelShow = false;
         },
+
         // 党员男女比例饼图
         genderRender: function () {
             var myChart = echarts.init(document.getElementById('gender'));
             var i = 0;
             var color = ['#ff4459', '#ffd441'];
-            option = {
+            var option = {
                 animation: false,
-                tooltip : {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['男','女']
-                },
                 series : [
                     {
                         name: '男女比例',
@@ -689,7 +768,7 @@ var app = new Vue({
         educationRender: function () {
             var _this = this;
             var myChartRate = echarts.init(document.getElementById('education'));
-            option = {
+            var option = {
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -779,7 +858,7 @@ var app = new Vue({
         ageRender: function () {
             var _this = this;
             var myChartRate = echarts.init(document.getElementById('age'));
-            option = {
+            var option = {
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
@@ -870,17 +949,8 @@ var app = new Vue({
             var myChart = echarts.init(document.getElementById('distributeEdu'));
             var i = 0;
             var color = ['#ffa683', '#52d1ff', '#30a8ff', '#ffe76c'];
-            option = {
+            var option = {
                 animation: false,
-                tooltip : {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['高中','大专', '本科', '研究生']
-                },
                 series : [
                     {
                         name: '学历分布',
@@ -915,17 +985,8 @@ var app = new Vue({
             var myChart = echarts.init(document.getElementById('distributeAge'));
             var i = 0;
             var color = ['#ffa683', '#52d1ff', '#30a8ff', '#ffe76c', '#8bff5e'];
-            option = {
+            var option = {
                 animation: false,
-                tooltip : {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['30岁以下','30-40岁', '40-50岁', '50-60岁', '60岁以上']
-                },
                 series : [
                     {
                         name: '年龄分布',
@@ -961,16 +1022,11 @@ var app = new Vue({
             var myChart = echarts.init(document.getElementById('claim'));
             var i = 0;
             var color = ['#ff4459', '#ffd441'];
-            option = {
+            var option = {
                 animation: false,
                 tooltip : {
                     trigger: 'item',
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['已达标','进行中']
                 },
                 series : [
                     {
@@ -1003,17 +1059,12 @@ var app = new Vue({
         realizeRender: function () {
             var myChart = echarts.init(document.getElementById('realize'));
             var i = 0;
-            var color = ['#00b6ff', '#a4ffff'];
-            option = {
+            var color = ['#00b6ff', '#ff4459', '#a4ffff'];
+            var option = {
                 animation: false,
                 tooltip : {
                     trigger: 'item',
                     formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['已实现','未实现']
                 },
                 series : [
                     {
@@ -1028,6 +1079,7 @@ var app = new Vue({
                         },
                         data:[
                             {value: this.wise.realized, name:'已实现'},
+                            {value: this.wise.doing, name:'进行中'},
                             {value: this.wise.realizeNot, name:'未实现'},
                         ],
                         itemStyle : {
@@ -1053,28 +1105,25 @@ var app = new Vue({
         lineRender: function () {
             var _this = this;
             var myChartRate = echarts.init(document.getElementById('server'));
-            option = {
+            var option = {
                 tooltip: {
                     trigger: 'axis',
                     axisPointer: {
                         type: 'shadow'
                     }
                 },
-                legend: {
-                    data: ['当年', '当月']
-                },
                 grid: {
                     left: '2%',
                     right: '3%',
                     bottom: '0%',
-                    top: '5%',
+                    top: '10%',
                     containLabel: true,
                     borderColor: '#fff',
                     borderWidth: 1
                 },
                 xAxis: {
                     type: 'category',
-                    data: ['交通', '公共', '公安', '消防', '卫计', '国土', '城建'],
+                    data: ['交通', '公共', '公安', '消防', '卫计', '国土', '其他'],
                     axisLabel: {
                         show: true,
                         textStyle: {
@@ -1161,17 +1210,8 @@ var app = new Vue({
             var myChart = echarts.init(document.getElementById('deal'));
             var i = 0;
             var color = ['#1de0ee', '#ff4459'];
-            option = {
+            var option = {
                 animation: false,
-                tooltip : {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['普通网格员','红色网格员']
-                },
                 series : [
                     {
                         name: '访问来源',
@@ -1213,16 +1253,6 @@ var app = new Vue({
             // var color = ['#ec5593', '#ffb779', '#ffff52'];
             var color = ['#ec5593', '#ffb779'];
             option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    x: 'left',
-                    // data:['户籍人员','流动人员','境外人员']
-                    data:['户籍人员','流动人员']
-                },
                 series: [
                     {
                         name:'访问来源',
@@ -1257,16 +1287,7 @@ var app = new Vue({
             var myChart = echarts.init(document.getElementById('law'));
             var i = 0;
             var color = ['#CD3333', '#74ffff'];
-            option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    x: 'left',
-                    data:['办结事件','在办事件']
-                },
+            var option = {
                 series: [
                     {
                         name:'访问来源',
@@ -1301,9 +1322,6 @@ var app = new Vue({
             var option = {
                 tooltip: {
                     trigger: 'axis'
-                },
-                legend: {
-                    data:['邮件营销','联盟广告']
                 },
                 grid: {
                     left: '5%',
@@ -1371,17 +1389,8 @@ var app = new Vue({
             var myChart = echarts.init(document.getElementById('project'));
             var i = 0;
             var color = ['#F67C46', '#ffd441'];
-            option = {
+            var option = {
                 animation: false,
-                tooltip : {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['已完成','未完成']
-                },
                 series : [
                     {
                         name: '访问来源',
@@ -1416,15 +1425,6 @@ var app = new Vue({
             var color = ['#F67C46', '#ffd441'];
             var option = {
                 animation: false,
-                tooltip : {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b} : {c} ({d}%)"
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'left',
-                    data: ['已完成','未完成']
-                },
                 series : [
                     {
                         name: '访问来源',
@@ -1455,91 +1455,122 @@ var app = new Vue({
         // 社会组织类别柱状图
         shzzOrgRender: function () {
             var _this = this;
+            var i = 0;
             var myChartRate = echarts.init(document.getElementById('shzzOrg'));
+            var color = ['#F67C46', '#ffd441', '#CD3333', '#fff'];
             var option = {
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
-                grid: {
-                    left: '0%',
-                    right: '0%',
-                    bottom: '0%',
-                    top: '8%',
-                    containLabel: true,
-                    borderColor: '#fff',
-                    borderWidth: 1
-                },
-                xAxis: {
-                    type: 'category',
-                    data: ['社团', '基金会', '民非', '其他'],
-                    axisLabel: {
-                        show: true,
-                        textStyle: {
-                            color: '#FFF',
-                            fontSize: 12
-                        }
-                    },
-                    axisLine:{
-                        lineStyle: {
-                            color: '#48b8f0',
-                            width: 2
-                        }
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                },
-                yAxis: {
-                    type: 'value',
-                    boundaryGap: [0, 0.01],
-                    axisLabel: {
-                        formatter: '{value}',
-                        textStyle: {
-                            color: '#FFF',
-                            fontSize: 12
-                        }
-                    },
-                    axisLine:{
-                        lineStyle: {
-                            color: '#48b8f0',
-                            width: 2
-                        }
-                    },
-                    axisTick: {
-                        show: false
-                    },
-                    splitNumber: 2,
-                    splitLine:{
-                        show:false
-                    }
-                },
-                label: {
-                    show: true,
-                    position: 'top',
-                    textStyle: {
-                        color: 'white'
-                    }
-                },
-                series: [
+                animation: false,
+                series : [
                     {
-                        name: '类别',
-                        type: 'bar',
-                        barWidth: 12,
-                        data: _this.shzzBase.social,
-                        label: {
-                            color: '#fff'
+                        name: '访问来源',
+                        type: 'pie',
+                        radius : '70%',
+                        center: ['50%', '60%'],
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
                         },
-                        itemStyle:{
-                            normal:{
-                                color:'#f6db46',
+                        data:[
+                            {value: _this.shzzBase.social[0], name:'社团'},
+                            {value: _this.shzzBase.social[1], name:'基金会'},
+                            {value: _this.shzzBase.social[2], name:'民非'},
+                            {value: _this.shzzBase.social[3], name:'其他'},
+                        ],
+                        itemStyle : {
+                            normal : {
+                                color: function (){
+                                    return color[i++];
+                                }
                             }
                         }
                     }
                 ]
             };
+            // var option = {
+            //     tooltip: {
+            //         trigger: 'axis',
+            //         axisPointer: {
+            //             type: 'shadow'
+            //         }
+            //     },
+            //     grid: {
+            //         left: '0%',
+            //         right: '0%',
+            //         bottom: '0%',
+            //         top: '8%',
+            //         containLabel: true,
+            //         borderColor: '#fff',
+            //         borderWidth: 1
+            //     },
+            //     xAxis: {
+            //         type: 'category',
+            //         data: ['社团', '基金会', '民非', '其他'],
+            //         axisLabel: {
+            //             show: true,
+            //             textStyle: {
+            //                 color: '#FFF',
+            //                 fontSize: 12
+            //             }
+            //         },
+            //         axisLine:{
+            //             lineStyle: {
+            //                 color: '#48b8f0',
+            //                 width: 2
+            //             }
+            //         },
+            //         axisTick: {
+            //             show: false
+            //         },
+            //     },
+            //     yAxis: {
+            //         type: 'value',
+            //         boundaryGap: [0, 0.01],
+            //         axisLabel: {
+            //             formatter: '{value}',
+            //             textStyle: {
+            //                 color: '#FFF',
+            //                 fontSize: 12
+            //             }
+            //         },
+            //         axisLine:{
+            //             lineStyle: {
+            //                 color: '#48b8f0',
+            //                 width: 2
+            //             }
+            //         },
+            //         axisTick: {
+            //             show: false
+            //         },
+            //         splitNumber: 2,
+            //         splitLine:{
+            //             show:false
+            //         }
+            //     },
+            //     label: {
+            //         show: true,
+            //         position: 'top',
+            //         textStyle: {
+            //             color: 'white'
+            //         }
+            //     },
+            //     series: [
+            //         {
+            //             name: '类别',
+            //             type: 'bar',
+            //             barWidth: 12,
+            //             data: _this.shzzBase.social,
+            //             label: {
+            //                 color: '#fff'
+            //             },
+            //             itemStyle:{
+            //                 normal:{
+            //                     color:'#f6db46',
+            //                 }
+            //             }
+            //         }
+            //     ]
+            // };
             myChartRate.setOption(option);
             myChartRate.on("click", function(param) {
                 if (typeof param.seriesIndex == 'undefined') {
@@ -1556,12 +1587,6 @@ var app = new Vue({
             var _this = this;
             var myChartRate = echarts.init(document.getElementById('shzzEdu'));
             var option = {
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: {
-                        type: 'shadow'
-                    }
-                },
                 grid: {
                     left: '0%',
                     right: '0%',
@@ -1640,8 +1665,17 @@ var app = new Vue({
                 ]
             };
             myChartRate.setOption(option);
+            myChartRate.on("click", function(param) {
+                if (typeof param.seriesIndex == 'undefined') {
+                    return;
+                }
+                if (param.type == 'click') {
+                    var types = ['gaozhong', 'dazhuan', 'benke', 'yanjiusheng'];
+                    _this.openShzzModel(types[param.dataIndex])
+                }
+            });
         },
-        // 趋势统计折线图
+        // 扶贫济弱折线图
         inforPoorRender: function () {
             var myChart = echarts.init(document.getElementById('inforPoor'));
             var option = {
@@ -1660,7 +1694,7 @@ var app = new Vue({
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+                    data: this.shzzList.poor.date,
                     axisLabel: {
                         show: true,
                         textStyle: {
@@ -1698,13 +1732,13 @@ var app = new Vue({
                         type:'line',
                         color: '#fcfd1a',
                         stack: '总量',
-                        data: [50, 100, 70, 105, 115, 110, 50, 100, 135, 110, 80, 105]
+                        data: this.shzzList.poor.list
                     }
                 ]
             };
             myChart.setOption(option);
         },
-        // 趋势统计折线图
+        // 关爱老人折线图
         inforOldRender: function () {
             var myChart = echarts.init(document.getElementById('inforOld'));
             var option = {
@@ -1723,7 +1757,7 @@ var app = new Vue({
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+                    data: this.shzzList.old.date,
                     axisLabel: {
                         show: true,
                         textStyle: {
@@ -1759,7 +1793,7 @@ var app = new Vue({
                         type:'line',
                         color: '#86e319',
                         stack: '总量',
-                        data: [50, 100, 70, 105, 115, 110, 50, 100, 135, 110, 80, 105]
+                        data: this.shzzList.old.list
                     }
                 ]
             };
@@ -1770,25 +1804,40 @@ var app = new Vue({
             this.map2.show = false;
         },
         // 创建覆盖物
-        _addMarker: function (point, data) {
+        _addMarker: function (point, data, types) {
             var _this = this;
             var url = '';
+            // if (data.tdid) {
+            //     url = this.map.mkUrl2;
+            //     if (data.status == '100') {
+            //         url = this.map.mkUrl1;
+            //     }
+            // } else {
+            //     url = this.map.mkUrl3;
+            // }
             if (data.tdid) {
-                url = this.map.mkUrl2;
-                if (data.status == '100') {
-                    url = this.map.mkUrl1;
-                }
+                url = './imgs/marker/' + types + '1.png';
             } else {
-                url = this.map.mkUrl3;
+                url = './imgs/marker/' + types + '2.png';
             }
             this.map.myIcon = new BMap.Icon(url, new BMap.Size(32, 32));
             // 创建标注对象并添加到地图
             var marker = new BMap.Marker(point, {icon: this.map.myIcon});
             marker.data = data;
+
             this.bMap.addOverlay(marker);
-            if (data.tdid && data.status == '100') {
+            if (data.tdid && data.status == 100) {
                 marker.setAnimation(BMAP_ANIMATION_BOUNCE);
             }
+
+            var label = new BMap.Label(marker.data.address, {
+                offset: new BMap.Size(20,-10)
+            });
+            label.setStyle({
+                borderColor: '#FFF'
+            });
+            marker.setLabel(label);
+
             // 监听覆盖物点击
             marker.addEventListener("click", function () {
                 _this._attribute(marker);
@@ -1798,13 +1847,29 @@ var app = new Vue({
             // marker.setLabel(label);
         },
         _addMarker2: function (point, data) {
+
             var _this = this;
-            var marker = new BMap.Marker(point);  // 创建标注
+            var iconFlag = false;
+            data.content.forEach(function (val) {
+                if (val.party === '是') {
+                    iconFlag = true
+                }
+            })
+            if (iconFlag) {
+                var icon = new BMap.Icon('./imgs/marker/lg.png', new BMap.Size(27, 23));
+                var marker = new BMap.Marker(point, {icon: icon});  // 创建标注
+            } else {
+                var marker = new BMap.Marker(point);
+            }
+
             marker.data = data;
             this.bMap2.addOverlay(marker);
 
             var label = new BMap.Label(marker.data.address, {
                 offset: new BMap.Size(20,-10)
+            });
+            label.setStyle({
+                borderColor: '#FFF'
             });
             marker.setLabel(label);
 
@@ -2040,6 +2105,74 @@ var app = new Vue({
                 }
             })
         },
+        // 获取主题党日列表数据
+        _getThemeData: function ()  {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.theme,
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    var data = res;
+                    if (data.status === 200) {
+                        _this.listData = res.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        // 获取主题党日二级列表数据
+        _getThemeData2: function (ztdrId, ztdrType)  {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.theme2,
+                dataType: 'json',
+                data: {
+                    BRANCH_ID: ztdrId,
+                    TYPE: ztdrType
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.status === 200) {
+                        _this.listDataSecond = res.data;
+                        _this.modelSecondShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        // 获取主题党日三级详情数据
+        _getThemeData3: function (ztdr2Id)  {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.theme3,
+                dataType: 'json',
+                data: {
+                    ACTIVITY_ID: ztdr2Id
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.status === 200) {
+                        _this.theme.data = res.data;
+                        _this.theme.show = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
         // 获取积分排名数据
         _getRankData: function (type) {
             var _this = this;
@@ -2165,7 +2298,7 @@ var app = new Vue({
                 }
             });
         },
-        // 获取公益城数据
+        // 获取志愿服务数据
         _getVolunteerData: function () {
             var _this = this;
             $j.ajax({
@@ -2184,6 +2317,26 @@ var app = new Vue({
                 }
             });
         },
+        // 获取志愿服务表格数据
+        _getVolunteerRecord: function () {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.volunteerRecord,
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    var data = res;
+                    if (data.status === 200) {
+                        _this.listData = data.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
         // 获取微心愿数据
         _getWiseData: function () {
             var _this = this;
@@ -2195,12 +2348,12 @@ var app = new Vue({
                 success: function (res) {
                     var data = res.data;
                     _this.wise.doing = data.wxy_ing;
-                    _this.wise.complete = data.wxy_db;
-                    _this.wise.uncomplete = data.wxy_ed;
+                    // _this.wise.complete = data.wxy_db;
+                    // _this.wise.uncomplete = data.wxy_ed;
                     _this.wise.realized = data.already;
                     _this.wise.realizeNot = data.wei;
                     _this.wise.all = data.count;
-                    _this.claimRender();
+                    // _this.claimRender();
                     _this.realizeRender();
                 },
                 error: function (err) {
@@ -2224,6 +2377,29 @@ var app = new Vue({
                     if (data.status === 200) {
                         _this.listData = data.data;
                         _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        // 获取微心愿二级列表数据
+        _getRequireData2: function (id) {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.requireList2,
+                dataType: 'json',
+                data: {
+                    VOLUNTEER_ID: id
+                },
+                cache: false,
+                success: function (res) {
+                    var data = res;
+                    if (data.status === 200) {
+                        _this.listDataSecond = data.data;
+                        _this.modelSecondShow = true;
                     }
                 },
                 error: function (err) {
@@ -2351,6 +2527,24 @@ var app = new Vue({
                 }
             });
             return def;
+        },
+        _getFuck: function () {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: './data/develop3.json',
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    if (res.status === 200) {
+                        _this.listData = res.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
         },
 
         // 获取社会组织基本数据
@@ -2480,13 +2674,113 @@ var app = new Vue({
                 }
             })
         },
-
+        // 获取社会组织活跃指数数据
+        _getShzzActive: function (more) {
+            var _this = this;
+            var data = {};
+            if (more) {
+                data = {
+                    classify: 'list'
+                }
+            }
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzActive,
+                data: data,
+                dataType: 'json',
+                cache: false,
+                success: function (data) {
+                    if (data.code === 200) {
+                        if (more) {
+                            _this.listData = data.data;
+                            _this.modelShow = true;
+                            return false;
+                        }
+                        _this.shzzList.active = data.data
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // 获取社会组织活跃指数排名数据
+        _getShzzActiveList: function (name) {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzActiveList,
+                dataType: 'json',
+                data: {
+                    name: name
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listDataSecond = res.data;
+                        _this.modelSecondShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
         // 获取社会组织服务信息数据
         _getShzzServerData: function () {
             var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzServer,
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        var poverty = res.data.poverty;
+                        if (poverty.length) {
+                            poverty.forEach(function (val, index) {
+                                _this.shzzList.poor.list.push(parseInt(val.count))
+                                _this.shzzList.poor.date.push(index + 1)
+                            })
+                        }
+                        var care = res.data.care;
+                        if (care.length) {
+                            care.forEach(function (val, index) {
+                                _this.shzzList.old.list.push(parseInt(val.count))
+                                _this.shzzList.old.date.push(index + 1)
+                            })
+                        }
 
-            _this.inforPoorRender();
-            _this.inforOldRender();
+                        _this.inforPoorRender();
+                        _this.inforOldRender();
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        // 获取社会组织服务信息列表数据
+        _getShzzServerList: function (classify) {
+            var _this = this;
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.shzzServerList,
+                dataType: 'json',
+                data: {
+                    classify: classify
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listData = res.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
         },
         // 获取社会组织地图信息数据
         _getShzzMapData: function () {
@@ -2581,6 +2875,7 @@ var app = new Vue({
         this._getShzzBaseData();
         this._getShzzActivity();
         this._getShzzRank();
+        this._getShzzActive();
         this._getShzzServerData();
         this._getShzzMapData();
     },

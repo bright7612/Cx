@@ -8,7 +8,7 @@
     <meta name="format-detection" content="email=no"/>
     <title>长兴县智慧党建大数据平台</title>
     <link rel="stylesheet" href="https://js.arcgis.com/3.24/esri/css/esri.css">
-    <link rel="stylesheet" href="./css/index.css?v=1.5"/>
+    <link rel="stylesheet" href="./css/index.css?v=3.0"/>
     <style>
         [v-cloak] {
             display: none;
@@ -26,7 +26,7 @@
             <!-- 时间 end -->
 
             <!-- 头部 start -->
-            <header class="header">长兴县智慧党建大数据平台</header>
+            <header class="header">{{bigTitle}}</header>
             <!-- 头部 end -->
 
             <!-- 副头部 start -->
@@ -286,7 +286,7 @@
                             <div class="warn-block">
                                 <h4 class="block-title">主题党日</h4>
                                 <div class="block-content">
-                                    <p @click="openWarn('organize', 1)" class="red">
+                                    <p @click="openModel('theme')" class="red">
                                         <span>已开展</span>
                                         <span>{{warn.basedata.organize.theme.start}}</span>
                                     </p>
@@ -299,13 +299,17 @@
                             <div class="warn-block">
                                 <h4 class="block-title">发展党员</h4>
                                 <div class="block-content">
-                                    <p @click="openWarn('organize', 3)" class="red">
+                                    <p @click="openDevelop" class="red">
                                         <span>入党申请人</span>
                                         <span>{{warn.basedata.organize.partier.apply}}</span>
                                     </p>
                                     <p @click="openWarn('organize', 4)" class="red">
                                         <span>入党积极分子</span>
                                         <span>{{warn.basedata.organize.partier.active}}</span>
+                                    </p>
+                                    <p class="red">
+                                        <span>发展对象</span>
+                                        <span>800</span>
                                     </p>
                                 </div>
                             </div>
@@ -341,11 +345,11 @@
                                 <h4 class="block-title">主题党日</h4>
                                 <div class="block-content">
                                     <p @click="openWarn('partier', 1)" class="red">
-                                        <span>已开展</span>
+                                        <span>已参加</span>
                                         <span>{{warn.basedata.partier.theme.join}}</span>
                                     </p>
                                     <p @click="openWarn('partier', 2)" class="red">
-                                        <span>未开展</span>
+                                        <span>未参加</span>
                                         <span>{{warn.basedata.partier.theme.unJoin}}</span>
                                     </p>
                                 </div>
@@ -395,7 +399,7 @@
                             </div>
                         </div>
                     </section>
-                    <!--阵地服务-->
+                    <!--红色资源-->
                     <section v-if="partyType === 1 || partyType === 2" class="section resource">
                         <h3 class="title">
                             <div class="title-inner">红色资源</div>
@@ -403,7 +407,7 @@
                         <div class="content">
                             <ul class="resource-list">
                                 <li @click="openResource('party')" style="width: 246px;" class="resource-item">
-                                    <img src="./imgs/icon/party.png" class="item-icon"/>
+                                    <img src="imgs/icon/party.png" class="item-icon"/>
                                     <span class="item-name">区域党群服务中心数量</span>
                                     <span class="item-num">11</span>
                                 </li>
@@ -446,7 +450,7 @@
                     <!--社工活跃指数-->
                     <section v-if="partyType === 4" class="section exponent exponent2">
                         <h3 class="title">
-                            <div class="title-inner">社工活跃指数</div>
+                            <div @click="_getShzzActive(true)" class="title-inner">社工活跃指数</div>
                         </h3>
                         <div class="content">
                             <div class="exponent-title">
@@ -454,13 +458,9 @@
                                 <span class="num">活跃指数</span>
                             </div>
                             <ul class="exponent-list">
-                                <li class="exponent-item">
-                                    <span class="name">陈飞燕</span>
-                                    <span class="num">66</span>
-                                </li>
-                                <li class="exponent-item">
-                                    <span class="name">吴卓文</span>
-                                    <span class="num">59</span>
+                                <li v-for="item in shzzList.active" class="exponent-item">
+                                    <span class="name">{{item.name}}</span>
+                                    <span @click="_getShzzActiveList(item.name)" class="num">{{item.count}}</span>
                                 </li>
                             </ul>
                         </div>
@@ -502,9 +502,9 @@
                                         <li @click="changeMap(1, 4)" :class="{active: tabIndex === 4}" class="tab-item">
                                             <span>需求</span>
                                         </li>
-                                        <li @click="changeMap(1, 5)" :class="{active: tabIndex === 5}" class="tab-item">
-                                            <span>资源</span>
-                                        </li>
+                                        <!--<li @click="changeMap(1, 5)" :class="{active: tabIndex === 5}" class="tab-item">-->
+                                            <!--<span>资源</span>-->
+                                        <!--</li>-->
                                         <li @click="changeMap(1, 6)" :class="{active: tabIndex === 6}" class="tab-item">
                                             <span>项目</span>
                                         </li>
@@ -539,6 +539,14 @@
                                         <p class="infor-text">
                                             <span class="label">类别：</span>
                                             <span>{{item.classify}}</span>
+                                        </p>
+                                        <p v-if="item.party === '是'" class="infor-text">
+                                            <span class="label">党组织名称：</span>
+                                            <span>{{item.party_name}}</span>
+                                        </p>
+                                        <p v-if="item.party === '是'" class="infor-text">
+                                            <span class="label">党员人数：</span>
+                                            <span>{{item.party_int}}</span>
                                         </p>
                                     </div>
                                     <div class="btn-box">
@@ -603,11 +611,11 @@
                     <section v-show="partyType === 4" class="section server-infor">
                         <h3 class="infor-title">服务信息</h3>
                         <div class="content clearfix">
-                            <div class="infor-chart fl">
+                            <div @click="_getShzzServerList('poverty')" style="cursor: pointer" class="infor-chart fl">
                                 <h4 class="infor-chart-title">扶贫济弱</h4>
                                 <div id="inforPoor" style="width: 400px;height: 120px;"></div>
                             </div>
-                            <div class="infor-chart fr">
+                            <div @click="_getShzzServerList('care')" style="cursor: pointer" class="infor-chart fr">
                                 <h4 class="infor-chart-title">关爱老人</h4>
                                 <div id="inforOld" style="width: 400px;height: 120px;"></div>
                             </div>
@@ -621,7 +629,7 @@
                         <section v-show="partyType === 1 || partyType === 2" class="platform-top">
                             <span @click="changePlatform(1)"
                                   :class="{'active': platform.type === 1}"
-                                  class="top-item">县-1
+                                  class="top-item">县级
                             </span>
                             <span @click="changePlatform(2)"
                                   :class="{'active': platform.type === 2}"
@@ -679,7 +687,7 @@
                                     </section>
                                 </div>
                                 <div class="tendency-box">
-                                    <h4 class="tendency-title">事件增长趋势统计</h4>
+                                    <h4 class="tendency-title">市场监察趋势统计</h4>
                                     <ul class="label-list">
                                         <li class="label-item">
                                             <span class="text">新增</span>
@@ -732,7 +740,7 @@
                         <div class="content">
                             <!--党员创业互助-->
                             <div v-show="rightType3 === 2" class="public-project volunte">
-                                <p class="volunte-num">{{volunteer.sum}}</p>
+                                <p @click="openModel('volunteer')" class="volunte-num">{{volunteer.sum}}</p>
                                 <p class="volunte-title">志愿服务参与数</p>
                                 <ul class="volunte-list">
                                     <li v-if="index < 2" v-for="(item, index) in volunteer.list" class="volunte-item">
@@ -749,17 +757,13 @@
                                         <p class="num">{{wise.all}}</p>
                                         <p>微心愿总数</p>
                                     </div>
-                                    <div id="claim" style="width: 76px;height: 76px;"></div>
+                                    <!--<div id="claim" style="width: 76px;height: 76px;"></div>-->
                                     <div id="realize" style="width: 76px;height: 76px;"></div>
                                 </div>
                                 <div class="clearfix">
                                     <div class="data-name fl">
                                         <p class="text">
                                             <span style="background: #FF6E8A;" class="label"></span>
-                                            <span>已达标：{{wise.complete}}</span>
-                                        </p>
-                                        <p class="text">
-                                            <span style="background: #FFDA65;" class="label"></span>
                                             <span>进行中：{{wise.doing}}</span>
                                         </p>
                                     </div>
@@ -770,7 +774,7 @@
                                         </p>
                                         <p class="text">
                                             <span style="background: #AEFFFF;" class="label"></span>
-                                            <span>未实现：{{wise.realizeNot}}</span>
+                                            <span>未开展：{{wise.realizeNot}}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -985,7 +989,7 @@
                                 <li v-if="listData.list.length"
                                     v-for="items in listData.list"
                                     class="infor-item">
-                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization)"
+                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization, item.name, item.ztdrId, item.ztdrType, item.developNum, item.wxyId)"
                                           v-for="item in items"
                                           :style="{'width': item.width + '%'}">{{item.value}}</span>
                                 </li>
@@ -1010,13 +1014,71 @@
                             </h3>
                             <ul class="infor-list">
                                 <li v-if="listDataSecond.list.length" v-for="items in listDataSecond.list" class="infor-item">
-                                <span @click="openModelDetail(item.ID, item.type)" v-for="item in items"
+                                <span @click="openModelDetail(item.ID, item.type, item.ztdr2Id)" v-for="item in items"
                                       :style="{'width': item.width + '%'}">{{item.value}}</span>
                                 </li>
                                 <li v-if="!listDataSecond.list" class="infor-item">
                                     <span style="width: 100%;">暂无数据</span>
                                 </li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--主题党日-->
+            <section v-if="theme.show" class="module-wrap third">
+                <div class="module">
+                    <span @click="closeThemeDetail" class="close"></span>
+                    <h2 class="module-title">{{theme.data.BRANCH_NAME}}</h2>
+                    <div class="module-box no-border">
+                        <div class="theme-detail">
+                            <p class="desc line-one">
+                                <span class="name">主题：</span>
+                                <span>{{theme.data.name}}</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">时间：</span>
+                                <span>{{theme.data.BEGIN_TIME}}-{{theme.data.END_TIME}}</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">活动地点：</span>
+                                <span>{{theme.data.address}}</span>
+                            </p>
+                            <p class="desc line-two">
+                                <span class="name">主持人：</span>
+                                <span>{{theme.data.MODERATOR}}</span>
+                            </p>
+                            <p class="desc line-two">
+                                <span class="name">记录人：</span>
+                                <span>{{theme.data.RECORDER}}</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">到会指导的上级党委领导或驻点（联系）干部：</span>
+                                <span>书记</span>
+                            </p>
+                            <p class="desc line-two">
+                                <span class="name">应到人数：</span>
+                                <span>{{theme.data.bCount}}人</span>
+                            </p>
+                            <p class="desc line-two">
+                                <span class="name">实到人数：</span>
+                                <span>{{theme.data.rCount}}人</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">缺席人员：</span>
+                                <span>{{theme.data.ABSENTEE}}</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">主要内容：</span>
+                                <span>{{theme.data.CONTENT}}</span>
+                            </p>
+                            <div v-if="theme.data.IMGS.length" class="desc-img-box">
+                                <img v-if="index < 2"
+                                     v-for="(item, index) in theme.data.IMGS"
+                                     :src="imgCDN(item)"
+                                     class="desc-img"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1076,7 +1138,7 @@
             <section v-if="projectAndHelp.show" class="module-wrap">
                 <div class="module">
                     <span @click="closeProject" class="close"></span>
-                    <h2 class="module-title">项目众筹</h2>
+                    <h2 class="module-title">{{phTitle}}</h2>
                     <div class="module-box">
                         <div class="project-box">
                             <h3 class="project-title">
@@ -1308,6 +1370,6 @@
         });
     </script>
 
-    <script src="./js/index.js?v=1.5"></script>
+    <script src="./js/index.js?v=3.1"></script>
 </body>
 </html>

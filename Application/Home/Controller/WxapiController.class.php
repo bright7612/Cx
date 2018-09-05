@@ -26,8 +26,8 @@ class WxapiController extends Controller
 
     }
     public function dxtd($telephone=null,$classify=null,$option=null,$examination=null){
-        $a = send($telephone,$classify,$option,$examination);
-        return $a;
+     //   $a = send($telephone,$classify,$option,$examination);
+      //  return $a;
     }
     //活动报名接口
     public function activity(){
@@ -56,7 +56,7 @@ class WxapiController extends Controller
             $aa['telephone'] = $data['phone'];
             $aa['classify'] = 1;
             $aa['option'] = '活动报名';
-            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+          //  _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -77,6 +77,9 @@ class WxapiController extends Controller
         $data['source'] = 1 ; //微信端添加
         $data['identity'] = $_REQUEST['identitys'];
         $data['organization'] = $_REQUEST['partys'];
+        if(M('ajax_user')->where(array('IDCARD'=>$data['identity']))->find()){
+            $data['party'] = 1;
+        }
         $data['text'] = $_REQUEST['remark'];
         $id = M('sign_volunteer')->add($data);
         if($id){
@@ -112,6 +115,9 @@ class WxapiController extends Controller
         $data['source'] = 1 ; //微信端添加
         $data['openid'] = base64_decode($_REQUEST['openid']);
         $data['identity'] = $user['identity'];
+        if(M('ajax_user')->where(array('IDCARD'=>$data['identity']))->find()){
+            $data['party'] = 1;
+        }
         $data['text'] = $_REQUEST['item'];
         $id = M('sign_field')->add($data);
         if($id){
@@ -140,12 +146,13 @@ class WxapiController extends Controller
         $data['source'] = 1 ; //微信端添加
         $data['openid'] = base64_decode($_REQUEST['openid']);
         $data['identity'] = $user['identity'];
+
         $id = M('sign_lecture')->add($data);
         if($id){
             $aa['telephone'] = $data['phone'];
             $aa['classify'] = 1;
             $aa['option'] = '党课报名';
-            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+            // _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -165,13 +172,16 @@ class WxapiController extends Controller
         $data['source'] = 1 ; //微信端添加
         $data['identity'] = trim($_REQUEST['identitys']);
         $data['organization'] = trim($_REQUEST['partys']);
+        if(M('ajax_user')->where(array('IDCARD'=>$data['identity']))->find()){
+            $data['party'] = 1;
+        }
         $data['content'] = $_REQUEST['item'];
         $id = M('sign_direct_apply')->add($data);
         if($id){
             $aa['telephone'] = $data['telephone'];
             $aa['classify'] = 1;
             $aa['option'] = '项目直通车报名';
-            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+          //  // _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -191,7 +201,7 @@ class WxapiController extends Controller
             $aa['telephone'] = $data['telephone'];
             $aa['classify'] = 1;
             $aa['option'] = '项目直通车需求';
-            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+         //   // _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'提交成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -223,7 +233,7 @@ class WxapiController extends Controller
             $aa['telephone'] = $data['telephone'];
             $aa['classify'] = 1;
             $aa['option'] = '众筹报名';
-            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+           // // _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -250,7 +260,7 @@ class WxapiController extends Controller
             $aa['telephone'] = $data['applytelephone'];
             $aa['classify'] = 1;
             $aa['option'] = '众筹申报';
-            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+           // // _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -279,7 +289,7 @@ class WxapiController extends Controller
             $aa['telephone'] = $data['applytelephone'];
             $aa['classify'] = 1;
             $aa['option'] = '微心愿报名';
-            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+           // // _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -312,7 +322,7 @@ class WxapiController extends Controller
             $aa['telephone'] = $data['telephone'];
             $aa['classify'] = 1;
             $aa['option'] = '微心愿申请';
-            _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
+           // // _httpClient($aa,'http://183.131.86.64:8620/home/wxapi/dxtd');
             $this->Apireturn($id,200,'申请成功');
         }else{
             $this->Apireturn(array(),300,'服务器繁忙！请稍后！！！');
@@ -877,9 +887,16 @@ class WxapiController extends Controller
         $head1 = array(  //党组织
             array('name'=>'党组织名称', 'width'=>30),
             array('name'=>'党组织书记', 'width'=>15),
-            array('name'=>'党组织地址', 'width'=>30),
-            array('name'=>'人数', 'width'=>15),
-            array('name'=>'到会率', 'width'=>10),
+            array('name'=>'党组织地址', 'width'=>28),
+            array('name'=>'党员人数', 'width'=>13),
+            array('name'=>'当月到会率', 'width'=>15),
+        );
+        $head2 = array(  //党组织
+            array('name'=>'党组织名称', 'width'=>30),
+            array('name'=>'党组织书记', 'width'=>15),
+            array('name'=>'党组织地址', 'width'=>35),
+            array('name'=>'党员人数', 'width'=>20),
+//            array('name'=>'到会率', 'width'=>10),
         );
 
         switch ($type){
@@ -891,24 +908,30 @@ class WxapiController extends Controller
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] =ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '基层党委信息';
+                        $list['head'] = $head2;
+
                     }
                     elseif ($classify == 2) {
                         $map3['TYPE'] = 1;
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '党总支信息';
+                        $list['head'] = $head2;
+
                     }
                     elseif ($classify == 3) {
                         $map3['TYPE'] = 2;
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '党支部信息';
+                        $list['head'] = $head1;
                     }
                     elseif ($classify == 4) {
                         $map3['TYPE'] = 3;
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '联合党支部信息';
+                        $list['head'] = $head1;
                     }
                     elseif ($classify == 5) {
                         $map3['TYPE'] = 4;
@@ -921,6 +944,7 @@ class WxapiController extends Controller
                     }
                 }
                 elseif ($subtype == 2){
+                    $list['head'] = $head1;
                     $map3['PARENT_IDS'] = array('like',"%,92,%");
                     if($classify == 1){
                         $map3['NATURE'] = array('like',"%部门机关%");
@@ -967,20 +991,40 @@ class WxapiController extends Controller
 //                    }else{
                         $DHL = $dzzDhl[$v['BRANCH_ID']]['count'];
 //                    }
-                    $da[$k] = array(
-                        array('value'=>$v['NAME'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                        array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                        array('value'=>$v['ADDRESS'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                        array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                        array(
+                    if($subtype == 1 && ($classify == 1 ||$classify ==2)){
+                        $da[$k] = array(
+                            array('value'=>$v['NAME'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$v['ADDRESS'], 'width'=>35,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>20,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+//                            array(
+////                            'value'=>$dzzDhl[$v['BRANCH_ID']]?$dzzDhl[$v['BRANCH_ID']].'%':mt_rand(70,95).'%',
+//                                'value'=>$DHL.'%',
+//                                'width'=>10,
+//                                'ID'=>$v['BRANCH_ID'],
+//                                'type'=>'partyMember',
+//                                'order'=>$dzzDhl[$v['BRANCH_ID']]['count'],
+//                            ),
+                        );
+
+                    }else{
+                        $da[$k] = array(
+                            array('value'=>$v['NAME'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$v['ADDRESS'], 'width'=>28,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>13,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array(
 //                            'value'=>$dzzDhl[$v['BRANCH_ID']]?$dzzDhl[$v['BRANCH_ID']].'%':mt_rand(70,95).'%',
-                            'value'=>$DHL.'%',
-                            'width'=>10,
-                            'ID'=>$v['BRANCH_ID'],
-                            'type'=>'partyMember',
-                            'order'=>$dzzDhl[$v['BRANCH_ID']]['count'],
-                        ),
-                    );
+                                'value'=>$DHL.'%',
+                                'width'=>15,
+                                'ID'=>$v['BRANCH_ID'],
+                                'type'=>'partyMember',
+                                'order'=>$dzzDhl[$v['BRANCH_ID']]['count'],
+                            ),
+                        );
+
+
+                    }
                 }
 
                 if($order == 1){
@@ -995,7 +1039,6 @@ class WxapiController extends Controller
                     }
                     array_multisort($key_arrays,SORT_DESC,SORT_NUMERIC,$da);
                 }
-                $list['head'] = $head1;
                 if($da){
                     $list['list'] = $da;
                 }else{
@@ -1374,7 +1417,8 @@ class WxapiController extends Controller
         );
         $map['TDID']= array('exp','IS NOT NULL');
         $data = M('ajax_map')->where($map)->select();
-        foreach ($data as $k=>$v) {
+        foreach ($data as $k=>&$v) {
+            $v['title'] = mb_ereg_replace("带","点",$v['title']);
             $da[$k] = array(
                 array('value'=>$v['id'], 'width'=>10,'tdid'=>$v['TDID'].'$1$0$0'),
                 array('value'=>$v['title'], 'width'=>40,'tdid'=>$v['TDID'].'$1$0$0'),
@@ -1413,7 +1457,7 @@ class WxapiController extends Controller
         }else{
             return $data;
         }
-    }
+   }
 
     //党组织到会率
     private function dzzDHL2(){
@@ -1489,7 +1533,7 @@ class WxapiController extends Controller
     public function redResource($classif = null){
         $map['classif'] = 1;
         $map['status'] = array('egt',1);
-        $data['party'] = M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip')->select();
+        $data['party'] = M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip,status')->select();
         foreach ($data['party'] as $k=>&$v){
             if($v['TDID']){
                 $v['tdid'] = $v['TDID'].'$1$0$0';
@@ -1498,7 +1542,7 @@ class WxapiController extends Controller
             $v['lng'] = $v['y'];
         }
         $map['classif'] = array('in','1,2');
-        $data['school'] = M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip')->select();
+        $data['school'] = M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip,status')->select();
         foreach ($data['school'] as $k1=>&$v1){
             if($v1['TDID']){
                 $v1['tdid'] = $v1['TDID'].'$1$0$0';
@@ -1507,7 +1551,7 @@ class WxapiController extends Controller
             $v1['lng'] = $v1['y'];
         }
         $map['classif'] = 4;
-        $data['base'] = M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip')->select();
+        $data['base'] = M('ajax_map')->where($map)->field('address,x,y,title,TDID,ip,status')->select();
         foreach ($data['base'] as $k2=>&$v2){
             if($v2['TDID']){
                 $v2['tdid'] = $v2['TDID'].'$1$0$0';
@@ -1575,7 +1619,8 @@ class WxapiController extends Controller
         $dr_dy_dxtj1 = $dr_dy_dxtj1 - $dr_dy_dxtj2 - $dr_dy_dxtj3;
 
         //党组织-已展开党性体检
-        $dx_check = M('dr_dzz_dxtj')->where($where)->count();
+        $dx_check1 = M()->query("SELECT COUNT(*) as `count` FROM cxdj.cxdj_dr_dzz_dxtj WHERE `status` = 1 AND organization NOT LIKE '%党委%' AND organization NOT LIKE '%党总支%'");
+        $dx_check = $dx_check1[0]['count'];
         //党组织-未展开党性体检
         $dx_uncheck = M('dr_dzz_undxtj')->where($where)->count();
         //党组织-已展开主题党日
@@ -2022,10 +2067,12 @@ class WxapiController extends Controller
                 case 5:
                     $list['title'] = '已开展党性体检';
                     $list['head'] = $head3;
-                    $data = $Model->query("SELECT * FROM cxdj.cxdj_dr_dzz_dxtj WHERE `status` = 1 LIMIT 1000");
+                    $data = $Model->query("SELECT * FROM cxdj.cxdj_dr_dzz_dxtj WHERE `status` = 1 AND organization NOT LIKE '%党委%' AND organization not LIKE '%党总支%' LIMIT 1000");
+                    $i = 1;
                     foreach ($data as $k=>&$v){
+                        $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$v['id'], 'width'=>20),
+                            array('value'=>$ii, 'width'=>20),
                             array('value'=>$v['organization'], 'width'=>40),
                             array('value'=>$v['secretary'], 'width'=>20),
                             array('value'=>$v['time'], 'width'=>20),

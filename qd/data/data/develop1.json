@@ -1,0 +1,562 @@
+{
+  "status": 200,
+  "data": {
+    "title": "入党申请人",
+    "head": [
+      {
+        "name": "序号",
+        "width": 15
+      },
+      {
+        "name": "单位",
+        "width": 65
+      },
+      {
+        "name": "入党申请人数",
+        "width": 20
+      }
+    ],
+    "list": [
+      [
+        {
+          "value": 1,
+          "width": 15
+        },
+        {
+          "value": "开发区（太湖街道）",
+          "width": 65
+        },
+        {
+          "value": 56,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 2,
+          "width": 15
+        },
+        {
+          "value": "洪桥镇",
+          "width": 65
+        },
+        {
+          "value": 20,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 3,
+          "width": 15
+        },
+        {
+          "value": "李家巷镇",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 4,
+          "width": 15
+        },
+        {
+          "value": "夹浦镇",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 5,
+          "width": 15
+        },
+        {
+          "value": "水口乡",
+          "width": 65
+        },
+        {
+          "value": 36,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 6,
+          "width": 15
+        },
+        {
+          "value": "泗安镇",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 7,
+          "width": 15
+        },
+        {
+          "value": "林城镇",
+          "width": 65
+        },
+        {
+          "value": 29,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 8,
+          "width": 15
+        },
+        {
+          "value": "和平镇",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 9,
+          "width": 15
+        },
+        {
+          "value": "虹星桥镇",
+          "width": 65
+        },
+        {
+          "value": 29,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value":10 ,
+          "width": 15
+        },
+        {
+          "value": "吕山乡",
+          "width": 65
+        },
+        {
+          "value": 28,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 11,
+          "width": 15
+        },
+        {
+          "value": "煤山镇",
+          "width": 65
+        },
+        {
+          "value":28 ,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 12,
+          "width": 15
+        },
+        {
+          "value": "小浦镇",
+          "width": 65
+        },
+        {
+          "value":28 ,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 13,
+          "width": 15
+        },
+        {
+          "value": "画溪街道",
+          "width": 65
+        },
+        {
+          "value": 30,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 14,
+          "width": 15
+        },
+        {
+          "value": "雉城街道",
+          "width": 65
+        },
+        {
+          "value": 20,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 15,
+          "width": 15
+        },
+        {
+          "value": "南太湖",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 16,
+          "width": 15
+        },
+        {
+          "value": "龙山街道",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 17,
+          "width": 15
+        },
+        {
+          "value": "太湖图影",
+          "width": 65
+        },
+        {
+          "value": 36,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 18,
+          "width": 15
+        },
+        {
+          "value": "县委教育工委",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 19,
+          "width": 15
+        },
+        {
+          "value": "县文广新局党委",
+          "width": 65
+        },
+        {
+          "value": 29,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 20,
+          "width": 15
+        },
+        {
+          "value": "县广播电视台党委",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 21,
+          "width": 15
+        },
+        {
+          "value": "县市场监管局党委",
+          "width": 65
+        },
+        {
+          "value": 29,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 22,
+          "width": 15
+        },
+        {
+          "value": "县委卫计工委",
+          "width": 65
+        },
+        {
+          "value": 28,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 23,
+          "width": 15
+        },
+        {
+          "value": "县公安局党委",
+          "width": 65
+        },
+        {
+          "value": 28,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 24,
+          "width": 15
+        },
+        {
+          "value": "县建设局党委",
+          "width": 65
+        },
+        {
+          "value": 28,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 25,
+          "width": 15
+        },
+        {
+          "value": "县国土局党委",
+          "width": 65
+        },
+        {
+          "value": 30,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 26,
+          "width": 15
+        },
+        {
+          "value": "县交通局党委",
+          "width": 65
+        },
+        {
+          "value": 20,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 27,
+          "width": 15
+        },
+        {
+          "value": "县农业局党委",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 28,
+          "width": 15
+        },
+        {
+          "value": "县商业局党委",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 29,
+          "width": 15
+        },
+        {
+          "value": "县林业局党委",
+          "width": 65
+        },
+        {
+          "value": 36,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 30,
+          "width": 15
+        },
+        {
+          "value": "县直机关党工委",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 31,
+          "width": 15
+        },
+        {
+          "value": "县委财政国资工委",
+          "width": 65
+        },
+        {
+          "value": 29,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 32,
+          "width": 15
+        },
+        {
+          "value": "县综合执法局机关党委",
+          "width": 65
+        },
+        {
+          "value": 15,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 33,
+          "width": 15
+        },
+        {
+          "value": "县经信委党委",
+          "width": 65
+        },
+        {
+          "value": 29,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 34,
+          "width": 15
+        },
+        {
+          "value": "县司法局党委",
+          "width": 65
+        },
+        {
+          "value": 28,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 35,
+          "width": 15
+        },
+        {
+          "value": "县商投公司党委",
+          "width": 65
+        },
+        {
+          "value": 28,
+          "width": 20,
+          "developNum": true
+        }
+      ],
+      [
+        {
+          "value": 36,
+          "width": 15
+        },
+        {
+          "value": "县委两新工委",
+          "width": 65
+        },
+        {
+          "value": 28,
+          "width": 20,
+          "developNum": true
+        }
+      ]
+    ]
+  }
+}

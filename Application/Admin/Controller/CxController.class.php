@@ -5020,10 +5020,120 @@ class CxController extends AdminController
     }
 
 
+    public function organization()
+    {
+        $url = 'http://www.dysfz.gov.cn/apiXC/getHeldZTDRlistPage.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 100;
+        $da['START'] = 2;
+        $das = json_encode($da);
+        $list1[] = httpjson($url, $das);
+        dump($list1);die;
+        $count = $list1['0']['totalCount'];
+        $pagenum = ceil($count/$da['COUNT']);
+        for ($i = 1; $i <= $pagenum; $i++) {
+            $da['START'] = $i;
+            $das = json_encode($da);
+            $list[] = httpjson($url, $das);
+            foreach ($list[$i-1]['data'] as $k=>$v){
+                $data[] = $v;
+
+            }
+        }
+
+        dump($data);die;
+
+    }
+
+    public function activity()
+    {
+        $url = 'http://www.dysfz.gov.cn/apiXC/getHeldZtdrlistDetaiPage.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['BRANCH_ID'] = 96;
+        $da['TYPE'] = 2;
+        $da['START'] = 3;
+        $da['COUNT'] = 100;
+        $das = json_encode($da);
+        $list1[] = httpjson($url, $das);
+        dump($list1);die;
+        $count = $list1['0']['totalCount'];
+    }
+
+    public function activitydetail()
+    {
+        $url = 'http://www.dysfz.gov.cn/apiXC/ztdrActivityDetai.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['ACTIVITY_ID'] = 36058;
+        $das = json_encode($da);
+        $list1 = httpjson($url, $das);
+        dump($list1);die;
+        $count = $list1['0']['totalCount'];
+    }
 
 
 
+    public function volunteer()
+    {
+        $url = 'http://www.dysfz.gov.cn/apiXC/volunteerList.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 300;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = httpjson($url, $das);
+        dump($list);die;
+        for ($i = 1; $i < 147; $i++) {
+            $da['START'] = $i;
+            $das = json_encode($da);
+            $list = httpjson($url, $das);
+            foreach ($list['data'] as $k => $v) {
+                $id = M('ajax_volunteer')->where(array('VOLUNTEER_ID' => $v['VOLUNTEER_ID']))->find();
+                if ($id) {
+                    M('ajax_volunteer')->where(array('VOLUNTEER_ID' => $v['VOLUNTEER_ID']))->save($v);
+                } else {
+                    M('ajax_volunteer')->add($v);
+                }
+            }
+        }
+    }
 
+
+    public function volunteer_party()
+    {
+        $url = 'http://www.dysfz.gov.cn/apiXC/volunteerList.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 100;
+//        $da['START'] = 1;
+//        $das = json_encode($da);
+//        $list = httpjson($url, $das);
+//        dump($list['data']);die;
+        for ($i = 1; $i < 147; $i++) {
+            $da['START'] = $i;
+            $das = json_encode($da);
+            $list = httpjson($url, $das);
+            foreach ($list['data'] as $k => $v) {
+                if($v['TYPE'] == 3){
+                    foreach ($v['DetailsRecordList'] as $k=>$v){
+                        $items[] = $v;
+                    }
+                }
+            }
+
+            foreach ($items as $k=>$v){
+                $id = M('wxy_party')->where(array('RECORDV_ID' => $v['RECORDV_ID']))->find();
+                if ($id) {
+                    M('wxy_party')->where(array('RECORDV_ID' => $v['RECORDV_ID']))->save($v);
+                } else {
+                    $datas['PARTY_NAME'] = $v['PARTY_NAME'];
+                    $datas['VOLUNTEER_ID'] = $v['VOLUNTEER_ID'];
+                    $datas['RECORDV_ID'] = $v['RECORDV_ID'];
+                    $datas['CREATE_TIME'] = $v['CREATE_TIME'];
+                    M('wxy_party')->add($datas);
+                }
+            }
+
+        }
+
+    }
 
     function unescape($str){
         $ret = '';
