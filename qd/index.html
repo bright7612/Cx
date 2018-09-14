@@ -1,0 +1,1411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="format-detection" content="email=no"/>
+    <title>长兴县智慧党建大数据平台</title>
+    <!--<link rel="stylesheet" href="http//js.arcgis.com/3.24/esri/css/esri.css">-->
+    <link rel="stylesheet" href="./css/index.css?v=3.5"/>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <section v-cloak id="app" class="wrapper-box">
+        <article class="wrapper">
+            <!-- 时间 start -->
+            <section class="time">
+                <span class="time-date">{{date}}</span>
+                <span class="time-time">{{time}}</span>
+            </section>
+            <!-- 时间 end -->
+
+            <!-- 头部 start -->
+            <header class="header">{{bigTitle}}</header>
+            <!-- 头部 end -->
+
+            <!-- 副头部 start -->
+            <section class="subheader">
+                <div class="base-infor"></div>
+            </section>
+            <!-- 副头部 end -->
+
+            <!-- 核心区域 start -->
+            <section class="core">
+                <div class="core-left">
+                    <!--基础信息-->
+                    <section class="section party">
+                        <h3 class="title">
+                            <div @click="changeParty(1)"
+                                 :class="{active: partyType === 1}"
+                                 class="title-item">党组织
+                            </div>
+                            <div @click="changeParty(2)"
+                                 :class="{active: partyType === 2}"
+                                 class="title-item">党员
+                            </div>
+                            <div @click="changeParty(3)"
+                                 :class="{active: partyType === 3}"
+                                 class="title-item">人才
+                            </div>
+                            <div @click="changeParty(4)"
+                                 :class="{active: partyType === 4}"
+                                 class="title-item">社会组织
+                            </div>
+                        </h3>
+                        <div class="content">
+                            <div v-show="partyType === 1" class="party-section">
+                                <!--<p class="party-desc">党组织报到数：1300</p>-->
+                                <p class="party-desc">党组织类别</p>
+                                <div class="party-data">
+                                    <div class="circle">
+                                        <svg class="svg" width="100%" height="100%" viewbox="0 0 114 114"
+                                             version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+                                            <circle cx="50%" cy="50%" r="31"
+                                                    stroke="#536586" fill="none"
+                                                    stroke-width="3" stroke-linecap="round"
+                                            />
+                                            <circle cx="50%" cy="50%" r="31"
+                                                    stroke="rgb(255, 218, 101)" fill="none"
+                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
+                                                    :style="{'stroke-dasharray': circlePercent(31, base.organization.general.Percentage)}"
+                                            />
+
+                                            <circle cx="50%" cy="50%" r="39"
+                                                    stroke="#536586" fill="none"
+                                                    stroke-width="3" stroke-linecap="round"
+                                            />
+                                            <circle cx="50%" cy="50%" r="39"
+                                                    stroke="#ffbc47" fill="none"
+                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
+                                                    :style="{'stroke-dasharray': circlePercent(39, base.organization.branch.Percentage)}"
+                                            />
+
+                                            <circle cx="50%" cy="50%" r="47"
+                                                    stroke="#536586" fill="none"
+                                                    stroke-width="3" stroke-linecap="round"
+                                            />
+                                            <circle cx="50%" cy="50%" r="47"
+                                                    stroke="#36d2ff" fill="none"
+                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
+                                                    :style="{'stroke-dasharray': circlePercent(47, base.organization.committee.Percentage)}"
+                                            />
+
+                                            <circle cx="50%" cy="50%" r="55"
+                                                    stroke="#536586" fill="none"
+                                                    stroke-width="3" stroke-linecap="round"
+                                            />
+                                            <circle cx="50%" cy="50%" r="55"
+                                                    stroke="#ffced0" fill="none"
+                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
+                                                    :style="{'stroke-dasharray': circlePercent(55, base.organization.union.Percentage)}"
+                                            />
+                                        </svg>
+                                        <div class="circle-inner">{{base.organization.count}}</div>
+                                    </div>
+                                    <ul class="data-list">
+                                        <li @click="openModel('base', 1, 1, 1)" class="data-item">
+                                            <span class="label color-yellow"></span>
+                                            <span class="text">党委</span>
+                                            <span class="text">{{base.organization.general.count}}</span>
+                                        </li>
+                                        <li @click="openModel('base', 1, 1, 2)" class="data-item">
+                                            <span class="label color-orange"></span>
+                                            <span class="text">党总支部</span>
+                                            <span class="text">{{base.organization.branch.count}}</span>
+                                        </li>
+                                        <li @click="openModel('base', 1, 1, 3)" class="data-item">
+                                            <span class="label color-blue"></span>
+                                            <span class="text">党支部</span>
+                                            <span class="text">{{base.organization.committee.count}}</span>
+                                        </li>
+                                        <li @click="openModel('base', 1, 1, 4)" class="data-item">
+                                            <span class="label color-red"></span>
+                                            <span class="text">联合党支部</span>
+                                            <span class="text">{{base.organization.union.count}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div v-show="partyType === 1" class="party-section">
+                                <!--<p class="party-desc">党组织报到率：68%</p>-->
+                                <p class="party-desc">党组织性质</p>
+                                <div class="party-data">
+                                    <div class="circle">
+                                        <svg class="svg" width="100%" height="100%" viewbox="0 0 114 114"
+                                             version="1.1" xmlns="http://www.w3.org/2000/svg">
+                                            <circle cx="50%" cy="50%" r="23"
+                                                    stroke="#536586" fill="none"
+                                                    stroke-width="3" stroke-linecap="round"
+                                            />
+                                            <circle cx="50%" cy="50%" r="23"
+                                                    stroke="rgb(255, 218, 101)" fill="none"
+                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
+                                                    :style="{'stroke-dasharray': circlePercent(23, base.type.office.Percentage)}"
+                                            />
+
+                                            <circle cx="50%" cy="50%" r="31"
+                                                    stroke="#536586" fill="none"
+                                                    stroke-width="3" stroke-linecap="round"
+                                            />
+                                            <circle cx="50%" cy="50%" r="31"
+                                                    stroke="#ffbc47" fill="none"
+                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
+                                                    :style="{'stroke-dasharray': circlePercent(31, base.type.enterprise.Percentage)}"
+                                            />
+
+                                            <circle cx="50%" cy="50%" r="39"
+                                                    stroke="#536586" fill="none"
+                                                    stroke-width="3" stroke-linecap="round"
+                                            />
+                                            <circle cx="50%" cy="50%" r="39"
+                                                    stroke="#36d2ff" fill="none"
+                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
+                                                    :style="{'stroke-dasharray': circlePercent(39, base.type.undertaking.Percentage)}"
+                                            />
+
+                                            <circle cx="50%" cy="50%" r="47"
+                                                    stroke="#536586" fill="none"
+                                                    stroke-width="3" stroke-linecap="round"
+                                            />
+                                            <circle cx="50%" cy="50%" r="47"
+                                                    stroke="#ffced0" fill="none"
+                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
+                                                    :style="{'stroke-dasharray': circlePercent(47, base.type.community.Percentage)}"
+                                            />
+
+                                            <circle cx="50%" cy="50%" r="55"
+                                                    stroke="#536586" fill="none"
+                                                    stroke-width="3" stroke-linecap="round"
+                                            />
+                                            <circle cx="50%" cy="50%" r="55"
+                                                    stroke="#8bff5e" fill="none"
+                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
+                                                    :style="{'stroke-dasharray': circlePercent(55, base.type.new.Percentage)}"
+                                            />
+                                        </svg>
+                                        <div class="circle-inner">{{base.type.count}}</div>
+                                    </div>
+                                    <ul class="data-list">
+                                        <li @click="openModel('base', 1, 2, 1)" class="data-item">
+                                            <span class="label color-yellow"></span>
+                                            <span class="text">部门机关</span>
+                                            <span class="text">{{base.type.office.count}}</span>
+                                        </li>
+                                        <li @click="openModel('base', 1, 2, 2)" class="data-item">
+                                            <span class="label color-orange"></span>
+                                            <span class="text">国有企业</span>
+                                            <span class="text">{{base.type.enterprise.count}}</span>
+                                        </li>
+                                        <li @click="openModel('base', 1, 2, 3)" class="data-item">
+                                            <span class="label color-blue"></span>
+                                            <span class="text">事业单位</span>
+                                            <span class="text">{{base.type.undertaking.count}}</span>
+                                        </li>
+                                        <li @click="openModel('base', 1, 2, 4)" class="data-item">
+                                            <span class="label color-red"></span>
+                                            <span class="text">村社</span>
+                                            <span class="text">{{base.type.community.count}}</span>
+                                        </li>
+                                        <li @click="openModel('base', 1, 2, 5)" class="data-item">
+                                            <span class="label color-green"></span>
+                                            <span class="text">两新</span>
+                                            <span class="text">{{base.type.new.count}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div v-show="partyType === 2" class="party-section improve">
+                                <div class="party-box half">
+                                    <h4 @click="openModel('partier')" style="cursor: pointer;" class="subtitle">党员总数：{{partier.meb}}</h4>
+                                    <h4 class="subtitle">男女比例</h4>
+                                    <div class="gender-box">
+                                        <div id="gender" style="width: 65px;height: 65px;"></div>
+                                        <div>
+                                            <p>
+                                                <span class="label color-yellow"></span><span class="text">女：{{Math.round(partier.woman/partier.meb*100)}}%</span>
+                                            </p>
+                                            <p>
+                                                <span class="label color-red"></span><span class="text">男：{{Math.round(partier.man/partier.meb*100)}}%</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="party-box half">
+                                    <h4 style="margin-top: 10px;" class="subtitle">学历分布</h4>
+                                    <div @click="showDistribute(1)" id="education"
+                                         style="width: 200px;height: 85px;cursor: pointer;"></div>
+                                </div>
+                                <div class="party-box all">
+                                    <h4 class="subtitle">年龄比例</h4>
+                                    <div @click="showDistribute(2)" id="age"
+                                         style="width: 350px;height: 95px;cursor: pointer;"></div>
+                                </div>
+                            </div>
+                            <div v-show="partyType === 4" class="party-section shzz">
+                                <div class="shzz-total">
+                                    <p @click="openShzzModel('social')" class="shzz-total-item">社会组织总数：{{shzzBase.social_organization.social}}</p>
+                                    <p @click="openShzzModel('party')" class="shzz-total-item">建立党组织数：{{shzzBase.social_organization.party}}</p>
+                                    <p class="shzz-total-item">从业人员总数：{{shzzBase.social_organization.employment}}</p>
+                                    <p class="shzz-total-item">党员人数：{{shzzBase.social_organization.party_member}}</p>
+                                </div>
+                                <div class="shzz-people">
+                                    <p class="shzz-people-left">社工师人数：</p>
+                                    <div class="shzz-people-box">
+                                        <p @click="openShzzModel('assistant_worker')" class="shzz-people-item">助理社会工作师 {{shzzBase.social_worker.assistant_worker}}人</p>
+                                        <p @click="openShzzModel('social_worker')" class="shzz-people-item">社会工作师 {{shzzBase.social_worker.social_worker}}人</p>
+                                        <!--<p class="shzz-people-item">高级社会工作师 {{shzzBase.social_worker.senior_worker}}人</p>-->
+                                        <p class="shzz-people-item">&nbsp;</p>
+                                    </div>
+                                </div>
+                                <div class="shzz-charts clearfix">
+                                    <div class="shzz-chart fl">
+                                        <h4 class="shzz-chart-title">社会组织类别</h4>
+                                        <div id="shzzOrg" style="width: 200px;height: 90px;"></div>
+                                    </div>
+                                    <div class="shzz-chart fr">
+                                        <h4 class="shzz-chart-title">社工学历分布</h4>
+                                        <div id="shzzEdu" style="width: 200px;height: 90px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--组织管理-->
+                    <section v-if="partyType === 1 || partyType === 2" class="section warn">
+                        <h3 class="title">
+                            <div class="title-inner">动态监测</div>
+                        </h3>
+                        <div v-if="partyType === 1" class="content">
+                            <div class="warn-block">
+                                <h4 class="block-title">主题党日</h4>
+                                <div class="block-content">
+                                    <p @click="openModel('theme')" class="red">
+                                        <span>已开展党支部数</span>
+                                        <span>{{warn.basedata.organize.theme.start}}</span>
+                                    </p>
+                                    <p @click="openModel('theme')" class="red">
+                                        <span>未开展党支部数</span>
+                                        <span>{{warn.basedata.organize.theme.unStart}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="warn-block">
+                                <h4 class="block-title">发展党员</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('organize', 3)" class="red">
+                                        <span>入党申请人</span>
+                                        <span>{{warn.basedata.organize.partier.apply}}</span>
+                                    </p>
+                                    <p @click="openWarn('organize', 4)" class="red">
+                                        <span>入党积极分子</span>
+                                        <span>{{warn.basedata.organize.partier.active}}</span>
+                                    </p>
+                                    <p @click="openWarn('organize', 9)" class="red">
+                                        <span>发展对象</span>
+                                        <span>{{warn.basedata.organize.partier.develop_dy}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="warn-block">
+                                <h4 class="block-title">党性体检</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('organize', 5)" class="red">
+                                        <span>已开展党支部数</span>
+                                        <span>{{warn.basedata.organize.experience.num}}</span>
+                                    </p>
+                                    <p @click="openWarn('organize', 6)" class="red">
+                                        <span>未开展党支部数</span>
+                                        <span>{{warn.basedata.organize.experience.unNum}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="warn-block">
+                                <h4 class="block-title">党费缴纳</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('organize', 7)" class="red">
+                                        <span>已经缴纳</span>
+                                        <span>{{warn.basedata.organize.pay.payed}}</span>
+                                    </p>
+                                    <p @click="openWarn('organize', 8)" class="red">
+                                        <span>未缴纳数</span>
+                                        <span>{{warn.basedata.organize.pay.unPay}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="partyType === 2" class="content">
+                            <div class="warn-block">
+                                <h4 class="block-title">主题党日</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('partier', 1)" class="red">
+                                        <span>已参加</span>
+                                        <span>{{warn.basedata.partier.theme.join}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 2)" class="red">
+                                        <span>未参加</span>
+                                        <span>{{warn.basedata.partier.theme.unJoin}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="warn-block">
+                                <h4 class="block-title">报到登记</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('partier', 3)" class="red">
+                                        <span>2018年报到</span>
+                                        <span>{{warn.basedata.partier.register.num}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 4)" class="red">
+                                        <span>不计入到会党员</span>
+                                        <span>{{warn.basedata.partier.register.unNum}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="warn-block">
+                                <h4 class="block-title">党性体检</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('partier', 5)" class="red">
+                                        <span>健康</span>
+                                        <span>{{warn.basedata.partier.experience.health}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 6)" class="red">
+                                        <span>亚健康</span>
+                                        <span>{{warn.basedata.partier.experience.yaHealth}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 7)" class="red">
+                                        <span>不健康</span>
+                                        <span>{{warn.basedata.partier.experience.unHealth}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="warn-block">
+                                <h4 class="block-title">党员考评</h4>
+                                <div class="block-content">
+                                    <p @click="openWarn('partier', 8)" class="red">
+                                        <span>闪光言行</span>
+                                        <span>{{warn.basedata.partier.appraise.sgyx}}</span>
+                                    </p>
+                                    <p @click="openWarn('partier', 9)" class="red">
+                                        <span>评优评先数据</span>
+                                        <span>{{warn.basedata.partier.appraise.pypx}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--红色资源-->
+                    <section v-if="partyType === 1 || partyType === 2" class="section resource">
+                        <h3 class="title">
+                            <div class="title-inner">红色资源</div>
+                        </h3>
+                        <div class="content">
+                            <ul class="resource-list">
+                                <li @click="openResource('party')" style="width: 246px;" class="resource-item">
+                                    <img src="imgs/icon/party.png" class="item-icon"/>
+                                    <span class="item-name">区域党群服务中心数量</span>
+                                    <span class="item-num">11</span>
+                                </li>
+                                <li @click="openResource('school')" style="width: 174px;" class="resource-item">
+                                    <img src="./imgs/icon/teacher.png" class="item-icon"/>
+                                    <span class="item-name">红领学院数量</span>
+                                    <span class="item-num">37</span>
+                                </li>
+                                <li @click="openResource('belt')" style="width: 246px;" class="resource-item">
+                                    <img src="./imgs/icon/building.png" class="item-icon"/>
+                                    <span class="item-name">示范点数量</span>
+                                    <span class="item-num">10</span>
+                                </li>
+                                <li @click="openResource('base')" style="width: 174px;" class="resource-item">
+                                    <img src="./imgs/icon/book.png" class="item-icon"/>
+                                    <span class="item-name">教学基地数量</span>
+                                    <span class="item-num">4</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <!--社会组织活动数排名-->
+                    <section v-if="partyType === 4" class="section exponent exponent1">
+                        <h3 class="title">
+                            <div @click="_getShzzRank(true)" class="title-inner">社会组织活动数排名</div>
+                        </h3>
+                        <div class="content">
+                            <div class="exponent-title">
+                                <span class="name">社会组织名称</span>
+                                <span class="num">活动数量</span>
+                            </div>
+                            <ul class="exponent-list">
+                                <li v-for="item in shzzList.rank" class="exponent-item">
+                                    <span class="name">{{item.organization}}</span>
+                                    <span @click="_getShzzRankList(item.organization)" class="num">{{item.count}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                    <!--社工活跃指数-->
+                    <section v-if="partyType === 4" class="section exponent exponent2">
+                        <h3 class="title">
+                            <div @click="_getShzzActive(true)" class="title-inner">社工活跃指数</div>
+                        </h3>
+                        <div class="content">
+                            <div class="exponent-title">
+                                <span class="name">社工名称</span>
+                                <span class="num">活跃指数</span>
+                            </div>
+                            <ul class="exponent-list">
+                                <li v-for="item in shzzList.active" class="exponent-item">
+                                    <span class="name">{{item.name}}</span>
+                                    <span @click="_getShzzActiveList(item.name)" class="num">{{item.count}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="core-middle">
+                    <!-- 地图区域 -->
+                    <section class="statistics">
+                        <div class="statistics-number">
+                            <p class="number-item red">近期活动：1.广开进贤之路————解读我省“万人计划”</p>
+                        </div>
+                        <div v-show="partyType === 1 || partyType === 2" :class="{'allScreen': allScreen === true}" class="content">
+                            <div class="view">
+                                <iframe v-show="tabIndex === 1 || tabIndex === 2"
+                                        :src="iframeUrl" class="iframe"
+                                        frameborder="0"></iframe>
+                                <!--<iframe v-if="tabIndex === 1" ref="iframe" class="iframe" src="./iframe/map.html?type=实有人口" frameborder="0"></iframe>-->
+                                <!--<div v-if="showType === 2" class="hot">-->
+                                <!--<img src="./imgs/china.gif"/>-->
+                                <!--<span class="nav"></span>-->
+                                <!--</div>-->
+                                <div v-show="tabIndex === 3 || tabIndex === 4 || tabIndex === 5 || tabIndex === 6" id="map" class="video"></div>
+                                <div v-show="tabIndex === 7" id="bmap" class="video"></div>
+                            </div>
+                            <div v-if="tabIndex === 7" class="map-title">{{map.title}}</div>
+                            <div :class="{'active': !tabStatus}" class="tab">
+                                <div class="tab-box">
+                                    <ul class="tab-list">
+                                        <li @click="changeMap(1, 1)" :class="{active: tabIndex === 1}" class="tab-item">
+                                            <span>智慧党建</span>
+                                        </li>
+                                        <li @click="changeMap(1, 2)" :class="{active: tabIndex === 2}" class="tab-item">
+                                            <span>网络E支部</span>
+                                        </li>
+                                        <li @click="changeMap(1, 3)" :class="{active: tabIndex === 3}" class="tab-item">
+                                            <span>活动</span>
+                                        </li>
+                                        <li @click="changeMap(1, 4)" :class="{active: tabIndex === 4}" class="tab-item">
+                                            <span>需求</span>
+                                        </li>
+                                        <!--<li @click="changeMap(1, 5)" :class="{active: tabIndex === 5}" class="tab-item">-->
+                                            <!--<span>资源</span>-->
+                                        <!--</li>-->
+                                        <li @click="changeMap(1, 6)" :class="{active: tabIndex === 6}" class="tab-item">
+                                            <span>项目</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <span @click="changeTabStatus"
+                                  :class="{'active': !tabStatus}"
+                                  class="tab-control"> > </span>
+                            <span @click="changeMapSize" class="map-size">
+                                <img src="./imgs/icon/xixi.png" />
+                            </span>
+                        </div>
+                        <div v-show="partyType === 4" class="content" :class="{'allScreen': allScreen}">
+                            <div class="view">
+                                <div id="bmapShzz" class="video"></div>
+                                <div v-show="map2.show" class="infor-box">
+                                    <h3 class="infor-title">{{map2.data.address}}</h3>
+                                    <div v-for="item in map2.data.list" style="margin-bottom: 10px">
+                                        <p class="infor-text">
+                                            <span class="label">社会组织名称：</span>
+                                            <span>{{item.organization}}</span>
+                                        </p>
+                                        <p class="infor-text">
+                                            <span class="label">会员人数：</span>
+                                            <span>{{item.member}}</span>
+                                        </p>
+                                        <p class="infor-text">
+                                            <span class="label">专职工作人员数：</span>
+                                            <span>{{item.personnel}}</span>
+                                        </p>
+                                        <p class="infor-text">
+                                            <span class="label">类别：</span>
+                                            <span>{{item.classify}}</span>
+                                        </p>
+                                        <p v-if="item.party === '是'" class="infor-text">
+                                            <span class="label">党组织名称：</span>
+                                            <span>{{item.party_name}}</span>
+                                        </p>
+                                        <p v-if="item.party === '是'" class="infor-text">
+                                            <span class="label">党员人数：</span>
+                                            <span>{{item.party_int}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="btn-box">
+                                        <span @click="closeMap2" class="btn">关闭</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <span @click="changeMapSize" class="map-size" style="background: #9ffeff;top: 20px;left: 20px;">
+                                <img src="./imgs/icon/xixi.png" />
+                            </span>
+                        </div>
+                    </section>
+                    <!-- 地图区域 -->
+
+                    <section v-show="partyType === 1 || partyType === 2" class="section jmkServer">
+                        <h3 class="jml-title">网格事件</h3>
+                        <div class="content">
+                            <div class="content-half">
+                                <h4 class="subtitle">&nbsp;</h4>
+                                <div class="qgt">
+                                    <div class="text-box">
+                                        <div @click="openModel('grid', 3)" style="cursor: pointer;">
+                                            <p class="num">{{home.all}}</p>
+                                            <p class="text">网格事件总数</p>
+                                        </div>
+                                    </div>
+                                    <div class="data-box">
+                                        <div class="data-inner">
+                                            <div id="deal" style="width: 94px;height: 94px;margin: 15px 0;"></div>
+                                            <div class="data-text">
+                                                <p @click="openModel('grid', 2)" class="text" style="cursor: pointer;">
+                                                    <span style="background: #29C4B2;" class="label"></span>
+                                                    <span class="name">普通网格员处理事件数</span>
+                                                    <span class="number">：{{home.done}}</span>
+                                                </p>
+                                                <p @click="openModel('grid', 1)" class="text" style="cursor: pointer;">
+                                                    <span style="background: #ff4459;" class="label"></span>
+                                                    <span class="name">红色网格员处理事件数</span>
+                                                    <span class="number">：{{home.ordinary}}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!--<p class="rate">办理率 {{homeRate}}%</p>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-half">
+                                <h4 class="subtitle">&nbsp;</h4>
+                                <p style="top: 10px;" class="color-label">
+                                    <span class="text">当年</span>
+                                    <span style="background: #f67c46;" class="label"></span>
+                                </p>
+                                <p style="top: 30px;" class="color-label">
+                                    <span class="text">当月</span>
+                                    <span style="background: #50e1df;" class="label"></span>
+                                </p>
+                                <div id="server" style="width: 466px;height: 130px;margin-top: 20px;"></div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section v-show="partyType === 4" class="section server-infor">
+                        <h3 class="infor-title">服务信息</h3>
+                        <div class="content clearfix">
+                            <div @click="_getShzzServerList('poverty')" style="cursor: pointer" class="infor-chart fl">
+                                <h4 class="infor-chart-title">扶贫济弱</h4>
+                                <div id="inforPoor" style="width: 400px;height: 120px;"></div>
+                            </div>
+                            <div @click="_getShzzServerList('care')" style="cursor: pointer" class="infor-chart fr">
+                                <h4 class="infor-chart-title">关爱老人</h4>
+                                <div id="inforOld" style="width: 400px;height: 120px;"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="core-right">
+                    <article class="right-box">
+                        <!--四个平台-->
+                        <section v-show="partyType === 1 || partyType === 2" class="platform-top">
+                            <span @click="changePlatform(1)"
+                                  :class="{'active': platform.type === 1}"
+                                  class="top-item">县级
+                            </span>
+                            <span @click="changePlatform(2)"
+                                  :class="{'active': platform.type === 2}"
+                                  class="top-item">{{townName}}
+                            </span>
+                        </section>
+                        <!--四个平台-->
+                        <section v-show="partyType === 1 || partyType === 2" class="section platform">
+                            <h3 class="title">
+                                <span>四个平台</span>
+                            </h3>
+                            <div class="content">
+                                <div class="platform-box">
+                                    <section class="block">
+                                        <h4 class="platform-title">综合治理</h4>
+                                        <div id="govern" style="width: 68px;height: 68px;"></div>
+                                        <ul class="platform-list">
+                                            <li class="platform-item">
+                                                <span class="label red"></span>
+                                                <span class="text">户籍人口：{{platform.data.zhzl.hj}}</span>
+                                            </li>
+                                            <li class="platform-item">
+                                                <span class="label orange"></span>
+                                                <span class="text">流动人口：{{platform.data.zhzl.ld}}</span>
+                                            </li>
+                                            <!--<li class="platform-item">-->
+                                            <!--<span class="label yellow"></span>-->
+                                            <!--<span class="text">境外人员：200</span>-->
+                                            <!--</li>-->
+                                        </ul>
+                                    </section>
+                                    <section class="block">
+                                        <h4 class="platform-title">综合执法</h4>
+                                        <div id="law" style="width: 68px;height: 68px;"></div>
+                                        <ul class="platform-list">
+                                            <li class="platform-item">
+                                                <span class="label"></span>
+                                                <span class="text">办结事件数：{{platform.data.zhzf.event_dy + platform.data.zhzf.event_fdy}}</span>
+                                            </li>
+                                            <li class="platform-item">
+                                                <span class="label blue"></span>
+                                                <span class="text">党员办结数：{{platform.data.zhzf.event_dy}}</span>
+                                            </li>
+                                            <li class="platform-item">
+                                                <span class="label green"></span>
+                                                <span class="text">非党员办结数：{{platform.data.zhzf.event_fdy}}</span>
+                                            </li>
+                                        </ul>
+                                    </section>
+                                    <section class="block">
+                                        <h4 class="platform-title">便民服务</h4>
+                                        <span class="num">{{platform.data.bmfw}}</span>
+                                        <p>项申请</p>
+                                        <p>正在受理</p>
+                                    </section>
+                                </div>
+                                <div class="tendency-box">
+                                    <h4 class="tendency-title">市场监察趋势统计</h4>
+                                    <ul class="label-list">
+                                        <li class="label-item">
+                                            <span class="text">新增</span>
+                                            <span class="label color-blue"></span>
+                                        </li>
+                                        <li class="label-item">
+                                            <span class="text">历史同期</span>
+                                            <span class="label color-yellow"></span>
+                                        </li>
+                                    </ul>
+                                    <div id="tendency" style="width: 320px;height: 120px;"></div>
+                                </div>
+                                <div v-if="platform.selectShow" class="select-box">
+                                    <ul class="select-list">
+                                        <li @click="selectTown(item)"
+                                            v-for="item in platform.towns"
+                                            class="select-item">{{item}}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                        <!--优秀活动展示-->
+                        <section v-show="partyType === 4" class="section sec-display">
+                            <h3 class="title">
+                                <span @click="_getShzzActivity(true)">优秀活动展示</span>
+                            </h3>
+                            <div class="content">
+                                <ul class="display-list">
+                                    <li @click="openDisplayDetail(item.title, item.content)" v-for="(item, index) in shzzList.display" class="display-item">
+                                        <span class="display-title">{{index + 1}}.{{item.title}}</span>
+                                        <span class="display-date">{{item.time}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </article>
+
+                    <section class="section public">
+                        <h3 class="title">
+                            <div @click="changeRightType3(2)"
+                                 :class="{active: rightType3 === 2}"
+                                 class="title-item item-left">志愿服务
+                            </div>
+                            <div @click="changeRightType3(1)"
+                                 :class="{active: rightType3 === 1}"
+                                 class="title-item item-right">微心愿
+                            </div>
+                        </h3>
+                        <div class="content">
+                            <!--党员创业互助-->
+                            <div v-show="rightType3 === 2" class="public-project volunte">
+                                <p @click="openModel('volunteer')" class="volunte-num">{{volunteer.sum}}</p>
+                                <p class="volunte-title">志愿服务参与数</p>
+                                <ul class="volunte-list">
+                                    <li v-if="index < 2" v-for="(item, index) in volunteer.list" class="volunte-item">
+                                        <span class="spot"></span>
+                                        <span class="text">{{item.NAME}}</span>
+                                        <span class="date">{{item.BEGIN_TIME}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--微心愿-->
+                            <div v-show="rightType3 === 1" class="public-wish">
+                                <div class="data-box">
+                                    <div @click="openModel('require', 36)" style="cursor: pointer;" class="text-box">
+                                        <p class="num">{{wise.all}}</p>
+                                        <p>微心愿总数</p>
+                                    </div>
+                                    <!--<div id="claim" style="width: 76px;height: 76px;"></div>-->
+                                    <div id="realize" style="width: 76px;height: 76px;"></div>
+                                </div>
+                                <div class="clearfix">
+                                    <div class="data-name fl">
+                                        <p class="text">
+                                            <span style="background: #FF6E8A;" class="label"></span>
+                                            <span>进行中：{{wise.doing}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="data-name fr">
+                                        <p class="text">
+                                            <span style="background: #00C1FF;" class="label"></span>
+                                            <span>已实现：{{wise.realized}}</span>
+                                        </p>
+                                        <p class="text">
+                                            <span style="background: #AEFFFF;" class="label"></span>
+                                            <span>未开展：{{wise.realizeNot}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="section project">
+                        <h3 class="title">
+                            <div @click="changeRightType2(1)"
+                                 :class="{active: rightType2 === 1}"
+                                 class="title-item item-left">众筹数据
+                            </div>
+                            <div @click="changeRightType2(2)"
+                                 :class="{active: rightType2 === 2}"
+                                 class="title-item item-right">党群创业互助
+                            </div>
+                        </h3>
+                        <div class="content">
+                            <div v-show="rightType2 === 1" class="public-project">
+                                <div class="data-box">
+                                    <div @click="openProjectList('project')" style="cursor: pointer;" class="text-box">
+                                        <p class="num">{{this.project.complete + this.project.implement}}</p>
+                                        <p>众筹总数</p>
+                                    </div>
+                                    <div id="project" style="width: 76px;height: 76px;"></div>
+                                    <div class="data-name fl">
+                                        <p class="text">
+                                            <span style="background: #F67C46;" class="label"></span>
+                                            <span>已完成：{{this.project.complete}}</span>
+                                        </p>
+                                        <p class="text">
+                                            <span style="background: #FFDA65;" class="label"></span>
+                                            <span>未完成：{{this.project.implement}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div @click="openModel" v-if="index < 3" v-for="(item, index) in project.list"
+                                     class="progress-box">
+                                    <!--<div class="progress-name">{{item.title}}</div>-->
+                                    <!--<div>-->
+                                        <!--<div class="status">-->
+                                            <!--<span>开始</span>-->
+                                            <!--<span>进行中</span>-->
+                                            <!--<span>已完成</span>-->
+                                        <!--</div>-->
+                                        <!--<div class="progress">-->
+                                            <!--<span :style="{'width': item.Percentage + '%'}" class="progress-inner"></span>-->
+                                            <!--<span :class="{'complete': item.Percentage > 0}"-->
+                                                  <!--class="status-ball status-ball-start"></span>-->
+                                            <!--<span :class="{'complete': item.Percentage >= 50}"-->
+                                                  <!--class="status-ball status-ball-middle"></span>-->
+                                            <!--<span :class="{'complete': item.Percentage >= 100}"-->
+                                                  <!--class="status-ball status-ball-end"></span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <div class="volunte-item">
+                                        <span class="spot"></span>
+                                        <span class="text">{{item.title}}</span>
+                                        <span style="width: 50px;" class="date">{{item.Percentage}}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-show="rightType2 === 2" class="public-project">
+                                <div class="data-box">
+                                    <div @click="openProjectList('help')" style="cursor: pointer;" class="text-box">
+                                        <p class="num">{{this.help.complete + this.help.implement}}</p>
+                                        <p>互助总数</p>
+                                    </div>
+                                    <div id="project2" style="width: 76px;height: 76px;"></div>
+                                    <div class="data-name fl">
+                                        <p class="text">
+                                            <span style="background: #F67C46;" class="label"></span>
+                                            <span>已完成：{{this.help.complete}}</span>
+                                        </p>
+                                        <p class="text">
+                                            <span style="background: #FFDA65;" class="label"></span>
+                                            <span>未完成：{{this.help.implement}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div @click="openModel" v-if="index < 3" v-for="(item, index) in help.list"
+                                     class="progress-box">
+                                    <!--<div class="progress-name">{{item.title}}</div>-->
+                                    <!--<div>-->
+                                        <!--<div class="status">-->
+                                            <!--<span>开始</span>-->
+                                            <!--<span>进行中</span>-->
+                                            <!--<span>已完成</span>-->
+                                        <!--</div>-->
+                                        <!--<div class="progress">-->
+                                            <!--<span :style="{'width': item.Percentage + '%'}" class="progress-inner"></span>-->
+                                            <!--<span :class="{'complete': item.Percentage > 0}"-->
+                                                  <!--class="status-ball status-ball-start"></span>-->
+                                            <!--<span :class="{'complete': item.Percentage >= 50}"-->
+                                                  <!--class="status-ball status-ball-middle"></span>-->
+                                            <!--<span :class="{'complete': item.Percentage >= 100}"-->
+                                                  <!--class="status-ball status-ball-end"></span>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <div class="volunte-item">
+                                        <span class="spot"></span>
+                                        <span class="text">{{item.title}}</span>
+                                        <span style="width: 60px;" class="date">{{item.Percentage}}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <div v-show="degreeShow" class="partier-distribute degree">
+                    <h4 class="distribute-title">学历分布</h4>
+                    <span @click="hideDistribute" class="close">X</span>
+                    <div class="distribute-box">
+                        <div id="distributeEdu" style="width: 108px;height: 108px;"></div>
+                        <ul class="distribute-list">
+                            <li class="distribute-item">
+                                <span class="color bg-red"></span>
+                                <span class="text">高中：{{computePercent(partier.degree.num[0] ,degreeTotal)}}%</span>
+                            </li>
+                            <li class="distribute-item">
+                                <span class="color bg-qing"></span>
+                                <span class="text">大专：{{computePercent(partier.degree.num[1] ,degreeTotal)}}%</span>
+                            </li>
+                            <li class="distribute-item">
+                                <span class="color bg-blue"></span>
+                                <span class="text">本科：{{computePercent(partier.degree.num[2] ,degreeTotal)}}%</span>
+                            </li>
+                            <li class="distribute-item">
+                                <span class="color bg-yellow"></span>
+                                <span class="text">研究生：{{computePercent(partier.degree.num[3] ,degreeTotal)}}%</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div v-show="ageShow" class="partier-distribute age">
+                    <h4 class="distribute-title">学历分布</h4>
+                    <span @click="hideDistribute" class="close">X</span>
+                    <div class="distribute-box">
+                        <div id="distributeAge" style="width: 108px;height: 108px;"></div>
+                        <ul class="distribute-list">
+                            <li class="distribute-item">
+                                <span class="color bg-red"></span>
+                                <span class="text">30岁以下：{{computePercent(partier.age.num[0] ,ageTotal)}}%</span>
+                            </li>
+                            <li class="distribute-item">
+                                <span class="color bg-qing"></span>
+                                <span class="text">30-40岁：{{computePercent(partier.age.num[1] ,ageTotal)}}%</span>
+                            </li>
+                            <li class="distribute-item">
+                                <span class="color bg-blue"></span>
+                                <span class="text">40-50岁：{{computePercent(partier.age.num[2] ,ageTotal)}}%</span>
+                            </li>
+                            <li class="distribute-item">
+                                <span class="color bg-yellow"></span>
+                                <span class="text">50-60岁：{{computePercent(partier.age.num[3] ,ageTotal)}}%</span>
+                            </li>
+                            <li class="distribute-item">
+                                <span class="color bg-green"></span>
+                                <span class="text">60岁以上：{{computePercent(partier.age.num[4] ,ageTotal)}}%</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <!-- 核心区域 end -->
+
+            <!-- 积分排名 -->
+            <section v-if="rank.show" class="module-wrap">
+                <div class="module">
+                    <span @click="closeRank" class="close"></span>
+                    <h2 class="module-title">{{rank.title}}</h2>
+                    <div class="rank-box">
+                        <div class="rank-title">
+                            <span class="title-name">{{rankType}}</span>
+                            <span class="title-item">来源类别</span>
+                            <span class="title-item">积分数量</span>
+                        </div>
+                        <div class="rank-content">
+                            <div class="name">{{rank.name}}</div>
+                            <ul class="score-list">
+                                <li class="score-item">
+                                    <span>基本分</span>
+                                    <span>{{rank.origin['base ']}}</span>
+                                </li>
+                                <li class="score-item">
+                                    <span>履职分</span>
+                                    <span>{{rank.origin['work ']}}</span>
+                                </li>
+                                <li class="score-item">
+                                    <span>奉献分</span>
+                                    <span>{{rank.origin.dedication}}</span>
+                                </li>
+                                <li class="score-item">
+                                    <span>活动分</span>
+                                    <span>{{rank.origin.activity}}</span>
+                                </li>
+                                <li class="score-item">
+                                    <span>加减分</span>
+                                    <span>{{rank.origin.plus}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 公用模态框 -->
+            <section v-if="modelShow" class="module-wrap">
+                <div class="module">
+                    <span @click="closeModel" class="close"></span>
+                    <h2 class="module-title">{{listData.title}}</h2>
+                    <!--<span v-if="base.orderShow" @click="changeOrder" class="order">到会率 {{orderText}}</span>-->
+                    <div class="module-box">
+                        <div class="table">
+                            <h3 class="table-title">
+                                <span v-for="item in listData.head" :style="{'width': item.width + '%'}">{{item.name}}</span>
+                            </h3>
+                            <ul class="infor-list">
+                                <li v-if="listData.list.length"
+                                    v-for="items in listData.list"
+                                    class="infor-item">
+                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization, item.name, item.ztdrId, item.ztdrType, item.ztdr2Id, item.applyId, item.idCard, item.activityId, item.wxyId, item.devId, item.town_id, item.payId)"
+                                          v-for="item in items"
+                                          :class="{'left': item.left}"
+                                          :style="{'width': item.width + '%'}"
+                                          v-html="item.value"></span>
+                                </li>
+                                <li v-if="!listData.list || !listData.list.length" class="infor-item">
+                                    <span style="width: 100%;">暂无数据</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 公用模态框二级 -->
+            <section v-if="modelSecondShow" class="module-wrap second">
+                <div class="module">
+                    <span @click="closeSecondModel" class="close"></span>
+                    <h2 class="module-title">{{listDataSecond.title}}</h2>
+                    <div class="module-box">
+                        <div class="table">
+                            <h3 class="table-title">
+                                <span v-for="item in listDataSecond.head" :style="{'width': item.width + '%'}">{{item.name}}</span>
+                            </h3>
+                            <ul class="infor-list">
+                                <li v-if="listDataSecond.list.length" v-for="items in listDataSecond.list" class="infor-item">
+                                <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization, item.name, item.ztdrId, item.ztdrType, item.ztdr2Id, item.applyId, item.idCard, item.activityId, item.wxyId, item.devId, item.town_id, item.payId)"
+                                      v-for="item in items"
+                                      :style="{'width': item.width + '%'}">{{item.value}}</span>
+                                </li>
+                                <li v-if="!listDataSecond.list" class="infor-item">
+                                    <span style="width: 100%;">暂无数据</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 公用模态框三级 -->
+            <section v-if="modelThirdShow" class="module-wrap third">
+                <div class="module">
+                    <span @click="closeThirdModel" class="close"></span>
+                    <h2 class="module-title">{{listDataThird.title}}</h2>
+                    <div class="module-box">
+                        <div class="table">
+                            <h3 class="table-title">
+                                <span v-for="item in listDataThird.head" :style="{'width': item.width + '%'}">{{item.name}}</span>
+                            </h3>
+                            <ul class="infor-list">
+                                <li v-if="listDataThird.list.length" v-for="items in listDataThird.list" class="infor-item">
+                                <span v-for="item in items" :style="{'width': item.width + '%'}">{{item.value}}</span>
+                                </li>
+                                <li v-if="!listDataThird.list" class="infor-item">
+                                    <span style="width: 100%;">暂无数据</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--主题党日-->
+            <section v-if="theme.show" class="module-wrap third">
+                <div class="module">
+                    <span @click="closeThemeDetail" class="close"></span>
+                    <h2 class="module-title">{{theme.data.BRANCH_NAME}}</h2>
+                    <div class="module-box no-border">
+                        <div class="theme-detail">
+                            <p class="desc line-one">
+                                <span class="name">主题：</span>
+                                <span>{{theme.data.name}}</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">时间：</span>
+                                <span>{{theme.data.BEGIN_TIME}}-{{theme.data.END_TIME}}</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">活动地点：</span>
+                                <span>{{theme.data.address}}</span>
+                            </p>
+                            <p class="desc line-two">
+                                <span class="name">主持人：</span>
+                                <span>{{theme.data.MODERATOR}}</span>
+                            </p>
+                            <p class="desc line-two">
+                                <span class="name">记录人：</span>
+                                <span>{{theme.data.RECORDER}}</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">到会指导的上级党委领导或驻点（联系）干部：</span>
+                                <span>书记</span>
+                            </p>
+                            <p class="desc line-two">
+                                <span class="name">应到人数：</span>
+                                <span>{{theme.data.bCount}}人</span>
+                            </p>
+                            <p class="desc line-two">
+                                <span class="name">实到人数：</span>
+                                <span>{{theme.data.rCount}}人</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">缺席人员：</span>
+                                <span>{{theme.data.ABSENTEE}}</span>
+                            </p>
+                            <p class="desc line-one">
+                                <span class="name">主要内容：</span>
+                                <span>{{theme.data.CONTENT}}</span>
+                            </p>
+                            <div v-if="theme.data.IMGS.length" class="desc-img-box">
+                                <img v-if="index < 2"
+                                     v-for="(item, index) in theme.data.IMGS"
+                                     :src="imgCDN(item)"
+                                     class="desc-img"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 预警提醒 -->
+            <section v-if="warn.show" class="module-wrap">
+                <div class="module">
+                    <span @click="closeWarn" class="close"></span>
+                    <h2 class="module-title">{{warn.listData.title}}</h2>
+                    <div class="warn-select">
+                        <span @click="_getWarnList(warn.origin, 0, 1)"
+                              :class="{'active': warn.time === 1}"
+                              class="warn-select-item bg-red">5个月未{{warnTabText}}</span>
+                        <span @click="_getWarnList(warn.origin, 0, 2)"
+                              :class="{'active': warn.time === 2}"
+                              class="warn-select-item bg-yellow">4个月未{{warnTabText}}</span>
+                        <span @click="_getWarnList(warn.origin, 0, 3)"
+                              :class="{'active': warn.time === 3}"
+                              class="warn-select-item bg-green">3个月未{{warnTabText}}</span>
+                    </div>
+                    <div class="module-box warn-module">
+                        <div class="warn-box">
+                            <h3 class="warn-title">
+                                <span v-for="item in warn.listData.head" :style="{'width': item.width + '%'}">{{item.name}}</span>
+                            </h3>
+                            <ul class="warn-list">
+                                <li v-for="items in warn.listData.list" class="warn-item">
+                                    <span v-for="item in items" :style="{'width': item.width + '%'}">{{item.value}}</span>
+                                </li>
+                                <li v-if="!warn.listData.list.length" class="warn-item">
+                                    <span style="width: 100%;">暂无数据</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 微心愿 -->
+            <section v-if="wise.show" class="module-wrap">
+                <div class="module">
+                    <span @click="closeWiseDetail" class="close"></span>
+                    <h2 style="line-height: 50px;padding: 24px 0;" class="module-title">{{wise.detail.TITLE}}</h2>
+                    <div class="module-box">
+                        <div class="wise-detail">
+                            <p class="wise-desc">
+                                <label class="label">完成状态：</label>
+                                <span class="text">违法的服务范围</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 项目众筹 -->
+            <section v-if="projectAndHelp.show" class="module-wrap">
+                <div class="module">
+                    <span @click="closeProject" class="close"></span>
+                    <h2 class="module-title">{{phTitle}}</h2>
+                    <div class="module-box">
+                        <div class="project-box">
+                            <h3 class="project-title">
+                                <span>项目名称</span>
+                                <span>项目介绍</span>
+                                <span>当前进度</span>
+                            </h3>
+                            <ul class="project-list">
+                                <li @click="_getRequireData2(item.VOLUNTEER_ID, item.zcType)" v-for="item in projectAndHelp.list" class="project-item">
+                                    <span>{{item.title}}</span>
+                                    <span>{{item.text}}</span>
+                                    <span>{{item.Percentage}}%</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 红色资源 -->
+            <section v-if="resource.show" class="module-wrap">
+                <div class="module">
+                    <span @click="closeResource" class="close"></span>
+                    <h2 class="module-title">{{resource.data.title}}</h2>
+                    <div class="module-box">
+                        <div class="table">
+                            <h3 class="table-title">
+                                <span v-for="item in resource.data.head" :style="{'width': item.width + '%'}">{{item.name}}</span>
+                            </h3>
+                            <ul class="infor-list">
+                                <li v-for="items in resource.data.list" class="infor-item">
+                                <span @click="monitorPlay(item.tdid)"
+                                      v-for="item in items"
+                                      :style="{'width': item.width + '%'}"
+                                >{{item.value}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div style="display: none;">
+                    <div style="width: 90%;height: 30px;" id="RetInfo"></div>
+                    <div style="width: 90%;height: 30px;" id="GlobalInfo"></div>
+                    <input type="text" id="textCameraID" value="1000044$1$0$0"/>
+                    <input type="button" id="buttonStartRealplayByWndNo" value="播放视频"
+                           onclick="return ButtonStartRealplayByWndNo_onclick()"/>
+                    <input type="button" id="buttonStopRealplayByWndNo" value="关闭视频"
+                           onclick="return ButtonStopRealplayByWndNo_onclick()"/>
+                </div>
+            </section>
+
+            <!-- 社会组织优秀活动展示 -->
+            <section v-if="shzzList.displayModelShow" class="module-wrap">
+                <div class="module">
+                    <span @click="closeDisplayDetail" class="close"></span>
+                    <h2 style="line-height: 50px;padding: 24px 0;" class="module-title">{{shzzList.displayModelTitle}}</h2>
+                    <div class="module-box">
+                        <div class="display-detail">
+                            <p class="text">{{shzzList.displayModelText}}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </article>
+
+        <article v-if="partyType === 3" class="wrapper-addition rc">
+            <ul class="link-list">
+                <li @click="changeParty(1)" class="link-item"></li>
+                <li @click="changeParty(2)" class="link-item"></li>
+                <li @click="changeParty(3)" class="link-item"></li>
+                <li @click="changeParty(4)" class="link-item"></li>
+            </ul>
+        </article>
+
+    </section>
+
+    <section id="monitor" style="overflow: hidden;" class="monitor-box">
+        <h2 id="monTitle"></h2>
+        <object id="DPSDK_OCX" classid="CLSID:D3E383B6-765D-448D-9476-DFD8B499926D"
+                odebase="DpsdkOcx.cab#version=1.0.0.0">
+        </object>
+        <span id="monitorClose" class="monitor-close">x</span>
+    </section>
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DQ1BXIF0qGFddSG8wudhSHCZeftt7ztz"></script>
+    <script src="./libs/jquery/jquery.min.js"></script>
+    <script src="./libs/echarts/echarts.simple.min.js"></script>
+    <script src="./libs/vue/vue.js"></script>
+
+    <script src="./My97DatePicker/WdatePicker.js"></script>
+    <script src="./js/json2.js"></script>
+    <script src="./js/ocxfun.js"></script>
+
+    <script src="https://js.arcgis.com/3.24/"></script>
+    <script src="./map/vendor/terraformer/terraformer.min.js"></script>
+    <script src="./map/vendor/terraformer-arcgis-parser/terraformer-arcgis-parser.min.js"></script>
+
+    <script>
+        window.onload = function () {
+            var monitorClose = document.getElementById('monitorClose');
+
+            monitorClose.addEventListener('click', function () {
+                var video = document.getElementById('monitor');
+                video.style.width = 0 + 'px';
+                video.style.height = 0 + 'px';
+                ButtonStopRealplayByWndNo_onclick();
+            });
+        }
+    </script>
+    <script>
+        var map = undefined;
+        var agsLayer = undefined;
+        var mapServer = "http://10.21.198.126:8005/ciggis/rest/cigservices/ZJCXGRIDZTT/MapServer"
+        var mapToken = "128729ab-3fcd-4de5-9f9e-cfdb81fc4d04";
+        require([
+            "esri/map",
+            "esri/layers/ArcGISDynamicMapServiceLayer",
+            "esri/tasks/query",
+            "esri/tasks/QueryTask",
+            "dojo/io/script",
+            "dojo/_base/lang",
+
+            "./map/src/geojsonlayer.js",
+            "esri/renderers/SimpleRenderer",
+            "dojo/on",
+            "dojo/query",
+            "dojo/dom",
+            "dojo/domReady!"
+        ], function (
+            MAP, ARCGISDYNAMICMAPSERVICELAYER, QUERY, QUERYTASK, SCRIPT, LANG,
+            GeoJsonLayer, SimpleRenderer, on, query, dom
+        ) {
+            map = new MAP("map", {
+                basemap: "topo",
+                center: [119.9, 31.0],
+                zoom: 13
+            });
+
+            map.on("load", function () {
+                addGeoJsonLayer("./map/data/geoMap.json");
+            });
+
+            function addGeoJsonLayer(url) {
+                var geoJsonLayer = new GeoJsonLayer({
+                    url: url
+                });
+                map.addLayer(geoJsonLayer);
+            }
+
+            SCRIPT.get({
+                url: mapServer + "/layers",
+                jsonp: "callback",
+                content: { f: "json", token: mapToken },
+                load: function (response) {
+                    loadAGSLayer(response);
+                },
+                error: function (response) {
+                    errorCallback(response);
+                }
+            });
+            // 加载AGSLayer
+            function loadAGSLayer(response) {
+                agsLayer = new ARCGISDYNAMICMAPSERVICELAYER(mapServer + "?token=" + mapToken);
+                agsLayer.setImageFormat("png32", !false);
+                agsLayer.FeatureLayers = [];
+                agsLayer.MapServerLayers = response.layers;
+                agsLayer.LayerName = response.layername;
+                agsLayer.on("load", LANG.hitch(this, function () {
+                    var layerInfos = agsLayer.layerInfos;
+                    var mapServerLayers = agsLayer.MapServerLayers;
+                    for (var i = 0; i < mapServerLayers.length; i++) {
+                        var mapServerLayer = mapServerLayers[i];
+                        layerInfos[i].index = mapServerLayer.index;
+                        layerInfos[i].fields = mapServerLayers[i].fields;
+                        layerInfos[i].searchField = mapServerLayer.oidfield;
+                        layerInfos[i].displayField = "";
+                        layerInfos[i].displayAlias = "";
+                        if (mapServerLayer.fields) {// 图层组没有fields
+                            for (var j = 0; j < mapServerLayer.fields.length; j++) {
+                                if (mapServerLayer.fields[j].showtype == 1 || mapServerLayer.fields[j].showtype == 2) {
+                                    layerInfos[i].displayField += mapServerLayer.fields[j].name + ",";
+                                    layerInfos[i].displayAlias += mapServerLayer.fields[j].alias + ",";
+                                }
+                            }
+                            if (layerInfos[i].displayField != "") {
+                                layerInfos[i].displayField = layerInfos[i].displayField.substring(0, layerInfos[i].displayField.length - 1);
+                            }
+                            if (layerInfos[i].displayAlias != "") {
+                                layerInfos[i].displayAlias = layerInfos[i].displayAlias.substring(0, layerInfos[i].displayAlias.length - 1);
+                            }
+                        }
+                        layerInfos[i].MapServer = agsLayer.url.replace("/MapServer", "/MapServer/" + layerInfos[i].id);;
+                        layerInfos[i].FeatureServer = layerInfos[i].MapServer.replace("/MapServer/" + layerInfos[i].id, "/FeatureServer/" + layerInfos[i].id);
+                    }
+                }));
+                map.addLayer(agsLayer);
+            }
+            function query(layername, where) {
+                for (var i = 0; i < agsLayer.layerInfos.length; i++) {
+                    var layerInfo = agsLayer.layerInfos[i];
+                    if (layerInfo.name == layername) {
+                        var url = layerInfo.MapServer;
+                        var outfield = [];
+                        for (var j = 0; j < layerInfo.fields.length; j++) {
+                            outfield.push(layerInfo.fields[j].name);
+                        }
+                        var query = new QUERY();
+                        query.where = where;
+                        query.returnGeometry = true;
+                        query.outFields = outfield;
+
+                        var queryTask = new QUERYTASK(url);
+                        queryTask.execute(query, LANG.hitch(this, queryResult), function (e) {
+                            console.log(layername + " 查询失败：" + e.message);
+                        });
+                    }
+                }
+            }
+            function queryResult(featureset) {
+                if (featureset.features.length < 1) {
+                    alert("找不到此数据!")
+                    return;
+                }
+				var feature = featureset.features[0];
+				var name = feature.attributes["GRIDNAME"];
+//				alert(name);
+            }
+        });
+    </script>
+
+    <script src="./js/index.js?v=3.5"></script>
+</body>
+</html>
