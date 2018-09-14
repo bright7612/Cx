@@ -29,6 +29,7 @@
   -moz-box-shadow: 0px 0px 15px 2px @color-theme-dark inset;
   box-shadow: 0px 0px 15px 2px @color-theme-dark inset;
 }
+
 .red {
   color: @color-red;
 }
@@ -847,7 +848,6 @@ body {
       top: 5px;
       left: 5px;
       z-index: 100;
-      overflow: hidden;
       -webkit-transition: all linear .2s;
       -moz-transition: all linear .2s;
       -ms-transition: all linear .2s;
@@ -858,16 +858,17 @@ body {
       }
       .tab-box {
         width: 100%;
-        height: 326px;
+        height: 100%;
         .borderBox();
         padding: 17px 20px 15px 13px;
         background: url("../imgs/tab.png") no-repeat;
         background-size: 100% 100%;
         background-color: #05123C;
+        overflow: hidden;
       }
       .tab-list {
         width: 100%;
-        height: 100%;
+        height: 326px;
         .tab-item {
           .displayFlex();
           .flexDirColumn();
@@ -1591,6 +1592,9 @@ body {
       .infor-list {
         background: #00153f;
       }
+      .aaa {
+        color: red;
+      }
       .infor-item {
         border-bottom: 2px solid @color-border;
         & > span {
@@ -1601,7 +1605,12 @@ body {
           align-items: center;
           font-size: 26px;
           line-height: 30px;
-          padding: 25px 0;
+          .borderBox();
+          padding: 25px 10px;
+          &.left {
+            -webkit-justify-content: flex-start;
+            justify-content: flex-start;
+          }
         }
       }
       .table-title, .infor-item {

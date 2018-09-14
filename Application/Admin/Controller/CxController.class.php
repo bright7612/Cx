@@ -5019,13 +5019,64 @@ class CxController extends AdminController
         }
     }
 
+    public function moneyed()
+    {
+        $url = 'http://www.dysfz.gov.cn/apiXC/branchfeeList.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 1000;
+//        $da['BRANCH_ID'] = 92;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = httpjson($url, $das);
+        dump($list);die;
+        for ($i = 1; $i < 147; $i++) {
+            $da['START'] = $i;
+            $das = json_encode($da);
+            $list = httpjson($url, $das);
+            foreach ($list['data'] as $k => $v) {
+                $id = M('dr_dzz_dhl')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->find();
+                if ($id) {
+                    M('dr_dzz_dhl')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->save($v);
+                } else {
+                    M('dr_dzz_dhl')->add($v);
+                }
+            }
+        }
+    }
+
+    public function party_money()
+    {
+        $url = 'http://www.dysfz.gov.cn/apiXC/partyList.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 100;
+        $da['BRANCH_ID'] = 92;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = httpjson($url, $das);
+        dump($list);die;
+        for ($i = 1; $i < 147; $i++) {
+            $da['START'] = $i;
+            $das = json_encode($da);
+            $list = httpjson($url, $das);
+            foreach ($list['data'] as $k => $v) {
+                $id = M('dr_dzz_dhl')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->find();
+                if ($id) {
+                    M('dr_dzz_dhl')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->save($v);
+                } else {
+                    M('dr_dzz_dhl')->add($v);
+                }
+            }
+        }
+    }
+
+
 
     public function organization()
     {
         $url = 'http://www.dysfz.gov.cn/apiXC/getHeldZTDRlistPage.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 100;
-        $da['START'] = 2;
+        $da['START'] = 3;
         $das = json_encode($da);
         $list1[] = httpjson($url, $das);
         dump($list1);die;
@@ -5101,37 +5152,61 @@ class CxController extends AdminController
     {
         $url = 'http://www.dysfz.gov.cn/apiXC/volunteerList.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-        $da['COUNT'] = 100;
-//        $da['START'] = 1;
+        $da['COUNT'] = 500;
+        $da['START'] = 1;
+
 //        $das = json_encode($da);
 //        $list = httpjson($url, $das);
-//        dump($list['data']);die;
-        for ($i = 1; $i < 147; $i++) {
+//        dump($list);die;
+        $res = 7;
+        for ($i = 1; $i <=$res; $i++) {
             $da['START'] = $i;
             $das = json_encode($da);
             $list = httpjson($url, $das);
-            foreach ($list['data'] as $k => $v) {
-                if($v['TYPE'] == 3){
-                    foreach ($v['DetailsRecordList'] as $k=>$v){
-                        $items[] = $v;
+            $res = ceil($list['totalCount'] / $da['COUNT']);
+
+            $p = 0;
+            foreach ($list['data'] as $k => &$v) {
+                    foreach ($v['DetailsRecordList'] as $kk=>$value){
+                        $items[$p] = $value;
+                        $items[$p]['TYPE'] = $v['TYPE'];
+                        $p++;
                     }
-                }
+
             }
 
-            foreach ($items as $k=>$v){
-                $id = M('wxy_party')->where(array('RECORDV_ID' => $v['RECORDV_ID']))->find();
+
+            foreach ($items as $k=>&$v){
+                if(empty($v['RECORDV_ID'])){
+                    $id = M('volunteer_party')->where(array('RECORDDONATIONS_ID' => $v['RECORDDONATIONS_ID']))->find();
+                }
+                elseif(empty($v['RECORDDONATIONS_ID'])){
+                    $id = M('volunteer_party')->where(array('RECORDV_ID' => $v['RECORDV_ID']))->find();
+
+                }
                 if ($id) {
-                    M('wxy_party')->where(array('RECORDV_ID' => $v['RECORDV_ID']))->save($v);
+                    if(empty($v['RECORDV_ID'])){
+                        M('volunteer_party')->where(array('RECORDDONATIONS_ID' => $v['RECORDDONATIONS_ID']))->save($v);
+                    }
+                    elseif(empty($v['RECORDDONATIONS_ID'])){
+                        M('volunteer_party')->where(array('RECORDV_ID' => $v['RECORDV_ID']))->save($v);
+                    }
                 } else {
                     $datas['PARTY_NAME'] = $v['PARTY_NAME'];
                     $datas['VOLUNTEER_ID'] = $v['VOLUNTEER_ID'];
                     $datas['RECORDV_ID'] = $v['RECORDV_ID'];
                     $datas['CREATE_TIME'] = $v['CREATE_TIME'];
-                    M('wxy_party')->add($datas);
+                    $datas['MONEY'] = $v['MONEY'];
+                    $datas['TYPE'] = $v['TYPE'];
+                    $datas['RECORDDONATIONS_ID'] = $v['RECORDDONATIONS_ID'];
+                    $datas['PARTY_ID'] = $v['PARTY_ID'];
+                    M('volunteer_party')->add($datas);
+                    unset($v);
                 }
             }
 
         }
+
 
     }
 

@@ -10,26 +10,27 @@ var apiUrl = {
     baseMember: DOMAIN_CXDJ + '/home/wxapi/partyMember',
 
     partier: DOMAIN_CXDJ + '/cx/data/member', // 党员数据
-    partierList: DOMAIN_183 + '/cx/data/memberRecord', // 党员列表数据
-    partierActivity: DOMAIN_183 + '/cx/data/memberRecord2', // 党员列表数据
+    partierList: DOMAIN_CXDJ + '/cx/data/memberRecord', // 党员列表数据
+    partierActivity: DOMAIN_CXDJ + '/cx/data/memberRecord2', // 党员列表数据
 
     warn: DOMAIN_CXDJ + '/home/wxapi/warning2', // 预警提醒
     warnlist: DOMAIN_CXDJ + '/home/wxapi/warningList2', // 预警提醒列表
     // http://cxdj.cmlzjz.com/home/wxapi/warning
     rank: 'http://wei.wiseljz.com/home/apibranch/integral', // 积分排名
-    theme: DOMAIN_183 + '/Cx/data/dzz_ztdr', // 主题党日一级数据
-    theme2: DOMAIN_183 + '/Cx/data/ztdr_activity', // 主题党日二级数据
-    theme3: DOMAIN_183 + '/Cx/data/dzz_detail', // 主题党日三级数据
-
+    theme: DOMAIN_CXDJ + '/Cx/data/dzz_ztdr', // 主题党日一级数据
+    theme2: DOMAIN_CXDJ + '/Cx/data/ztdr_activity', // 主题党日二级数据
+    theme3: DOMAIN_CXDJ + '/Cx/data/dzz_detail', // 主题党日三级数据
+    devObj2: DOMAIN_CXDJ + '/Cx/data/developList', // 发展党员二级数据
+    dxtj2: DOMAIN_CXDJ + '/Cx/data/dxtjList', // 党性体检二级数据
     home: 'http://a.wiseljz.com/api/local/getdatacount.html', // 家门口
     homeList: 'http://a.wiseljz.com/api/local/getdatalist', // 家门口列表
 
-    volunteer: DOMAIN_183 + '/cx/data/volunteer', // 志愿服务列表
-    volunteerRecord: DOMAIN_183 + '/cx/data/volunteerRecord', // 志愿服务表格
+    volunteer: DOMAIN_CXDJ + '/cx/data/volunteer', // 志愿服务列表
+    volunteerRecord: DOMAIN_CXDJ + '/cx/data/volunteerRecord', // 志愿服务表格
 
-    wise: DOMAIN_183 + '/cx/data/wxy', // 微心愿数
-    requireList: DOMAIN_183 + '/cx/data/wxyRecord', // 微心愿列表
-    requireList2: DOMAIN_183 + '/Cx/data/wxy_party', // 微心愿二级列表
+    wise: DOMAIN_CXDJ + '/cx/data/wxy', // 微心愿数
+    requireList: DOMAIN_CXDJ + '/cx/data/wxyRecord', // 微心愿列表
+    requireList2: DOMAIN_CXDJ + '/Cx/data/wxy_party', // 微心愿二级列表
     wiseDetail: 'http://192.168.1.254/cx/data/wxy', // 微心愿详情
 
     project: DOMAIN_CXDJ + '/cx/data/loveList', // 爱心众筹
@@ -40,25 +41,25 @@ var apiUrl = {
     monitor: DOMAIN_CXDJ + '/home/wxapi/videos_dp', // 红色资源
     redResource: DOMAIN_CXDJ + '/home/wxapi/redResource', // 红色资源地图
 
-    platform: DOMAIN_183 + '/cx/data/platform', // 四个平台
-    grid: DOMAIN_183 + '/cx/data/WG', // 网格数据
-    gridList: DOMAIN_183 + '/cx/data/wgRecord', // 网格员总数
+    platform: DOMAIN_CXDJ + '/cx/data/platform', // 四个平台
+    grid: DOMAIN_CXDJ + '/cx/data/WG', // 网格数据
+    gridList: DOMAIN_CXDJ + '/cx/data/wgRecord', // 网格员总数
 
-    shzzMap: DOMAIN_183 + '/home/SocialApi/map', // 社会组织地图
+    shzzMap: DOMAIN_CXDJ + '/home/SocialApi/map', // 社会组织地图
 
-    shzzBaseData: DOMAIN_183 + '/home/SocialApi/SocialOrganization', // 社会组织基础数据
-    shzzBaseList: DOMAIN_183 + '/home/SocialApi/socialList', // 社会组织基础列表数据
+    shzzBaseData: DOMAIN_CXDJ + '/home/SocialApi/SocialOrganization', // 社会组织基础数据
+    shzzBaseList: DOMAIN_CXDJ + '/home/SocialApi/socialList', // 社会组织基础列表数据
 
-    shzzActivityData: DOMAIN_183 + '/home/SocialApi/social_activity', // 社会组织优秀活动展示列表
+    shzzActivityData: DOMAIN_CXDJ + '/home/SocialApi/social_activity', // 社会组织优秀活动展示列表
 
-    shzzRank: DOMAIN_183 + '/home/SocialApi/activity_ranking', // 社会组织活动数排名
-    shzzRankList: DOMAIN_183 + '/home/SocialApi/social_activity_list', // 社会组织活动数排名列表
+    shzzRank: DOMAIN_CXDJ + '/home/SocialApi/activity_ranking', // 社会组织活动数排名
+    shzzRankList: DOMAIN_CXDJ + '/home/SocialApi/social_activity_list', // 社会组织活动数排名列表
 
-    shzzActive: DOMAIN_183 + '/home/SocialApi/social_active', // 社会组织社工活跃指数排名
-    shzzActiveList: DOMAIN_183 + '/home/SocialApi/social_active_list', // 社会组织社工活跃指数排名列表
+    shzzActive: DOMAIN_CXDJ + '/home/SocialApi/social_active', // 社会组织社工活跃指数排名
+    shzzActiveList: DOMAIN_CXDJ + '/home/SocialApi/social_active_list', // 社会组织社工活跃指数排名列表
 
-    shzzServer: DOMAIN_183 + '/home/SocialApi/social_service', // 社会组织服务信息接口
-    shzzServerList: DOMAIN_183 + '/home/SocialApi/social_service_list' // 社会组织服务信息列表接口
+    shzzServer: DOMAIN_CXDJ + '/home/SocialApi/social_service', // 社会组织服务信息接口
+    shzzServerList: DOMAIN_CXDJ + '/home/SocialApi/social_service_list' // 社会组织服务信息列表接口
 }
 
 var $j = jQuery.noConflict();
@@ -149,7 +150,8 @@ var app = new Vue({
                     },
                     partier: {
                         apply: 0,
-                        active: 0
+                        active: 0,
+                        develop_dy: 0
                     },
                     experience: {
                         num: 0,
@@ -525,6 +527,9 @@ var app = new Vue({
         openModel: function (module, type, select, classify) {
             if (module === 'base') {
                 this.base.orderShow = true;
+                if (type === 1 && select === 1 && (classify === 1 || classify === 2)) {
+                    this.base.orderShow = false;
+                }
                 this._getBaseData(type, select, classify);
             }
             if (module === 'require') {
@@ -544,7 +549,7 @@ var app = new Vue({
             }
         },
         // 打开公用模态框详情
-        openModelDetail: function (id, type, title, content, org, name, ztdrId, ztdrType, developNum, wxyId) {
+        openModelDetail: function (id, type, title, content, org, name, ztdrId, ztdrType, developNum, wxyId, devId, townId) {
             if (id && type === 'partyMember') {
                 this._getBaseMember(id);
                 return false;
@@ -575,6 +580,12 @@ var app = new Vue({
             }
             if (wxyId) {
                 this._getRequireData2(wxyId);
+            }
+            if (devId) {
+                this._getDevObjData2(devId);
+            }
+            if (townId) {
+                this._getDxtjData2(townId, type);
             }
             if (developNum) {
                 this.openWarn('organize', 3)
@@ -2166,6 +2177,53 @@ var app = new Vue({
                     if (res.status === 200) {
                         _this.theme.data = res.data;
                         _this.theme.show = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        // 获取发展党员发展对象二级列表数据
+        _getDevObjData2: function (devId) {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.devObj2,
+                dataType: 'json',
+                data: {
+                    branch_id: devId
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.status === 200) {
+                        _this.listDataSecond = res.data;
+                        _this.modelSecondShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        // 获取党性体检二级列表数据
+        _getDxtjData2: function (townId, townType) {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.dxtj2,
+                dataType: 'json',
+                data: {
+                    town_id: townId,
+                    type: townType
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.status === 200) {
+                        _this.listDataSecond = res.data;
+                        _this.modelSecondShow = true;
                     }
                 },
                 error: function (err) {

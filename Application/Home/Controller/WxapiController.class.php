@@ -889,7 +889,7 @@ class WxapiController extends Controller
             array('name'=>'党组织书记', 'width'=>15),
             array('name'=>'党组织地址', 'width'=>28),
             array('name'=>'党员人数', 'width'=>13),
-            array('name'=>'当月到会率', 'width'=>15),
+//            array('name'=>'当月到会率', 'width'=>15),
         );
         $head2 = array(  //党组织
             array('name'=>'党组织名称', 'width'=>30),
@@ -898,17 +898,56 @@ class WxapiController extends Controller
             array('name'=>'党员人数', 'width'=>20),
 //            array('name'=>'到会率', 'width'=>10),
         );
+        $head3 = array(  //党组织
+            array('name'=>'类型','width'=>10),
+            array('name'=>'党组织名称', 'width'=>28),
+            array('name'=>'党组织书记', 'width'=>15),
+            array('name'=>'党组织地址', 'width'=>32),
+            array('name'=>'党员人数', 'width'=>15),
+//            array('name'=>'到会率', 'width'=>10),
+        );
+
+        $order_by_type = array(
+            1=>'乡镇',
+            2=>'街道',
+            3=>'园区',
+            4=>'部门',
+        );
+        $nature =array(
+            '乡镇'=>'乡镇',
+            '村社'=>'园区',
+            '部门机关'=>'部门',
+            '国有企业'=>'部门',
+            '事业单位'=>'部门',
+            '两新组织'=>'部门',
+        );
+        $hierarchy = array(
+//            1=>'&nbsp;&nbsp;',
+            2=>'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            3=>'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+            4=>'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+        );
 
         switch ($type){
             case 1:
                 if($subtype == 1){
                     $map3['PARENT_IDS'] = array('like',"%,92,%");
                     if($classify == 1){
-                        $map3['TYPE'] = 0;
-                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
-                        $list['count'] =ceil(M('ajax_dzz')->where($map3)->count()/$r);
-                        $list['title'] = '基层党委信息';
-                        $list['head'] = $head2;
+
+                        $url = 'http://www.dysfz.gov.cn/apiXC/branchList.do';//党组织
+                        $da1['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                        $da1['TREE_ORDER'] = true;
+//                      $da1['HIERARCHY'] = 2;
+                        $da1['BRANCH_ID'] = 92;
+                        $da1['onlyChildren'] = true;
+                        $da1['TYPE'] = 0;
+                        $da1['COUNT'] = 150;
+                        $da1['START'] = 1;
+                        $das = json_encode($da1);
+                        $list1 = $this->httpjson($url, $das);
+                        $data = $list1['data'];
+                        $list['title'] = '党委信息';
+                        $list['head'] = $head3;
 
                     }
                     elseif ($classify == 2) {
@@ -916,7 +955,7 @@ class WxapiController extends Controller
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '党总支信息';
-                        $list['head'] = $head2;
+                        $list['head'] = $head3;
 
                     }
                     elseif ($classify == 3) {
@@ -991,36 +1030,40 @@ class WxapiController extends Controller
 //                    }else{
                         $DHL = $dzzDhl[$v['BRANCH_ID']]['count'];
 //                    }
-                    if($subtype == 1 && ($classify == 1 ||$classify ==2)){
+                    if($subtype == 1 && $classify ==2){
                         $da[$k] = array(
-                            array('value'=>$v['NAME'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$order_by_type[$v['order_by_type']]?$order_by_type[$v['order_by_type']]:$nature[$v['NATURE']], 'width'=>10,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$v['NAME'], 'width'=>28,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                             array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$v['ADDRESS'], 'width'=>35,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>20,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-//                            array(
-////                            'value'=>$dzzDhl[$v['BRANCH_ID']]?$dzzDhl[$v['BRANCH_ID']].'%':mt_rand(70,95).'%',
-//                                'value'=>$DHL.'%',
-//                                'width'=>10,
-//                                'ID'=>$v['BRANCH_ID'],
-//                                'type'=>'partyMember',
-//                                'order'=>$dzzDhl[$v['BRANCH_ID']]['count'],
-//                            ),
+                            array('value'=>$v['ADDRESS'], 'width'=>32,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                         );
 
-                    }else{
+                    }else if($subtype == 1 && $classify ==1){
+
+                        $da[$k] = array(
+                            array('value'=>$order_by_type[$v['order_by_type']]?$order_by_type[$v['order_by_type']]:$nature[$v['NATURE']], 'width'=>10,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$hierarchy[$v['hierarchy']].$v['NAME'], 'width'=>28,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember','left'=>true),
+                            array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$v['ADDRESS'], 'width'=>32,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                        );
+
+                    }
+                    else{
                         $da[$k] = array(
                             array('value'=>$v['NAME'], 'width'=>30,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                             array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                             array('value'=>$v['ADDRESS'], 'width'=>28,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                             array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>13,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array(
-//                            'value'=>$dzzDhl[$v['BRANCH_ID']]?$dzzDhl[$v['BRANCH_ID']].'%':mt_rand(70,95).'%',
-                                'value'=>$DHL.'%',
-                                'width'=>15,
-                                'ID'=>$v['BRANCH_ID'],
-                                'type'=>'partyMember',
-                                'order'=>$dzzDhl[$v['BRANCH_ID']]['count'],
-                            ),
+//                            array(
+////                            'value'=>$dzzDhl[$v['BRANCH_ID']]?$dzzDhl[$v['BRANCH_ID']].'%':mt_rand(70,95).'%',
+//                                'value'=>$DHL.'%',
+//                                'width'=>15,
+//                                'ID'=>$v['BRANCH_ID'],
+//                                'type'=>'partyMember',
+//                                'order'=>$dzzDhl[$v['BRANCH_ID']]['count'],
+//                            ),
                         );
 
 
@@ -1053,14 +1096,48 @@ class WxapiController extends Controller
 
     }
 
+    //党组织辅助接口
+    function httpjson($url, $data = NULL, $json = true)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        if (!empty($data)) {
+            if($json && is_array($data)){
+                $data = json_encode( $data );
+            }
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            if($json){ //发送JSON数据
+                curl_setopt($curl, CURLOPT_HEADER, 0);
+                curl_setopt($curl, CURLOPT_HTTPHEADER,
+                    array(
+                        'Content-Type: application/json; charset=utf-8',
+                        'Content-Length:' . strlen($data))
+                );
+            }
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $res = curl_exec($curl);
+        $errorno = curl_errno($curl);
+        if ($errorno) {
+            return array('errorno' => false, 'errmsg' => $errorno);
+        }
+        curl_close($curl);
+        return json_decode($res, true);
+
+    }
+
+
     //数据大屏左上角 党组织  党员数据
     public function partyMember($id=null,$page = 1, $r = 200){
         $herf = array(
             array('name'=>'姓名', 'width'=>20),
             array('name'=>'性别', 'width'=>10),
+            array('name'=>'入党时间', 'width'=>20),
             array('name'=>'身份证号', 'width'=>30),
             array('name'=>'党员类别', 'width'=>20),
-            array('name'=>'党员卡状态', 'width'=>20),
         );
         $dyk = array(
           1=>'正常',
@@ -1091,12 +1168,14 @@ class WxapiController extends Controller
         $map2['BRANCH_ID'] = array('in',$b);
         $data = M('ajax_user')->where($map2)->page($page,$r)->select();
         foreach ($data as $k=>$v) {
+            $v['JOIN_TIME'] = $this->str_insert2($v['JOIN_TIME'],4,'-');
+            $v['JOIN_TIME'] = $this->str_insert2($v['JOIN_TIME'],7,'-');
             $da[$k] = array(
                 array('value'=>$v['NAME'], 'width'=>20),
                 array('value'=>$v['SEX'], 'width'=>10),
+                array('value'=>$v['JOIN_TIME'], 'width'=>20),
                 array('value'=>$v['IDCARD'], 'width'=>30),
                 array('value'=>$dy[$v['STATE']], 'width'=>20),
-                array('value'=>$dyk[$v['CARD_STATE']], 'width'=>20),
             );
         }
         $list['head'] = $herf;
@@ -1104,6 +1183,13 @@ class WxapiController extends Controller
         $list['title'] = $tit.'党员信息';
         $this->Apireturn($list);
 
+    }
+    //字符串插入 指定字符
+    function str_insert2($str,$i,$substr){
+        $start=substr($str,0,$i);
+        $end=substr($str,$i,500);
+        $str = ($start . $substr . $end);
+        return $str;
     }
     //微信用户认证党员
     public function userinformation(){
@@ -1600,6 +1686,8 @@ class WxapiController extends Controller
         $application_dy = M('dr_dzz_application_party')->where($where)->count();
         //入党积极分子
         $activity_dy = M('dr_dzz_activity_dy')->where($where)->count();
+        //发展对象
+        $develop_dy = M('dr_dzz_develop_dy')->count();
         //2018年报道
         $sign1 = M()->query("SELECT id,`name`,organization FROM cxdj_dr_dy_ztdr  ztdr WHERE ztdr.`name` NOT IN (SELECT `name` FROM cxdj_dr_dy_late)");
         $sign =count($sign1);
@@ -1624,15 +1712,38 @@ class WxapiController extends Controller
         //党组织-未展开党性体检
         $dx_uncheck = M('dr_dzz_undxtj')->where($where)->count();
         //党组织-已展开主题党日
-        $ztdr = M('dr_dzz_ztdr')->where($where)->count();
+        $url = 'http://www.dysfz.gov.cn/apiXC/getHeldZTDRlistPage.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 300;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = $this->httpjson($url, $das);
+        $arr = array_column($list['data'],'ykz');
+        $ztdr = array_sum($arr);
         //党组织-未展开主题党日
-        $ztdr_no = M('dr_dzz_no_ztdr')->where($where)->count();
+        $arr1 = array_column($list['data'],'wkz');
+        $ztdr_no = array_sum($arr1);
         //党组织-已经缴纳党费
-        $data = M('dr_dzz_money')->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money !=0  AND  status = 1  GROUP BY organization");
-        $money = count($data);
+        $url = 'http://www.dysfz.gov.cn/apiXC/branchDZZfeeList.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 1500;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = $this->httpjson($url, $das);
+        $arr1 = array_column($list['data'],'yjn');
+        $money = array_sum($arr1);
+//        $data = M('dr_dzz_money')->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money !=0  AND  status = 1  GROUP BY organization");
         //党组织 - 未缴纳党费
-        $data2 = M('dr_dzz_money')->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money =0  AND  status = 1  GROUP BY organization");
-        $money_no = count($data2);
+        $url = 'http://www.dysfz.gov.cn/apiXC/branchDZZfeeList.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 1500;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = $this->httpjson($url, $das);
+        $arr2 = array_column($list['data'],'wjn');
+        $money_no = array_sum($arr2);
+//        $data2 = M('dr_dzz_money')->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money =0  AND  status = 1  GROUP BY organization");
+//        $money_no = (int)$list['totalCount'];
         //党组织- 评优评先
         $honor = M('dr_dzz_honor')->where($where)->count();
         //党员- 已展开主题党日
@@ -1641,7 +1752,7 @@ class WxapiController extends Controller
         $dy_unztdr = M('dr_dy_unztdr')->where($where)->count();
         $da['organize'] = array(
             'theme'=>array('start'=>$ztdr, 'unStart'=>$ztdr_no,),
-            'partier'=>array('apply'=>$application_dy, 'active'=>$activity_dy,),
+            'partier'=>array('apply'=>$application_dy, 'active'=>$activity_dy,'develop_dy'=>$develop_dy),
             'experience'=>array('num'=>$dx_check, 'unNum'=>$dx_uncheck,),
             'pay'=>array('payed'=>$money, 'unPay'=>$money_no,),
 
@@ -1805,27 +1916,23 @@ class WxapiController extends Controller
             array('name'=>'活动时间', 'width'=>20),
         );
         $head2 = array(  //党员
-            array('name'=>'序号', 'width'=>5),
-            array('name'=>'姓名', 'width'=>10),
-            array('name'=>'性别', 'width'=>5),
-            array('name'=>'出生日期', 'width'=>15),
-            array('name'=>'学历', 'width'=>10),
-            array('name'=>'所在党支部', 'width'=>25),
-            array('name'=>'联系电话', 'width'=>15),
-            array('name'=>'职务名称', 'width'=>15),
-        );
-        $head3 = array(  //党员
-            array('name'=>'序号', 'width'=>20),
-            array('name'=>'党组织名称', 'width'=>40),
-            array('name'=>'党组织书记', 'width'=>20),
-            array('name'=>'体检时间', 'width'=>20),
+            array('name'=>'序号', 'width'=>25),
+            array('name'=>'乡镇部门', 'width'=>50),
+            array('name'=>'人数', 'width'=>25),
 
         );
-        $head4 = array(  //党费缴纳
+        $head3 = array(  //党员
+            array('name'=>'序号', 'width'=>30),
+            array('name'=>'乡镇部门', 'width'=>40),
+            array('name'=>'数量', 'width'=>30),
+
+        );
+        $head4 = array(
             array('name'=>'序号', 'width'=>20),
             array('name'=>'党组织名称', 'width'=>40),
-            array('name'=>'缴费金额', 'width'=>20),
-            array('name'=>'缴费时间', 'width'=>20),
+            array('name'=>'数量', 'width'=>20),
+            array('name'=>'书记', 'width'=>20),
+
         );
         $head5 = array(  //党员
             array('name'=>'序号', 'width'=>10),
@@ -1855,12 +1962,10 @@ class WxapiController extends Controller
         );
 
         $head9 = array(  //党员
-            array('name'=>'序号', 'width'=>10),
-            array('name'=>'姓名', 'width'=>15),
-            array('name'=>'性别', 'width'=>10),
-            array('name'=>'出生日期', 'width'=>20),
-            array('name'=>'学历', 'width'=>15),
-            array('name'=>'所在党支部', 'width'=>30),
+            array('name'=>'序号', 'width'=>25),
+            array('name'=>'乡镇部门', 'width'=>50),
+            array('name'=>'人数', 'width'=>25),
+
         );
 
         $head10 = array(  //党员
@@ -1877,8 +1982,9 @@ class WxapiController extends Controller
 
         $head13 = array(  //未缴纳党费
             array('name'=>'序号', 'width'=>20),
-            array('name'=>'党组织名称', 'width'=>50),
-            array('name'=>'缴费金额', 'width'=>30),
+            array('name'=>'党组织名称', 'width'=>40),
+            array('name'=>'数量', 'width'=>20),
+            array('name'=>'书记', 'width'=>20),
         );
 
         $head14 = array(  //评优评先数据
@@ -1896,9 +2002,15 @@ class WxapiController extends Controller
         );
 
         $head16 = array(  //未展开党性体检
-            array('name'=>'序号', 'width'=>20),
-            array('name'=>'书记', 'width'=>30),
-            array('name'=>'党组织名称', 'width'=>50),
+            array('name'=>'序号', 'width'=>30),
+            array('name'=>'乡镇部门', 'width'=>40),
+            array('name'=>'数量', 'width'=>30),
+        );
+
+        $head17 = array(
+            array('name'=>'序号', 'width'=>30),
+            array('name'=>'党组织名称', 'width'=>40),
+            array('name'=>'数量', 'width'=>30),
         );
 
         if($origin == 'organize'){
@@ -2034,15 +2146,14 @@ class WxapiController extends Controller
                 case 3:
                     $list['title'] = '入党申请';
                     $list['head'] = $head9;
-                    $data = $Model->query("SELECT * FROM cxdj_dr_dzz_application_party LIMIT 1000");
+                    $data = $Model->query("SELECT COUNT(*) AS `count`,town_name,town_id FROM cxdj_dr_dzz_application_party WHERE STATUS =1 GROUP BY town_id ");
+                    $i = 1;
                     foreach ($data as $k=>&$v){
+                        $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$v['id'], 'width'=>10),
-                            array('value'=>$v['name'], 'width'=>15),
-                            array('value'=>$v['sex'], 'width'=>10),
-                            array('value'=>$v['birthday'], 'width'=>20),
-                            array('value'=>$v['education'], 'width'=>15),
-                            array('value'=>$v['organization'], 'width'=>30),
+                            array('value'=>$ii, 'width'=>25,'applyId'=>$v['town_id']),
+                            array('value'=>$v['town_name'], 'width'=>50,'applyId'=>$v['town_id']),
+                            array('value'=>$v['count'], 'width'=>25,'applyId'=>$v['town_id']),
                         );
                     }
 
@@ -2050,90 +2161,131 @@ class WxapiController extends Controller
                 case 4:
                     $list['title'] = '入党积极分子';
                     $list['head'] = $head2;
-                    $data = $Model->query("SELECT  (@i:=@i+1) id,`name`,sex,birthday,education,organization,phone,technical_title FROM cxdj_dr_dzz_activity_dy,(SELECT @i:=0) AS i LIMIT 1000");
-                    foreach ($data as $k=>&$v){
-                        $list['list'][] = array(
-                            array('value'=>$v['id'], 'width'=>5),
-                            array('value'=>$v['name'], 'width'=>10),
-                            array('value'=>$v['sex'], 'width'=>5),
-                            array('value'=>$v['birthday'], 'width'=>15),
-                            array('value'=>$v['education'], 'width'=>10),
-                            array('value'=>$v['organization'], 'width'=>25),
-                            array('value'=>$v['phone'], 'width'=>15),
-                            array('value'=>$v['technical_title'], 'width'=>15),
-                        );
-                    }
-                    break;
-                case 5:
-                    $list['title'] = '已开展党性体检';
-                    $list['head'] = $head3;
-                    $data = $Model->query("SELECT * FROM cxdj.cxdj_dr_dzz_dxtj WHERE `status` = 1 AND organization NOT LIKE '%党委%' AND organization not LIKE '%党总支%' LIMIT 1000");
+                    $data = $Model->query("SELECT COUNT(*) AS `count`,town_name,town_id FROM cxdj_dr_dzz_activity_dy WHERE STATUS =1 GROUP BY town_id");
                     $i = 1;
                     foreach ($data as $k=>&$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>20),
-                            array('value'=>$v['organization'], 'width'=>40),
-                            array('value'=>$v['secretary'], 'width'=>20),
-                            array('value'=>$v['time'], 'width'=>20),
+                            array('value'=>$ii, 'width'=>25,'activityId'=>$v['town_id']),
+                            array('value'=>$v['town_name'], 'width'=>50,'activityId'=>$v['town_id']),
+                            array('value'=>$v['count'], 'width'=>25,'activityId'=>$v['town_id']),
+
+                        );
+                    }
+                    break;
+                case 9:
+                    $list['title'] = '发展对象';
+                    $list['head'] = $head17;
+                    $arr1 = $Model->query("SELECT
+                                COUNT(*) AS `count`,
+                                 general_party,
+                                 branch_id
+                            FROM
+                                cxdj_dr_dzz_develop_dy 
+                                WHERE `status` = 1
+                            GROUP BY
+                                branch_id");
+
+                    $i = 1;
+                    foreach ($arr1 as $k=>$v){
+                        $ii = $i++;
+                        $list['list'][] = array(
+                            array('value'=>$ii, 'width'=>30,'devId'=>$v['branch_id']),
+                            array('value'=>$v['general_party'], 'width'=>50,'devId'=>$v['branch_id']),
+                            array('value'=>$v['count'], 'width'=>20,'devId'=>$v['branch_id']),
+
+                        );
+                    }
+
+                    break;
+
+                case 5:
+                    $list['title'] = '已开展党性体检';
+                    $list['head'] = $head3;
+                    $data = $Model->query("SELECT  COUNT(*) as `count`,town_name,town_id FROM cxdj_dr_dzz_dxtj WHERE `status` = 1 GROUP BY town_id");
+                    $i = 1;
+                    foreach ($data as $k=>&$v){
+                        $ii = $i++;
+                        $list['list'][] = array(
+                            array('value'=>$ii, 'width'=>30,'town_id'=>$v['town_id'],'type'=>1),
+                            array('value'=>$v['town_name'], 'width'=>40,'town_id'=>$v['town_id'],'type'=>1),
+                            array('value'=>$v['count'], 'width'=>30,'town_id'=>$v['town_id'],'type'=>1),
+
                         );
                     }
                     break;
                 case 6:
                     $list['title'] = '未开展党性体检';
                     $list['head'] = $head16;
-                    $data = $Model->query("SELECT * FROM cxdj_dr_dzz_undxtj WHERE status = 1 LIMIT 1000");
-                    foreach ($data as $k=>&$v){
-                        $list['list'][] = array(
-                            array('value'=>$v['id'], 'width'=>20),
-                            array('value'=>$v['secretary'], 'width'=>30),
-                            array('value'=>$v['organization'], 'width'=>50),
-                        );
-                    }
-                    break;
-                case 7:
-                    $list['title'] = '已经缴纳';
-                    $list['head'] = $head4;
-                    $data = $Model->query("SELECT SUM(money) AS `count`,organization,DATE_FORMAT(time,'%Y-%m-%d') AS `time`,COUNT(*) AS record FROM cxdj_dr_dzz_money WHERE money !=0  AND  status = 1  GROUP BY organization LIMIT 1000");
-
+                    $data = $Model->query("SELECT COUNT(*) AS 'count',town_name,town_id FROM cxdj_dr_dzz_undxtj WHERE `status` = 1 GROUP BY town_id");
                     $i = 1;
                     foreach ($data as $k=>&$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>20),
-                            array('value'=>$v['organization'], 'width'=>40),
-                            array('value'=>$v['count'], 'width'=>20),
-                            array('value'=>$v['time'], 'width'=>20),
+                            array('value'=>$ii, 'width'=>30,'town_id'=>$v['town_id'],'type'=>2),
+                            array('value'=>$v['town_name'], 'width'=>40,'town_id'=>$v['town_id'],'type'=>2),
+                            array('value'=>$v['count'], 'width'=>30,'town_id'=>$v['town_id'],'type'=>2),
                         );
                     }
+                    break;
+                case 7:
+                    $list['title'] = '已经缴纳党费';
+                    $list['head'] = $head4;
+                    if(!S('dzz_yi_money')){
+                    $url = 'http://www.dysfz.gov.cn/apiXC/branchDZZfeeList.do'; //党员党建
+                    $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                    $da['COUNT'] = 1500;
+                    $da['START'] = 1;
+                    $das = json_encode($da);
+                    $data = $this->httpjson($url, $das);
+
+                    $i = 1;
+                    foreach ($data['data'] as $k=>$v){
+                        $ii = $i++;
+                        $list['list'][] = array(
+                            array('value'=>$ii, 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>1),
+                            array('value'=>$v['NAME'], 'width'=>40,'payId'=>$v['BRANCH_ID'],'type'=>1),
+                            array('value'=>$v['yjn'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>1),
+                            array('value'=>$v['SECRETARY'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>1),
+                        );
+                    }
+                        $time = 3600 * 72;  //缓存三天
+                        S('dzz_yi_money',$list,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+                    }else{
+                        $list = S('dzz_yi_money');// 获取缓存
+                    }
+
+
                     break;
                 case 8:
                     $list['title'] = '未缴纳党费';
 
                     if($classify ==1 ){  //5月
                         $list['head'] = $head13;
-                        $data = $Model->query("SELECT
-                                                    SUM(money) AS `count`,
-                                                    organization,
-                                                    DATE_FORMAT(time, '%Y-%m-%d') AS `time`,
-                                                    COUNT(*) AS record
-                                                FROM
-                                                    cxdj_dr_dzz_money
-                                                WHERE
-                                                    money = 0
-                                                AND  status = 1                                      
-                                                GROUP BY
-                                                    organization
-                                                LIMIT 200");
-                        $i = 1;
-                        foreach ($data as $k=>&$v){
-                            $ii = $i++;
-                            $list['list'][] = array(
-                                array('value'=>$ii, 'width'=>20),
-                                array('value'=>$v['organization'], 'width'=>50),
-                                array('value'=>$v['count'], 'width'=>30),
-                            );
+                        if(!S('dzz_no_money')){
+                            $url = 'http://www.dysfz.gov.cn/apiXC/branchDZZfeeList.do'; //党员党建
+                            $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                            $da['COUNT'] = 1500;
+                            $da['START'] = 1;
+                            $das = json_encode($da);
+                            $data = $this->httpjson($url, $das);
+
+                            $i = 1;
+                            foreach ($data['data'] as $k=>$v){
+                                $ii = $i++;
+                                $list['list'][] = array(
+                                    array('value'=>$ii, 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>2),
+                                    array('value'=>$v['NAME'], 'width'=>40,'payId'=>$v['BRANCH_ID'],'type'=>2),
+                                    array('value'=>$v['wjn'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>2),
+                                    array('value'=>$v['SECRETARY'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>2),
+                                );
+                            }
+                            $time = 3600 * 72;  //缓存三天
+                            S('dzz_no_money',$list,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+                        }else{
+                            $list = S('dzz_no_money');// 获取缓存
                         }
+
 
                     }
                     elseif ($classify==2){//4月
@@ -2155,7 +2307,7 @@ class WxapiController extends Controller
                 case 1:
                     $list['title'] = '已开展主题党日';
                     $list['head'] = $head5;
-                    $data = $Model->query("SELECT id,name,organization,title,time FROM cxdj_dr_dy_ztdr WHERE `status` = 1 LIMIT 1000");
+                    $data = $Model->query("SELECT id,name,organization,title,DATE_FORMAT(time,'%Y-%m-%d') AS time FROM cxdj_dr_dy_ztdr WHERE `status` = 1 LIMIT 1000");
                     foreach ($data as $k=>&$v){
                         $list['list'][] = array(
                             array('value'=>$v['id'], 'width'=>10),
@@ -2249,10 +2401,12 @@ class WxapiController extends Controller
                 case 8:
                     $list['title'] = '闪光言行';
                     $list['head'] = $head8;
-                    $data = $Model->query("SELECT  id, `name`, speech,DATE_FORMAT(time,'%Y-%m-%d') AS time,dy_lv FROM cxdj_dr_dy_sgyx ORDER BY `time` DESC LIMIT 1000");
+                    $data = $Model->query("SELECT  id, `name`, speech,DATE_FORMAT(time,'%Y-%m-%d') AS time,dy_lv FROM cxdj_dr_dy_sgyx ORDER BY `time` ASC LIMIT 1000");
+                    $i = 1;
                     foreach ($data as $k=>&$v){
+                        $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$v['id'], 'width'=>10),
+                            array('value'=>$ii, 'width'=>10),
                             array('value'=>$v['name'], 'width'=>10),
                             array('value'=>$v['speech'], 'width'=>50),
                             array('value'=>$v['time'], 'width'=>20),

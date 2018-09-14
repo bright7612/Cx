@@ -7,8 +7,8 @@
     <meta name="format-detection" content="telephone=no"/>
     <meta name="format-detection" content="email=no"/>
     <title>长兴县智慧党建大数据平台</title>
-    <link rel="stylesheet" href="https://js.arcgis.com/3.24/esri/css/esri.css">
-    <link rel="stylesheet" href="./css/index.css?v=3.0"/>
+    <!--<link rel="stylesheet" href="http//js.arcgis.com/3.24/esri/css/esri.css">-->
+    <link rel="stylesheet" href="./css/index.css?v=3.4"/>
     <style>
         [v-cloak] {
             display: none;
@@ -133,94 +133,94 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div v-show="partyType === 1" class="party-section">
-                                <!--<p class="party-desc">党组织报到率：68%</p>-->
-                                <p class="party-desc">党组织性质</p>
-                                <div class="party-data">
-                                    <div class="circle">
-                                        <svg class="svg" width="100%" height="100%" viewbox="0 0 114 114"
-                                             version="1.1" xmlns="http://www.w3.org/2000/svg">
-                                            <circle cx="50%" cy="50%" r="23"
-                                                    stroke="#536586" fill="none"
-                                                    stroke-width="3" stroke-linecap="round"
-                                            />
-                                            <circle cx="50%" cy="50%" r="23"
-                                                    stroke="rgb(255, 218, 101)" fill="none"
-                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
-                                                    :style="{'stroke-dasharray': circlePercent(23, base.type.office.Percentage)}"
-                                            />
+                            <!--<div v-show="partyType === 1" class="party-section">-->
+                                <!--&lt;!&ndash;<p class="party-desc">党组织报到率：68%</p>&ndash;&gt;-->
+                                <!--<p class="party-desc">党组织性质</p>-->
+                                <!--<div class="party-data">-->
+                                    <!--<div class="circle">-->
+                                        <!--<svg class="svg" width="100%" height="100%" viewbox="0 0 114 114"-->
+                                             <!--version="1.1" xmlns="http://www.w3.org/2000/svg">-->
+                                            <!--<circle cx="50%" cy="50%" r="23"-->
+                                                    <!--stroke="#536586" fill="none"-->
+                                                    <!--stroke-width="3" stroke-linecap="round"-->
+                                            <!--/>-->
+                                            <!--<circle cx="50%" cy="50%" r="23"-->
+                                                    <!--stroke="rgb(255, 218, 101)" fill="none"-->
+                                                    <!--stroke-width="3" transform="matrix(0,-1,1,0,0,114)"-->
+                                                    <!--:style="{'stroke-dasharray': circlePercent(23, base.type.office.Percentage)}"-->
+                                            <!--/>-->
 
-                                            <circle cx="50%" cy="50%" r="31"
-                                                    stroke="#536586" fill="none"
-                                                    stroke-width="3" stroke-linecap="round"
-                                            />
-                                            <circle cx="50%" cy="50%" r="31"
-                                                    stroke="#ffbc47" fill="none"
-                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
-                                                    :style="{'stroke-dasharray': circlePercent(31, base.type.enterprise.Percentage)}"
-                                            />
+                                            <!--<circle cx="50%" cy="50%" r="31"-->
+                                                    <!--stroke="#536586" fill="none"-->
+                                                    <!--stroke-width="3" stroke-linecap="round"-->
+                                            <!--/>-->
+                                            <!--<circle cx="50%" cy="50%" r="31"-->
+                                                    <!--stroke="#ffbc47" fill="none"-->
+                                                    <!--stroke-width="3" transform="matrix(0,-1,1,0,0,114)"-->
+                                                    <!--:style="{'stroke-dasharray': circlePercent(31, base.type.enterprise.Percentage)}"-->
+                                            <!--/>-->
 
-                                            <circle cx="50%" cy="50%" r="39"
-                                                    stroke="#536586" fill="none"
-                                                    stroke-width="3" stroke-linecap="round"
-                                            />
-                                            <circle cx="50%" cy="50%" r="39"
-                                                    stroke="#36d2ff" fill="none"
-                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
-                                                    :style="{'stroke-dasharray': circlePercent(39, base.type.undertaking.Percentage)}"
-                                            />
+                                            <!--<circle cx="50%" cy="50%" r="39"-->
+                                                    <!--stroke="#536586" fill="none"-->
+                                                    <!--stroke-width="3" stroke-linecap="round"-->
+                                            <!--/>-->
+                                            <!--<circle cx="50%" cy="50%" r="39"-->
+                                                    <!--stroke="#36d2ff" fill="none"-->
+                                                    <!--stroke-width="3" transform="matrix(0,-1,1,0,0,114)"-->
+                                                    <!--:style="{'stroke-dasharray': circlePercent(39, base.type.undertaking.Percentage)}"-->
+                                            <!--/>-->
 
-                                            <circle cx="50%" cy="50%" r="47"
-                                                    stroke="#536586" fill="none"
-                                                    stroke-width="3" stroke-linecap="round"
-                                            />
-                                            <circle cx="50%" cy="50%" r="47"
-                                                    stroke="#ffced0" fill="none"
-                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
-                                                    :style="{'stroke-dasharray': circlePercent(47, base.type.community.Percentage)}"
-                                            />
+                                            <!--<circle cx="50%" cy="50%" r="47"-->
+                                                    <!--stroke="#536586" fill="none"-->
+                                                    <!--stroke-width="3" stroke-linecap="round"-->
+                                            <!--/>-->
+                                            <!--<circle cx="50%" cy="50%" r="47"-->
+                                                    <!--stroke="#ffced0" fill="none"-->
+                                                    <!--stroke-width="3" transform="matrix(0,-1,1,0,0,114)"-->
+                                                    <!--:style="{'stroke-dasharray': circlePercent(47, base.type.community.Percentage)}"-->
+                                            <!--/>-->
 
-                                            <circle cx="50%" cy="50%" r="55"
-                                                    stroke="#536586" fill="none"
-                                                    stroke-width="3" stroke-linecap="round"
-                                            />
-                                            <circle cx="50%" cy="50%" r="55"
-                                                    stroke="#8bff5e" fill="none"
-                                                    stroke-width="3" transform="matrix(0,-1,1,0,0,114)"
-                                                    :style="{'stroke-dasharray': circlePercent(55, base.type.new.Percentage)}"
-                                            />
-                                        </svg>
-                                        <div class="circle-inner">{{base.type.count}}</div>
-                                    </div>
-                                    <ul class="data-list">
-                                        <li @click="openModel('base', 1, 2, 1)" class="data-item">
-                                            <span class="label color-yellow"></span>
-                                            <span class="text">部门机关</span>
-                                            <span class="text">{{base.type.office.count}}</span>
-                                        </li>
-                                        <li @click="openModel('base', 1, 2, 2)" class="data-item">
-                                            <span class="label color-orange"></span>
-                                            <span class="text">国有企业</span>
-                                            <span class="text">{{base.type.enterprise.count}}</span>
-                                        </li>
-                                        <li @click="openModel('base', 1, 2, 3)" class="data-item">
-                                            <span class="label color-blue"></span>
-                                            <span class="text">事业单位</span>
-                                            <span class="text">{{base.type.undertaking.count}}</span>
-                                        </li>
-                                        <li @click="openModel('base', 1, 2, 4)" class="data-item">
-                                            <span class="label color-red"></span>
-                                            <span class="text">村社</span>
-                                            <span class="text">{{base.type.community.count}}</span>
-                                        </li>
-                                        <li @click="openModel('base', 1, 2, 5)" class="data-item">
-                                            <span class="label color-green"></span>
-                                            <span class="text">两新</span>
-                                            <span class="text">{{base.type.new.count}}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                                            <!--<circle cx="50%" cy="50%" r="55"-->
+                                                    <!--stroke="#536586" fill="none"-->
+                                                    <!--stroke-width="3" stroke-linecap="round"-->
+                                            <!--/>-->
+                                            <!--<circle cx="50%" cy="50%" r="55"-->
+                                                    <!--stroke="#8bff5e" fill="none"-->
+                                                    <!--stroke-width="3" transform="matrix(0,-1,1,0,0,114)"-->
+                                                    <!--:style="{'stroke-dasharray': circlePercent(55, base.type.new.Percentage)}"-->
+                                            <!--/>-->
+                                        <!--</svg>-->
+                                        <!--<div class="circle-inner">{{base.type.count}}</div>-->
+                                    <!--</div>-->
+                                    <!--<ul class="data-list">-->
+                                        <!--<li @click="openModel('base', 1, 2, 1)" class="data-item">-->
+                                            <!--<span class="label color-yellow"></span>-->
+                                            <!--<span class="text">部门机关</span>-->
+                                            <!--<span class="text">{{base.type.office.count}}</span>-->
+                                        <!--</li>-->
+                                        <!--<li @click="openModel('base', 1, 2, 2)" class="data-item">-->
+                                            <!--<span class="label color-orange"></span>-->
+                                            <!--<span class="text">国有企业</span>-->
+                                            <!--<span class="text">{{base.type.enterprise.count}}</span>-->
+                                        <!--</li>-->
+                                        <!--<li @click="openModel('base', 1, 2, 3)" class="data-item">-->
+                                            <!--<span class="label color-blue"></span>-->
+                                            <!--<span class="text">事业单位</span>-->
+                                            <!--<span class="text">{{base.type.undertaking.count}}</span>-->
+                                        <!--</li>-->
+                                        <!--<li @click="openModel('base', 1, 2, 4)" class="data-item">-->
+                                            <!--<span class="label color-red"></span>-->
+                                            <!--<span class="text">村社</span>-->
+                                            <!--<span class="text">{{base.type.community.count}}</span>-->
+                                        <!--</li>-->
+                                        <!--<li @click="openModel('base', 1, 2, 5)" class="data-item">-->
+                                            <!--<span class="label color-green"></span>-->
+                                            <!--<span class="text">两新</span>-->
+                                            <!--<span class="text">{{base.type.new.count}}</span>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div v-show="partyType === 2" class="party-section improve">
                                 <div class="party-box half">
                                     <h4 @click="openModel('partier')" style="cursor: pointer;" class="subtitle">党员总数：{{partier.meb}}</h4>
@@ -287,11 +287,11 @@
                                 <h4 class="block-title">主题党日</h4>
                                 <div class="block-content">
                                     <p @click="openModel('theme')" class="red">
-                                        <span>已开展</span>
+                                        <span>已开展党支部数</span>
                                         <span>{{warn.basedata.organize.theme.start}}</span>
                                     </p>
-                                    <p @click="openWarn('organize', 2)" class="red">
-                                        <span>未开展</span>
+                                    <p @click="openModel('theme')" class="red">
+                                        <span>未开展党支部数</span>
                                         <span>{{warn.basedata.organize.theme.unStart}}</span>
                                     </p>
                                 </div>
@@ -307,9 +307,9 @@
                                         <span>入党积极分子</span>
                                         <span>{{warn.basedata.organize.partier.active}}</span>
                                     </p>
-                                    <p class="red">
+                                    <p @click="openWarn('organize', 9)" class="red">
                                         <span>发展对象</span>
-                                        <span>800</span>
+                                        <span>{{warn.basedata.organize.partier.develop_dy}}</span>
                                     </p>
                                 </div>
                             </div>
@@ -317,11 +317,11 @@
                                 <h4 class="block-title">党性体检</h4>
                                 <div class="block-content">
                                     <p @click="openWarn('organize', 5)" class="red">
-                                        <span>已开展</span>
+                                        <span>已开展党支部数</span>
                                         <span>{{warn.basedata.organize.experience.num}}</span>
                                     </p>
                                     <p @click="openWarn('organize', 6)" class="red">
-                                        <span>未开展</span>
+                                        <span>未开展党支部数</span>
                                         <span>{{warn.basedata.organize.experience.unNum}}</span>
                                     </p>
                                 </div>
@@ -979,7 +979,7 @@
                 <div class="module">
                     <span @click="closeModel" class="close"></span>
                     <h2 class="module-title">{{listData.title}}</h2>
-                    <span v-if="base.orderShow" @click="changeOrder" class="order">到会率 {{orderText}}</span>
+                    <!--<span v-if="base.orderShow" @click="changeOrder" class="order">到会率 {{orderText}}</span>-->
                     <div class="module-box">
                         <div class="table">
                             <h3 class="table-title">
@@ -989,9 +989,11 @@
                                 <li v-if="listData.list.length"
                                     v-for="items in listData.list"
                                     class="infor-item">
-                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization, item.name, item.ztdrId, item.ztdrType, item.developNum, item.wxyId)"
+                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization, item.name, item.ztdrId, item.ztdrType, item.developNum, item.wxyId, item.devId, item.town_id)"
                                           v-for="item in items"
-                                          :style="{'width': item.width + '%'}">{{item.value}}</span>
+                                          :class="{'left': item.left}"
+                                          :style="{'width': item.width + '%'}"
+                                          v-html="item.value"></span>
                                 </li>
                                 <li v-if="!listData.list || !listData.list.length" class="infor-item">
                                     <span style="width: 100%;">暂无数据</span>
@@ -1147,7 +1149,7 @@
                                 <span>当前进度</span>
                             </h3>
                             <ul class="project-list">
-                                <li v-for="item in projectAndHelp.list" class="project-item">
+                                <li @click="_getRequireData2(item.VOLUNTEER_ID)" v-for="item in projectAndHelp.list" class="project-item">
                                     <span>{{item.title}}</span>
                                     <span>{{item.text}}</span>
                                     <span>{{item.Percentage}}%</span>
@@ -1233,9 +1235,9 @@
     <script src="./js/json2.js"></script>
     <script src="./js/ocxfun.js"></script>
 
-    <script src="https://js.arcgis.com/3.24/"></script>
-    <script src="./map/vendor/terraformer/terraformer.min.js"></script>
-    <script src="./map/vendor/terraformer-arcgis-parser/terraformer-arcgis-parser.min.js"></script>
+    <!--<script src="https://js.arcgis.com/3.24/"></script>-->
+    <!--<script src="./map/vendor/terraformer/terraformer.min.js"></script>-->
+    <!--<script src="./map/vendor/terraformer-arcgis-parser/terraformer-arcgis-parser.min.js"></script>-->
 
     <script>
         window.onload = function () {
@@ -1249,127 +1251,127 @@
             });
         }
     </script>
-    <script>
-        var map = undefined;
-        var agsLayer = undefined;
-        var mapServer = "http://10.21.198.126:8005/ciggis/rest/cigservices/ZJCXGRIDZTT/MapServer"
-        var mapToken = "128729ab-3fcd-4de5-9f9e-cfdb81fc4d04";
-        require([
-            "esri/map",
-            "esri/layers/ArcGISDynamicMapServiceLayer",
-            "esri/tasks/query",
-            "esri/tasks/QueryTask",
-            "dojo/io/script",
-            "dojo/_base/lang",
+    <!--<script>-->
+        <!--var map = undefined;-->
+        <!--var agsLayer = undefined;-->
+        <!--var mapServer = "http://10.21.198.126:8005/ciggis/rest/cigservices/ZJCXGRIDZTT/MapServer"-->
+        <!--var mapToken = "128729ab-3fcd-4de5-9f9e-cfdb81fc4d04";-->
+        <!--require([-->
+            <!--"esri/map",-->
+            <!--"esri/layers/ArcGISDynamicMapServiceLayer",-->
+            <!--"esri/tasks/query",-->
+            <!--"esri/tasks/QueryTask",-->
+            <!--"dojo/io/script",-->
+            <!--"dojo/_base/lang",-->
 
-            "./map/src/geojsonlayer.js",
-            "esri/renderers/SimpleRenderer",
-            "dojo/on",
-            "dojo/query",
-            "dojo/dom",
-            "dojo/domReady!"
-        ], function (
-            MAP, ARCGISDYNAMICMAPSERVICELAYER, QUERY, QUERYTASK, SCRIPT, LANG,
-            GeoJsonLayer, SimpleRenderer, on, query, dom
-        ) {
-            map = new MAP("map", {
-                basemap: "topo",
-                center: [119.9, 31.0],
-                zoom: 13
-            });
+            <!--"./map/src/geojsonlayer.js",-->
+            <!--"esri/renderers/SimpleRenderer",-->
+            <!--"dojo/on",-->
+            <!--"dojo/query",-->
+            <!--"dojo/dom",-->
+            <!--"dojo/domReady!"-->
+        <!--], function (-->
+            <!--MAP, ARCGISDYNAMICMAPSERVICELAYER, QUERY, QUERYTASK, SCRIPT, LANG,-->
+            <!--GeoJsonLayer, SimpleRenderer, on, query, dom-->
+        <!--) {-->
+            <!--map = new MAP("map", {-->
+                <!--basemap: "topo",-->
+                <!--center: [119.9, 31.0],-->
+                <!--zoom: 13-->
+            <!--});-->
 
-            map.on("load", function () {
-                addGeoJsonLayer("./map/data/geoMap.json");
-            });
+            <!--map.on("load", function () {-->
+                <!--addGeoJsonLayer("./map/data/geoMap.json");-->
+            <!--});-->
 
-            function addGeoJsonLayer(url) {
-                var geoJsonLayer = new GeoJsonLayer({
-                    url: url
-                });
-                map.addLayer(geoJsonLayer);
-            }
+            <!--function addGeoJsonLayer(url) {-->
+                <!--var geoJsonLayer = new GeoJsonLayer({-->
+                    <!--url: url-->
+                <!--});-->
+                <!--map.addLayer(geoJsonLayer);-->
+            <!--}-->
 
-            SCRIPT.get({
-                url: mapServer + "/layers",
-                jsonp: "callback",
-                content: { f: "json", token: mapToken },
-                load: function (response) {
-                    loadAGSLayer(response);
-                },
-                error: function (response) {
-                    errorCallback(response);
-                }
-            });
-            // 加载AGSLayer
-            function loadAGSLayer(response) {
-                agsLayer = new ARCGISDYNAMICMAPSERVICELAYER(mapServer + "?token=" + mapToken);
-                agsLayer.setImageFormat("png32", !false);
-                agsLayer.FeatureLayers = [];
-                agsLayer.MapServerLayers = response.layers;
-                agsLayer.LayerName = response.layername;
-                agsLayer.on("load", LANG.hitch(this, function () {
-                    var layerInfos = agsLayer.layerInfos;
-                    var mapServerLayers = agsLayer.MapServerLayers;
-                    for (var i = 0; i < mapServerLayers.length; i++) {
-                        var mapServerLayer = mapServerLayers[i];
-                        layerInfos[i].index = mapServerLayer.index;
-                        layerInfos[i].fields = mapServerLayers[i].fields;
-                        layerInfos[i].searchField = mapServerLayer.oidfield;
-                        layerInfos[i].displayField = "";
-                        layerInfos[i].displayAlias = "";
-                        if (mapServerLayer.fields) {// 图层组没有fields
-                            for (var j = 0; j < mapServerLayer.fields.length; j++) {
-                                if (mapServerLayer.fields[j].showtype == 1 || mapServerLayer.fields[j].showtype == 2) {
-                                    layerInfos[i].displayField += mapServerLayer.fields[j].name + ",";
-                                    layerInfos[i].displayAlias += mapServerLayer.fields[j].alias + ",";
-                                }
-                            }
-                            if (layerInfos[i].displayField != "") {
-                                layerInfos[i].displayField = layerInfos[i].displayField.substring(0, layerInfos[i].displayField.length - 1);
-                            }
-                            if (layerInfos[i].displayAlias != "") {
-                                layerInfos[i].displayAlias = layerInfos[i].displayAlias.substring(0, layerInfos[i].displayAlias.length - 1);
-                            }
-                        }
-                        layerInfos[i].MapServer = agsLayer.url.replace("/MapServer", "/MapServer/" + layerInfos[i].id);;
-                        layerInfos[i].FeatureServer = layerInfos[i].MapServer.replace("/MapServer/" + layerInfos[i].id, "/FeatureServer/" + layerInfos[i].id);
-                    }
-                }));
-                map.addLayer(agsLayer);
-            }
-            function query(layername, where) {
-                for (var i = 0; i < agsLayer.layerInfos.length; i++) {
-                    var layerInfo = agsLayer.layerInfos[i];
-                    if (layerInfo.name == layername) {
-                        var url = layerInfo.MapServer;
-                        var outfield = [];
-                        for (var j = 0; j < layerInfo.fields.length; j++) {
-                            outfield.push(layerInfo.fields[j].name);
-                        }
-                        var query = new QUERY();
-                        query.where = where;
-                        query.returnGeometry = true;
-                        query.outFields = outfield;
+            <!--SCRIPT.get({-->
+                <!--url: mapServer + "/layers",-->
+                <!--jsonp: "callback",-->
+                <!--content: { f: "json", token: mapToken },-->
+                <!--load: function (response) {-->
+                    <!--loadAGSLayer(response);-->
+                <!--},-->
+                <!--error: function (response) {-->
+                    <!--errorCallback(response);-->
+                <!--}-->
+            <!--});-->
+            <!--// 加载AGSLayer-->
+            <!--function loadAGSLayer(response) {-->
+                <!--agsLayer = new ARCGISDYNAMICMAPSERVICELAYER(mapServer + "?token=" + mapToken);-->
+                <!--agsLayer.setImageFormat("png32", !false);-->
+                <!--agsLayer.FeatureLayers = [];-->
+                <!--agsLayer.MapServerLayers = response.layers;-->
+                <!--agsLayer.LayerName = response.layername;-->
+                <!--agsLayer.on("load", LANG.hitch(this, function () {-->
+                    <!--var layerInfos = agsLayer.layerInfos;-->
+                    <!--var mapServerLayers = agsLayer.MapServerLayers;-->
+                    <!--for (var i = 0; i < mapServerLayers.length; i++) {-->
+                        <!--var mapServerLayer = mapServerLayers[i];-->
+                        <!--layerInfos[i].index = mapServerLayer.index;-->
+                        <!--layerInfos[i].fields = mapServerLayers[i].fields;-->
+                        <!--layerInfos[i].searchField = mapServerLayer.oidfield;-->
+                        <!--layerInfos[i].displayField = "";-->
+                        <!--layerInfos[i].displayAlias = "";-->
+                        <!--if (mapServerLayer.fields) {// 图层组没有fields-->
+                            <!--for (var j = 0; j < mapServerLayer.fields.length; j++) {-->
+                                <!--if (mapServerLayer.fields[j].showtype == 1 || mapServerLayer.fields[j].showtype == 2) {-->
+                                    <!--layerInfos[i].displayField += mapServerLayer.fields[j].name + ",";-->
+                                    <!--layerInfos[i].displayAlias += mapServerLayer.fields[j].alias + ",";-->
+                                <!--}-->
+                            <!--}-->
+                            <!--if (layerInfos[i].displayField != "") {-->
+                                <!--layerInfos[i].displayField = layerInfos[i].displayField.substring(0, layerInfos[i].displayField.length - 1);-->
+                            <!--}-->
+                            <!--if (layerInfos[i].displayAlias != "") {-->
+                                <!--layerInfos[i].displayAlias = layerInfos[i].displayAlias.substring(0, layerInfos[i].displayAlias.length - 1);-->
+                            <!--}-->
+                        <!--}-->
+                        <!--layerInfos[i].MapServer = agsLayer.url.replace("/MapServer", "/MapServer/" + layerInfos[i].id);;-->
+                        <!--layerInfos[i].FeatureServer = layerInfos[i].MapServer.replace("/MapServer/" + layerInfos[i].id, "/FeatureServer/" + layerInfos[i].id);-->
+                    <!--}-->
+                <!--}));-->
+                <!--map.addLayer(agsLayer);-->
+            <!--}-->
+            <!--function query(layername, where) {-->
+                <!--for (var i = 0; i < agsLayer.layerInfos.length; i++) {-->
+                    <!--var layerInfo = agsLayer.layerInfos[i];-->
+                    <!--if (layerInfo.name == layername) {-->
+                        <!--var url = layerInfo.MapServer;-->
+                        <!--var outfield = [];-->
+                        <!--for (var j = 0; j < layerInfo.fields.length; j++) {-->
+                            <!--outfield.push(layerInfo.fields[j].name);-->
+                        <!--}-->
+                        <!--var query = new QUERY();-->
+                        <!--query.where = where;-->
+                        <!--query.returnGeometry = true;-->
+                        <!--query.outFields = outfield;-->
 
-                        var queryTask = new QUERYTASK(url);
-                        queryTask.execute(query, LANG.hitch(this, queryResult), function (e) {
-                            console.log(layername + " 查询失败：" + e.message);
-                        });
-                    }
-                }
-            }
-            function queryResult(featureset) {
-                if (featureset.features.length < 1) {
-                    alert("找不到此数据!")
-                    return;
-                }
-				var feature = featureset.features[0];
-				var name = feature.attributes["GRIDNAME"];
-//				alert(name);
-            }
-        });
-    </script>
+                        <!--var queryTask = new QUERYTASK(url);-->
+                        <!--queryTask.execute(query, LANG.hitch(this, queryResult), function (e) {-->
+                            <!--console.log(layername + " 查询失败：" + e.message);-->
+                        <!--});-->
+                    <!--}-->
+                <!--}-->
+            <!--}-->
+            <!--function queryResult(featureset) {-->
+                <!--if (featureset.features.length < 1) {-->
+                    <!--alert("找不到此数据!")-->
+                    <!--return;-->
+                <!--}-->
+				<!--var feature = featureset.features[0];-->
+				<!--var name = feature.attributes["GRIDNAME"];-->
+<!--//				alert(name);-->
+            <!--}-->
+        <!--});-->
+    <!--</script>-->
 
-    <script src="./js/index.js?v=3.1"></script>
+    <script src="./js/index.js?v=3.3"></script>
 </body>
 </html>
