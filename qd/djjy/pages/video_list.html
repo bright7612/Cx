@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>党建学习平台</title>
+    <link rel="stylesheet" href="../css/public.css">
+</head>
+<body class="study">
+<header class="header2">
+    <a href="javascript:history.back(-1)">
+        <span class="iconfont icon-fanhui"></span>
+        <span class="text1">返回</span>
+    </a>
+    <p class="title">学习进行时</p>
+</header>
+<article class="list_detail video_list">
+    <div class="big_box">
+        <div class="flex_box" data-id="../imgs/new.mp4">
+            <img src="../imgs/1.jpg" >
+            <p class="title">这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="../imgs/video1.mp4">
+            <img src="../imgs/1.jpg" alt="">
+            <p class="title">这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="../imgs/new.mp4">
+            <img src="../imgs/1.jpg" >
+            <p class="title">这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="../imgs/video1.mp4">
+            <img src="../imgs/1.jpg" alt="">
+            <p class="title">这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="../imgs/new.mp4">
+            <img src="../imgs/1.jpg" >
+            <p class="title">这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="../imgs/video1.mp4">
+            <img src="../imgs/1.jpg" alt="">
+            <p class="title">这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="../imgs/new.mp4">
+            <img src="../imgs/1.jpg" >
+            <p class="title">这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分这是视频的标题部分视频的标题部分</p>
+        </div>
+        <div class="flex_box" data-id="../imgs/video1.mp4">
+            <img src="../imgs/1.jpg" alt="">
+            <p class="title">这是视频的标题部分视频的标题部分</p>
+        </div>
+    </div>
+</article>
+<article class="play_box" id="playBox">
+    <video src="" autoplay controls></video>
+    <span class="closer">×</span>
+</article>
+<script type="text/javascript" src="../libs/jquery/jquery.js"></script>
+<script type="text/javascript">
+    $(function(){
+        $('.big_box').on('click','.flex_box',function(){
+            var link=$(this).attr('data-id');
+            $('#playBox video').attr('src',link);
+            $('.play_box').show();
+        });
+        //点击关闭按钮关闭视频
+        $('.play_box').on('click','.closer',function(){
+            $('.play_box').hide();
+            $('.play_box video').trigger('pause');
+        })
+    })
+</script>
+</body>
+</html>

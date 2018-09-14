@@ -1,0 +1,56 @@
+.register {
+  &-content {
+    padding: 140px 105px;
+    &-title {
+      font-size: 36px;
+      color: #686868;
+      margin-bottom: 80px;
+    }
+    &-box {
+      .clearfix();
+      .left, .right {
+        float: left;
+        width: 50%;
+      }
+      .left {
+        h3 {
+          font-size: 34px;
+          color: #2390d5;
+          font-weight: 400;
+          margin-bottom: 30px;
+        }
+        &-list {
+          li {
+            margin-bottom: 20px;
+            .clearfix();
+          }
+          &-name {
+            float: left;
+            font-size: 30px;
+            color: #565656;
+            line-height: 56px;
+          }
+          &-link {
+            float: right;
+            display: block;
+            width: 143px;
+            height: 56px;
+            line-height: 56px;
+            text-align: center;
+            background-color: #39a2de;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 30px;
+          }
+        }
+      }
+      .right {
+        text-align: center;
+        img {
+          width: 597px;
+          height: 342px;
+        }
+      }
+    }
+  }
+}

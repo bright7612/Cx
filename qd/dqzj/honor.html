@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>党建荣耀</title>
+    <!-- 引入css文件 -->
+    <link rel="stylesheet" href="css/index-style.css">
+    <!--<link rel="stylesheet" href="https://unpkg.com/smartphoto@1.1.0/css/smartphoto.min.css">-->
+    <!-- 引入require及config文件  -->
+    <script src="js/lib/require.min.js"></script>
+    <script src="js/require-config.js"></script>
+    <script>
+      requirejs({
+        baseUrl: "js"
+      })
+    </script>
+</head>
+<body class="page honor">
+
+<!-- dq_main -->
+<div class="dq_main">
+
+    <header class="dq_main-header">
+
+        <div class="dq_main-header-go">
+
+            <a href="javascript:history.back(-1);">
+
+                <i class="iconfont icon-fanhui"></i>
+
+                <span>返回</span>
+
+            </a>
+
+        </div>
+
+        <h1 class="dq_main-header-title">党建荣耀</h1>
+
+    </header>
+
+    <section class="dq_main-container">
+
+        <div class="dq_main-container-box" id="wrapper">
+
+            <ul class="honor-list">
+
+                <li class="honor-list-item">
+
+                    <a href="img/page/index/i_pic.png" class="js-smartPhoto" data-caption="党建荣耀" data-id="1" data-group="animal" >
+
+                        <img src="img/page/index/i_pic.png" />
+
+                    </a>
+
+                </li>
+
+                <li class="honor-list-item">
+
+                    <a href="img/page/index/i_pic.png" class="js-smartPhoto" data-caption="党建荣耀" data-id="1" data-group="animal" >
+
+                        <img src="img/page/index/i_pic.png" />
+
+                    </a>
+
+                </li>
+
+                <li class="honor-list-item">
+
+                    <a href="img/page/index/i_pic.png" class="js-smartPhoto" data-caption="党建荣耀" data-id="1" data-group="animal" >
+
+                        <img src="img/page/index/i_pic.png" />
+
+                    </a>
+
+                </li>
+
+                <li class="honor-list-item">
+
+                    <a href="img/page/index/i_pic.png" class="js-smartPhoto" data-caption="党建荣耀" data-id="1" data-group="animal" >
+
+                        <img src="img/page/index/i_pic.png" />
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </section>
+
+</div>
+<!-- dq_main end-->
+
+<!--<script src="https://unpkg.com/smartphoto@1.1.0/js/smartphoto.min.js"></script>-->
+<script>
+
+  require(['smartphoto','scroll'],function (SmartPhoto,scroll) {
+
+    new SmartPhoto(".js-smartPhoto");
+
+  })
+
+</script>
+</body>
+</html>

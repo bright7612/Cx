@@ -1,0 +1,72 @@
+@import "base";
+body{
+  background: url("../imgs/head_screen.png") no-repeat 100% 100%;
+  position: relative;
+  overflow: hidden;
+}
+.content{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  .borderBox();
+  padding: 0 40px;
+  .displayFlex();
+  flex-wrap: wrap;
+  .spaceBetween();
+  &.content1{
+    left: 0;
+    padding-top: 186px;
+    margin-bottom: 143px;
+  }
+  &.content2{
+    right:0;
+    top: 676px;
+  }
+  .head_box{
+    //display: none;
+    width: 316px;
+    height: 347px;
+    position: relative;
+    .borderBox();
+    overflow: hidden;
+    a{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: -316px;
+      background: #1e4af5;
+      color: #FFFFFF;
+      text-align: center;
+    }
+    img{
+      position: absolute;
+      width: 247px !important;
+      height: 280px !important;
+      left: 38px;
+      top: -200px;
+      //top: -124px;
+      display: none;
+    }
+    .border{
+      width: 264px;
+      height: 2px;
+      margin: 152px auto 10px;
+      background: #FFFFFF;
+    }
+    .name{
+      font-size: 34px;
+      line-height: 46px;
+      color: #FFFFFF;
+      margin-bottom: 10px;
+    }
+    .text{
+      padding: 0 18px;
+      line-height: 26px;
+      font-size: 20px;
+    }
+    p{
+      display: none;
+    }
+  }
+}
