@@ -1,5 +1,5 @@
-@import "//at.alicdn.com/t/font_698012_ghhw08x4os.css";
 /* 重置&默认(reset&base)(tags) */
+@import "//at.alicdn.com/t/font_698012_ghhw08x4os.css";
 *[hidefocus],
 input,
 textarea,
@@ -90,8 +90,7 @@ a {
 *,
 :after,
 :before {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .omit {
   white-space: nowrap;
@@ -160,12 +159,10 @@ a {
   clear: both;
 }
 .img-hove {
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .img-hove:hover {
-  -webkit-transform: scale(1.4);
-          transform: scale(1.4);
+  transform: scale(1.4);
   opacity: .8;
 }
 .ML-5 {
@@ -1275,7 +1272,6 @@ a {
 }
 .zj .union-list-item .right-title > a {
   color: #d74d4b;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .zj .union-list-item .right-title > a:hover {
@@ -1361,17 +1357,14 @@ a {
   height: 210px;
   margin-bottom: 10px;
   border-radius: 8px;
-  -webkit-box-shadow: 0 5px 10px 0 rgba(74, 74, 74, 0.3);
-          box-shadow: 0 5px 10px 0 rgba(74, 74, 74, 0.3);
+  box-shadow: 0 5px 10px 0 rgba(74, 74, 74, 0.3);
   text-align: center;
   line-height: 215px;
   vertical-align: center;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .home-right-item:hover {
-  -webkit-transform: translateY(-5px);
-          transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 .home-right-item i {
   position: relative;
@@ -1419,6 +1412,8 @@ a {
   border-top-right-radius: 20px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding-box;
   background-clip: padding-box;
   cursor: pointer;
 }
@@ -1440,7 +1435,6 @@ a {
   top: 15px;
   font-size: 26px;
   color: #bd7957;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .dq_section-title .move:hover {
@@ -1508,12 +1502,10 @@ a {
   display: block;
   width: 100%;
   height: 100%;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .dq_section .t_bg-header-pic img:hover {
-  -webkit-transform: scale(1.4);
-          transform: scale(1.4);
+  transform: scale(1.4);
   opacity: .8;
 }
 .dq_section .t_bg-header-right h4 {
@@ -1523,7 +1515,6 @@ a {
   font-size: 25px;
   font-weight: 400;
   color: #4b4b4b;
-  -webkit-transition: all .3s;
   transition: all .3s;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1568,7 +1559,6 @@ a {
 .dq_section .t_bg-list li > a {
   font-size: 27px;
   color: #4b4b4b;
-  -webkit-transition: all .3s;
   transition: all .3s;
   white-space: nowrap;
   overflow: hidden;
@@ -1637,12 +1627,10 @@ a {
   display: block;
   width: 100%;
   height: 100%;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .dq_section .t_bg1-item-pic img:hover {
-  -webkit-transform: scale(1.4);
-          transform: scale(1.4);
+  transform: scale(1.4);
   opacity: .8;
 }
 .dq_section .t_bg1-item-right h4 {
@@ -1656,7 +1644,6 @@ a {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .dq_section .t_bg1-item-right h4 > a:hover {
@@ -1728,7 +1715,6 @@ a {
 .dq_section .t_bg2-list li > a {
   color: #4b4b4b;
   font-size: 26px;
-  -webkit-transition: all .3s;
   transition: all .3s;
   white-space: nowrap;
   overflow: hidden;
@@ -1740,8 +1726,7 @@ a {
 .dq_section-box {
   padding: 14px 17px;
   background-color: rgba(255, 255, 255, 0.85);
-  -webkit-box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.14);
-          box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.14);
   zoom: 1;
   overflow: hidden;
 }
@@ -1808,25 +1793,22 @@ a {
 .union-list-item .pic img {
   width: 100%;
   height: 100%;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .union-list-item .pic img:hover {
-  -webkit-transform: scale(1.4);
-          transform: scale(1.4);
+  transform: scale(1.4);
   opacity: .8;
 }
 .union-list-item .right-title > a {
   font-size: 36px;
   color: #ac7c16;
-  -webkit-transition: all .3s;
   transition: all .3s;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .union-list-item .right-title > a:hover {
-  color: #ff0000;
+  color: red;
 }
 .union-list-item .right-date {
   margin: 6px 0;
@@ -1909,16 +1891,12 @@ a {
   margin-right: 40px;
   text-align: center;
   border-radius: 8px;
-  -webkit-box-shadow: 0 5px 10px 0 rgba(74, 74, 74, 0.3);
-          box-shadow: 0 5px 10px 0 rgba(74, 74, 74, 0.3);
-  -webkit-transition: all .3s;
+  box-shadow: 0 5px 10px 0 rgba(74, 74, 74, 0.3);
   transition: all .3s;
 }
 .dangjian-list-item:hover {
-  -webkit-transform: translateY(-15px);
-          transform: translateY(-15px);
-  -webkit-box-shadow: 0 10px 20px 0 rgba(74, 74, 74, 0.6);
-          box-shadow: 0 10px 20px 0 rgba(74, 74, 74, 0.6);
+  transform: translateY(-15px);
+  box-shadow: 0 10px 20px 0 rgba(74, 74, 74, 0.6);
 }
 .dangjian-list-item i {
   font-size: 102px;
@@ -1971,14 +1949,11 @@ a {
   background-color: rgba(255, 255, 255, 0.73);
   border-radius: 20px;
   overflow: hidden;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .card-box-item:hover {
-  -webkit-transform: translateY(-10px);
-          transform: translateY(-10px);
-  -webkit-box-shadow: 0 10px 30px 0 rgba(74, 74, 74, 0.6);
-          box-shadow: 0 10px 30px 0 rgba(74, 74, 74, 0.6);
+  transform: translateY(-10px);
+  box-shadow: 0 10px 30px 0 rgba(74, 74, 74, 0.6);
 }
 .card-box-item:nth-child(3n) {
   margin-right: 0;
@@ -2145,7 +2120,6 @@ a {
 .resource-box-left .list a {
   color: #565656;
   font-size: 28px;
-  -webkit-transition: all .3s;
   transition: all .3s;
   white-space: nowrap;
   overflow: hidden;
@@ -2199,7 +2173,6 @@ a {
 .resource-box-right .item-list a {
   font-size: 28px;
   color: #565656;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 .resource-box-right .item-list a:hover {
@@ -2372,42 +2345,32 @@ a {
   font-size: 85px;
 }
 .i_union .bg1 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#e72e2e), to(#f06060)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #e72e2e 0%, #f06060 100%), linear-gradient(#fe0001, #fe0001);
 }
 .i_union .bg2 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#d9531e), to(#f08f60)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #d9531e 0%, #f08f60 100%), linear-gradient(#fe0001, #fe0001);
 }
 .i_union .bg3 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#d87a00), to(#ffae4e)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #d87a00 0%, #ffae4e 100%), linear-gradient(#fe0001, #fe0001);
 }
 .i_union .bg4 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#3ba73a), to(#a0d55d)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #3ba73a 0%, #a0d55d 100%), linear-gradient(#fe0001, #fe0001);
 }
 .i_union .bg5 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#10a7ec), to(#64ccfd)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #10a7ec 0%, #64ccfd 100%), linear-gradient(#fe0001, #fe0001);
 }
 .i_union .bg6 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#e49f08), to(#f7c334)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #e49f08 0%, #f7c334 100%), linear-gradient(#fe0001, #fe0001);
 }
 .i_union .bg7 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#ff6d6e), to(#ff9595)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #ff6d6e 0%, #ff9595 100%), linear-gradient(#fe0001, #fe0001);
 }
 .i_union .bg8 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#0da6ec), to(#5fcbfc)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #0da6ec 0%, #5fcbfc 100%), linear-gradient(#fe0001, #fe0001);
 }
 .i_union .bg9 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#ff419b), to(#ff99cd)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #ff419b 0%, #ff99cd 100%), linear-gradient(#fe0001, #fe0001);
 }
 .i_union .bg10 {
-  background-image: -webkit-gradient(linear, left bottom, left top, from(#40ca39), to(#8ae507)), -webkit-gradient(linear, left top, left bottom, from(#fe0001), to(#fe0001));
   background-image: linear-gradient(0deg, #40ca39 0%, #8ae507 100%), linear-gradient(#fe0001, #fe0001);
 }

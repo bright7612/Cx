@@ -52,35 +52,36 @@ class DataController extends Controller
 
 
     function httpjson($url, $data = NULL, $json = true)
-{
-    $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $url);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-    if (!empty($data)) {
-        if($json && is_array($data)){
-            $data = json_encode( $data );
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        if (!empty($data)) {
+            if($json && is_array($data)){
+                $data = json_encode( $data );
+            }
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            if($json){ //发送JSON数据
+                curl_setopt($curl, CURLOPT_HEADER, 0);
+                curl_setopt($curl, CURLOPT_HTTPHEADER,
+                    array(
+                        'Content-Type: application/json; charset=utf-8',
+                        'Content-Length:' . strlen($data))
+                );
+            }
         }
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        if($json){ //发送JSON数据
-            curl_setopt($curl, CURLOPT_HEADER, 0);
-            curl_setopt($curl, CURLOPT_HTTPHEADER,
-                array(
-                    'Content-Type: application/json; charset=utf-8',
-                    'Content-Length:' . strlen($data))
-            );
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $res = curl_exec($curl);
+        $errorno = curl_errno($curl);
+        if ($errorno) {
+            return array('errorno' => false, 'errmsg' => $errorno);
         }
+        curl_close($curl);
+        return json_decode($res, true);
+
     }
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    $res = curl_exec($curl);
-    $errorno = curl_errno($curl);
-    if ($errorno) {
-        return array('errorno' => false, 'errmsg' => $errorno);
-    }
-    curl_close($curl);
-    return json_decode($res, true);
-}
 
 
     public function index()
@@ -91,7 +92,7 @@ class DataController extends Controller
     //党组织 主题党日
     public function dzz_ztdr()
     {
-        if(!S('dzz_ztdr')){
+//        if(S('dzz_ztdr')){
             $url = 'http://www.dysfz.gov.cn/apiXC/getHeldZTDRlistPage.do'; //党员党建
             $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
             $da['COUNT'] = 300;
@@ -113,18 +114,18 @@ class DataController extends Controller
             foreach ($data as $k=>&$v){
                 $ykz_rate = (round(($v['ykz']/$v['dzbNum']),4)*100).'%';
                 $item[] = array(
-                    array('value'=>$v['name'], 'width'=>20),
-                    array('value'=>$v['dzbNum'], 'width'=>12),
+                    array('value'=>$v['name'], 'width'=>20,'ztdrId'=>$v['BRANCH_ID'],'ztdrType'=>2),
+                    array('value'=>$v['dzbNum'], 'width'=>12,'ztdrId'=>$v['BRANCH_ID'],'ztdrType'=>2),
                     array('value'=>$v['ykz'], 'width'=>25,'ztdrId'=>$v['BRANCH_ID'],'ztdrType'=>1),
                     array('value'=>$v['wkz'], 'width'=>25,'ztdrId'=>$v['BRANCH_ID'],'ztdrType'=>2),
-                    array('value'=>$ykz_rate, 'width'=>18),
+                    array('value'=>$ykz_rate, 'width'=>18,'ztdrId'=>$v['BRANCH_ID'],'ztdrType'=>2),
                 );
             }
-            $time = $this->time;  //缓存三天
-            S('dzz_ztdr',$item,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
-        }else{
-            $item = S('dzz_ztdr');// 获取缓存
-        }
+//            $time = $this->time;  //缓存三天
+//            S('dzz_ztdr',$item,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+//        }else{
+//            $item = S('dzz_ztdr');// 获取缓存
+//        }
 
         $head = array(
             array('name'=>'党组织名称', 'width'=>20),
@@ -238,39 +239,6 @@ class DataController extends Controller
          echo json_encode(array('status'=>200,'data'=>$item));
     }
 
-    public function develop_dy()
-    {
-        $arr1 = M()->query("SELECT
-                                COUNT(*) AS `count`,
-                                 general_party,
-                                 branch_id
-                            FROM
-                                cxdj_dr_dzz_develop_dy 
-                                WHERE `status` = 1
-                            GROUP BY
-                                branch_id");
-
-        $head = array(
-            array('name'=>'序号', 'width'=>30),
-            array('name'=>'党组织名称', 'width'=>50),
-            array('name'=>'人数', 'width'=>20),
-        );
-
-        $i = 1;
-        foreach ($arr1 as $k=>$v){
-            $ii = $i++;
-            $item[] = array(
-                array('value'=>$ii, 'width'=>30,'devId'=>$v['branch_id']),
-                array('value'=>$v['general_party'], 'width'=>50,'devId'=>$v['branch_id']),
-                array('value'=>$v['count'], 'width'=>20,'devId'=>$v['branch_id']),
-
-            );
-        }
-
-        echo json_encode(array('status'=>200,'data'=>array('title'=>'发展党员','head'=>$head,'list'=>$item)));
-
-    }
-
     public function developList()
     {
         $id = I('branch_id');
@@ -291,12 +259,12 @@ class DataController extends Controller
         foreach ($meb as $k=>$v){
             $ii = $i++;
             $item[] = array(
-                array('value'=>$ii, 'width'=>15),
-                array('value'=>$v['name'], 'width'=>15),
-                array('value'=>$v['sex'], 'width'=>10),
-                array('value'=>$v['nation'], 'width'=>10),
-                array('value'=>$v['birthday'], 'width'=>20),
-                array('value'=>$v['party_branch'], 'width'=>30),
+                array('value'=>$ii, 'width'=>15,'idCard'=>true),
+                array('value'=>$v['name'], 'width'=>15,'idCard'=>true),
+                array('value'=>$v['sex'], 'width'=>10,'idCard'=>true),
+                array('value'=>$v['nation'], 'width'=>10,'idCard'=>true),
+                array('value'=>$v['birthday'], 'width'=>20,'idCard'=>true),
+                array('value'=>$v['party_branch'], 'width'=>30,'idCard'=>true),
 
             );
         }
@@ -374,11 +342,6 @@ class DataController extends Controller
             $da['BRANCH_ID'] = $id;
             $das = json_encode($da);
             $list = $this->httpjson($url, $das);
-            $head = array(
-                array('name'=>'序号', 'width'=>25),
-                array('name'=>'党支部', 'width'=>50),
-                array('name'=>'缴纳费用', 'width'=>25),
-            );
 
             $i = 1;
             foreach ($list['data'] as $k=>$v){
@@ -390,6 +353,12 @@ class DataController extends Controller
                 );
             }
 
+            $head = array(
+                array('name'=>'序号', 'width'=>25),
+                array('name'=>'党支部', 'width'=>50),
+                array('name'=>'缴纳费用', 'width'=>25),
+            );
+
             echo json_encode(array('status'=>200,'data'=>array('title'=>'已缴纳党费','head'=>$head,'list'=>$item)));
         }elseif ($type == 2){
             $id = I('BRANCH_ID');
@@ -400,11 +369,6 @@ class DataController extends Controller
             $da['BRANCH_ID'] = $id;
             $das = json_encode($da);
             $list = $this->httpjson($url, $das);
-            $head = array(
-                array('name'=>'序号', 'width'=>25),
-                array('name'=>'党支部', 'width'=>50),
-                array('name'=>'缴纳费用', 'width'=>25),
-            );
 
             $i = 1;
             foreach ($list['data'] as $k=>$v){
@@ -415,6 +379,13 @@ class DataController extends Controller
                     array('value'=>0, 'width'=>25),
                 );
             }
+
+
+            $head = array(
+                array('name'=>'序号', 'width'=>25),
+                array('name'=>'党支部', 'width'=>50),
+                array('name'=>'缴纳费用', 'width'=>25),
+            );
 
             echo json_encode(array('status'=>200,'data'=>array('title'=>'未缴纳党费','head'=>$head,'list'=>$item)));
         }
@@ -476,16 +447,135 @@ class DataController extends Controller
         foreach ($data as $k=>$v){
             $ii = $i++;
             $item[] = array(
-                array('value'=>$ii, 'width'=>15,'idCards'=>342401),
-                array('value'=>$v['name'], 'width'=>15,'idCards'=>342401),
-                array('value'=>$v['sex'], 'width'=>10,'idCards'=>342401),
-                array('value'=>$v['birthday'], 'width'=>20,'idCards'=>342401),
-                array('value'=>$v['education'], 'width'=>15,'idCards'=>342401),
-                array('value'=>$v['organization'], 'width'=>25,'idCards'=>342401),
+                array('value'=>$ii, 'width'=>15,'idCards'=>342401,'idCard'=>true),
+                array('value'=>$v['name'], 'width'=>15,'idCards'=>342401,'idCard'=>true),
+                array('value'=>$v['sex'], 'width'=>10,'idCards'=>342401,'idCard'=>true),
+                array('value'=>$v['birthday'], 'width'=>20,'idCards'=>342401,'idCard'=>true),
+                array('value'=>$v['education'], 'width'=>15,'idCards'=>342401,'idCard'=>true),
+                array('value'=>$v['organization'], 'width'=>25,'idCards'=>342401,'idCard'=>true),
             );
         }
 
         echo json_encode(array('status'=>200,'data'=>array('title'=>'党员详情','head'=>$head,'list'=>$item)));
+    }
+
+    //党员
+    public function  dy_ztdr()
+    {
+        $url = 'http://www.dysfz.gov.cn/apiXC/recordPartyDTDRlist.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 100;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $data = $this->httpjson($url, $das);
+        dump($data);die;
+    }
+
+    //党员---主题党日二级列表
+    public function ztdrList()
+    {
+        $type = I('type');
+        $id = I('branch_id');
+        if($type == 1){
+            $url = 'http://www.dysfz.gov.cn/apiXC/zbRecordDTDRlistPage.do'; //党员党建
+            $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+            $da['COUNT'] = 100;
+            $da['START'] = 1;
+            $da['BRANCH_ID'] = $id;
+            $das = json_encode($da);
+            $list = $this->httpjson($url, $das);
+
+            $head = array(
+                array('name'=>'序号', 'width'=>15),
+                array('name'=>'党支部', 'width'=>30),
+                array('name'=>'书记', 'width'=>15),
+                array('name'=>'人数', 'width'=>15),
+                array('name'=>'地址', 'width'=>25),
+            );
+
+            $i = 1;
+            foreach ($list['data'] as $k=>&$v){
+                $ii = $i++;
+                $item[] = array(
+                    array('value'=>$ii, 'width'=>15,'type'=>1,'dyztdr2Id'=>$v['BRANCH_ID']),
+                    array('value'=>$v['NAME'], 'width'=>30,'type'=>1,'dyztdr2Id'=>$v['BRANCH_ID']),
+                    array('value'=>$v['SECRETARY'], 'width'=>15,'type'=>1,'dyztdr2Id'=>$v['BRANCH_ID']),
+                    array('value'=>$v['num'], 'width'=>15,'type'=>1,'dyztdr2Id'=>$v['BRANCH_ID']),
+                    array('value'=>$v['ADDRESS'], 'width'=>25,'type'=>1,'dyztdr2Id'=>$v['BRANCH_ID']),
+                );
+            }
+
+            echo json_encode(array('status'=>200,'data'=>array('title'=>'主题党日开展情况','head'=>$head,'list'=>$item)));
+        }elseif ($type == 2){
+            $url = 'http://www.dysfz.gov.cn/apiXC/zbRecordDTDRlistPage.do'; //党员党建
+            $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+            $da['COUNT'] = 100;
+            $da['START'] = 1;
+            $da['BRANCH_ID'] = $id;
+            $das = json_encode($da);
+            $list = $this->httpjson($url, $das);
+
+            $head = array(
+                array('name'=>'序号', 'width'=>15),
+                array('name'=>'党支部', 'width'=>30),
+                array('name'=>'书记', 'width'=>15),
+                array('name'=>'人数', 'width'=>15),
+                array('name'=>'地址', 'width'=>25),
+            );
+
+            $i = 1;
+            foreach ($list['data'] as $k=>&$v){
+                $ii = $i++;
+                $item[] = array(
+                    array('value'=>$ii, 'width'=>15,'type'=>2,'dyztdr2Id'=>$v['BRANCH_ID']),
+                    array('value'=>$v['NAME'], 'width'=>30,'type'=>2,'dyztdr2Id'=>$v['BRANCH_ID']),
+                    array('value'=>$v['SECRETARY'], 'width'=>15,'type'=>2,'dyztdr2Id'=>$v['BRANCH_ID']),
+                    array('value'=>$v['partyNum']-$v['num'], 'width'=>15,'type'=>2,'dyztdr2Id'=>$v['BRANCH_ID']),
+                    array('value'=>$v['ADDRESS'], 'width'=>25,'type'=>2,'dyztdr2Id'=>$v['BRANCH_ID']),
+                );
+            }
+
+            echo json_encode(array('status'=>200,'data'=>array('title'=>'主题党日开展情况','head'=>$head,'list'=>$item)));
+        }
+
+
+    }
+
+    //党员---主题党日第三层
+
+    public function dt_ztdr_detail()
+    {
+        $id = I('branch_id');
+        $type = I('type');
+        $url = 'http://www.dysfz.gov.cn/apiXC/zbPartyRecordDTDRDetailslistPage.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 100;
+        $da['START'] = 1;
+        $da['BRANCH_ID'] = $id;
+        $da['TYPE'] = $type;
+        $das = json_encode($da);
+        $list = $this->httpjson($url, $das);
+        $head = array(
+            array('name'=>'序号', 'width'=>15),
+            array('name'=>'姓名', 'width'=>15),
+            array('name'=>'所属党组织', 'width'=>30),
+            array('name'=>'书记', 'width'=>15),
+            array('name'=>'地址', 'width'=>25),
+        );
+
+        $i = 1;
+        foreach ($list['data'] as $k=>$v){
+            $ii = $i++;
+            $item[] = array(
+                array('value'=>$ii, 'width'=>15),
+                array('value'=>$v['PARTYNAME'], 'width'=>15),
+                array('value'=>$v['BRANCHNAME'], 'width'=>30),
+                array('value'=>$v['SECRETARY'], 'width'=>15),
+                array('value'=>$v['ADDRESS'], 'width'=>25),
+            );
+        }
+
+        echo json_encode(array('status'=>200,'data'=>array('title'=>'党员参加详情','head'=>$head,'list'=>$item)));
     }
 
 
@@ -500,6 +590,191 @@ class DataController extends Controller
         $list = $this->httpjson($url, $das);
         dump($list);die;
     }
+
+    /**
+     * 根据步骤不同，data具体信息的描述如下：
+        步骤1、2时：
+        返回值为branch_id 组织id，name 组织名，number 获得评优的总数
+        步骤3时：
+        NAME指的是党员的名字，
+        对于type=1的评优来说，下面是返回字段的详细解释
+        TYPE：评优类别1.优秀共产党员 2先进党务工作者 3其他
+        LEVEL：评级等级 1全国 2省 3市 4县
+        FLASHDETAIL：闪光言论
+        FLASHWORDS：闪光言行记录 1.一季度 2.二季度 3.三季度 4.四季度
+        STAR：星级
+     */
+    public function honor1()
+    {
+        $url = 'http://www.dysfz.gov.cn/apiXC/getEvaluateByTypeAndStep.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 150;
+        $da['START'] = 1;
+        $da['TYPE'] = 1; // 1为评优评先，2为党员处分
+        $da['STEP'] = 1; //查询一共分为3步，分别为1、2、3
+        $das = json_encode($da);
+        $list = $this->httpjson($url, $das);
+
+        dump($list);die;
+
+
+
+    }
+
+
+    /**
+     * 根据步骤不同，data具体信息的描述如下：
+    步骤1、2时：
+    返回值为branch_id 组织id，name 组织名，number 获得评优的总数
+    步骤3时：
+    NAME指的是党员的名字，
+    对于type=1的评优来说，下面是返回字段的详细解释
+    TYPE：评优类别1.优秀共产党员 2先进党务工作者 3其他
+    LEVEL：评级等级 1全国 2省 3市 4县
+    FLASHDETAIL：闪光言论
+    FLASHWORDS：闪光言行记录 1.一季度 2.二季度 3.三季度 4.四季度
+    STAR：星级
+     */
+    public function honorList()
+    {
+        $id = I('BRANCH_ID');
+        $type = I('type');  //1、闪光言行 2、评优评先
+
+        $url = 'http://www.dysfz.gov.cn/apiXC/getEvaluateByTypeAndStep.do'; //党员党建
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 500;
+        $da['START'] = 1;
+        $da['BRANCH_ID'] = $id;
+        $da['TYPE'] = 1; // 1为评优评先，2为党员处分
+        $da['STEP'] = 2; //查询一共分为3步，分别为1、2、3
+        $das = json_encode($da);
+        $list = $this->httpjson($url, $das);
+
+        $head = array(
+            array('name'=>'序号', 'width'=>20),
+            array('name'=>'党支部', 'width'=>50),
+            array('name'=>'获得评优数', 'width'=>30),
+        );
+
+        if($type == 1){
+            $i = 1;
+            foreach ($list['data'] as $k=>$v){
+                $ii = $i++;
+                $item[] = array(
+                    array('value'=>$ii, 'width'=>20,'honorId'=>$v['BRANCH_ID'],'type'=>1),
+                    array('value'=>$v['NAME'], 'width'=>50,'honorId'=>$v['BRANCH_ID'],'type'=>1),
+                    array('value'=>$v['NUMBER'], 'width'=>30,'honorId'=>$v['BRANCH_ID'],'type'=>1),
+
+                );
+            }
+        }elseif ($type == 2){
+            $i = 1;
+            foreach ($list['data'] as $k=>$v){
+                $ii = $i++;
+                $item[] = array(
+                    array('value'=>$ii, 'width'=>20,'honorId'=>$v['BRANCH_ID'],'type'=>2),
+                    array('value'=>$v['NAME'], 'width'=>50,'honorId'=>$v['BRANCH_ID'],'type'=>2),
+                    array('value'=>$v['NUMBER'], 'width'=>30,'honorId'=>$v['BRANCH_ID'],'type'=>2),
+
+                );
+            }
+        }
+            echo json_encode(array('status'=>200,'data'=>array('title'=>'党支部列表','head'=>$head,'list'=>$item)));
+      }
+
+      public function  honorDetail()
+      {
+          $id = I('BRANCH_ID');
+          $type = I('type');  //1、闪光言行 2、评优评先
+
+          $url = 'http://www.dysfz.gov.cn/apiXC/getEvaluateByTypeAndStep.do'; //党员党建
+          $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+          $da['COUNT'] = 500;
+          $da['START'] = 1;
+          $da['BRANCH_ID'] = $id;
+          $da['TYPE'] = 1; // 1为评优评先，2为党员处分
+          $da['STEP'] = 3; //查询一共分为3步，分别为1、2、3
+          $das = json_encode($da);
+          $list = $this->httpjson($url, $das);
+
+          if($type == 1){
+              $head = array(
+                  array('name'=>'序号', 'width'=>10),
+                  array('name'=>'姓名', 'width'=>10),
+                  array('name'=>'闪光言论', 'width'=>40),
+                  array('name'=>'闪光言行记录', 'width'=>15),
+                  array('name'=>'星级', 'width'=>10),
+                  array('name'=>'时间', 'width'=>15),
+              );
+
+              $i = 1;
+              foreach ($list['data'] as $k=>&$v){
+                  $v['TIME'] = date('Y-m-d',strtotime($v['TIME']));
+                  if($v['FLASHWORDS'] == 1){
+                      $v['FLASHWORDS'] = '一季度' ;
+                  }elseif ($v['FLASHWORDS'] == 2){
+                      $v['FLASHWORDS'] = '二季度' ;
+                  }elseif ($v['FLASHWORDS'] == 3){
+                      $v['FLASHWORDS'] = '三季度' ;
+                  }elseif ($v['FLASHWORDS'] == 4){
+                      $v['FLASHWORDS'] = '四季度' ;
+                  }elseif ($v['FLASHWORDS'] == 5){
+                      $v['FLASHWORDS'] = '年度' ;
+                  }
+                  $ii = $i++;
+                  $item[] = array(
+                      array('value'=>$ii, 'width'=>10),
+                      array('value'=>$v['NAME'], 'width'=>10),
+                      array('value'=>$v['FLASHDETAIL'], 'width'=>40),
+                      array('value'=>$v['FLASHWORDS'], 'width'=>15),
+                      array('value'=>$v['STAR'].'星', 'width'=>10),
+                      array('value'=>$v['TIME'], 'width'=>15),
+                  );
+              }
+          }elseif ($type == 2){
+
+              $head = array(
+                  array('name'=>'序号', 'width'=>10),
+                  array('name'=>'姓名', 'width'=>20),
+                  array('name'=>'评优类别', 'width'=>30),
+                  array('name'=>'评级等级', 'width'=>20),
+                  array('name'=>'时间', 'width'=>20),
+              );
+
+              $i = 1;
+              foreach ($list['data'] as $k=>&$v){
+                  $v['TIME'] = date('Y-m-d',strtotime($v['TIME']));
+                  if($v['TYPE'] == 1){
+                        $v['TYPE'] = '优秀共产党员';
+                  }elseif ($v['TYPE'] == 2){
+                        $v['TYPE'] = '先进党务工作者';
+                  }elseif ($v['TYPE'] == 3){
+                      $v['TYPE'] = '其他';
+                  }
+
+                  if($v['LEVEL'] == 1){
+                      $v['LEVEL'] = '全国';
+                  }elseif ($v['LEVEL'] == 2){
+                      $v['LEVEL'] = '省';
+                  }elseif ($v['LEVEL'] == 3){
+                      $v['LEVEL'] = '市';
+                  }elseif ($v['LEVEL'] == 4){
+                      $v['LEVEL'] = '县';
+                  }
+                  $ii = $i++;
+                  $item[] = array(
+                      array('value'=>$ii, 'width'=>10),
+                      array('value'=>$v['NAME'], 'width'=>20),
+                      array('value'=>$v['TYPE'], 'width'=>30),
+                      array('value'=>$v['LEVEL'], 'width'=>20),
+                      array('value'=>$v['TIME'], 'width'=>20),
+                  );
+              }
+          }
+
+          echo json_encode(array('status'=>200,'data'=>array('title'=>'人员名单','head'=>$head,'list'=>$item)));
+      }
+
 
     public function partyList()
     {
@@ -547,13 +822,13 @@ class DataController extends Controller
 
         }
         //党员年纪分布
-        $age1 = $this->ajax_user->where('0 < age18 AND age18 < 30')->count(); //30岁以下
-        $age2 = $this->ajax_user->where('age18>=30 AND age18 < 40')->count(); //30岁到40岁
-        $age3 = $this->ajax_user->where('age18>=40 AND age18 < 50')->count(); //40岁到50岁
+        $age1 = $this->ajax_user->where('0 < age18 AND age18 < 35')->count(); //30岁以下
+        $age2 = $this->ajax_user->where('age18>=35 AND age18 < 50')->count(); //30岁到40岁
+//        $age3 = $this->ajax_user->where('age18>=40 AND age18 < 50')->count(); //40岁到50岁
         $age4 = $this->ajax_user->where('age18>=50 AND age18 < 60')->count(); //50岁到60岁
         $age5 = $this->ajax_user->where('age18>=60')->count(); //60岁以上
 
-        $age = array((int)$age1,(int)$age2,(int)$age3,(int)$age4,(int)$age5);
+        $age = array((int)$age1,(int)$age2,(int)$age4,(int)$age5);
 
         $num =array($num4,$num3,$num2,$num1);
 
@@ -667,7 +942,7 @@ class DataController extends Controller
            //爱心众筹总数
            $count = $this->ajax_volunteer->where($where)->count();
 
-           $love_y = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2))->field('UNIX_TIMESTAMP(END_TIME) as time,MONEY,sMoney,VOLUNTEER_ID')->select();
+           $love_y = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2))->field('UNIX_TIMESTAMP(END_TIME) as time,MONEY,sMoney,VOLUNTEER_ID,BEGIN_TIME')->select();
            //众筹已完成
             $i = 1;
             foreach($love_y as $k=>&$v){
@@ -675,6 +950,7 @@ class DataController extends Controller
                 if( time() > $v['time'] && $v['rate'] != 0){
                     $ii = $i++;
                 }
+                $v['BEGIN_TIME'] = substr($v['BEGIN_TIME'],0,10);
             }
 
         //众筹未完成
@@ -683,11 +959,17 @@ class DataController extends Controller
 
 //           $love_w = $this->ajax_volunteer->where(array('sh_state'=>1,'TYPE'=>2,'STATE'=>array('in','1,2')))->count();
 
-           $loveList = $this->ajax_volunteer->where($where)->field("VOLUNTEER_ID,NAME as title,CONTENT as text,STATE,MONEY,sMoney")->order('id DESC')->select();
+           $loveList = $this->ajax_volunteer->where($where)->field("VOLUNTEER_ID,NAME as title,CONTENT as text,STATE,MONEY,sMoney,BEGIN_TIME")->order('id DESC')->select();
 
             foreach ($loveList as $k=>&$v){
-                $v['Percentage'] = (round(($v['sMoney']/$v['MONEY']),2)*100);
+                if(($v['sMoney']/$v['MONEY']) > 1){
+                    $v['Percentage'] =100;
+                }else{
+                    $v['Percentage'] = (round(($v['sMoney']/$v['MONEY']),2)*100);
+                }
                 $v['zcType'] =2;
+                $v['BEGIN_TIME'] = substr($v['BEGIN_TIME'],0,10);
+
             }
 
           echo json_encode(array('data'=>array('complete'=>(int)$ii,'implement'=>(int)$love_w,'list'=>$loveList),));

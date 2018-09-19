@@ -4014,7 +4014,7 @@ class CxController extends AdminController
                         $aa['classify'] = 2;
                         $aa['option'] = $tex;//提醒类型
                         $aa['examination'] = $exa;//审批结果
-                        $s = _httpClient($aa, 'http://183.131.86.64:8620/home/wxapi/dxtd');
+                        $s = _httpClient($aa, 'http://36.26.83.105:8620/home/wxapi/dxtd');
                     }
                     //积分
                     if ($data['state'] == 1) {

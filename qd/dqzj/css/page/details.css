@@ -1,0 +1,30 @@
+.details-center {
+  padding: 0 79px 0 62px;
+}
+.details-center-header {
+  padding: 40px 0 37px 0;
+  text-align: center;
+}
+.details-center-title {
+  font-size: 44px;
+  color: #a37d0b;
+  font-weight: 400;
+  line-height: 2em;
+}
+.details-center-more {
+  font-size: 31px;
+  color: #787878;
+}
+.details-center-more .date {
+  margin-right: 100px;
+}
+.details-center-text p {
+  margin-bottom: 20px;
+  font-size: 30px;
+  line-height: 2em;
+  text-indent: 2em;
+  color: #565656;
+}
+.details-center-text img {
+  max-width: 100%;
+}

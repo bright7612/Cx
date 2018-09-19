@@ -14,7 +14,7 @@ class WelfareController extends Controller
         $Model = M('sign_zhch');
         $res = $Model->where(array('state'=>1,'status'=>1))->field('id,content,img')->order('cer_time DESC')->find();
         $items = get_cover($res['img']);
-        $res['path'] ='http://183.131.86.64:8620'.$items['path'];
+        $res['path'] ='http://36.26.83.105:8620'.$items['path'];
 
         $data = M('sign_zhch')->where(array('state'=>1,'status'=>1))->field('id,title,content,img,state_time,state')->order('state_time desc')->limit(3)->select();
 
@@ -197,8 +197,8 @@ class WelfareController extends Controller
         $goods = $Model->where(array('status'=>1))->field('id,prod_name,prod_pic,prod_intr,prod_num,price')->select();
         foreach ($goods as $k=>&$v){
             $items = get_cover($v['prod_pic']);
-            $v['path'] = 'http://183.131.86.64:8620'.$items['path'];
-            $v['ewm']  = "http://183.131.86.64:8620/cx/welfare/qrcodefor/id/".$v['id'];
+            $v['path'] = 'http://36.26.83.105:8620'.$items['path'];
+            $v['ewm']  = "http://36.26.83.105:8620/cx/welfare/qrcodefor/id/".$v['id'];
         }
 
 

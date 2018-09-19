@@ -1,0 +1,73 @@
+.omit {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.center-block {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+.pull-right {
+  float: right!important;
+}
+.pull-left {
+  float: left!important;
+}
+.text-right {
+  text-align: right!important;
+}
+.text-left {
+  text-align: left!important;
+}
+.text-center {
+  text-align: center!important;
+}
+.hide {
+  display: none!important;
+}
+.show {
+  display: block!important;
+}
+.invisible {
+  visibility: hidden;
+}
+.text-hide {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+[v-cloak] {
+  display: none;
+}
+.db {
+  display: block!important;
+}
+.dn {
+  display: none!important;
+}
+.img-box {
+  width: 100%;
+  height: 100%;
+}
+.clearfix {
+  zoom: 1;
+}
+.clearfix:before {
+  content: '';
+  display: block;
+}
+.clearfix:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+.img-hove {
+  transition: all .3s;
+}
+.img-hove:hover {
+  transform: scale(1.4);
+  opacity: .8;
+}
