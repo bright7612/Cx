@@ -132,7 +132,9 @@
                             <td>{$di.state_var}</td>
                             <td>
                                 <a title=“" href="{:U('wxyedit',array('id'=>$di['id'],'type'=>$issue_id,'examine'=>1))}">编辑</a>
+                                <php>if($di['state'] == 0){</php>
                                     <a title=“" href="{:U('wxyedit',array('id'=>$di['id'],'type'=>$issue_id,'examine'=>2))}">审核</a>
+                                <php>}</php>
                                 <a title=“" href="{:U('wxyedit',array('id'=>$di['id'],'type'=>$issue_id))}">查看</a>
                             </td>
                         </tr>

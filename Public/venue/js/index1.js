@@ -152,7 +152,7 @@ $(function () {
         elem: '#dateInput'
         , done: function (value, date, endDate) {
             // alert(value);
-            $("#scrollMsg").load("http://183.131.86.64:8620/cx/venue/lists.html" + "?date=" + value);
+            $("#scrollMsg").load("http://36.26.83.105:8620/cx/venue/lists.html" + "?date=" + value);
         }
     });
     $("#dateInput").change(function () {

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+        #container {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.2&key=6fda702ec5dc80a8f6ec628ca69adf29"></script>
+    <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+</head>
+<body>
+    <div id="container"></div>
+
+    <script>
+        //创建地图
+
+        var map = new AMap.Map('container', {
+            center:[119.825239,30.955215], //地图中心点
+            zoom: 10, //地图显示的缩放级别
+            zooms:[10,18]//缩放级别范围
+        });
+        AMapUI.loadUI(['geo/DistrictExplorer'], function(DistrictExplorer) {
+            initPage(DistrictExplorer);
+        });
+
+        function getAllRings(feature) {
+
+            var coords = feature.geometry.coordinates,
+                rings = [];
+
+            for (var i = 0, len = coords.length; i < len; i++) {
+                rings.push(coords[i][0]);
+            }
+
+            return rings;
+        }
+
+        function getLongestRing(feature) {
+            var rings = getAllRings(feature);
+
+            rings.sort(function(a, b) {
+                return b.length - a.length;
+            });
+
+            return rings[0];
+        }
+
+        function initPage(DistrictExplorer) {
+            //创建一个实例
+            var districtExplorer = new DistrictExplorer({
+                map: map
+            });
+
+            var countryCode = 100000, //全国
+//                provCodes = [
+//                    110000, //北京
+//                    510000 //四川
+//                ],
+                cityCodes = [
+                    330500, //湖州市
+                ];
+            districtExplorer.loadMultiAreaNodes(
+                //只需加载全国和市，全国的节点包含省级
+                [countryCode].concat(cityCodes),
+                function(error, areaNodes) {
+
+                    var countryNode = areaNodes[0],
+                        cityNodes = areaNodes.slice(1);
+
+                    var path = [];
+
+                    //首先放置背景区域，这里是大陆的边界
+                    path.push(getLongestRing(countryNode.getParentFeature()));
+
+
+//                    for (var i = 0, len = provCodes.length; i < len; i++) {
+                        //逐个放置需要镂空的省级区域
+//                        path.push.apply(path, getAllRings(countryNode.getSubFeatureByAdcode(provCodes[i])));
+//                    }
+
+                    for (var i = 0, len = cityNodes.length; i < len; i++) {
+                        //逐个放置需要镂空的市级区域
+                        path.push.apply(path, getAllRings(cityNodes[i].getParentFeature()));
+                    }
+
+                    //绘制带环多边形
+                    //https://lbs.amap.com/api/javascript-api/reference/overlay#Polygon
+                    var polygon = new AMap.Polygon({
+                        bubble: true,
+                        lineJoin: 'round',
+                        strokeColor: null, //线颜色
+                        strokeOpacity: 1, //线透明度
+                        strokeWeight: 1, //线宽
+                        fillColor: '#48D1CC', //填充色
+                        fillOpacity: 0.5, //填充透明度
+                        map: map,
+                        path: path
+                    });
+
+                });
+        }
+    </script>
+</body>
+</html>

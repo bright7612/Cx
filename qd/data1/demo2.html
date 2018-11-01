@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div style="width: 300px;height: 300px;border: 1px solid black;" >
+        <canvas id="canvas" width="300" height="300">
+            <p>抱歉，您的浏览器不支持canvas</p>
+        </canvas>
+    </div>
+    <script src="./libs/vue/vue.js"></script>
+    <script>
+        var c = document.getElementById("canvas");
+        var ctx = c.getContext("2d"),
+            circleX = canvas.width / 2,  // 中心x坐标
+            circleY = canvas.height / 2;  // 中心y坐标
+
+        function Circle(radius, width, color) {
+            this.radius = radius || 100; // 圆环半径
+            this.lineWidth = width || 30; // 圆环边的宽度
+            this.strokeStyle = color || '#ccc'; //边的颜色
+        }
+
+        Circle.prototype.draw = function(ctx, percent) {
+            var endAngle = percent / 100; // 绘制结束比值
+            ctx.beginPath();
+            ctx.arc(circleX, circleY, this.radius, - Math.PI * 2 / 4, - Math.PI * 2 / 4 - endAngle * Math.PI * 2, true);
+            ctx.lineWidth = this.lineWidth;
+            ctx.strokeStyle = this.strokeStyle;
+            ctx.stroke();
+        };
+
+        var ring1 = new Circle(100, 30, 'blue'); // 一环实例
+        ring1.draw(ctx, 75);
+
+        var ring1 = new Circle(70, 30, 'red'); // 二环实例
+        ring1.draw(ctx, 25);
+    </script>
+</body>
+</html>

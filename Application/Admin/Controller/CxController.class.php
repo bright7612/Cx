@@ -4433,7 +4433,7 @@ class CxController extends AdminController
                         $aa['classify'] = 2;
                         $aa['option'] = $tex;//提醒类型
                         $aa['examination'] = $exa;//审批结果
-                        $s = _httpClient($aa, 'http://183.131.86.64:8620/home/wxapi/dxtd');
+                        $s = _httpClient($aa, 'http://36.26.83.105:8620/home/wxapi/dxtd');
                     }
                     if ($type == 93 && $data['state'] == 1) {
                         M('sign_wish')->where($w)->save(array('state' => 2, 'claim_time' => time()));
@@ -4940,25 +4940,24 @@ class CxController extends AdminController
      * 党组织接口*/
     public function branchList()
     {
+        set_time_limit(0);
+        $S = M('ajax_dzz')->select();
+        S('ajax_dzz'.time(),$S,60*60*24*30);
         $url = 'http://www.dysfz.gov.cn/apiXC/branchList.do';//党组织
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-        $da['COUNT'] = 1500;
-        for ($i = 1; $i < 10; $i++) {
-            $da['START'] = $i;
-            $das = json_encode($da);
-            $list = httpjson($url, $das);
-            foreach ($list['data'] as $k => &$v) {
-                $dzz = M('ajax_dzz')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->find();
-                if ($v['PICTURE']) {
-                    $v['PICTURE'] = 'http://www.dysfz.gov.cn/' . $v['PICTURE'];
-                }
-                if ($dzz['id']) {
-                    M('ajax_dzz')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->save($v);
-                } else {
-                    M('ajax_dzz')->add($v);
-                }
+        $da['COUNT'] = 2500;
+        $da['TREE_ORDER'] = true;
+        $da['onlyChildren'] = true;
+        $da['BRANCH_ID'] = 92;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = httpjson($url, $das);
+        if($list['data']){
+            M('ajax_dzz')->where('id>100')->delete();
+            foreach ($list['data'] as  $v){
+                M('ajax_dzz')->add($v);
             }
-            echo $i . '+++++';
+
         }
 
     }
@@ -4967,12 +4966,15 @@ class CxController extends AdminController
      * 党员接口更新*/
     public function partyList()
     {
-        exit;
+
         set_time_limit(0);
         $url = 'http://www.dysfz.gov.cn/apiXC/partyList.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 1000;
-//        dump(1);exit;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = httpjson($url, $das);
+        dump($list);exit;
         for ($i = 1; $i < 38; $i++) {
             $da['START'] = $i;
             $das = json_encode($da);
@@ -5018,57 +5020,6 @@ class CxController extends AdminController
             }
         }
     }
-
-    public function moneyed()
-    {
-        $url = 'http://www.dysfz.gov.cn/apiXC/branchfeeList.do'; //党员党建
-        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-        $da['COUNT'] = 1000;
-//        $da['BRANCH_ID'] = 92;
-        $da['START'] = 1;
-        $das = json_encode($da);
-        $list = httpjson($url, $das);
-        dump($list);die;
-        for ($i = 1; $i < 147; $i++) {
-            $da['START'] = $i;
-            $das = json_encode($da);
-            $list = httpjson($url, $das);
-            foreach ($list['data'] as $k => $v) {
-                $id = M('dr_dzz_dhl')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->find();
-                if ($id) {
-                    M('dr_dzz_dhl')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->save($v);
-                } else {
-                    M('dr_dzz_dhl')->add($v);
-                }
-            }
-        }
-    }
-
-    public function party_money()
-    {
-        $url = 'http://www.dysfz.gov.cn/apiXC/partyList.do'; //党员党建
-        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-        $da['COUNT'] = 100;
-        $da['BRANCH_ID'] = 92;
-        $da['START'] = 1;
-        $das = json_encode($da);
-        $list = httpjson($url, $das);
-        dump($list);die;
-        for ($i = 1; $i < 147; $i++) {
-            $da['START'] = $i;
-            $das = json_encode($da);
-            $list = httpjson($url, $das);
-            foreach ($list['data'] as $k => $v) {
-                $id = M('dr_dzz_dhl')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->find();
-                if ($id) {
-                    M('dr_dzz_dhl')->where(array('BRANCH_ID' => $v['BRANCH_ID']))->save($v);
-                } else {
-                    M('dr_dzz_dhl')->add($v);
-                }
-            }
-        }
-    }
-
 
 
     public function organization()
@@ -5126,12 +5077,13 @@ class CxController extends AdminController
     public function volunteer()
     {
         $url = 'http://www.dysfz.gov.cn/apiXC/volunteerList.do'; //党员党建
+
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 300;
-        $da['START'] = 1;
-        $das = json_encode($da);
-        $list = httpjson($url, $das);
-        dump($list);die;
+//        $da['START'] = 1;
+//        $das = json_encode($da);
+//        $list = httpjson($url, $das);
+//        dump($list);die;
         for ($i = 1; $i < 147; $i++) {
             $da['START'] = $i;
             $das = json_encode($da);
@@ -5153,8 +5105,8 @@ class CxController extends AdminController
         $url = 'http://www.dysfz.gov.cn/apiXC/volunteerList.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
         $da['COUNT'] = 500;
-        $da['START'] = 1;
-
+//        $da['START'] = 1;
+//
 //        $das = json_encode($da);
 //        $list = httpjson($url, $das);
 //        dump($list);die;

@@ -52,13 +52,16 @@ class WelfareController extends Controller
                                     headimgurl,
                                     nickname,
                                     `user`.integral,
-                                    text
+                                    text,
+                                    integral.time,
+                                    COUNT(integral.id) AS `count`
                                 FROM
                                     cxdj_wxuser AS `user`
                                 JOIN cxdj_wxuser_integral AS integral ON `user`.openid = integral.openid
                                 WHERE
                                     integral.classif <> 4
                                     AND `user`.openid = '$openid'
+                                    GROUP BY text
                                     ");
 
         $this->assign('detail',$detail);

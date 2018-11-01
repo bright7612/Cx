@@ -44,7 +44,7 @@ if (get_magic_quotes_gpc()) {
  * 项目正式部署后请设置为false
  */
 define ('APP_DEBUG', true);
-
+//define('BIND_MODULE','Time');
 define ('APP_PATH', './Application/');
 
 

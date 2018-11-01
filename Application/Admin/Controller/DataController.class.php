@@ -40,7 +40,7 @@ class DataController extends AdminController{
                 $count = M('dr_dy_ztdr')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dy_ztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dy_ztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -50,7 +50,7 @@ class DataController extends AdminController{
                 $count = M('dr_dy_unztdr')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dy_unztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dy_unztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -60,7 +60,7 @@ class DataController extends AdminController{
                 $count = M('dr_dy_ztdr')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dy_ztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dy_ztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -70,7 +70,7 @@ class DataController extends AdminController{
                 $count = M('dr_dy_late')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dy_late')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dy_late')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -81,7 +81,7 @@ class DataController extends AdminController{
                 $count = M('dr_dy_dxtj')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dy_dxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dy_dxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -92,7 +92,7 @@ class DataController extends AdminController{
                 $count = M('dr_dy_dxtj')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dy_dxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dy_dxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -103,7 +103,7 @@ class DataController extends AdminController{
                 $count = M('dr_dy_dxtj')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dy_dxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dy_dxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -113,7 +113,7 @@ class DataController extends AdminController{
                 $count = M('dr_dy_sgyx')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dy_sgyx')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dy_sgyx')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 foreach ($data as $k=>&$value){
                     $value['speech']= mb_substr($value['speech'],0,70,'UTF-8').'...';
                 }
@@ -126,7 +126,7 @@ class DataController extends AdminController{
                 $count = M('dr_dzz_honor')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dzz_honor')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dzz_honor')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -136,7 +136,7 @@ class DataController extends AdminController{
                 $count = M('dr_dzz_ztdr')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dzz_ztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dzz_ztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -146,7 +146,7 @@ class DataController extends AdminController{
                 $count = M('dr_dzz_no_ztdr')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dzz_no_ztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dzz_no_ztdr')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -156,7 +156,7 @@ class DataController extends AdminController{
                 $count = M('dr_dzz_application_party')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dzz_application_party')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dzz_application_party')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -166,7 +166,7 @@ class DataController extends AdminController{
                 $count = M('dr_dzz_activity_dy')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dzz_activity_dy')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dzz_activity_dy')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -176,7 +176,7 @@ class DataController extends AdminController{
                 $count = M('dr_dzz_dxtj')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dzz_dxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dzz_dxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -186,7 +186,7 @@ class DataController extends AdminController{
                 $count = M('dr_dzz_undxtj')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dzz_undxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->select();
+                $data = M('dr_dzz_undxtj')->limit($Page->firstRow.','.$Page->listRows)->where($where)->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -197,7 +197,7 @@ class DataController extends AdminController{
                 $count = M('dr_dzz_money')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dzz_money')->limit($Page->firstRow.','.$Page->listRows)->where($where)->field("time,organization,id,money")->select();
+                $data = M('dr_dzz_money')->limit($Page->firstRow.','.$Page->listRows)->where($where)->field("time,organization,id,money")->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -208,7 +208,7 @@ class DataController extends AdminController{
                 $count = M('dr_dzz_money')->where($where)->count();
                 $Page = new Page($count,$r);
                 $show = $Page->show();
-                $data = M('dr_dzz_money')->limit($Page->firstRow.','.$Page->listRows)->where($where)->field("time,organization,id,money")->select();
+                $data = M('dr_dzz_money')->limit($Page->firstRow.','.$Page->listRows)->where($where)->field("time,organization,id,money")->order('id DESC')->select();
                 $this->assign('issue_id',$type);
                 $this->assign('data',$data);
                 $this->assign('pagination',$show);
@@ -307,11 +307,63 @@ class DataController extends AdminController{
         if (IS_POST) {
             $data = $_POST;
             $data['edit_time'] = time();
-            $Model = M('data_issue_content');
+            switch ($type){
+                case 19:
+                    $content = M('dr_dy_ztdr');
+                    break;
+                case 27:
+                    $content = M('dr_dy_unztdr');
+                    break;
+                case 20:
+                    $content = M('dr_dy_ztdr');
+                    break;
+                case 21:
+                    $content = M('dr_dy_late');
+                    break;
+                case 22:
+                    $content = M('dr_dy_dxtj');
+                    break;
+                case 23:
+                    $content = M('dr_dy_dxtj');
+                    break;
+                case 24:
+                    $content = M('dr_dy_dxtj');
+                    break;
+                case 25:
+                    $content = M('dr_dy_sgyx');
+                    break;
+                case 26:
+                    $content = M('dr_dzz_honor');
+                    break;
+                case 6:
+                    $content = M('dr_dzz_ztdr');
+                    break;
+                case 7:
+                    $content = M('dr_dzz_no_ztdr');
+                    break;
+                case 8:
+                    $content = M('dr_dzz_application_party');
+                    break;
+                case 9:
+                    $content = M('dr_dzz_activity_dy');
+                    break;
+                case 10:
+                    $content = M('dr_dzz_dxtj');
+                    break;
+                case 11:
+                    $content = M('dr_dzz_undxtj');
+                    break;
+                case 12:
+                    $content = M('dr_dzz_money');
+                    break;
+                case 13:
+                    $content = M('dr_dzz_money');
+                    break;
+            }
 
 
             if ($data["id"]) {
-                if ($Model->save($data) !== false) {
+                if ($content->save($data) !== false) {
                     $this->success(L('_SUCCESS_UPDATE_'), Cookie('__forward__'));
                 } else {
                     $this->error(L('_FAIL_UPDATE_'));
@@ -321,7 +373,7 @@ class DataController extends AdminController{
                 $data['create_time'] = time();
                 $data['uid'] = $uid;
                 session('issue_id_temp',$data['issue_id']);
-                if ($Model->add($data) !== false) {
+                if ($content->add($data) !== false) {
                     $this->success("添加成功", Cookie('__forward__'));
                 } else {
                     $this->error("添加失败");
@@ -609,10 +661,64 @@ class DataController extends AdminController{
      */
 
     public function setWildcardStatus(){
-        $ids = I('ids');
-        $status = I('get.status', 0, 'intval');
+        $type = $_REQUEST['type'];
+        switch ($type){
+            case 19:
+                $content = M('dr_dy_ztdr');
+                break;
+            case 27:
+                $content = M('dr_dy_unztdr');
+                break;
+            case 20:
+                $content = M('dr_dy_ztdr');
+                break;
+            case 21:
+                $content = M('dr_dy_late');
+                break;
+            case 22:
+                $content = M('dr_dy_dxtj');
+                break;
+            case 23:
+                $content = M('dr_dy_dxtj');
+                break;
+            case 24:
+                $content = M('dr_dy_dxtj');
+                break;
+            case 25:
+                $content = M('dr_dy_sgyx');
+                break;
+            case 26:
+                $content = M('dr_dzz_honor');
+                break;
+            case 6:
+                $content = M('dr_dzz_ztdr');
+                break;
+            case 7:
+                $content = M('dr_dzz_no_ztdr');
+                break;
+            case 8:
+                $content = M('dr_dzz_application_party');
+                break;
+            case 9:
+                $content = M('dr_dzz_activity_dy');
+                break;
+            case 10:
+                $content = M('dr_dzz_dxtj');
+                break;
+            case 11:
+                $content = M('dr_dzz_undxtj');
+                break;
+            case 12:
+                $content = M('dr_dzz_money');
+                break;
+            case 13:
+                $content = M('dr_dzz_money');
+                break;
+        }
+        $ids = I('id');
+        $status = $_GET['status'];
         $builder = new AdminListBuilder();
-        $builder->doSetStatus('dk_issue_content', $ids, $status);
+        $builder->doSetStatus($content, $ids, $status);
     }
 
     /**
@@ -622,7 +728,7 @@ class DataController extends AdminController{
         $ids = I('ids');
         $status = I('get.status', 0, 'intval');
         $builder = new AdminListBuilder();
-        $builder->doSetStatus('dk_issue_content', $ids, $status);
+        $builder->doSetStatus('dr_dzz_money', $ids, $status);
     }
 
     /**

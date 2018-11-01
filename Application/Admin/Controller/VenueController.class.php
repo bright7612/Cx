@@ -15,7 +15,7 @@ class VenueController extends AdminController
         $map['status'] = array('eq','1'); //公益需求
         $list = $model->where($map)->page($page, $r)->order('cre_time desc')->select();
         foreach ($list as $k=>&$v){
-            $v['date'] = date('Y-m-d H:i');
+            $v['date'] = date('Y-m-d H:i',$v['date']);
         }
 
         unset($li);

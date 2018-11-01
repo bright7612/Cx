@@ -260,7 +260,7 @@ body > .party_van_detail {
       .displayFlex();
       width: 1748px;
       .borderBox();
-      min-height: 236px;
+      min-height: 109px;
       margin: 0 auto;
       padding-left: 33px;;
       border-bottom: 1px solid #DCD8D8;
@@ -270,9 +270,11 @@ body > .party_van_detail {
         height: 190px;
       }
       .text_box {
-        width: 1324px;
-        min-height: 190px;
-        margin-left: 32px;
+        //width: 1324px;
+        width: 100%;
+        min-height: 90px;
+        padding-left: 32px;
+        box-sizing: border-box;
         .title3 {
           font-size: 38px;
           line-height: 52px;
@@ -280,9 +282,24 @@ body > .party_van_detail {
           margin-bottom: 20px;
         }
         .text {
+          display: flex;
+          justify-content: space-between;
           font-size: 34px;
           line-height: 47px;
           color: #5e5e5e;
+          &-title {
+            width: 70%;
+            flex: 0 0 70%;
+            .textOverflow(1);
+          }
+          .time{
+            width: 25%;
+            flex: 0 0 25%;
+            font-size: 34px;
+            line-height: 47px;
+            text-align: right;
+            color: #5e5e5e;
+          }
         }
       }
     }

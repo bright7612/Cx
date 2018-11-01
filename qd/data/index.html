@@ -8,10 +8,15 @@
     <meta name="format-detection" content="email=no"/>
     <title>长兴县智慧党建大数据平台</title>
     <!--<link rel="stylesheet" href="http//js.arcgis.com/3.24/esri/css/esri.css">-->
-    <link rel="stylesheet" href="./css/index.css?v=3.5"/>
+    <link rel="stylesheet" href="./css/index.css?v=1.6"/>
     <style>
         [v-cloak] {
             display: none;
+        }
+        #layui-laydate1 {
+            top: auto !important ;
+            left: 600px !important;
+            bottom: 0 !important;
         }
     </style>
 </head>
@@ -40,6 +45,7 @@
                 <div class="core-left">
                     <!--基础信息-->
                     <section :class="{'all-screen': partyType === 3}" class="section party">
+                        <!--切换标题-->
                         <h3 class="title party-title">
                             <div @click="changeParty(1)"
                                  :class="{active: partyType === 1}"
@@ -59,6 +65,7 @@
                             </div>
                         </h3>
                         <div class="content">
+                            <!--党组织类别-->
                             <div v-show="partyType === 1" class="party-section">
                                 <!--<p class="party-desc">党组织报到数：1300</p>-->
                                 <p class="party-desc">党组织类别</p>
@@ -133,6 +140,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            <!--党组织性质-->
                             <div v-show="partyType === 1" class="party-section">
                                 <!--<p class="party-desc">党组织报到率：68%</p>-->
                                 <p class="party-desc">党组织性质</p>
@@ -221,6 +229,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            <!--党员基础信息-->
                             <div v-show="partyType === 2" class="party-section improve">
                                 <div class="party-box half">
                                     <h4 @click="openModel('partier')" style="cursor: pointer;" class="subtitle">党员总数：{{partier.meb}}</h4>
@@ -240,7 +249,7 @@
                                 <div class="party-box half">
                                     <h4 style="margin-top: 10px;" class="subtitle">学历分布</h4>
                                     <div @click="showDistribute(1)" id="education"
-                                         style="width: 200px;height: 85px;cursor: pointer;"></div>
+                                         style="width: 220px;height: 85px;cursor: pointer;"></div>
                                 </div>
                                 <div class="party-box all">
                                     <h4 class="subtitle">年龄比例</h4>
@@ -248,6 +257,7 @@
                                          style="width: 350px;height: 95px;cursor: pointer;"></div>
                                 </div>
                             </div>
+                            <!--社会组织基础信息-->
                             <div v-show="partyType === 4" class="party-section shzz">
                                 <div class="shzz-total">
                                     <p @click="openShzzModel('social')" class="shzz-total-item">社会组织总数：{{shzzBase.social_organization.social}}</p>
@@ -275,12 +285,128 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--人才基础信息-->
+                            <div v-show="partyType === 3" class="party-section rc">
+                                <div class="rc-data">
+                                    <p style="font-size: 20px;" class="rc-data-item">
+                                        <span class="name">全县人才总量</span>
+                                        <span class="num">18.4 万人</span>
+                                    </p>
+                                </div>
+                                <div class="rc-charts">
+                                    <div class="rc-chart rc-chart-edu">
+                                        <h4 class="rc-title">人才分类</h4>
+                                        <div id="rcEdu" style="width: 450px;height: 170px;margin-bottom: 10px;"></div>
+                                    </div>
 
-                            <div v-show="partyType === 3">
-                                123
+                                    <div class="rc-chart rc-chart-gender">
+                                        <h4 class="rc-title">学历分布</h4>
+                                        <span class="tips">（万人）</span>
+                                        <div class="rx-box">
+                                            <div id="rcGender" style="width: 80px;height: 80px;margin-right: 10px;"></div>
+                                            <div>
+                                                <p>
+                                                    <i class="label color-yellow"></i><span class="text">大专：4.41</span>
+                                                </p>
+                                                <p>
+                                                    <i class="label color-red"></i><span class="text">本科：3.79</span>
+                                                </p>
+                                                <p>
+                                                    <i class="label color-blue"></i><span class="text">研究生：0.25</span>
+                                                </p>
+                                                <p>
+                                                    <i class="label color-orange"></i><span class="text">其他：9.95</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="rc-chart rc-chart-job">
+                                        <h4 class="rc-title">职称分布</h4>
+                                        <span class="tips">（万人）</span>
+                                        <div class="rx-box">
+                                            <div id="rcJob" style="width: 80px;height: 80px;margin-right: 10px;"></div>
+                                            <div>
+                                                <p>
+                                                    <i class="label color-blue"></i><span class="text">高级：0.35</span>
+                                                </p>
+                                                <p>
+                                                    <i class="label color-orange"></i><span class="text">中级：2.7</span>
+                                                </p>
+                                                <p>
+                                                    <i class="label color-qing"></i><span class="text">初级：2.63</span>
+                                                </p>
+                                                <p>
+                                                    <i class="label color-red"></i><span class="text">其他：12.72</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span class="rc-line"></span>
+
+                                <div class="rc-garden">
+                                    <div class="rc-garden-title">
+                                        <span class="text">浙江“千人计划”长兴产业园</span>
+                                    </div>
+
+                                    <div class="rc-garden-content">
+                                        <div class="rc-garden-content-half">
+                                            <h3 class="rc-garden-half-title">引进集聚</h3>
+                                            <p class="rc-garden-item">
+                                                <span class="name">集聚“千人计划”&nbsp;&nbsp;&nbsp;</span>
+                                                <span class="num"><span class="highlight">58</span>人</span>
+                                            </p>
+                                            <p class="rc-garden-item">
+                                                <span class="name">新引进“千人计划”</span>
+                                                <span class="num"><span class="highlight">14</span>人</span>
+                                            </p>
+                                        </div>
+
+                                        <div class="rc-garden-content-half">
+                                            <h3 class="rc-garden-half-title">自主培养</h3>
+                                            <p class="rc-garden-item">
+                                                <span class="name">入选国家“千人计划”</span>
+                                                <span class="num"><span class="highlight">9</span>人</span>
+                                            </p>
+                                            <p class="rc-garden-item">
+                                                <span class="name">入选省“千人计划”&nbsp;&nbsp;</span>
+                                                <span class="num"><span class="highlight">16</span>人</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <span class="rc-line"></span>
+
+                                <div style="height: 220px;" class="rc-data">
+                                    <h3 class="rc-data-title">重点人才项目</h3>
+                                    <p class="rc-data-item">
+                                        <span class="name">浙江省创业创新领军团队</span>
+                                        <span class="num">3 个</span>
+                                    </p>
+                                    <p class="rc-data-item">
+                                        <span class="name">院士专家工作站</span>
+                                        <span class="num">17 个</span>
+                                    </p>
+                                    <p class="rc-data-item">
+                                        <span class="name">其中：省级院士专家工作站</span>
+                                        <span class="num">5 个</span>
+                                    </p>
+                                    <p class="rc-data-item">
+                                        <span class="name">国家"万人计划"</span>
+                                        <span class="num">1 人</span>
+                                    </p>
+                                    <p class="rc-data-item">
+                                        <span class="name">海外工程师</span>
+                                        <span class="num">7 人</span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </section>
+
                     <!--组织管理-->
                     <section v-if="partyType === 1 || partyType === 2" class="section warn">
                         <h3 class="title cube-small-title">
@@ -291,11 +417,11 @@
                                 <h4 class="block-title">主题党日</h4>
                                 <div class="block-content">
                                     <p @click="openModel('theme')" class="red">
-                                        <span>已开展党支部数</span>
+                                        <span>本月已开展党支部数</span>
                                         <span>{{warn.basedata.organize.theme.start}}</span>
                                     </p>
                                     <p @click="openModel('theme')" class="red">
-                                        <span>未开展党支部数</span>
+                                        <span>本月未开展党支部数</span>
                                         <span>{{warn.basedata.organize.theme.unStart}}</span>
                                     </p>
                                 </div>
@@ -307,13 +433,13 @@
                                         <span>发展对象</span>
                                         <span>{{warn.basedata.organize.partier.develop_dy}}</span>
                                     </p>
-                                    <p @click="openWarn('organize', 3)" class="red">
-                                        <span>入党申请人</span>
-                                        <span>{{warn.basedata.organize.partier.apply}}</span>
-                                    </p>
                                     <p @click="openWarn('organize', 4)" class="red">
                                         <span>入党积极分子</span>
                                         <span>{{warn.basedata.organize.partier.active}}</span>
+                                    </p>
+                                    <p @click="openWarn('organize', 3)" class="red">
+                                        <span>入党申请人</span>
+                                        <span>{{warn.basedata.organize.partier.apply}}</span>
                                     </p>
                                 </div>
                             </div>
@@ -349,11 +475,11 @@
                                 <h4 class="block-title">主题党日</h4>
                                 <div class="block-content">
                                     <p @click="openWarn('partier', 1)" class="red">
-                                        <span>已参加</span>
+                                        <span>本月已参加</span>
                                         <span>{{warn.basedata.partier.theme.join}}</span>
                                     </p>
                                     <p @click="openWarn('partier', 2)" class="red">
-                                        <span>未参加</span>
+                                        <span>本月未参加</span>
                                         <span>{{warn.basedata.partier.theme.unJoin}}</span>
                                     </p>
                                 </div>
@@ -403,6 +529,7 @@
                             </div>
                         </div>
                     </section>
+
                     <!--红色资源-->
                     <section v-if="partyType === 1 || partyType === 2" class="section resource">
                         <h3 class="title cube-small-title">
@@ -433,6 +560,7 @@
                             </ul>
                         </div>
                     </section>
+
                     <!--社会组织活动数排名-->
                     <section v-if="partyType === 4" class="section exponent exponent1">
                         <h3 class="title cube-large-title">
@@ -451,6 +579,7 @@
                             </ul>
                         </div>
                     </section>
+
                     <!--社工活跃指数-->
                     <section v-if="partyType === 4" class="section exponent exponent2">
                         <h3 class="title cube-large-title">
@@ -477,7 +606,7 @@
                         <div class="statistics-number">
                             <p class="number-item red">近期活动：1.广开进贤之路————解读我省“万人计划”</p>
                         </div>
-                        <div v-show="partyType === 1 || partyType === 2 || partyType === 3" :class="{'allScreen': allScreen === true}" class="content">
+                        <div v-show="partyType === 1 || partyType === 2" :class="{'allScreen': allScreen === true}" class="content">
                             <div class="view">
                                 <iframe v-show="tabIndex === 1 || tabIndex === 2"
                                         :src="iframeUrl" class="iframe"
@@ -522,6 +651,13 @@
                                 <img src="./imgs/icon/xixi.png" />
                             </span>
                         </div>
+
+                        <div v-show="partyType === 3" class="content" :class="{'allScreen': allScreen}">
+                            <div class="view">
+                                <div id="bmapRc" class="video"></div>
+                            </div>
+                        </div>
+
                         <div v-show="partyType === 4" class="content" :class="{'allScreen': allScreen}">
                             <div class="view">
                                 <div id="bmapShzz" class="video"></div>
@@ -615,19 +751,34 @@
 
                     <!--政策申报-->
                     <section v-show="partyType === 3" class="section policy">
-
+                        <h3 class="policy-title">人才政策申报</h3>
+                        <div class="content">
+                            <div class="policy-block">
+                                <p class="policy-item">已申报待审核 <span class="highlight">4</span>项</p>
+                            </div>
+                            <div class="policy-block">
+                                <p class="policy-item">已审核待拨付 <span class="highlight">17</span>项</p>
+                                <!--<p class="policy-item">本年度申报</p>-->
+                                <!--<p class="policy-item">总数 <span class="highlight">{{rcAll.thisYear}}</span>项</p>-->
+                                <!--<p class="policy-item">总金额 <span class="highlight">1080</span>万元</p>-->
+                            </div>
+                            <div class="policy-block">
+                                <p class="policy-item">累计兑现 <span class="highlight">368</span>项</p>
+                                <p class="policy-item">累计兑现 <span class="highlight">1494</span>万元</p>
+                            </div>
+                        </div>
                     </section>
                     <!--服务信息-->
                     <section v-show="partyType === 4" class="section server-infor">
                         <h3 class="infor-title">服务信息</h3>
                         <div class="content clearfix">
-                            <div @click="_getShzzServerList('poverty')" style="cursor: pointer" class="infor-chart fl">
+                            <div style="cursor: pointer" class="infor-chart fl">
                                 <h4 class="infor-chart-title">扶贫济弱</h4>
-                                <div id="inforPoor" style="width: 400px;height: 120px;"></div>
+                                <div id="inforPoor" style="width: 470px;height: 120px;"></div>
                             </div>
-                            <div @click="_getShzzServerList('care')" style="cursor: pointer" class="infor-chart fr">
+                            <div style="cursor: pointer" class="infor-chart fr">
                                 <h4 class="infor-chart-title">关爱老人</h4>
-                                <div id="inforOld" style="width: 400px;height: 120px;"></div>
+                                <div id="inforOld" style="width: 470px;height: 120px;"></div>
                             </div>
                         </div>
                     </section>
@@ -728,52 +879,50 @@
                         </h3>
                         <div class="content">
                             <ul class="notice-list">
-                                <li class="notice-item">浙江“千人计划”长兴能源资源与环境产业协同创新促进中心揭牌成立</li>
-                                <li class="notice-item">中共浙江省委人才工作领导小组关于同一建立“浙江“千人计划”长兴产业园”的批复申请</li>
-                                <li class="notice-item">关于开展国家“千人计划”申报工作的通知</li>
-                                <li class="notice-item">浙江发布2018年引进海外高层次人才“千人计划”公告</li>
-                                <li class="notice-item">关于开展高层次人才集中走访活动的通知</li>
-                                <li class="notice-item">浙江发布2018年引进海外高层次人才“千人计划”公告</li>
+                                <li class="notice-item">重磅！长兴获批全省第7家“浙江‘千人计划’产业园”</li>
+                                <li class="notice-item">中国海外学子报国行·长兴站活动顺利举行</li>
+                                <li class="notice-item">长兴县组织开展高层次人才疗休养活动</li>
+                                <li class="notice-item">2018德国智能制造专家长兴行活动顺利举行</li>
+                                <li class="notice-item">长兴县双高企业骨干人才能力进阶研修班圆满完成</li>
                             </ul>
+                        </div>
+                    </section>
+
+                    <!--人才需求/人才供给-->
+                    <section v-show="partyType === 3" class="section rc-require">
+                        <h3 class="title double-title">
+                            <div class="title-item item-left">人才需求</div>
+                            <div class="title-item item-right">人才供给</div>
+                        </h3>
+                        <div class="content">
+                            <h3 class="rc-require-title">共需 353 人</h3>
+                            <div class="rc-require-item">
+                                <p class="rc-require-text">天能集团需硕士以上人才6名</p>
+                                <!--<p class="rc-require-time">——2018年10月20日</p>-->
+                            </div>
+                            <div class="rc-require-item">
+                                <p class="rc-require-text">超威集团需硕士以上人才10名</p>
+                                <!--<p class="rc-require-time">——2018年10月19日</p>-->
+                            </div>
                         </div>
                     </section>
 
                     <!--人才项目管理预警-->
                     <section v-show="partyType === 3" class="section rc-alarm">
                         <h3 class="title cube-large-title">
-                            <div class="title-inner">人才项目管理预警</div>
+                            <div class="title-inner">人才项目预警</div>
                         </h3>
                         <div class="content">
                             <div class="alarm-head">
-                                <span class="item-name">项目名称</span>
-                                <span class="item-num">近1个月资金拨付</span>
-                                <span class="item-num">项目运行异常</span>
+                                <span class="item-name">项目类别</span>
+                                <!--<span class="item-num">近1个月资金拨付</span>-->
+                                <span class="item-num">待办事项</span>
                             </div>
                             <ul class="alarm-list">
-                                <li class="alarm-item">
-                                    <span class="item-name">南太湖精英计划创业项目</span>
-                                    <span class="item-num">3个</span>
-                                    <span class="item-num">5个</span>
-                                </li>
-                                <li class="alarm-item">
-                                    <span class="item-name">南太湖精英计划创新长短期项目</span>
-                                    <span class="item-num">1个</span>
-                                    <span class="item-num">1个</span>
-                                </li>
-                                <li class="alarm-item">
-                                    <span class="item-name">南太湖精英计划创新团队项目</span>
-                                    <span class="item-num">0个</span>
-                                    <span class="item-num">1个</span>
-                                </li>
-                                <li class="alarm-item">
-                                    <span class="item-name">院士专家工作站</span>
-                                    <span class="item-num">1个</span>
-                                    <span class="item-num">0个</span>
-                                </li>
-                                <li class="alarm-item">
-                                    <span class="item-name">博士后工作站</span>
-                                    <span class="item-num">0个</span>
-                                    <span class="item-num">0个</span>
+                                <li v-for="(item, index) in rcAll.pm" v-show="index < 4" class="alarm-item">
+                                    <span class="item-name">{{item.name}}</span>
+                                    <!--<span class="item-num">{{}}个</span>-->
+                                    <span class="item-num">{{item.questions}} 个</span>
                                 </li>
                             </ul>
                         </div>
@@ -794,6 +943,7 @@
                         </div>
                     </section>
 
+                    <!--志愿服务/微心愿-->
                     <section v-show="partyType !== 3" class="section public">
                         <h3 class="title double-title">
                             <div @click="changeRightType3(2)"
@@ -809,7 +959,7 @@
                             <!--志愿服务-->
                             <div v-show="rightType3 === 2" class="public-project volunte">
                                 <p @click="openModel('volunteer')" class="volunte-num">{{volunteer.sum}}</p>
-                                <p class="volunte-title">志愿服务参与数</p>
+                                <p class="volunte-title">志愿服务开展数</p>
                                 <ul class="volunte-list">
                                     <li v-if="index < 2" v-for="(item, index) in volunteer.list" class="volunte-item">
                                         <span class="spot"></span>
@@ -850,6 +1000,7 @@
                         </div>
                     </section>
 
+                    <!--众筹数据/党群创业互助-->
                     <section v-show="partyType !== 3" class="section project">
                         <h3 class="title double-title">
                             <div @click="changeRightType2(1)"
@@ -903,7 +1054,7 @@
                                     <div class="volunte-item">
                                         <span class="spot"></span>
                                         <span class="text">{{item.title}}</span>
-                                        <span style="width: 50px;" class="date">{{item.Percentage}}%</span>
+                                        <span style="width: 110px;" class="date">{{item.BEGIN_TIME}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -948,7 +1099,7 @@
                                     <div class="volunte-item">
                                         <span class="spot"></span>
                                         <span class="text">{{item.title}}</span>
-                                        <span style="width: 60px;" class="date">{{item.Percentage}}%</span>
+                                        <span style="width: 60px;" class="date">{{item.FROM_NAME}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -1065,14 +1216,16 @@
                             <h3 class="table-title">
                                 <span v-for="item in listData.head" :style="{'width': item.width + '%'}">{{item.name}}</span>
                             </h3>
+                        </div>
+                        <div class="table-content">
                             <ul class="infor-list">
                                 <li v-if="listData.list.length"
                                     v-for="items in listData.list"
                                     class="infor-item">
-                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization, item.name, item.ztdrId, item.ztdrType, item.ztdr2Id, item.applyId, item.idCard, item.activityId, item.wxyId, item.devId, item.town_id, item.payId, item.dyztdrId, item.dyztdr2Id, item.sgId, item.honorId)"
+                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization, item.name, item.ztdrId, item.ztdrType, item.ztdr2Id, item.applyId, item.idCard, item.activityId, item.wxyId, item.devId, item.town_id, item.payId, item.dyztdrId, item.dyztdr2Id, item.sgId, item.honorId, item.lateId, item.late2Id)"
                                           v-for="item in items"
                                           :class="{'left': item.left}"
-                                          :style="{'width': item.width + '%'}"
+                                          :style="{'width': item.width + '%', 'cursor': item.clickable ? 'pointer' : ''}"
                                           v-html="item.value"></span>
                                 </li>
                                 <li v-if="!listData.list || !listData.list.length" class="infor-item">
@@ -1094,11 +1247,13 @@
                             <h3 class="table-title">
                                 <span v-for="item in listDataSecond.head" :style="{'width': item.width + '%'}">{{item.name}}</span>
                             </h3>
+                        </div>
+                        <div class="table-content">
                             <ul class="infor-list">
                                 <li v-if="listDataSecond.list.length" v-for="items in listDataSecond.list" class="infor-item">
-                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization, item.name, item.ztdrId, item.ztdrType, item.ztdr2Id, item.applyId, item.idCard, item.activityId, item.wxyId, item.devId, item.town_id, item.payId, item.dyztdrId, item.dyztdr2Id, item.sgId, item.honorId)"
+                                    <span @click="openModelDetail(item.ID, item.type, item.title, item.content, item.organization, item.name, item.ztdrId, item.ztdrType, item.ztdr2Id, item.applyId, item.idCard, item.activityId, item.wxyId, item.devId, item.town_id, item.payId, item.dyztdrId, item.dyztdr2Id, item.sgId, item.honorId, item.lateId, item.late2Id)"
                                           v-for="item in items"
-                                          :style="{'width': item.width + '%'}">{{item.value}}</span>
+                                          :style="{'width': item.width + '%', 'cursor': item.clickable ? 'pointer' : ''}">{{item.value}}</span>
                                 </li>
                                 <li v-if="!listDataSecond.list" class="infor-item">
                                     <span style="width: 100%;">暂无数据</span>
@@ -1119,9 +1274,11 @@
                             <h3 class="table-title">
                                 <span v-for="item in listDataThird.head" :style="{'width': item.width + '%'}">{{item.name}}</span>
                             </h3>
+                        </div>
+                        <div class="table-content">
                             <ul class="infor-list">
                                 <li v-if="listDataThird.list.length" v-for="items in listDataThird.list" class="infor-item">
-                                <span v-for="item in items" :style="{'width': item.width + '%'}">{{item.value}}</span>
+                                    <span v-for="item in items" :style="{'width': item.width + '%', 'cursor': item.clickable ? 'pointer' : ''}">{{item.value}}</span>
                                 </li>
                                 <li v-if="!listDataThird.list" class="infor-item">
                                     <span style="width: 100%;">暂无数据</span>
@@ -1179,7 +1336,7 @@
                                 <span class="name">主要内容：</span>
                                 <span>{{theme.data.CONTENT}}</span>
                             </p>
-                            <div v-if="theme.data.IMGS.length" class="desc-img-box">
+                            <div v-if="theme.data.IMGS && theme.data.IMGS.length" class="desc-img-box">
                                 <img v-if="index < 2"
                                      v-for="(item, index) in theme.data.IMGS"
                                      :src="imgCDN(item)"
@@ -1246,16 +1403,24 @@
                     <span @click="closeProject" class="close"></span>
                     <h2 class="module-title">{{phTitle}}</h2>
                     <div class="module-box">
-                        <div class="project-box">
-                            <h3 class="project-title">
+                        <div class="table project-box">
+                            <h3 class="table-title project-title">
                                 <span>项目名称</span>
                                 <span>项目介绍</span>
+                                <span>发布单位</span>
                                 <span>当前进度</span>
                             </h3>
-                            <ul class="project-list">
-                                <li @click="_getRequireData2(item.VOLUNTEER_ID, item.zcType)" v-for="item in projectAndHelp.list" class="project-item">
+                        </div>
+                        <div class="table-content">
+                            <ul class="infor-list project-list">
+                                <li @click="_getRequireData2(item.VOLUNTEER_ID, item.zcType)"
+                                    v-for="item in projectAndHelp.list"
+                                    class="project-item"
+                                    :style="{'cursor': item.clickable ? 'pointer' : ''}"
+                                >
                                     <span>{{item.title}}</span>
                                     <span>{{item.text}}</span>
+                                    <span>{{item.BRANCH_NAME}}</span>
                                     <span>{{item.Percentage}}%</span>
                                 </li>
                             </ul>
@@ -1274,6 +1439,8 @@
                             <h3 class="table-title">
                                 <span v-for="item in resource.data.head" :style="{'width': item.width + '%'}">{{item.name}}</span>
                             </h3>
+                        </div>
+                        <div class="tab-content">
                             <ul class="infor-list">
                                 <li v-for="items in resource.data.list" class="infor-item">
                                 <span @click="monitorPlay(item.tdid)"
@@ -1296,12 +1463,23 @@
                 </div>
             </section>
 
+            <!-- 人才公告栏详情 -->
+            <section v-if="rcNotice.show" class="module-wrap">
+                <div class="module">
+                    <span @click="closeRcNotice" class="close"></span>
+                    <h2 style="line-height: 50px;padding: 24px 0;" class="module-title">{{rcNotice.data.title}}</h2>
+                    <div class="module-box">
+                        <div v-html="rcNotice.data.content" style="background: rgba(255, 255, 255, 0.4)" class="display-detail"></div>
+                    </div>
+                </div>
+            </section>
+
             <!-- 社会组织优秀活动展示 -->
             <section v-if="shzzList.displayModelShow" class="module-wrap">
                 <div class="module">
                     <span @click="closeDisplayDetail" class="close"></span>
                     <h2 style="line-height: 50px;padding: 24px 0;" class="module-title">{{shzzList.displayModelTitle}}</h2>
-                    <div class="module-box">
+                    <div class="module-box sh">
                         <div class="display-detail">
                             <p class="text">{{shzzList.displayModelText}}</p>
                         </div>
@@ -1311,14 +1489,14 @@
 
         </article>
 
-        <article v-if="partyType === 3" class="wrapper-addition rc">
-            <ul class="link-list">
-                <li @click="changeParty(1)" class="link-item"></li>
-                <li @click="changeParty(2)" class="link-item"></li>
-                <li @click="changeParty(3)" class="link-item"></li>
-                <li @click="changeParty(4)" class="link-item"></li>
-            </ul>
-        </article>
+        <!--<article v-if="partyType === 3" class="wrapper-addition rc">-->
+            <!--<ul class="link-list">-->
+                <!--<li @click="changeParty(1)" class="link-item"></li>-->
+                <!--<li @click="changeParty(2)" class="link-item"></li>-->
+                <!--<li @click="changeParty(3)" class="link-item"></li>-->
+                <!--<li @click="changeParty(4)" class="link-item"></li>-->
+            <!--</ul>-->
+        <!--</article>-->
 
     </section>
 
@@ -1328,12 +1506,21 @@
                 odebase="DpsdkOcx.cab#version=1.0.0.0">
         </object>
         <span id="monitorClose" class="monitor-close">x</span>
+        <div class="monitor-option clearfix">
+            <span id="monitorLive" class="monitor-btn fl">实时</span>
+            <span id="monitorDown" class="monitor-btn fr">回放</span>
+            <input type="text" class="monitor-input fr" placeholder="请选择回看时间" id="test1">
+        </div>
     </section>
 
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DQ1BXIF0qGFddSG8wudhSHCZeftt7ztz"></script>
+    <script type="text/javascript" src='https://webapi.amap.com/maps?v=1.4.2&key=6fda702ec5dc80a8f6ec628ca69adf29'></script>
+    <script src="//webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+
     <script src="./libs/jquery/jquery.min.js"></script>
-    <script src="./libs/echarts/echarts.simple.min.js"></script>
+    <script src="./libs/echarts/echarts.min.js"></script>
     <script src="./libs/vue/vue.js"></script>
+    <script src="./libs/laydate/laydate.js"></script>
 
     <script src="./My97DatePicker/WdatePicker.js"></script>
     <script src="./js/json2.js"></script>
@@ -1351,7 +1538,32 @@
                 var video = document.getElementById('monitor');
                 video.style.width = 0 + 'px';
                 video.style.height = 0 + 'px';
+
+//                app.resource.tdid = '';
+//                app.resource.startTime = '';
+//                app.resource.endTime = '';
                 ButtonStopRealplayByWndNo_onclick();
+            });
+
+            var monitorLive = document.getElementById('monitorLive'); // 红色资源监控实时
+            var monitorDown = document.getElementById('monitorDown'); // 红色资源监控回放
+
+            monitorLive.addEventListener('click', function () {
+                var tdid = app.resource.tdid;
+                if (tdid) {
+                    console.log('live');
+                    ButtonStartRealplayByWndNo_onclick(tdid);
+                }
+            });
+
+            monitorDown.addEventListener('click', function () {
+                var tdid = app.resource.tdid;
+                var startTime = app.resource.startTime;
+                var endTime = app.resource.endTime;
+                if (tdid && startTime) {
+                    console.log('down');
+                    ButtonStartTimePlaybackByWndNo_onclick(tdid, startTime, endTime);
+                }
             });
         }
     </script>
@@ -1475,6 +1687,6 @@
             }
         });
     </script>
-    <script src="./js/index.js?v=3.8"></script>
+    <script src="./js/index.js?v=1.6"></script>
 </body>
 </html>

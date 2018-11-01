@@ -49,8 +49,8 @@ class CxController extends Controller
         $result = D('Cx')->mapCommon($id);
         foreach ($result as $k=>&$v){
             $v['content'] =   preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($v['content'],""));  //过滤标签和空格
-            $v['time'] = date('Y-m-d H:i');
-            $v['ewm'] = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=1';
+            $v['time'] = date('Y-m-d H:i',$v['time']);
+            $v['ewm'] = "http://36.26.83.105:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=1';
          }
 
         $this->assign('mapList',$result[0]);
@@ -67,8 +67,8 @@ class CxController extends Controller
         $result = D('Cx')->mapCommon($id);
         foreach ($result as $k=>&$v){
             $v['content'] =   preg_replace("/(\s|\&nbsp\;|　|\xc2\xa0)/","",strip_tags($v['content'],""));  //过滤标签和空格
-            $v['time'] = date('Y-m-d H:i');
-            $v['ewm'] = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=4';
+            $v['time'] = date('Y-m-d H:i',$v['time']);
+            $v['ewm'] = "http://36.26.83.105:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=4';
         }
 
         $this->assign('classList',$result[0]);
@@ -267,11 +267,10 @@ class CxController extends Controller
         $res = $Model->where($where)->field('id,title,desc,img')->select();
         foreach ($res as $k=>&$v){
             $item = get_cover($v['img']);
-            $v['path'] = 'http://183.131.86.64:8620'.$item['path'];
+            $v['path'] = 'http://36.26.83.105:8620'.$item['path'];
         }
         $this->Apireturn($res);
     }
-
 
 
     public function wxInfo()
@@ -307,7 +306,7 @@ class CxController extends Controller
     //服务预约列表页
     public function applylist($classif=null){
         $c= array(
-            1=>'待人领',
+            1=>'待认领',
             2=>'已认领',
             3=>'已完成',
             5=>'已完成',
@@ -351,7 +350,7 @@ class CxController extends Controller
 //        $data['raise'] = M('sign_zhch')->where($map3)->field('id,title,content,img')->order('sort desc,id desc')->select();
 //        foreach ($data['raise'] as $k=>&$v){
 //            $item = get_cover($v['img']);
-//            $v['path'] = 'http://183.131.86.64:8620'.$item['path'];
+//            $v['path'] = 'http://36.26.83.105:8620'.$item['path'];
 //        }
 
         $Model = M();
@@ -376,7 +375,7 @@ class CxController extends Controller
 
         foreach ($data['raise'] as $k=>&$value){
             $item = get_cover($value['img']);
-            $value['path'] = 'http://183.131.86.64:8620' . $item['path'];
+            $value['path'] = 'http://36.26.83.105:8620' . $item['path'];
             if($value['id'] == $items[$k]['id']){
                 $already_rate =  (round(($items[$k]['num']/$items[$k]['count']),2)*100).'%';
                 $value['rate'] =  $already_rate;
@@ -403,7 +402,7 @@ class CxController extends Controller
 
         foreach ($data['ztc'] as $k=>&$v){
            $item = get_cover($v['img']);
-           $v['path'] = 'http://183.131.86.64:8620'.$item['path'];
+           $v['path'] = 'http://36.26.83.105:8620'.$item['path'];
         }
 
 
@@ -474,7 +473,7 @@ class CxController extends Controller
         }
 
         $item = get_cover($detail[0]['img']);
-        $detail[0]['path'] = 'http://183.131.86.64:8620'. $item['path'];
+        $detail[0]['path'] = 'http://36.26.83.105:8620'. $item['path'];
         $detail[0]['start_time'] = date('Y-m-d',$detail[0]['start_time']);
 
 
@@ -672,7 +671,7 @@ class CxController extends Controller
         $data = M('issue_content')->where($map)->field('id,title,addr,time,content,lat,lng,host')->order('sort desc,id desc')->select();
         foreach ($data as $k=>&$v){
             $v['time_var'] =date("Y-m-d H:i:s",$v['time']);
-            $v['ewm'] = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=2';
+            $v['ewm'] = "http://36.26.83.105:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=2';
         }
 
 
@@ -742,11 +741,11 @@ class CxController extends Controller
         foreach ($res as $k=>&$v){
             $already_rate =  (round(($v['num']/$v['count']),2)*100).'%';
             $item = get_cover($v['img']);
-            $v['path'] = 'http://183.131.86.64:8620' . $item['path'];
-            $v['ewm'] =  "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=6';
+            $v['path'] = 'http://36.26.83.105:8620' . $item['path'];
+            $v['ewm'] =  "http://36.26.83.105:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=6';
         }
 
-        $appraise_ewm = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=6';
+        $appraise_ewm = "http://36.26.83.105:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=6';
         $res[0]['rate'] = $already_rate;
 
         //微信头像
@@ -891,8 +890,8 @@ class CxController extends Controller
         $ztc_detail = M('sign_direct')->where("state=1 and status=1 and id=$id")->field('id,title,desc,img')->select();
         foreach ($ztc_detail as $k=>&$v){
             $items = get_cover($v['img']);
-            $v['path'] ='http://183.131.86.64:8620'. $items['path'];
-            $v['ewm'] = "http://183.131.86.64:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=7';
+            $v['path'] ='http://36.26.83.105:8620'. $items['path'];
+            $v['ewm'] = "http://36.26.83.105:8620/cx/cx/qrcodefor/id/".$v['id'].'?type=7';
         }
 
         $detail = $Model->query("SELECT
@@ -940,7 +939,7 @@ class CxController extends Controller
         }
 
         $item = get_cover($detail[0]['img']);
-        $detail[0]['path'] = 'http://183.131.86.64:8620'. $item['path'];
+        $detail[0]['path'] = 'http://36.26.83.105:8620'. $item['path'];
 
         $this->assign(array(
             'perfect'=>$perfect,

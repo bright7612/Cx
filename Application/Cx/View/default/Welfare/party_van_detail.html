@@ -29,14 +29,14 @@
             <p class="text2">总积分：{$detail[0][integral]}</p>
         </div>
     </div>
-    <div class="title2_box">参与的公益活动</div>
+    <div class="title2_box">积分来源</div>
     <p class="border"></p>
     <div class="bottom">
         <volist name="detail" id="vo">
         <div class="bottom_box">
             <div class="text_box">
                 <!--<p class="title3">爱心助学</p>-->
-                <p class="text">{$vo.text}</p>
+                <p class="text"><span class="text-title">{$vo.text} +{$vo.count}</span> <span class="time">{$vo.time|date="Y-m-d",###}</span> </p>
             </div>
         </div>
         </volist>

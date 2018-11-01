@@ -1,8 +1,9 @@
 /**
  * Created by GM on 2018/4/6.
  */
-var DOMAIN_CXDJ = 'http://36.26.83.105:8620'
-var DOMAIN_183 = 'http://183.131.86.64:8620'
+var DOMAIN_CXDJ = 'http://36.26.83.105:8620';
+var DOMAIN_183 = 'http://183.131.86.64:8620';
+var DOMAIN_RC = 'http://39.104.133.117:8080/cxrc/weixin/summary';
 
 var apiUrl = {
     base: DOMAIN_CXDJ + '/home/wxapi/information', // 基础信息
@@ -31,6 +32,7 @@ var apiUrl = {
     dyTheme3: DOMAIN_CXDJ + '/cx/data/dt_ztdr_detail', // 党员模块主题党日三级数据
     dykp2: DOMAIN_CXDJ + '/cx/data/honorList', // 党员模块党员考评二级数据
     dykp3: DOMAIN_CXDJ + '/cx/data/honorDetail', // 党员模块党员考评三级数据
+    report: DOMAIN_CXDJ + '/cx/data/report_registration', // 党员模块报到登记二三级数据
 
     home: 'http://a.wiseljz.com/api/local/getdatacount.html', // 家门口
     homeList: 'http://a.wiseljz.com/api/local/getdatalist', // 家门口列表
@@ -55,6 +57,15 @@ var apiUrl = {
     grid: DOMAIN_CXDJ + '/cx/data/WG', // 网格数据
     gridList: DOMAIN_CXDJ + '/cx/data/wgRecord', // 网格员总数
 
+    // 人才模块
+    rcAll: DOMAIN_RC + '/info', // 人才全部数据
+    rcTalentList: DOMAIN_RC + '/talent', // 人才总量列表
+    rcQianrenList: DOMAIN_RC + '/qianren', // 千人计划人数（国、省）
+    rcPmList: DOMAIN_RC + '/pm',
+    rcAuditList: DOMAIN_RC + '/audit', // 政策申报审核
+    rcYearList: DOMAIN_RC + '/audit/year', // 政策申报年
+
+    // 社会组织模块
     shzzMap: DOMAIN_CXDJ + '/home/SocialApi/map', // 社会组织地图
 
     shzzBaseData: DOMAIN_CXDJ + '/home/SocialApi/SocialOrganization', // 社会组织基础数据
@@ -80,6 +91,7 @@ var app = new Vue({
         allScreen: false,
         bMap: '',
         bMap2: '',
+        bMap3: '',
         map: {
             myIcon: null,
             curMarker: null,
@@ -294,10 +306,40 @@ var app = new Vue({
                 list: [],
                 title: ''
             },
-            show: false
+            show: false,
+            tdid: '',
+            startTime: '',
+            endTime: ''
         },
         // 主题党日数据
         theme: {
+            show: false,
+            data: {}
+        },
+
+        // 人才模块数据
+        rcAll: {
+            talent: {
+                total: 0,
+                male: 0,
+                female: 0,
+                edu: [],
+                jobTitle: [],
+                qianren: {
+                    country: 0,
+                    province: 0
+                }
+            },
+            audit: {
+                running: 0,
+                finished: 0
+            },
+            thisYear: 0,
+            nearlyThreeYears: 0,
+            notice: [],
+            pm: [],
+        },
+        rcNotice: {
             show: false,
             data: {}
         },
@@ -328,15 +370,7 @@ var app = new Vue({
             rank: [],
             rankModel: false,
             rankOrg: '',
-            active: [],
-            poor: {
-                list: [],
-                date: []
-            },
-            old: {
-                list: [],
-                date: []
-            }
+            active: []
         }
     },
     computed: {
@@ -403,6 +437,16 @@ var app = new Vue({
         townName: function () {
             var name = this.platform.select
             return name === 1 ? '街镇（园区）' : name
+        },
+        // 千人计划
+        thousandPlan: function () {
+            var num = 0;
+            this.rcAll.pm.forEach(function (value) {
+                if (value.name === '千人计划') {
+                    num = value.total
+                }
+            });
+            return num
         }
     },
     watch: {
@@ -497,6 +541,13 @@ var app = new Vue({
             this.bMap2.centerAndZoom(point, 14);
             this.bMap2.enableScrollWheelZoom(true);
         },
+        // 人才地图初始化
+        initMap3: function () {
+            this.bMap3= new BMap.Map("bmapRc");
+            var point = new BMap.Point(119.887692, 31.035088);
+            this.bMap3.centerAndZoom(point, 14);
+            this.bMap3.enableScrollWheelZoom(true);
+        },
         // 切换四个平台
         changePlatform: function (type) {
             var oldType = this.platform.type;
@@ -562,7 +613,7 @@ var app = new Vue({
             }
         },
         // 打开公用模态框详情
-        openModelDetail: function (id, type, title, content, org, name, ztdrId, ztdrType, ztdr2Id, applyId, idCard, activityId, wxyId, devId, townId, payId, dyztdrId, dyztdr2Id, sgId, honorId) {
+        openModelDetail: function (id, type, title, content, org, name, ztdrId, ztdrType, ztdr2Id, applyId, idCard, activityId, wxyId, devId, townId, payId, dyztdrId, dyztdr2Id, sgId, honorId, lateId, late2Id) {
             if (id && type === 'partyMember') {
                 this._getBaseMember(id);
                 return false;
@@ -627,6 +678,12 @@ var app = new Vue({
             }
             if (honorId) {
                 this._getDykpData3(honorId, type);
+            }
+            if (lateId) {
+                this._getReportData2(lateId, type);
+            }
+            if (late2Id) {
+                this._getReportData3(late2Id, type);
             }
         },
         // 关闭二级公用模态框
@@ -741,8 +798,46 @@ var app = new Vue({
             var video = document.getElementById('monitor');
             video.style.width = 740 + 'px';
             video.style.height = 560 + 'px';
+
+            this.monitorTimeInit(tdid);
             ButtonStartRealplayByWndNo_onclick(tdid);
         },
+        // 红色资源监控时间选择初始化
+        monitorTimeInit: function (tdid) {
+            var _this = this;
+            _this.resource.tdid = tdid;
+
+            _this.laydate =  laydate.render({
+                elem: '#test1',
+                type: 'datetime',
+                min: -7,
+                max: 0,
+                done: function (value, date){
+                    if (value) {
+                        _this.resource.startTime = (new Date(Date.parse(value.replace(/-/g,"/"))).getTime() / 1000).toString();
+
+                        var month = date.month.length === 1 ? '0' + date.month : date.month;
+                        var day = date.date.length === 1 ? '0' + date.date : date.date;
+                        var endTimeStr = date.year + '-' + month + '-' + day + ' 23:59:50';
+                        _this.resource.endTime = (new Date(Date.parse(endTimeStr.replace(/-/g,"/"))).getTime() / 1000).toString();
+                    } else {
+                        _this.resource.startTime = '';
+                        _this.resource.endTime = '';
+                    }
+                }
+            });
+
+        },
+
+        openRcNotice: function (item) {
+            this.rcNotice.data = item;
+            this.rcNotice.show = true;
+        },
+        closeRcNotice: function (item) {
+            this.rcNotice.data = {};
+            this.rcNotice.show = false;
+        },
+
         // 社会组织打开公用模态框
         openShzzModel: function (social) {
             this._getShzzBaseList(social);
@@ -904,7 +999,7 @@ var app = new Vue({
                 },
                 xAxis: {
                     type: 'category',
-                    data: ['30岁以下', '30-40', '40-50', '50-60', '60岁以上'],
+                    data: ['35岁以下', '35-50', '50-60', '60岁以上'],
                     axisLabel: {
                         show: true,
                         textStyle: {
@@ -1045,6 +1140,200 @@ var app = new Vue({
             };
             myChart.setOption(option);
         },
+
+        // 人才男女比例饼图
+        rcGenderRender: function () {
+            var myChart = echarts.init(document.getElementById('rcGender'));
+            var i = 0;
+            var color = ['#ffd441', '#ff4459', '#00b8ff'];
+            var option = {
+                animation: false,
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                series : [
+                    {
+                        name: '男女比例',
+                        type: 'pie',
+                        radius : '100%',
+                        center: ['50%', '50%'],
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data:[
+                            {value: 44100, name:'大专'},
+                            {value: 37900, name:'本科'},
+                            {value: 2468, name:'研究生'},
+                        ],
+                        itemStyle : {
+                            normal : {
+                                color: function (){
+                                    return color[i++];
+                                }
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        },
+        // 人才职称分布饼图
+        rcJobRender: function () {
+            var myChart = echarts.init(document.getElementById('rcJob'));
+            var i = 0;
+            var color = ['#00b8ff', '#ff9f52', '#a8ffff'];
+
+            var list = [];
+            this.rcAll.talent.jobTitle.forEach(function (value) {
+                list.push({
+                    value: value.total,
+                    name: value.name
+                });
+            });
+
+            var option = {
+                animation: false,
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                series : [
+                    {
+                        name: '职称分布',
+                        type: 'pie',
+                        radius : '100%',
+                        center: ['50%', '50%'],
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data: [
+                            {value: 3440, name:'高级'},
+                            {value: 27000, name:'中级'},
+                            {value: 26300, name:'初级'},
+                        ],
+                        itemStyle : {
+                            normal : {
+                                color: function (){
+                                    return color[i++];
+                                }
+                            }
+                        }
+                    }
+                ]
+            };
+            myChart.setOption(option);
+        },
+        // 人才学历分布柱状图
+        rcEduRender: function () {
+            var _this = this;
+            var myChartRate = echarts.init(document.getElementById('rcEdu'));
+
+            var nameList = [];
+            var totalList = [];
+            this.rcAll.talent.edu.forEach(function (value) {
+                nameList.push(value.name);
+                totalList.push(value.total);
+            });
+
+            var option = {
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                        type: 'shadow'
+                    }
+                },
+                grid: {
+                    left: '2%',
+                    right: '3%',
+                    bottom: '0%',
+                    top: '16%',
+                    containLabel: true,
+                    borderColor: '#fff',
+                    borderWidth: 1
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['党政人才', '经营管理人才', '专技人才', '高技能人才', '农村实用人才', '社会工作人才'],
+                    axisLabel: {
+                        show: true,
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 14
+                        }
+                    },
+                    axisLine:{
+                        lineStyle: {
+                            color: '#48b8f0',
+                            width: 2
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                },
+                yAxis: {
+                    type: 'value',
+                    name : '（人）',
+                    boundaryGap: [0, 0.01],
+                    axisLabel: {
+                        formatter: '{value}',
+                        textStyle: {
+                            color: '#FFF',
+                            fontSize: 14
+                        }
+                    },
+                    axisLine:{
+                        lineStyle: {
+                            color: '#48b8f0',
+                            width: 2
+                        }
+                    },
+                    axisTick: {
+                        show: false
+                    },
+                    splitNumber: 2,
+                    splitLine:{
+                        show:false
+                    }
+                },
+                label: {
+                    show: true,
+                    position: 'top',
+                    textStyle: {
+                        color: 'white',
+                        fontSize: 14
+                    }
+                },
+                series: [
+                    {
+                        name: '当年',
+                        type: 'bar',
+                        barWidth: 17,
+                        data: [3098, 30900, 103800, 30700, 28000, 27900],
+                        label: {
+                            color: '#fff',
+                            fontSize: 14
+                        },
+                        itemStyle:{
+                            normal:{
+                                color:'#f67c46',
+                            }
+                        }
+                    }
+                ]
+            };
+            myChartRate.setOption(option);
+        },
+
         // 微心愿已认领饼图
         claimRender: function () {
             var myChart = echarts.init(document.getElementById('claim'));
@@ -1204,7 +1493,7 @@ var app = new Vue({
                     {
                         name: '当年',
                         type: 'bar',
-                        barWidth: 11,
+                        barWidth: 20,
                         data: this.home.years,
                         label: {
                             color: '#fff'
@@ -1218,7 +1507,7 @@ var app = new Vue({
                     {
                         name: '当月',
                         type: 'bar',
-                        barWidth: 11,
+                        barWidth: 20,
                         data: this.home.monthes,
                         label: {
                             color: '#fff'
@@ -1704,7 +1993,8 @@ var app = new Vue({
             });
         },
         // 扶贫济弱折线图
-        inforPoorRender: function () {
+        inforPoorRender: function (list, date) {
+            var _this = this;
             var myChart = echarts.init(document.getElementById('inforPoor'));
             var option = {
                 tooltip: {
@@ -1713,16 +2003,21 @@ var app = new Vue({
                 grid: {
                     left: '5%',
                     right: '5%',
-                    top: '5%',
+                    top: '20%',
                     bottom: '5%',
                     containLabel: true,
                     borderColor: '#fff',
                     borderWidth: 1
                 },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: this.shzzList.poor.date,
+                    data: date,
                     axisLabel: {
                         show: true,
                         textStyle: {
@@ -1739,6 +2034,7 @@ var app = new Vue({
                 },
                 yAxis: {
                     type: 'value',
+                    name : '人',
                     axisLabel: {
                         formatter: '{value}',
                         textStyle: {
@@ -1760,14 +2056,24 @@ var app = new Vue({
                         type:'line',
                         color: '#fcfd1a',
                         stack: '总量',
-                        data: this.shzzList.poor.list
+                        data: list
                     }
                 ]
             };
             myChart.setOption(option);
+            myChart.on("click", function(param) {
+                if (typeof param.seriesIndex == 'undefined') {
+                    return;
+                }
+                if (param.type == 'click') {
+                    var types = date;
+                    _this._getShzzServerList('poverty', types[param.dataIndex]);
+                }
+            });
         },
         // 关爱老人折线图
-        inforOldRender: function () {
+        inforOldRender: function (list, date) {
+            var _this = this;
             var myChart = echarts.init(document.getElementById('inforOld'));
             var option = {
                 tooltip: {
@@ -1776,16 +2082,16 @@ var app = new Vue({
                 grid: {
                     left: '5%',
                     right: '5%',
-                    top: '5%',
+                    top: '20%',
                     bottom: '5%',
                     containLabel: true,
                     borderColor: '#fff',
-                    borderWidth: 1
+                    borderWidth: 2
                 },
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: this.shzzList.old.date,
+                    data: date,
                     axisLabel: {
                         show: true,
                         textStyle: {
@@ -1795,12 +2101,14 @@ var app = new Vue({
                     },
                     axisLine: {
                         lineStyle: {
-                            color: '#fff'
+                            color: '#48b8f0',
+                            width: 2
                         }
                     }
                 },
                 yAxis: {
                     type: 'value',
+                    name : '人',
                     axisLabel: {
                         formatter: '{value}',
                         textStyle: {
@@ -1810,7 +2118,8 @@ var app = new Vue({
                     },
                     axisLine: {
                         lineStyle: {
-                            color: '#fff'
+                            color: '#48b8f0',
+                            width: 2
                         }
                     },
                     splitNumber: 3,
@@ -1821,11 +2130,20 @@ var app = new Vue({
                         type:'line',
                         color: '#86e319',
                         stack: '总量',
-                        data: this.shzzList.old.list
+                        data: list
                     }
                 ]
             };
             myChart.setOption(option);
+            myChart.on("click", function(param) {
+                if (typeof param.seriesIndex == 'undefined') {
+                    return;
+                }
+                if (param.type == 'click') {
+                    var types = date;
+                    _this._getShzzServerList('care', types[param.dataIndex]);
+                }
+            });
         },
 
         closeMap2: function () {
@@ -1910,6 +2228,27 @@ var app = new Vue({
             });
 
         },
+
+
+        _addMarker3: function (point, data) {
+
+            var _this = this;
+
+            var marker = new BMap.Marker(point);
+
+            marker.data = data;
+            this.bMap3.addOverlay(marker);
+
+            var label = new BMap.Label(marker.data.company_name, {
+                offset: new BMap.Size(20,-10)
+            });
+            label.setStyle({
+                borderColor: '#FFF'
+            });
+            marker.setLabel(label);
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+        },
+
         // 创建连线
         _addLine: function (arrPoint, color) {
             var polyline = new BMap.Polyline(arrPoint, {
@@ -1933,6 +2272,7 @@ var app = new Vue({
             if (!marker.data.tdid) {
                 return false;
             }
+
             this.monitorPlay(marker.data.tdid, marker.data.title);
         },
         // 获取基础数据
@@ -2438,6 +2778,54 @@ var app = new Vue({
                 }
             })
         },
+        // 获取报到登记二级列表数据
+        _getReportData2: function (lateId, type) {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.report,
+                dataType: 'json',
+                data: {
+                    lateId: lateId,
+                    type: type
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listDataSecond = res.data;
+                        _this.modelSecondShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        // 获取报到登记三级列表数据
+        _getReportData3: function (late2Id, type) {
+            var _this = this;
+
+            $j.ajax({
+                type: 'GET',
+                url: apiUrl.report,
+                dataType: 'json',
+                data: {
+                    late2Id: late2Id,
+                    type: type
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listDataThird = res.data;
+                        _this.modelThirdShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
 
         // 获取积分排名数据
         _getRankData: function (type) {
@@ -2773,6 +3161,175 @@ var app = new Vue({
                 }
             });
         },
+
+        // 获取人才全部数据
+        _getRcAllData: function () {
+            var _this = this;
+
+            $j.ajax({
+                type: 'POST',
+                url: apiUrl.rcAll,
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    if (res.status === true) {
+                        _this.rcAll = res.data;
+                        _this.rcGenderRender();
+                        _this.rcJobRender();
+                        _this.rcEduRender();
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        // 获取人才总量列表数据
+        openRcTalentList: function () {
+            var _this = this;
+
+            $j.ajax({
+                type: 'POST',
+                url: apiUrl.rcTalentList,
+                dataType: 'json',
+                data: {
+                    size: 200
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listData = res.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+        // 获取人才千人列表数据
+        openRcQianrenList: function (type) {
+            var _this = this;
+
+            $j.ajax({
+                type: 'POST',
+                url: apiUrl.rcQianrenList,
+                dataType: 'json',
+                data: {
+                    size: 200,
+                    type: type
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listData = res.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // 获取人才政策申报审核列表数据
+        openRcAuditList: function (status) {
+            var _this = this;
+
+            $j.ajax({
+                type: 'POST',
+                url: apiUrl.rcAuditList,
+                dataType: 'json',
+                data: {
+                    size: 200,
+                    status: status
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listData = res.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // 获取人才政策申报年度列表数据
+        openRcYearList: function (timeType) {
+            var _this = this;
+
+            $j.ajax({
+                type: 'POST',
+                url: apiUrl.rcYearList,
+                dataType: 'json',
+                data: {
+                    size: 200,
+                    timeType: timeType
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listData = res.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // 获取人才项目管理预警列表数据
+        openRcPmList: function (name) {
+            var _this = this;
+
+            $j.ajax({
+                type: 'POST',
+                url: apiUrl.rcPmList,
+                dataType: 'json',
+                data: {
+                    size: 200,
+                    project_table_name: name
+                },
+                cache: false,
+                success: function (res) {
+                    if (res.code === 200) {
+                        _this.listData = res.data;
+                        _this.modelShow = true;
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        },
+        // 获取人才地图数据
+        _getRcMapData: function () {
+            var _this = this;
+
+            $j.ajax({
+                type: 'POST',
+                url: 'http://39.104.133.117:8080/cxrc/weixin/summary/map',
+                dataType: 'json',
+                cache: false,
+                success: function (res) {
+                    if (res.status && res.data.length) {
+                        var mapData = res.data
+                        for (var i = 0; i < mapData.length; i++) {
+                            var location = mapData[i].location.split(',')
+
+                            var point = new BMap.Point(location[0], location[1]);
+                            _this._addMarker3(point, mapData[i]);
+                        }
+                    }
+                    console.log(res);
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            })
+        },
+
         // 获取红色资源地图数据
         _getRedResource: function (type) {
             var def = $j.Deferred();
@@ -2829,7 +3386,6 @@ var app = new Vue({
                 cache: false,
                 success: function (data) {
                     if (data.code === 200) {
-                        console.log(data);
                         _this.listData = data.data;
                         _this.modelShow = true;
                     }
@@ -2986,21 +3542,25 @@ var app = new Vue({
                     if (res.code === 200) {
                         var poverty = res.data.poverty;
                         if (poverty.length) {
-                            poverty.forEach(function (val, index) {
-                                _this.shzzList.poor.list.push(parseInt(val.count))
-                                _this.shzzList.poor.date.push(index + 1)
+                            var povertyList = [];
+                            var povertyDate = [];
+                            poverty.forEach(function (val) {
+                                povertyList.push(parseInt(val.count));
+                                povertyDate.push(val.time);
                             })
                         }
                         var care = res.data.care;
                         if (care.length) {
-                            care.forEach(function (val, index) {
-                                _this.shzzList.old.list.push(parseInt(val.count))
-                                _this.shzzList.old.date.push(index + 1)
+                            var careList = [];
+                            var careDate = [];
+                            care.forEach(function (val) {
+                                careList.push(parseInt(val.count));
+                                careDate.push(val.time);
                             })
                         }
 
-                        _this.inforPoorRender();
-                        _this.inforOldRender();
+                        _this.inforPoorRender(povertyList, povertyDate);
+                        _this.inforOldRender(careList, careDate);
                     }
                 },
                 error: function (err) {
@@ -3009,14 +3569,15 @@ var app = new Vue({
             })
         },
         // 获取社会组织服务信息列表数据
-        _getShzzServerList: function (classify) {
+        _getShzzServerList: function (classify, time) {
             var _this = this;
             $j.ajax({
                 type: 'GET',
                 url: apiUrl.shzzServerList,
                 dataType: 'json',
                 data: {
-                    classify: classify
+                    classify: classify,
+                    time: time
                 },
                 cache: false,
                 success: function (res) {
@@ -3119,6 +3680,9 @@ var app = new Vue({
         var _this = this;
         _this.initMap();
         _this.initMap2();
+        _this.initMap3();
+
+        this._getRcAllData ();
 
         this._getShzzBaseData();
         this._getShzzActivity();
@@ -3126,5 +3690,7 @@ var app = new Vue({
         this._getShzzActive();
         this._getShzzServerData();
         this._getShzzMapData();
+
+        this._getRcMapData();
     },
 });

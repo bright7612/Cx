@@ -12,7 +12,7 @@ $(function () {
                 $('.input_box').append(
                     "<div class='new'>" +
                     "<span>月税后收入</span>" +
-                    "<input type='text' placeholder='（）元'id='input1'>"
+                    "<input type='text' placeholder='  元'id='input1'>"
                     + "</div>");
                 break;
             }
@@ -20,7 +20,7 @@ $(function () {
                 $('.input_box').append(
                     "<div class='new'>" +
                     "<span>月实际收入</span>" +
-                    "<input type='text' placeholder='（）元'id='input1'>"
+                    "<input type='text' placeholder='  元'id='input1'>"
                     + "</div>");
                 break;
             }
@@ -28,7 +28,7 @@ $(function () {
                 $('.input_box').append(
                     "<div class='new'>" +
                     "<span>上季度月均收入</span>" +
-                    "<input type='text' placeholder='（）元'id='input1'>"
+                    "<input type='text' placeholder='  元'id='input1'>"
                     + "</div>");
                 break;
             }
@@ -36,7 +36,7 @@ $(function () {
                 $('.input_box').append(
                     "<div class='long'>" +
                     "<span>月开退休费或养老金总额</span>" +
-                    "<input type='text' placeholder='（）元'id='input1'>"
+                    "<input type='text' placeholder='  元'id='input1'>"
                     + "</div>");
                 break;
             }
@@ -44,11 +44,11 @@ $(function () {
                 $('.input_box').append(
                     "<div class='new'>" +
                     "<span>月返聘收入</span>" +
-                    "<input type='text' placeholder='（）元'id='input1'>"
+                    "<input type='text' placeholder='  元'id='input1'>"
                     + "</div>" +
                     "<div class='long'>" +
                     "<span>月开退休费或养老金总额</span>" +
-                    "<input type='text' placeholder='（）元'id='input2'>"
+                    "<input type='text' placeholder='  元'id='input2'>"
                     + "</div>");
                 break;
             }

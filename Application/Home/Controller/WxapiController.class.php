@@ -682,7 +682,7 @@ class WxapiController extends Controller
     //数据大屏左上角 党组织
     public function information(){
 
-        $cx['PARENT_IDS'] = array('like',"%,92,%");
+//        $cx['PARENT_IDS'] = array('like',"%,92,%");
         $data = array();
         $data['organization']['count'] =(int) M('ajax_dzz')->where($cx)->count();
         //党委
@@ -692,7 +692,7 @@ class WxapiController extends Controller
 //        $data['organization']['committee']['name'] = '党委';  //党总支统计
 //        $data['organization']['committee']['Percentage'] = number_format( $data['organization']['committee']['count']/$data['organization']['count'],4)*100;
 
-        $map['PARENT_IDS'] =  array('like',"%,92,%");
+//        $map['PARENT_IDS'] =  array('like',"%,92,%");
         $map['TYPE'] = 0;
         $data['organization']['general']['count'] = (int)M('ajax_dzz')->where($map)->count();  //党总支统计
         $data['organization']['general']['name'] = '党委';  //党总支统计
@@ -704,7 +704,7 @@ class WxapiController extends Controller
 //        $data['organization']['general']['name'] = '党总支';  //党总支统计
 //        $data['organization']['general']['Percentage'] = number_format( $data['organization']['general']['count']/$data['organization']['count'],4)*100 ;
 
-        $map1['PARENT_IDS'] =  array('like',"%,92,%");
+//        $map1['PARENT_IDS'] =  array('like',"%,92,%");
         $map1['TYPE'] = 1;
         $data['organization']['branch']['count'] = (int)M('ajax_dzz')->where($map1)->count();  //党总支统计
         $data['organization']['branch']['name'] = '党总支';  //党总支统计
@@ -716,19 +716,19 @@ class WxapiController extends Controller
 //        $data['organization']['branch']['name'] = '党支部';  //党支部统计
 //        $data['organization']['branch']['Percentage'] = number_format( $data['organization']['branch']['count']/$data['organization']['count'],4)*100 ;
 
-        $map2['PARENT_IDS'] = array('like',"%,92,%");
+//        $map2['PARENT_IDS'] = array('like',"%,92,%");
         $map2['TYPE'] = 2;
         $data['organization']['committee']['count'] = (int)M('ajax_dzz')->where($map2)->count();  //党支部统计
         $data['organization']['committee']['name'] = '党支部';  //党支部统计
         $data['organization']['committee']['Percentage'] = number_format( $data['organization']['committee']['count']/$data['organization']['count'],4)*100 ;
         //联合党支部
-        $map3['PARENT_IDS'] = array('like',"%,92,%");
+//        $map3['PARENT_IDS'] = array('like',"%,92,%");
         $map3['TYPE'] = 3;
         $data['organization']['union']['count'] = (int)M('ajax_dzz')->where($map3)->count();  //党委统计
         $data['organization']['union']['name'] = '联合党支部';  //党委统计
         $data['organization']['union']['Percentage'] = number_format( $data['organization']['union']['count']/$data['organization']['count'],4)*100 ;
         //网络e支部
-        $map3['PARENT_IDS'] = array('like',"%,92,%");
+//        $map3['PARENT_IDS'] = array('like',"%,92,%");
         $map3['TYPE'] = 4;
         $data['organization']['network']['count'] = (int)M('ajax_dzz')->where($map3)->count();  //党委统计
         $data['organization']['network']['name'] ='网格e支部';  //党委统计
@@ -737,31 +737,31 @@ class WxapiController extends Controller
         //党组织类别
         $data['type']['count'] =$data['organization']['count'] ;
         //部门机关
-        $map4['PARENT_IDS'] = array('like',"%,92,%");
-        $map4['NATURE'] = array('like',"%部门机关%");
+//        $map4['PARENT_IDS'] = array('like',"%,92,%");
+        $map4['NATURE'] = array('in',array('部门机关','乡镇'));
         $data['type']['office']['count'] =(int) M('ajax_dzz')->where($map4)->count();
         $data['type']['office']['name'] ='部门机关';
         $data['type']['office']['Percentage'] =number_format( $data['type']['office']['count']/$data['organization']['count'],4)*100 ;
         //国有企业
-        $map5['PARENT_IDS'] = array('like',"%,92,%");
+//        $map5['PARENT_IDS'] = array('like',"%,92,%");
         $map5['NATURE'] = array('like',"%国有企业%");
         $data['type']['enterprise']['count'] = (int)M('ajax_dzz')->where($map5)->count();
         $data['type']['enterprise']['name'] = '国有企业';
         $data['type']['enterprise']['Percentage'] =number_format( $data['type']['enterprise']['count']/$data['organization']['count'],4)*100 ;
         //事业单位
-        $map6['PARENT_IDS'] = array('like',"%,92,%");
+//        $map6['PARENT_IDS'] = array('like',"%,92,%");
         $map6['NATURE'] = array('like',"%事业单位%");
         $data['type']['undertaking']['count']=(int) M('ajax_dzz')->where($map6)->count();
         $data['type']['undertaking']['name']='事业单位';
         $data['type']['undertaking']['Percentage'] =number_format( $data['type']['undertaking']['count']/$data['organization']['count'],4)*100 ;
         //村社
-        $map7['PARENT_IDS'] = array('like',"%,92,%");
+//        $map7['PARENT_IDS'] = array('like',"%,92,%");
         $map7['NATURE'] = array('like',"%村社%");
         $data['type']['community']['count']=(int) M('ajax_dzz')->where($map7)->count();
         $data['type']['community']['name']='村社';
         $data['type']['community']['Percentage'] =number_format( $data['type']['community']['count']/$data['organization']['count'],4)*100 ;
         //两新组织
-        $map8['PARENT_IDS'] = array('like',"%,92,%");
+//        $map8['PARENT_IDS'] = array('like',"%,92,%");
         $map8['NATURE'] = array('like',"%两新%");
         $data['type']['new']['count']=(int) M('ajax_dzz')->where($map8)->count();
         $data['type']['new']['name']='两新';
@@ -784,7 +784,7 @@ class WxapiController extends Controller
         switch ($type){
             case 1:
                 if($subtype == 1){
-                    $map3['PARENT_IDS'] = array('like',"%,92,%");
+//                    $map3['PARENT_IDS'] = array('like',"%,92,%");
                     if($classify == 1){
                         $map3['TYPE'] = 0;
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
@@ -820,9 +820,12 @@ class WxapiController extends Controller
                     }
                 }
                 elseif ($subtype == 2){
-                    $map3['PARENT_IDS'] = array('like',"%,92,%");
+//                    $map3['PARENT_IDS'] = array('like',"%,92,%");
                     if($classify == 1){
-                        $map3['NATURE'] = array('like',"%部门机关%");
+//                        $map3['NATURE'] = array('like',"%部门机关%");
+                        $map3['NATURE'] = array('in',array('部门机关','乡镇'));
+//                        $map4['NATURE'] = array('in',array('部门机关','乡镇'));
+
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
                         $list['count'] = ceil(M('ajax_dzz')->where($map3)->count()/$r);
                         $list['title'] = '部门机关组织信息';
@@ -931,21 +934,24 @@ class WxapiController extends Controller
         switch ($type){
             case 1:
                 if($subtype == 1){
-                    $map3['PARENT_IDS'] = array('like',"%,92,%");
+//                    $map3['PARENT_IDS'] = array('like',"%,92,%");
                     if($classify == 1){
 
-                        $url = 'http://www.dysfz.gov.cn/apiXC/branchList.do';//党组织
-                        $da1['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-                        $da1['TREE_ORDER'] = true;
-//                      $da1['HIERARCHY'] = 2;
-                        $da1['BRANCH_ID'] = 92;
-                        $da1['onlyChildren'] = true;
-                        $da1['TYPE'] = 0;
-                        $da1['COUNT'] = 150;
-                        $da1['START'] = 1;
-                        $das = json_encode($da1);
-                        $list1 = $this->httpjson($url, $das);
-                        $data = $list1['data'];
+//                        $url = 'http://www.dysfz.gov.cn/apiXC/branchList.do';//党组织
+//                        $da1['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+//                        $da1['TREE_ORDER'] = true;
+//                        $da1['HIERARCHY'] = 2;
+//                        $da1['BRANCH_ID'] = 92;
+//                        $da1['onlyChildren'] = true;
+//                        $da1['TYPE'] = 0;
+//                        $da1['COUNT'] = 150;
+//                        $da1['START'] = 1;
+//                        $das = json_encode($da1);
+//                        $list1 = $this->httpjson($url, $das);
+                        $map3['TYPE'] = 0;
+                        $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
+//                        dump($data);exit;
+//                        $data = $list1['data'];
                         $list['title'] = '党委信息';
                         $list['head'] = $head3;
 
@@ -984,7 +990,7 @@ class WxapiController extends Controller
                 }
                 elseif ($subtype == 2){
                     $list['head'] = $head1;
-                    $map3['PARENT_IDS'] = array('like',"%,92,%");
+//                    $map3['PARENT_IDS'] = array('like',"%,92,%");
                     if($classify == 1){
                         $map3['NATURE'] = array('like',"%部门机关%");
                         $data = M('ajax_dzz')->where($map3)->page($page, $r)->select();
@@ -1043,7 +1049,7 @@ class WxapiController extends Controller
                     else if($subtype == 1 && $classify ==1){
 
                         $da[$k] = array(
-                            array('value'=>$order_by_type[$v['order_by_type']], 'width'=>10,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$order_by_type[$v['order_by_type']]?$order_by_type[$v['order_by_type']]:$nature[$v['NATURE']], 'width'=>10,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                             array('value'=>$hierarchy[$v['hierarchy']].$v['NAME'], 'width'=>28,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember','left'=>true),
                             array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
                             array('value'=>$v['ADDRESS'], 'width'=>32,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
@@ -1341,6 +1347,7 @@ class WxapiController extends Controller
         $goodsorder = M('goods_order');
         $tableuser = M('wxuser');
         $tableintegral = M('wxuser_integral');
+        if( preg_match_all("/^1[3456789]\d{9}$/", $_REQUEST['telephone'])){$order['telephone']=$_REQUEST['telephone'];}else{$this->Apireturn(array(),300,'联系人手机号错误');}
 //        dump($_REQUEST);exit;
         if($_REQUEST['openid']){$user = $this->identitys($_REQUEST['openid']);}else{$this->Apireturn(array(),300,'用户尚未登陆');}  //党员限定
         if($_REQUEST['goodsid']){$data['goods_id'] = $_REQUEST['goodsid'];}else{$this->Apireturn(array(),300,'尚未选择商品');}  //商品选择
@@ -1568,7 +1575,7 @@ class WxapiController extends Controller
 //        }
 
         if(!$da) {
-            $maps['PARENT_IDS'] = array('like', "%,92,%");
+//            $maps['PARENT_IDS'] = array('like', "%,92,%");
             $das = M('ajax_dzz')->where($maps)->group('BRANCH_ID')->field('BRANCH_ID,PARENT_IDS')->select();
             foreach ($das as $k => $v) {
                 $map['PARENT_IDS'] = array('like', "%," . $v['BRANCH_ID'] . ",%");
@@ -1682,6 +1689,11 @@ class WxapiController extends Controller
         $this->Apireturn($da);
     }
     public function warning2(){
+        $dd = S('warning2');
+        if($dd){
+            $this->Apireturn($dd);
+        }
+        set_time_limit(0);
         $where['status'] = 1;
         //入党申请人
         $application_dy = M('dr_dzz_application_party')->where($where)->count();
@@ -1693,7 +1705,15 @@ class WxapiController extends Controller
         $sign1 = M()->query("SELECT id,`name`,organization FROM cxdj_dr_dy_ztdr  ztdr WHERE ztdr.`name` NOT IN (SELECT `name` FROM cxdj_dr_dy_late)");
         $sign =count($sign1);
         //不计入到会党员
-        $late_dy = M('dr_dy_late')->where($where)->count();
+        $url = 'http://www.dysfz.gov.cn/apiXC/dwPartylistPage.do';
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 150;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $list = $this->httpjson($url, $das);
+        $arr_bj = array_column($list['data'],'partyNum');
+        $late_dy = array_sum($arr_bj);
+//        $late_dy = M('dr_dy_late')->where($where)->count();
         //闪光言行
         $url = 'http://www.dysfz.gov.cn/apiXC/getEvaluateByTypeAndStep.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
@@ -1715,7 +1735,7 @@ class WxapiController extends Controller
         $dr_dy_dxtj2 = M('dr_dy_dxtj')->where($where_dxtj)->count();
         $where_dxtj['result1']='亚健康';
         $dr_dy_dxtj3 = M('dr_dy_dxtj')->where($where_dxtj)->count();
-        $dr_dy_dxtj1 = $dr_dy_dxtj1 - $dr_dy_dxtj2 - $dr_dy_dxtj3;
+        $dr_dy_dxtj1 = $dr_dy_dxtj1 - $dr_dy_dxtj2 - $dr_dy_dxtj3 - 899;
 
         //党组织-已展开党性体检
         $dx_check1 = M()->query("SELECT COUNT(*) as `count` FROM cxdj.cxdj_dr_dzz_dxtj WHERE `status` = 1 AND organization NOT LIKE '%党委%' AND organization NOT LIKE '%党总支%'");
@@ -1793,12 +1813,13 @@ class WxapiController extends Controller
             'pay'=>array('payed'=>$money, 'unPay'=>$money_no,),
 
      );
-     $da['partier'] = array(
+        $da['partier'] = array(
          'theme'=>array('join'=>$dy_ztdr, 'unJoin'=>$dy_unztdr,),
          'experience'=>array('health'=>$dr_dy_dxtj1, 'unHealth'=>$dr_dy_dxtj2,'yaHealth'=>$dr_dy_dxtj3),
          'register'=>array('num'=>$sign, 'unNum'=>$late_dy,),
          'appraise'=>array('sgyx'=>$speech, 'pypx'=>$honor,),
      );
+        S('warning2',$da);
         $this->Apireturn($da);
     }
     //预警信息详情
@@ -1826,7 +1847,7 @@ class WxapiController extends Controller
         switch ($types){
             case 1:
                 $list['title'] = '组织生活';
-                $map['PARENT_IDS'] = array('like','%,92,%');
+//                $map['PARENT_IDS'] = array('like','%,92,%');
                 if($classify ==1 ){  //5月
                     $map['classify'] = 5;
                     $data = M('dr_noactivity')->where($map)->order('id asc')->page($page,$r)->select();
@@ -1980,9 +2001,12 @@ class WxapiController extends Controller
             array('name'=>'地址', 'width'=>25),
         );
         $head6 = array(  //党员
-            array('name'=>'序号', 'width'=>20),
-            array('name'=>'党员姓名', 'width'=>30),
-            array('name'=>'所属党组织', 'width'=>50),
+            array('name'=>'序号', 'width'=>10),
+            array('name'=>'类型', 'width'=>10),
+            array('name'=>'党组织名称', 'width'=>20),
+            array('name'=>'党组织地址', 'width'=>30),
+            array('name'=>'书记', 'width'=>10),
+            array('name'=>'党员报到总数量', 'width'=>20),
         );
         $head7 = array(  //党员
             array('name'=>'序号', 'width'=>10),
@@ -2005,9 +2029,11 @@ class WxapiController extends Controller
         );
 
         $head10 = array(  //党员
-            array('name'=>'序号', 'width'=>20),
-            array('name'=>'姓名', 'width'=>30),
-            array('name'=>'所属党组织', 'width'=>50),
+            array('name'=>'序号', 'width'=>15),
+            array('name'=>'党组织', 'width'=>20),
+            array('name'=>'书记', 'width'=>15),
+            array('name'=>'数量', 'width'=>15),
+            array('name'=>'地址', 'width'=>35),
         );
 
         $head11 = array(  //未展开主题党日
@@ -2179,16 +2205,16 @@ class WxapiController extends Controller
 
                     break;
                 case 3:
-                    $list['title'] = '入党申请';
+                    $list['title'] = '入党申请人';
                     $list['head'] = $head9;
                     $data = $Model->query("SELECT COUNT(*) AS `count`,town_name,town_id FROM cxdj_dr_dzz_application_party WHERE STATUS =1 GROUP BY town_id ");
                     $i = 1;
                     foreach ($data as $k=>&$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>25,'applyId'=>$v['town_id']),
-                            array('value'=>$v['town_name'], 'width'=>50,'applyId'=>$v['town_id']),
-                            array('value'=>$v['count'], 'width'=>25,'applyId'=>$v['town_id']),
+                            array('value'=>$ii, 'width'=>25,),
+                            array('value'=>$v['town_name'], 'width'=>50,),
+                            array('value'=>$v['count'], 'width'=>25,'applyId'=>$v['town_id'],'clickable'=>true),
                         );
                     }
 
@@ -2201,9 +2227,9 @@ class WxapiController extends Controller
                     foreach ($data as $k=>&$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>25,'activityId'=>$v['town_id']),
-                            array('value'=>$v['town_name'], 'width'=>50,'activityId'=>$v['town_id']),
-                            array('value'=>$v['count'], 'width'=>25,'activityId'=>$v['town_id']),
+                            array('value'=>$ii, 'width'=>25),
+                            array('value'=>$v['town_name'], 'width'=>50),
+                            array('value'=>$v['count'], 'width'=>25,'activityId'=>$v['town_id'],'clickable'=>true),
 
                         );
                     }
@@ -2225,9 +2251,9 @@ class WxapiController extends Controller
                     foreach ($arr1 as $k=>$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>30,'devId'=>$v['branch_id']),
-                            array('value'=>$v['general_party'], 'width'=>40,'devId'=>$v['branch_id']),
-                            array('value'=>$v['count'], 'width'=>30,'devId'=>$v['branch_id']),
+                            array('value'=>$ii, 'width'=>30,),
+                            array('value'=>$v['general_party'], 'width'=>40,),
+                            array('value'=>$v['count'], 'width'=>30,'devId'=>$v['branch_id'],'clickable'=>true),
 
                         );
                     }
@@ -2242,9 +2268,9 @@ class WxapiController extends Controller
                     foreach ($data as $k=>&$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>30,'town_id'=>$v['town_id'],'type'=>1),
-                            array('value'=>$v['town_name'], 'width'=>40,'town_id'=>$v['town_id'],'type'=>1),
-                            array('value'=>$v['count'], 'width'=>30,'town_id'=>$v['town_id'],'type'=>1),
+                            array('value'=>$ii, 'width'=>30,'type'=>1),
+                            array('value'=>$v['town_name'], 'width'=>40,'type'=>1),
+                            array('value'=>$v['count'], 'width'=>30,'town_id'=>$v['town_id'],'type'=>1,'clickable'=>true),
 
                         );
                     }
@@ -2257,9 +2283,9 @@ class WxapiController extends Controller
                     foreach ($data as $k=>&$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>30,'town_id'=>$v['town_id'],'type'=>2),
-                            array('value'=>$v['town_name'], 'width'=>40,'town_id'=>$v['town_id'],'type'=>2),
-                            array('value'=>$v['count'], 'width'=>30,'town_id'=>$v['town_id'],'type'=>2),
+                            array('value'=>$ii, 'width'=>30,'type'=>2),
+                            array('value'=>$v['town_name'], 'width'=>40,'type'=>2),
+                            array('value'=>$v['count'], 'width'=>30,'town_id'=>$v['town_id'],'type'=>2,'clickable'=>true),
                         );
                     }
                     break;
@@ -2274,21 +2300,23 @@ class WxapiController extends Controller
                     $das = json_encode($da);
                     $data = $this->httpjson($url, $das);
 
+                        S('dzz_yi_money',$data);   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+                    }else{
+                        $data = S('dzz_yi_money');// 获取缓存
+                    }
+
                     $i = 1;
                     foreach ($data['data'] as $k=>$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>1),
-                            array('value'=>$v['NAME'], 'width'=>40,'payId'=>$v['BRANCH_ID'],'type'=>1),
-                            array('value'=>$v['yjn'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>1),
-                            array('value'=>$v['SECRETARY'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>1),
+                            array('value'=>$ii, 'width'=>20,'type'=>1),
+                            array('value'=>$v['NAME'], 'width'=>40,'type'=>1),
+                            array('value'=>$v['yjn'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>1,'clickable'=>true),
+                            array('value'=>$v['SECRETARY'], 'width'=>20,'type'=>1),
                         );
                     }
-                        $time = 3600 * 72;  //缓存三天
-                        S('dzz_yi_money',$list,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
-                    }else{
-                        $list = S('dzz_yi_money');// 获取缓存
-                    }
+
+
 
 
                     break;
@@ -2304,22 +2332,22 @@ class WxapiController extends Controller
                             $da['START'] = 1;
                             $das = json_encode($da);
                             $data = $this->httpjson($url, $das);
+                            S('dzz_no_money',$data);   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+                        }else{
+                            $data = S('dzz_no_money');// 获取缓存
+                        }
 
-                            $i = 1;
+                                $i = 1;
                             foreach ($data['data'] as $k=>$v){
                                 $ii = $i++;
                                 $list['list'][] = array(
-                                    array('value'=>$ii, 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>2),
-                                    array('value'=>$v['NAME'], 'width'=>40,'payId'=>$v['BRANCH_ID'],'type'=>2),
-                                    array('value'=>$v['wjn'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>2),
-                                    array('value'=>$v['SECRETARY'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>2),
+                                    array('value'=>$ii, 'width'=>20,'type'=>2),
+                                    array('value'=>$v['NAME'], 'width'=>40,'type'=>2),
+                                    array('value'=>$v['wjn'], 'width'=>20,'payId'=>$v['BRANCH_ID'],'type'=>2,'clickable'=>true),
+                                    array('value'=>$v['SECRETARY'], 'width'=>20,'type'=>2),
                                 );
                             }
-                            $time = 3600 * 72;  //缓存三天
-                            S('dzz_no_money',$list,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
-                        }else{
-                            $list = S('dzz_no_money');// 获取缓存
-                        }
+
 
 
                     }
@@ -2340,8 +2368,9 @@ class WxapiController extends Controller
         elseif ($origin == 'partier'){
             switch ($types){
                 case 1:
-                    $list['title'] = '主题党日开展情况';
+                    $list['title'] = '本月主题党日开展情况';
                     $list['head'] = $head5;
+                    if(!S('dzz_dy_ztdr_1')){
                     $url = 'http://www.dysfz.gov.cn/apiXC/recordPartyDTDRlist.do'; //党员党建
                     $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
                     $da['COUNT'] = 100;
@@ -2349,6 +2378,10 @@ class WxapiController extends Controller
                     $das = json_encode($da);
                     $data = $this->httpjson($url, $das);
 
+                        S('dzz_dy_ztdr_1',$data);   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+                    }else{
+                        $data = S('dzz_dy_ztdr_1');// 获取缓存
+                    }
                     foreach ($data['data'] as $k=>&$v){
                         if($v['order_by_type'] == 1){
                             $v['type'] = '乡镇';
@@ -2364,47 +2397,106 @@ class WxapiController extends Controller
                             array('value'=>$v['NAME'], 'width'=>25,'dyztdrId'=>$v['BRANCH_ID']),
                             array('value'=>$v['SECRETARY'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID']),
                             array('value'=>$v['partyNum'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID']),
-                            array('value'=>$v['yjn'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>1),
-                            array('value'=>$v['wcj'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>2),
+                            array('value'=>$v['yjn'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>1,'clickable'=>true),
+                            array('value'=>$v['wcj'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>2,'clickable'=>true),
                             array('value'=>$v['ADDRESS'], 'width'=>25,'dyztdrId'=>$v['BRANCH_ID']),
-                        );
-                    }
-                    break;
-                case 2:
-                    $list['title'] = '未开展主题党日';
-                    $list['head'] = $head15;
-                    $data = $Model->query("SELECT id,name,organization,time FROM cxdj_dr_dy_unztdr WHERE status = 1 LIMIT 1000");
-                    foreach ($data as $k=>&$v){
-                        $list['list'][] = array(
-                            array('value'=>$v['id'], 'width'=>10),
-                            array('value'=>$v['name'], 'width'=>20),
-                            array('value'=>$v['organization'], 'width'=>50),
-                            array('value'=>$v['time'], 'width'=>20),
-                        );
-                    }
-                    break;
-                case 3:
-                    $list['title'] = '2018年报到';
-                    $list['head'] = $head6;
-                    $data = $Model->query("SELECT id,`name`,organization FROM cxdj_dr_dy_ztdr  ztdr WHERE ztdr.`name` NOT IN (SELECT `name` FROM cxdj_dr_dy_late) AND `status` = 1 LIMIT 1000");
-                    foreach ($data as $k=>&$v){
-                        $list['list'][] = array(
-                            array('value'=>$v['id'], 'width'=>20),
-                            array('value'=>$v['name'], 'width'=>30),
-                            array('value'=>$v['organization'], 'width'=>50),
                         );
                     }
 
                     break;
+                case 2:
+
+                    $list['title'] = '本月主题党日开展情况';
+                    $list['head'] = $head5;
+                    if(!S('dzz_dy_ztdr_1')){
+                        $url = 'http://www.dysfz.gov.cn/apiXC/recordPartyDTDRlist.do'; //党员党建
+                        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                        $da['COUNT'] = 100;
+                        $da['START'] = 1;
+                        $das = json_encode($da);
+                        $data = $this->httpjson($url, $das);
+
+                        S('dzz_dy_ztdr_1',$data);   // 写入缓存，expire'=>600 :  设置有效时间：600秒
+                    }else{
+                        $data = S('dzz_dy_ztdr_1');// 获取缓存
+                    }
+                        foreach ($data['data'] as $k=>&$v){
+                            if($v['order_by_type'] == 1){
+                                $v['type'] = '乡镇';
+                            }elseif ($v['order_by_type'] == 2){
+                                $v['type'] = '街道';
+                            }elseif ($v['order_by_type'] == 3){
+                                $v['type'] = '园区';
+                            }elseif ($v['order_by_type'] == 4){
+                                $v['type'] = '部门';
+                            }
+                            $list['list'][] = array(
+                                array('value'=>$v['type'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID']),
+                                array('value'=>$v['NAME'], 'width'=>25,'dyztdrId'=>$v['BRANCH_ID']),
+                                array('value'=>$v['SECRETARY'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID']),
+                                array('value'=>$v['partyNum'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID']),
+                                array('value'=>$v['yjn'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>1),
+                                array('value'=>$v['wcj'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>2),
+                                array('value'=>$v['ADDRESS'], 'width'=>25,'dyztdrId'=>$v['BRANCH_ID']),
+                            );
+                        }
+
+                    break;
+                case 3:
+                    $order_by_type = array(
+                        1=>'乡镇',
+                        2=>'街道',
+                        3=>'园区',
+                        4=>'部门',
+                    );
+                    $list['title'] = '2018年报到';
+                    $list['head'] = $head6;
+                    if(!S('report')) {
+                        $url = 'http://www.dysfz.gov.cn/apiXC/dwPartySignRecordlistPage.do';
+                        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                        $da['COUNT'] = 150;
+                        $da['START'] = 1;
+                        $das = json_encode($da);
+                        $data = $this->httpjson($url, $das);
+                        S('report',$data);
+                    }else{
+                        $data = S('report');// 获取缓存
+                    }
+                    foreach ($data['data'] as $k=>&$v){
+                        $list['list'][] = array(
+                            array('value'=>$k+1, 'width'=>10,'type'=>1,'lateId'=>$v['BRANCH_ID']),
+                            array('value'=>$order_by_type[$v['order_by_type']], 'width'=>10,'type'=>1,'lateId'=>$v['BRANCH_ID']),
+                            array('value'=>$v['NAME'], 'width'=>20,'type'=>1,'lateId'=>$v['BRANCH_ID']),
+                            array('value'=>$v['ADDRESS'], 'width'=>30,'type'=>1,'lateId'=>$v['BRANCH_ID']),
+                            array('value'=>$v['SECRETARY'], 'width'=>10,'type'=>1,'lateId'=>$v['BRANCH_ID']),
+                            array('value'=>$v['partyNum'], 'width'=>20,'type'=>1,'lateId'=>$v['BRANCH_ID']),
+                        );
+                    }
+                    break;
                 case 4:
                     $list['title'] = '不计入到会党员';
                     $list['head'] = $head10;
-                    $data = $Model->query("SELECT id,`name`,organization FROM cxdj_dr_dy_late LIMIT 1000");
-                    foreach ($data as $k=>&$v){
+                    if(!S('NoRecord')){
+                    $url = 'http://www.dysfz.gov.cn/apiXC/dwPartylistPage.do';
+                    $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                    $da['COUNT'] = 150;
+                    $da['START'] = 1;
+                    $das = json_encode($da);
+                    $data = $this->httpjson($url, $das);
+                        S('NoRecord',$data);
+                    }else{
+                        $data = S('NoRecord');// 获取缓存
+                    }
+
+                    $i = 1;
+                    foreach ($data['data'] as $k=>&$v){
+                        $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$v['id'], 'width'=>20),
-                            array('value'=>$v['name'], 'width'=>30),
-                            array('value'=>$v['organization'], 'width'=>50),
+                            array('value'=>$ii, 'width'=>15,'lateId'=>$v['BRANCH_ID'],'type'=>2),
+                            array('value'=>$v['NAME'], 'width'=>20,'lateId'=>$v['BRANCH_ID'],'type'=>2),
+                            array('value'=>$v['SECRETARY'], 'width'=>15,'lateId'=>$v['BRANCH_ID'],'type'=>2),
+                            array('value'=>$v['partyNum'], 'width'=>15,'lateId'=>$v['BRANCH_ID'],'type'=>2),
+                            array('value'=>$v['ADDRESS'], 'width'=>35,'lateId'=>$v['BRANCH_ID'],'type'=>2),
                         );
                     }
                     break;
@@ -2453,7 +2545,7 @@ class WxapiController extends Controller
                 case 8:
                     $list['title'] = '闪光言行';
                     $list['head'] = $head8;
-                    if(!S('sg_List')){
+                    if(!S('light')){
                     $url = 'http://www.dysfz.gov.cn/apiXC/getEvaluateByTypeAndStep.do'; //党员党建
                     $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
                     $da['COUNT'] = 150;
@@ -2462,6 +2554,10 @@ class WxapiController extends Controller
                     $da['STEP'] = 1; //查询一共分为3步，分别为1、2、3
                     $das = json_encode($da);
                     $data = $this->httpjson($url, $das);
+                        S('light',$data);
+                    }else{
+                        $data = S('light');// 获取缓存
+                    }
                     $i = 1;
                     foreach ($data['data'] as $k=>&$v){
                         $ii = $i++;
@@ -2472,17 +2568,11 @@ class WxapiController extends Controller
 
                         );
                     }
-                        $time = 3600 * 72;  //缓存三天
-                        S('sg_List',$list,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
-                    }else{
-                        $list = S('sg_List');// 获取缓存
-                    }
-
                     break;
                 case 9:
                     $list['title'] = '评优评先数据';
                     $list['head'] = $head14;
-                    if(!S('honor_List')){
+                    if(!S('light')){
                         $url = 'http://www.dysfz.gov.cn/apiXC/getEvaluateByTypeAndStep.do'; //党员党建
                         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
                         $da['COUNT'] = 150;
@@ -2491,6 +2581,11 @@ class WxapiController extends Controller
                         $da['STEP'] = 1; //查询一共分为3步，分别为1、2、3
                         $das = json_encode($da);
                         $data = $this->httpjson($url, $das);
+                        S('light',$data);
+                    }
+                    else{
+                            $list = S('honor_List');// 获取缓存
+                        }
                         $i = 1;
                         foreach ($data['data'] as $k=>&$v){
                             $ii = $i++;
@@ -2501,11 +2596,6 @@ class WxapiController extends Controller
 
                             );
                         }
-                        $time = 3600 * 72;  //缓存三天
-                        S('honor_List',$list,array('type'=>'file','expire'=>$time));   // 写入缓存，expire'=>600 :  设置有效时间：600秒
-                    }else{
-                        $list = S('honor_List');// 获取缓存
-                    }
                     break;
             }
 

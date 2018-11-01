@@ -19,7 +19,14 @@ $(function () {
     //每秒变一次数据
     setInterval(function () {
         fillTime();
+
     }, 1000);
+
+    //每分钟变一次参观
+    setInterval(function () {
+        syyy();
+    }, 60000);
+
 
     //填充时间
     //填充时间
@@ -153,10 +160,21 @@ $(function () {
         elem: '#dateInput'
         ,done: function(value, date, endDate){
             // alert(value);
-            $("#scrollMsg").load("http://183.131.86.64:8620/cx/venue/lists.html"+"?date="+value);
+            $("#scrollMsg").load("http://36.26.83.105:8620/cx/venue/lists.html"+"?date="+value);
+
         }
     });
     $("#dateInput").change(function(){
         alert($("#dateInput").val());
     });
+
+
+    function syyy() {
+        $.post('',function (rel) {
+            rel = JSON.parse(rel);
+
+            $("#monthnum").html(rel.count1) ;
+            $("#yearnum").html(rel.count2);
+        })
+    }
 });

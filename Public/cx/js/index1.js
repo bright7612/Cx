@@ -18,7 +18,7 @@ $(function () {
         $.ajax({
             type: "GET",
             // url: "http://192.168.1.254/cx/cx/applylist",
-            url: "http://183.131.86.64:8620/cx/cx/applylist",
+            url: "http://36.26.83.105:8620/cx/cx/applylist",
             // url: "1.json",
             // data: {category_id: a},
             dataType: "json",

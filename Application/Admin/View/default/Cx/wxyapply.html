@@ -106,7 +106,7 @@
                     <th>电话</th>
                     <th>身份证</th>
                     <th>单位名称</th>
-                    <th>地址</th>
+                    <!--<th>地址</th>-->
                     <!--<th>党组织</th>-->
                     <th>是否为党员</th>
                     <th>来源</th>
@@ -127,14 +127,16 @@
                             <td>
                                 {$di.company}
                             </td>
-                            <td>{$di.address}</td>
+                            <!--<td>{$di.address}</td>-->
                             <!--<td>{$di.organization}</td>-->
                             <td>{$di.party_var}</td>
                             <td>{$di.source_var}</td>
                             <td>{$di.state_var}</td>
                             <td>
                                 <a title=“" href="{:U('wxyedit',array('id'=>$di['id'],'type'=>$issue_id,'examine'=>1))}">编辑</a>
+                                <php>if($di['state'] == 0){</php>
                                 <a title=“" href="{:U('wxyedit',array('id'=>$di['id'],'type'=>$issue_id,'examine'=>2))}">审核</a>
+                                <php>}</php>
                                 <a title=“" href="{:U('wxyedit',array('id'=>$di['id'],'type'=>$issue_id))}">查看</a>
                             </td>
                         </tr>

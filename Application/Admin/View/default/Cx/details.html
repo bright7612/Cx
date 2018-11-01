@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/Public/zui/css/zui.css">
+</head>
+<body>
+<table class="table">
+    <thead>
+    <tr>
+        <th style="width: 40%">活动名称</th>
+        <th>开始时间</th>
+        <th>活动参与人数</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <volist name="data" id="vo">
+        <tr>
+            <td>{$vo.title}</td>
+            <td>{$vo.time|date="Y-m-d H:i:s",###}</td>
+            <td>{$vo.bm_count}</td>
+        </tr>
+    </volist>
+
+    </tbody>
+</table>
+{$pagination}
+</body>
+</html>

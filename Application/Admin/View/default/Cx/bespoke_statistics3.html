@@ -1,0 +1,165 @@
+<extend name="Public/base"/>
+<block name="body">
+    <script src="/Public/layer/layer.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/Public/zui/lib/datetimepicker/datetimepicker.css" media="all">
+    <script type="text/javascript" src="/Public/zui/lib/datetimepicker/datetimepicker.min.js" charset="UTF-8"></script>
+    <style>
+        .tb_search td {
+            padding: 5px 10px;
+        }
+
+        .chosen-container {
+            width: 100% !important;
+        }
+    </style>
+    <div class="main-title">
+        <h2>
+            {$title}
+            <!--<span style="font-size: 0.8em" >(红色表示与已通过审核的预约时间有冲突)</span>-->
+        </h2>
+    </div>
+    <div class="with-padding">
+
+        <div class="fl">
+
+            <div style="">
+                <style>
+                    .oneselect {
+                        display: inline-block;
+                        margin-left: 10px;
+                    }
+
+                    .oneselect .title {
+                        float: left;
+                        line-height: 32px;
+                    }
+
+                    .oneselect .select_box {
+                        float: left;
+                        line-height: 32px;
+                    }
+
+                    .oneselect .select_box select {
+                        min-width: 200px;
+                    }
+                    td,th {
+                        text-align: center;
+                    }
+                    td:nth-child(2) {
+                        box-sizing: border-box;
+                        padding-left: 100px;
+                        text-align: left;
+                    }
+                </style>
+                <div id="times" data-hd="{$timehd}" data-bm="{$timebm}">
+                    <form action="/admin/cx/content/type/{$issue_id}" method="get">
+                        活动时间
+                        <input type="text" class="form-control form-date" style="width: 20%" readonly  name="time-hd" placeholder="选择或者输入一个日期：yyyy-MM" value="{$timehd}"  >
+                        <br>
+                        报名时间
+                        <input type="text" class="form-control form-date" style="width: 20%" readonly  name="time-bm" placeholder="选择或者输入一个日期：yyyy-MM" value="{$timebm}" >
+                        <br>
+                        <button class="btn btn-success " type="submit">搜索</button>
+                    </form>
+                </div>
+
+
+
+                <br>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="with-padding">
+        <form class="ids">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th class="row-selected">
+                        <input class="checkbox check-all" type="checkbox">
+                    </th>
+                    <th>组织单位</th>
+                    <th>发布项目总数量</th>
+                    <th>众筹中</th>
+                    <th>未审批</th>
+                    <th>审批失败</th>
+                    <th>已认领</th>
+                    <th>已完成</th>
+                    <th>用户取消</th>
+                    <th>参与总数</th>
+                    <th>参与成功</th>
+                    <th>参与未审批</th>
+                    <th>用户取消参与</th>
+                </tr>
+                </thead>
+                <tbody>
+                <notempty name="data">
+                    <volist name="data" id="di">
+                        <tr>
+                            <td><input class="ids row-selected" type="checkbox" name="id[]" value="{$di.id}"></td>
+                            <td>{$di.host}</td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="fbxmzsl"  onclick="as(this)" >{$di.count}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="zcz"  onclick="as(this)" >{$di.adopt}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="wsp"  onclick="as(this)" >{$di.pending}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="spsb"  onclick="as(this)" >{$di.fail}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="yrl"  onclick="as(this)" >{$di.claim}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="ywc"  onclick="as(this)" >{$di.done}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="yhqx"  onclick="as(this)" >{$di.cancel}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="cyzs"  onclick="as(this)" >{$di.sign_count}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="cycg"  onclick="as(this)" >{$di.sign_state}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="cywsp"  onclick="as(this)" >{$di.sign_wait}</a></td>
+                            <td><a href="#" data-title="{$di.host}"  data-type="{$issue_id}"  data-classify="yhqxcy"  onclick="as(this)" >{$di.sign_cancel}</a></td>
+
+                        </tr>
+                    </volist>
+                </notempty>
+                </tbody>
+            </table>
+        </form>
+        <!-- 分页 -->
+        <div class="page">
+            {$pagination}
+        </div>
+    </div>
+    <script>
+
+
+        $(".form-date").datetimepicker(
+            {
+                language: "zh-CN",
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 3,
+                minView: 3,
+                forceParse: 5,
+                format: "yyyy-mm"
+            });
+
+        function as(ele){
+            var a = $(ele);
+            var title = a.attr('data-title');
+            var classify = a.attr('data-classify');
+            var type = a.attr('data-type');
+            var host = escape(title);
+            var timebm = $("#times").attr('data-hd');
+            var timehd = $("#times").attr('data-bm');
+            // return;
+            layer.open({
+                type: 2,
+                title: title,
+                shadeClose: true,
+                shade: 0.8,
+                area: ['50%', '50%'],
+                content: '/admin/Cx/statistical_analysis?host='+host+'&classify='+classify+'&types='+type+'&timebm='+timebm+'&timehd='+timehd //iframe的url
+            });
+
+        }
+
+
+    </script>
+</block>

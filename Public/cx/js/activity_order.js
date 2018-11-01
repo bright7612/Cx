@@ -175,14 +175,14 @@ $(function () {
             formSubmit();
             $('#popUp').on('click', '.sure', function () {
                 // window.location.reload();
-                window.location.href="http://183.131.86.64:8620/cx/cx";
+                window.location.href="http://36.26.83.105:8620/cx/cx";
 
             })
         }
     });
     function formSubmit() {
         $.ajax({
-            url: 'http://183.131.86.64:8620/cx/cx/bespoke',
+            url: 'http://36.26.83.105:8620/cx/cx/bespoke',
             type: 'GET',
             data: form_submit,
             async: true,

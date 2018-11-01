@@ -11,7 +11,7 @@ class VenueController extends Controller
 {
     public function index()
     {
-        $res = M("dp_team")->where()->field('name,num,cre_time')->order('cre_time desc')->select();
+        $res = M("dp_team")->where('status = 1')->field("name,num,FROM_UNIXTIME(date,'%Y-%m-%d %H:%i:%s') as cre_time ")->order('date desc')->select();
 //        echo M()->getlastsql();exit;
         foreach ($res as $k=>$v){
             $res[$k]['cre_time'] = msubstr((string)$v['cre_time'],0,10, "utf-8",  0);
@@ -26,6 +26,21 @@ class VenueController extends Controller
 
         $count2 = M("dp_team")->where($map2)->sum('num');
 
+
+        $map2['yeas'] = (int)date('Y');
+        $count2 = M("api_video")->where($map2)->sum('enter')+$count2;  //计算进入人数  年
+
+
+        $map1['month'] = (int)date('m');
+        $map1['yeas'] = (int)date('Y');
+        $count1 = M("api_video")->where($map1)->sum('enter')+$count1;  //计算进入人数  月
+        if(IS_POST){
+            $rel['count2'] = $count2;
+            $rel['count1'] = $count1;
+            echo json_encode($rel);exit;
+        }
+
+
 // echo M()->getlastsql();exit;
         $this->assign("count1",$count1);
         $this->assign("count2",$count2);
@@ -35,10 +50,11 @@ class VenueController extends Controller
     public function lists($date="")
     {
         if($date){
-            $map['cre_time'] =  array('between',array($date.' 00:00:00',$date.' 23:59:59'));
+            $map['date'] =  array('between',array(strtotime($date.' 00:00:00'),strtotime($date.' 23:59:59')));
         }
 
-        $res = M("dp_team")->where($map)->field('name,num,cre_time')->order('cre_time desc')->select();
+        $map['status'] = 1;
+        $res = M("dp_team")->where($map)->field("name,num,FROM_UNIXTIME(date,'%Y-%m-%d %H:%i:%s') as cre_time")->order('date desc')->select();
         foreach ($res as $k=>$v){
             $res[$k]['cre_time'] = msubstr((string)$v['cre_time'],0,10, "utf-8",  0);
         }
@@ -53,10 +69,10 @@ class VenueController extends Controller
        $date = I('date');
 
        if($date){
-           $where['date'] = $date;
+           $where['date'] = strtotime($date);
        }
 
-       $res = $Model->where($where)->field('name,num,date')->order('date DESC')->select();
+       $res = $Model->where($where)->field("name,num,FROM_UNIXTIME(date,'%Y-%m-%d %H:%i:%s') as cre_time")->order('date DESC')->select();
        foreach ($res as $k=>$v){
            $res[$k]['cre_time'] = msubstr((string)$v['cre_time'],0,10, "utf-8",  0);
        }
@@ -68,4 +84,7 @@ class VenueController extends Controller
 
 
    }
+
+
+
 }
