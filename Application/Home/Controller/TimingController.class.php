@@ -22,6 +22,7 @@ class TimingController extends Controller
     //S('light_###')  第二层
     //S('light_light_###')  第三层
     public function light(){
+        set_time_limit(3600);
 
         $url = 'http://www.dysfz.gov.cn/apiXC/getEvaluateByTypeAndStep.do'; //党员党建
             $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
@@ -69,6 +70,104 @@ class TimingController extends Controller
                 }
             }
     }
+
+    //党员 -- 动态监测--报到登记--2018
+    //S('report')  第一层
+    //S('report_###')  第二层
+    //S('report_report_###')  第三层
+    public function report(){
+        set_time_limit(3600);
+
+        $url = 'http://www.dysfz.gov.cn/apiXC/dwPartySignRecordlistPage.do';
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 500;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $data = $this->httpjson($url, $das);
+        unset($das);
+        unset($da);
+        unset($url);
+        if($data){
+            S('report',$data);
+            foreach ($data['data'] as $v){
+                $url = 'http://www.dysfz.gov.cn/apiXC/dzPartySignRecordlistPage.do';
+                $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                $da['START'] = 1;
+                $da['COUNT'] = 4000;
+                $da['BRANCH_ID'] = $v['BRANCH_ID'];
+                $das = json_encode($da);
+                $data2 = $this->httpjson($url,$das);
+                unset($das);
+                unset($da);
+                unset($url);
+                if($data2){
+                    S('report_'.$v['BRANCH_ID'],$data2);
+                    foreach ($data2['data'] as $vv){
+                        $url = 'http://www.dysfz.gov.cn/apiXC/dzPartySignRecordDetaillistPage.do';
+                        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                        $da['START'] = 1;
+                        $da['COUNT'] = 4000;
+                        $da['BRANCH_ID'] = $vv['BRANCH_ID'];
+                        $das = json_encode($da);
+                        $data3 = $this->httpjson($url,$das);
+                        if($data3){
+                            S('report_report_'.$vv['BRANCH_ID'],$data3);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //党员 -- 动态监测--报到登记--不计到会
+    //S('NoRecord')  第一层
+    //S('NoRecord_###')  第二层
+    //S('NoRecord_NoRecord_###')  第三层
+    public function NoRecord(){
+        set_time_limit(3600);
+        $url = 'http://www.dysfz.gov.cn/apiXC/dwPartylistPage.do';
+        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+        $da['COUNT'] = 500;
+        $da['START'] = 1;
+        $das = json_encode($da);
+        $data = $this->httpjson($url, $das);
+        unset($das);
+        unset($da);
+        unset($url);
+        if($data){
+            S('NoRecord',$data);
+            foreach ($data['data'] as $v){
+                $url = 'http://www.dysfz.gov.cn/apiXC/dzPartylistPage.do';
+                $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                $da['START'] = 1;
+                $da['COUNT'] = 4000;
+                $da['BRANCH_ID'] = $v['BRANCH_ID'];
+                $das = json_encode($da);
+                $data2 = $this->httpjson($url,$das);
+                unset($das);
+                unset($da);
+                unset($url);
+                if($data2){
+                    S('NoRecord_'.$v['BRANCH_ID'],$data2);
+                    foreach ($data2['data'] as $vv){
+                        $url = 'http://www.dysfz.gov.cn/apiXC/dzPartyDetaillistPage.do';
+                        $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
+                        $da['START'] = 1;
+                        $da['COUNT'] = 4000;
+                        $da['BRANCH_ID'] = $vv['BRANCH_ID'];
+                        $das = json_encode($da);
+                        $data3 = $this->httpjson($url,$das);
+                        if($data3){
+                            S('NoRecord_NoRecord_'.$vv['BRANCH_ID'],$data3);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
 
     function httpjson($url, $data = NULL, $json = true)
     {

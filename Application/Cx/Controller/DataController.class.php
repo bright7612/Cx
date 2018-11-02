@@ -46,7 +46,7 @@ class DataController extends Controller
         $this->event_bm = M('event_bm');
         $this->event_lastyear = M('event_lastyear');
         $this->event_current = M('event_current');
-        $this->time = 3600 * 72;
+        $this->time = 3600 * 24;
     }
 
 
@@ -105,10 +105,10 @@ class DataController extends Controller
         foreach ($list['data'] as $k=>&$v){
 
             $data['list'][] = array(
-                array('value'=>$k+1,'width'=>10,'late2Id'=>$v['BRANCH_ID'],'type'=>2),
-                array('value'=>$v['NAME'],'width'=>40,'late2Id'=>$v['BRANCH_ID'],'type'=>2),
-                array('value'=>$v['SECRETARY'],'width'=>20,'late2Id'=>$v['BRANCH_ID'],'type'=>2),
-                array('value'=>$v['num'],'width'=>30,'late2Id'=>$v['BRANCH_ID'],'type'=>2),
+                array('value'=>$k+1,'width'=>10,'type'=>2),
+                array('value'=>$v['NAME'],'width'=>40,'type'=>2),
+                array('value'=>$v['SECRETARY'],'width'=>20,'type'=>2),
+                array('value'=>$v['num'],'width'=>30,'late2Id'=>$v['BRANCH_ID'],'type'=>2,'clickable'=>true),
             );
         }
         $data['title'] = '不计入到会党员';
@@ -195,11 +195,11 @@ class DataController extends Controller
         $data['totalCount'] = (int)ceil($list['totalCount']/$r);
         foreach ($list['data'] as $k=>&$v){
             $data['list'][] = array(
-                array('value'=>$k+1,'width'=>10,'type'=>1,'late2Id'=>$v['BRANCH_ID']),
-                array('value'=>$v['NAME'],'width'=>30,'type'=>1,'late2Id'=>$v['BRANCH_ID']),
-                array('value'=>$v['ADDRESS'],'width'=>30,'type'=>1,'late2Id'=>$v['BRANCH_ID']),
-                array('value'=>$v['SECRETARY'],'width'=>10,'type'=>1,'late2Id'=>$v['BRANCH_ID']),
-                array('value'=>$v['num'],'width'=>20,'type'=>1,'late2Id'=>$v['BRANCH_ID']),
+                array('value'=>$k+1,'width'=>10,'type'=>1,),
+                array('value'=>$v['NAME'],'width'=>30,'type'=>1,),
+                array('value'=>$v['ADDRESS'],'width'=>30,'type'=>1,),
+                array('value'=>$v['SECRETARY'],'width'=>10,'type'=>1,),
+                array('value'=>$v['num'],'width'=>20,'type'=>1,'late2Id'=>$v['BRANCH_ID'],'clickable'=>true),
             );
         }
         $data['title'] = '2018年报到';
@@ -309,15 +309,13 @@ class DataController extends Controller
     {
 
         set_time_limit(3600);
-        $url = 'http://www.dysfz.gov.cn/apiXC/recordPartyDTDRlist.do'; //党员党建
+        $url = 'http://www.dysfz.gov.cn/apiXC/branchDZZfeeList.do'; //党员党建
         $da['DYSFZ_TOKEN'] = '7a0f6dc987354a563836f14b33f977ee';
-        $da['COUNT'] = 100;
+        $da['COUNT'] = 150;
         $da['START'] = 1;
         $das = json_encode($da);
         $data = $this->httpjson($url, $das);
-        if($data){
-            S('dzz_dy_ztdr_1',$data);
-        }
+        dump($data);die;
 
 
     }
@@ -967,9 +965,9 @@ class DataController extends Controller
             foreach ($list['data'] as $k=>$v){
                 $ii = $i++;
                 $item[] = array(
-                    array('value'=>$ii, 'width'=>20,'honorId'=>$v['BRANCH_ID'],'type'=>1),
-                    array('value'=>$v['NAME'], 'width'=>50,'honorId'=>$v['BRANCH_ID'],'type'=>1),
-                    array('value'=>$v['NUMBER'], 'width'=>30,'honorId'=>$v['BRANCH_ID'],'type'=>1),
+                    array('value'=>$ii, 'width'=>20,'type'=>1),
+                    array('value'=>$v['NAME'], 'width'=>50,'type'=>1),
+                    array('value'=>$v['NUMBER'], 'width'=>30,'honorId'=>$v['BRANCH_ID'],'type'=>1,'clickable'=>true),
 
                 );
             }
@@ -979,9 +977,9 @@ class DataController extends Controller
             foreach ($list['data'] as $k=>$v){
                 $ii = $i++;
                 $item[] = array(
-                    array('value'=>$ii, 'width'=>20,'honorId'=>$v['BRANCH_ID'],'type'=>2),
-                    array('value'=>$v['NAME'], 'width'=>50,'honorId'=>$v['BRANCH_ID'],'type'=>2),
-                    array('value'=>$v['NUMBER'], 'width'=>30,'honorId'=>$v['BRANCH_ID'],'type'=>2),
+                    array('value'=>$ii, 'width'=>20,'type'=>2),
+                    array('value'=>$v['NAME'], 'width'=>50,'type'=>2),
+                    array('value'=>$v['NUMBER'], 'width'=>30,'honorId'=>$v['BRANCH_ID'],'type'=>2,'clickable'=>true),
 
                 );
             }

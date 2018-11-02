@@ -1038,31 +1038,31 @@ class WxapiController extends Controller
 //                    }
                     if($subtype == 1 && $classify ==2){
                         $da[$k] = array(
-                            array('value'=>$order_by_type[$v['order_by_type']]?$order_by_type[$v['order_by_type']]:$nature[$v['NATURE']], 'width'=>10,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$v['NAME'], 'width'=>28,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$v['ADDRESS'], 'width'=>32,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$order_by_type[$v['order_by_type']]?$order_by_type[$v['order_by_type']]:$nature[$v['NATURE']], 'width'=>10,'type'=>'partyMember'),
+                            array('value'=>$v['NAME'], 'width'=>28,'type'=>'partyMember'),
+                            array('value'=>$v['SECRETARY'], 'width'=>15,'type'=>'partyMember'),
+                            array('value'=>$v['ADDRESS'], 'width'=>32,'type'=>'partyMember'),
+                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'clickable'=>true,'type'=>'partyMember'),
                         );
 
                     }
                     else if($subtype == 1 && $classify ==1){
 
                         $da[$k] = array(
-                            array('value'=>$order_by_type[$v['order_by_type']]?$order_by_type[$v['order_by_type']]:$nature[$v['NATURE']], 'width'=>10,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$hierarchy[$v['hierarchy']].$v['NAME'], 'width'=>28,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember','left'=>true),
-                            array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$v['ADDRESS'], 'width'=>32,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$order_by_type[$v['order_by_type']]?$order_by_type[$v['order_by_type']]:$nature[$v['NATURE']], 'width'=>10,'type'=>'partyMember'),
+                            array('value'=>$hierarchy[$v['hierarchy']].$v['NAME'], 'width'=>28,'type'=>'partyMember','left'=>true),
+                            array('value'=>$v['SECRETARY'], 'width'=>15,'type'=>'partyMember'),
+                            array('value'=>$v['ADDRESS'], 'width'=>32,'type'=>'partyMember'),
+                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'clickable'=>true,'type'=>'partyMember'),
                         );
 
                     }
                     else{
                         $da[$k] = array(
-                            array('value'=>$v['NAME'], 'width'=>35,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$v['SECRETARY'], 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$v['ADDRESS'], 'width'=>35,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
-                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'type'=>'partyMember'),
+                            array('value'=>$v['NAME'], 'width'=>35,'type'=>'partyMember'),
+                            array('value'=>$v['SECRETARY'], 'width'=>15,'type'=>'partyMember'),
+                            array('value'=>$v['ADDRESS'], 'width'=>35,'type'=>'partyMember'),
+                            array('value'=>$dzzUser[$v['BRANCH_ID']]?$dzzUser[$v['BRANCH_ID']]:'暂无数据', 'width'=>15,'ID'=>$v['BRANCH_ID'],'clickable'=>true,'type'=>'partyMember'),
 //                            array(
 ////                            'value'=>$dzzDhl[$v['BRANCH_ID']]?$dzzDhl[$v['BRANCH_ID']].'%':mt_rand(70,95).'%',
 //                                'value'=>$DHL.'%',
@@ -2435,8 +2435,8 @@ class WxapiController extends Controller
                                 array('value'=>$v['NAME'], 'width'=>25,'dyztdrId'=>$v['BRANCH_ID']),
                                 array('value'=>$v['SECRETARY'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID']),
                                 array('value'=>$v['partyNum'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID']),
-                                array('value'=>$v['yjn'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>1),
-                                array('value'=>$v['wcj'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>2),
+                                array('value'=>$v['yjn'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>1,'clickable'=>true),
+                                array('value'=>$v['wcj'], 'width'=>10,'dyztdrId'=>$v['BRANCH_ID'],'type'=>2,'clickable'=>true),
                                 array('value'=>$v['ADDRESS'], 'width'=>25,'dyztdrId'=>$v['BRANCH_ID']),
                             );
                         }
@@ -2464,12 +2464,12 @@ class WxapiController extends Controller
                     }
                     foreach ($data['data'] as $k=>&$v){
                         $list['list'][] = array(
-                            array('value'=>$k+1, 'width'=>10,'type'=>1,'lateId'=>$v['BRANCH_ID']),
-                            array('value'=>$order_by_type[$v['order_by_type']], 'width'=>10,'type'=>1,'lateId'=>$v['BRANCH_ID']),
-                            array('value'=>$v['NAME'], 'width'=>20,'type'=>1,'lateId'=>$v['BRANCH_ID']),
-                            array('value'=>$v['ADDRESS'], 'width'=>30,'type'=>1,'lateId'=>$v['BRANCH_ID']),
-                            array('value'=>$v['SECRETARY'], 'width'=>10,'type'=>1,'lateId'=>$v['BRANCH_ID']),
-                            array('value'=>$v['partyNum'], 'width'=>20,'type'=>1,'lateId'=>$v['BRANCH_ID']),
+                            array('value'=>$k+1, 'width'=>10,'type'=>1,),
+                            array('value'=>$order_by_type[$v['order_by_type']], 'width'=>10,'type'=>1,),
+                            array('value'=>$v['NAME'], 'width'=>20,'type'=>1,),
+                            array('value'=>$v['ADDRESS'], 'width'=>30,'type'=>1,),
+                            array('value'=>$v['SECRETARY'], 'width'=>10,'type'=>1,),
+                            array('value'=>$v['partyNum'], 'width'=>20,'type'=>1,'lateId'=>$v['BRANCH_ID'],'clickable'=>true),
                         );
                     }
                     break;
@@ -2492,11 +2492,11 @@ class WxapiController extends Controller
                     foreach ($data['data'] as $k=>&$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>15,'lateId'=>$v['BRANCH_ID'],'type'=>2),
-                            array('value'=>$v['NAME'], 'width'=>20,'lateId'=>$v['BRANCH_ID'],'type'=>2),
-                            array('value'=>$v['SECRETARY'], 'width'=>15,'lateId'=>$v['BRANCH_ID'],'type'=>2),
-                            array('value'=>$v['partyNum'], 'width'=>15,'lateId'=>$v['BRANCH_ID'],'type'=>2),
-                            array('value'=>$v['ADDRESS'], 'width'=>35,'lateId'=>$v['BRANCH_ID'],'type'=>2),
+                            array('value'=>$ii, 'width'=>15,'type'=>2),
+                            array('value'=>$v['NAME'], 'width'=>20,'type'=>2),
+                            array('value'=>$v['SECRETARY'], 'width'=>15,'type'=>2),
+                            array('value'=>$v['partyNum'], 'width'=>15,'lateId'=>$v['BRANCH_ID'],'type'=>2,'clickable'=>true),
+                            array('value'=>$v['ADDRESS'], 'width'=>35,'type'=>2),
                         );
                     }
                     break;
@@ -2562,9 +2562,9 @@ class WxapiController extends Controller
                     foreach ($data['data'] as $k=>&$v){
                         $ii = $i++;
                         $list['list'][] = array(
-                            array('value'=>$ii, 'width'=>20,'sgId'=>$v['BRANCH_ID'],'type'=>1),
-                            array('value'=>$v['NAME'], 'width'=>50,'sgId'=>$v['BRANCH_ID'],'type'=>1),
-                            array('value'=>$v['NUMBER'], 'width'=>30,'sgId'=>$v['BRANCH_ID'],'type'=>1),
+                            array('value'=>$ii, 'width'=>20,'type'=>1),
+                            array('value'=>$v['NAME'], 'width'=>50,'type'=>1),
+                            array('value'=>$v['NUMBER'], 'width'=>30,'sgId'=>$v['BRANCH_ID'],'type'=>1,'clickable'=>true),
 
                         );
                     }
@@ -2584,15 +2584,15 @@ class WxapiController extends Controller
                         S('light',$data);
                     }
                     else{
-                            $list = S('honor_List');// 获取缓存
+                        $data = S('light');// 获取缓存
                         }
                         $i = 1;
                         foreach ($data['data'] as $k=>&$v){
                             $ii = $i++;
                             $list['list'][] = array(
-                                array('value'=>$ii, 'width'=>20,'sgId'=>$v['BRANCH_ID'],'type'=>2),
-                                array('value'=>$v['NAME'], 'width'=>50,'sgId'=>$v['BRANCH_ID'],'type'=>2),
-                                array('value'=>$v['NUMBER'], 'width'=>30,'sgId'=>$v['BRANCH_ID'],'type'=>2),
+                                array('value'=>$ii, 'width'=>20,'type'=>2),
+                                array('value'=>$v['NAME'], 'width'=>50,'type'=>2),
+                                array('value'=>$v['NUMBER'], 'width'=>30,'sgId'=>$v['BRANCH_ID'],'type'=>2,'clickable'=>true),
 
                             );
                         }

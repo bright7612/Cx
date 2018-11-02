@@ -547,6 +547,82 @@ var app = new Vue({
             var point = new BMap.Point(119.887692, 31.035088);
             this.bMap3.centerAndZoom(point, 14);
             this.bMap3.enableScrollWheelZoom(true);
+
+            // var marker,map = new AMap.Map('bmapRc', {
+            //     center:[119.825239,30.855215],//地图中心点
+            //     zoom: 10, //地图显示的缩放级别
+            //     zooms:[10,18]//缩放级别范围
+            // });
+            //
+            // AMapUI.loadUI(['geo/DistrictExplorer'], function(DistrictExplorer) {
+            //     initPage(DistrictExplorer);
+            // });
+            //
+            // function getAllRings(feature) {
+            //     var coords = feature.geometry.coordinates,
+            //         rings = [];
+            //
+            //     for (var i = 0, len = coords.length; i < len; i++) {
+            //         rings.push(coords[i][0]);
+            //     }
+            //
+            //     return rings;
+            // }
+            //
+            // function getLongestRing(feature) {
+            //     var rings = getAllRings(feature);
+            //
+            //     rings.sort(function(a, b) {
+            //         return b.length - a.length;
+            //     });
+            //
+            //     return rings[0];
+            // }
+            //
+            // function initPage(DistrictExplorer) {
+            //     //创建一个实例
+            //     var districtExplorer = new DistrictExplorer({
+            //         map: map
+            //     });
+            //
+            //     var countryCode = 100000, //全国
+            //         cityCodes = [
+            //             330500, //湖州市
+            //         ];
+            //
+            //     districtExplorer.loadMultiAreaNodes(
+            //         //只需加载全国和市，全国的节点包含省级
+            //         [countryCode].concat(cityCodes),
+            //         function(error, areaNodes) {
+            //
+            //             var countryNode = areaNodes[0],
+            //                 cityNodes = areaNodes.slice(1);
+            //
+            //             var path = [];
+            //
+            //             //首先放置背景区域，这里是大陆的边界
+            //             path.push(getLongestRing(countryNode.getParentFeature()));
+            //
+            //             for (var i = 0, len = cityNodes.length; i < len; i++) {
+            //                 //逐个放置需要镂空的市级区域
+            //                 path.push.apply(path, getAllRings(cityNodes[i].getParentFeature()));
+            //             }
+            //
+            //             //绘制带环多边形
+            //             //https://lbs.amap.com/api/javascript-api/reference/overlay#Polygon
+            //             var polygon = new AMap.Polygon({
+            //                 bubble: true,
+            //                 lineJoin: 'round',
+            //                 strokeColor: null, //线颜色
+            //                 strokeOpacity: 1, //线透明度
+            //                 strokeWeight: 1, //线宽
+            //                 fillColor: '#48D1CC', //填充色
+            //                 fillOpacity: 0.5, //填充透明度
+            //                 map: map,
+            //                 path: path
+            //             });
+            //         });
+            // }
         },
         // 切换四个平台
         changePlatform: function (type) {
@@ -909,7 +985,7 @@ var app = new Vue({
                 },
                 xAxis: {
                     type: 'category',
-                    data: ['高中', '大专', '本科', '研究生'],
+                    data: ['高中及以下', '大专', '本科', '研究生'],
                     axisLabel: {
                         show: true,
                         textStyle: {
@@ -1141,11 +1217,11 @@ var app = new Vue({
             myChart.setOption(option);
         },
 
-        // 人才男女比例饼图
+        // 人才学历分布饼图
         rcGenderRender: function () {
             var myChart = echarts.init(document.getElementById('rcGender'));
             var i = 0;
-            var color = ['#ffd441', '#ff4459', '#00b8ff'];
+            var color = ['#ffd441', '#ff4459', '#00b8ff', '#ff9f52'];
             var option = {
                 animation: false,
                 tooltip: {
@@ -1156,7 +1232,7 @@ var app = new Vue({
                 },
                 series : [
                     {
-                        name: '男女比例',
+                        name: '学历分布',
                         type: 'pie',
                         radius : '100%',
                         center: ['50%', '50%'],
@@ -1168,7 +1244,8 @@ var app = new Vue({
                         data:[
                             {value: 44100, name:'大专'},
                             {value: 37900, name:'本科'},
-                            {value: 2468, name:'研究生'},
+                            {value: 2500, name:'研究生'},
+                            {value: 99500, name:'其他'}
                         ],
                         itemStyle : {
                             normal : {
@@ -1186,7 +1263,7 @@ var app = new Vue({
         rcJobRender: function () {
             var myChart = echarts.init(document.getElementById('rcJob'));
             var i = 0;
-            var color = ['#00b8ff', '#ff9f52', '#a8ffff'];
+            var color = ['#00b8ff', '#ff9f52', '#a8ffff', '#ff4459'];
 
             var list = [];
             this.rcAll.talent.jobTitle.forEach(function (value) {
@@ -1216,9 +1293,10 @@ var app = new Vue({
                             }
                         },
                         data: [
-                            {value: 3440, name:'高级'},
+                            {value: 3500, name:'高级'},
                             {value: 27000, name:'中级'},
                             {value: 26300, name:'初级'},
+                            {value: 127200, name:'其他'},
                         ],
                         itemStyle : {
                             normal : {
@@ -1232,7 +1310,7 @@ var app = new Vue({
             };
             myChart.setOption(option);
         },
-        // 人才学历分布柱状图
+        // 人才人才分类柱状图
         rcEduRender: function () {
             var _this = this;
             var myChartRate = echarts.init(document.getElementById('rcEdu'));
@@ -1252,8 +1330,8 @@ var app = new Vue({
                     }
                 },
                 grid: {
-                    left: '2%',
-                    right: '3%',
+                    left: '1%',
+                    right: '1%',
                     bottom: '0%',
                     top: '16%',
                     containLabel: true,
@@ -1262,12 +1340,12 @@ var app = new Vue({
                 },
                 xAxis: {
                     type: 'category',
-                    data: ['党政人才', '经营管理人才', '专技人才', '高技能人才', '农村实用人才', '社会工作人才'],
+                    data: ['党政', '经营管理', '专技', '高技能', '农村实用', '社会工作'],
                     axisLabel: {
                         show: true,
                         textStyle: {
                             color: '#FFF',
-                            fontSize: 14
+                            fontSize: 12
                         }
                     },
                     axisLine:{
@@ -1285,7 +1363,7 @@ var app = new Vue({
                     name : '（人）',
                     boundaryGap: [0, 0.01],
                     axisLabel: {
-                        formatter: '{value}',
+                        formatter: '{value}万',
                         textStyle: {
                             color: '#FFF',
                             fontSize: 14
@@ -1310,7 +1388,8 @@ var app = new Vue({
                     position: 'top',
                     textStyle: {
                         color: 'white',
-                        fontSize: 14
+                        fontSize: 14,
+                        formatter: '{b}'
                     }
                 },
                 series: [
@@ -1318,7 +1397,7 @@ var app = new Vue({
                         name: '当年',
                         type: 'bar',
                         barWidth: 17,
-                        data: [3098, 30900, 103800, 30700, 28000, 27900],
+                        data: [0.31, 3.09, 10.38, 3.07, 2.8, 2.79],
                         label: {
                             color: '#fff',
                             fontSize: 14
@@ -3547,7 +3626,11 @@ var app = new Vue({
                             poverty.forEach(function (val) {
                                 povertyList.push(parseInt(val.count));
                                 povertyDate.push(val.time);
-                            })
+                            });
+                            for (var i = 8; i < 13; i++) {
+                                povertyList.push(0);
+                                povertyDate.push(i + '月');
+                            };
                         }
                         var care = res.data.care;
                         if (care.length) {
@@ -3557,6 +3640,10 @@ var app = new Vue({
                                 careList.push(parseInt(val.count));
                                 careDate.push(val.time);
                             })
+                            for (var i = 8; i < 13; i++) {
+                                careList.push(0);
+                                careDate.push(i + '月');
+                            };
                         }
 
                         _this.inforPoorRender(povertyList, povertyDate);
